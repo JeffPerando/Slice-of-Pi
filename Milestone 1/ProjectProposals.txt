@@ -1,0 +1,46 @@
+Proposal 1
+That uses governemnt API to oull crime statistics, which will be used as supplementary data for housing market prices.
+
+1. Pull information of an area, regsarding the crime statistics. 
+2. Algorithm will give a rating, along with most likely crime rate.
+3. will also pull housing market prices via zillow api
+
+
+Broad over view of how it will achieve the requirements
+
+1. Webpage -> main page welcoming user, Will have a login and other user features
+2. Algorithm used will generate a risk factor, additionally an algorithm that generates a predicted loss of value based of crime. IE, theft, burglary, hit and run, etc
+3. user log in information will be stored with SQL server, of course
+4. name: Dream Real Estate Solutions
+
+Proposal 2
+Accesses fitbit API to track user physical statistics as a tool of guidance for improving resting heart rate, physical endurance, and strength. Of course, let user know that they should talk to their doctor before following tips,
+additionally, that we are not responsible for thier injuries, blah, blah
+
+1. algorithm will use user request, and statistics to generate a fitness guidance routine, which would be appropriate for the user. 
+2. can show user progress, in terms of performance and body composition. 
+3. can possibly have some nutriotion recommendations based on what the user is trying to achieve
+4. I will emphasize that this is primarily a TRAINING app, not a fitness app. When you train its because you want to improve youself, not to look good. 
+
+
+Broad over view of how it will achieve the requirements
+
+
+1. Webpage -> main page welcoming user, Will have a login and other user features
+2. Algorithm will generate a training regime for the user, based on user statistics and input
+3. user log in info, and statistics, stored in SQL server
+4. name: Peak Training 
+
+Proposal 3
+boardgame website that allows you to play against AI, using machine learning to improve based of players. Addiitonally, it can have a starting algorithm it uses to mkae moves.
+
+1. pulls information from an open source AI API
+2. algorithm dictates AI moves, additional AI may be used to predict a user skill rating
+3. user log in informaton stored witj sql server, along with match histories and potentially skill (so long as pvp option is within scope)
+
+broad overview
+
+1. webpage -> welcomes user, lets user login and chose a game
+2. algorithm feeds AI's initial difficulty, and if within scope, provides a mmr ranking when active in pvp
+3. user log in info, and statistics, stored in SQL server
+4. name: L.O.B (Leaugue of Boardgames)
