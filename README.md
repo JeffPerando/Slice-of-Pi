@@ -1,4 +1,3 @@
 # Slice-of-Pi
-CS461-462 student project
 
-Hello welcome to chilis
+Capstone project for CS361 and CS462 at Western Oregon University
