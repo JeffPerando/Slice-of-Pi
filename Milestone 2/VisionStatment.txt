@@ -1,0 +1,4 @@
+For the real estate entrepreneur, or potential home buyer, Dream Real Estate is a product that that will provide a streamlined approach to looking for homes, and those home’s overall safety. 
+The application will provide users with visual representation of the value shifts of a home, work done on the home, and other information about the history of the home. This application will provide real estate agents with niche 
+data to better server home buyers, and home buyers with a tool to better inform themselves. Unlike todays modern apps, such as Zillow, this product will offer data on the prevalence of crime that surrounds the home. 
+This currently rare, if not non-existent feature, will give users insight to better protect themselves and their families by mitigating exposure to the type of crime they’re most vulnerable too.  
