@@ -1,0 +1,9 @@
+    1. Compare crimes rates between multiple addresses
+    2. Check crime rates from zipcodes
+    3. Able to compare current home to new location, and on a graph,  see crime rates and other home details such as historic value
+    4. On log in if home is set, you can compare your information to the information you are looking up.
+    5. Log in capabilities
+    6. User can track data such as thier search histories
+    7. Compare prices between multiple homes
+    8. Get average price of homes for a zipcode
+    9. Home pricing history (if avialable)
