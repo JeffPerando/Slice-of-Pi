@@ -1,0 +1,8 @@
+Product Owners: Chris Lopez, Ivan Lua-Diaz, Jeff Perando
+These three are stakeholders because it is thier personal project. They have an interest in the quality of thier product, for first impression are important. 
+
+Supervisor: Scot Morse
+Scot Morse is the the supervisor of the product owners. This makes him a stakeholder because it will be a representation of his ability to guide and mentor.
+
+Other Stakeholders: Consumers / Users
+The consumer, or user, is a stake holder as well because this application will potentially impact their future for better or worse. 
