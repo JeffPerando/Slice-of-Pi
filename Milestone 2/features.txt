@@ -7,3 +7,5 @@
     7. Compare prices between multiple homes
     8. Get average price of homes for a zipcode
     9. Home pricing history (if avialable)
+    10. Check crime rates per county
+    11. Use Longitude and Latitude coordinates as a way too look up crime for the the home that resides in those coordinate's county / zipcode.
