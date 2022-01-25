@@ -11,8 +11,6 @@
 5. Is there something missing?
 6. Get answers to these questions.
 
-
-
 ### Elicitation Answers
 1. The goal of the project is to provide users with a tool to be informed about the community they will be a part of if they pick a home of interest.
 2. How will it be achieved? What will provide this particular application with the capacity to inform users?
@@ -39,5 +37,4 @@ Go through all the information gathered during the previous round of elicitation
     B. When a user logs in, the user can have their saved information compared to looked up information when searching for a new home. As such, they work together to provide a research tool. 
     C. Home prices can be compared between homes, and coorilate price to crime rates. In effect, all three features depend on eachother to provide a unique service unlike any other real estate app.
     3. Nothing missing, however that may change as we break down the Epics.
-
 
