@@ -1,3 +1,5 @@
 # Slice-of-Pi
-CS461-462 student project
-Chris Lopez Edit
+
+
+Capstone project for CS461 and CS462 at Western Oregon University
+
