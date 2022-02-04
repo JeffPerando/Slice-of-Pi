@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Main.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class CrimeDbContext : IdentityDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public CrimeDbContext(DbContextOptions<CrimeDbContext> options)
         : base(options)
     {
     }
