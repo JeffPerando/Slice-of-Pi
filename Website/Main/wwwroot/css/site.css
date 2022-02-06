@@ -1,5 +1,7 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    border: solid rgb(120,81,169);
+    border-width: thin;
 }
 
 @media (min-width: 768px) {
@@ -14,5 +16,26 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: silver;
+    margin: 0; /* Space from this element (entire page) and others*/
+    padding: 0; /*space from content and border*/
+    border: solid Black;
+    border-width: thin;
+    overflow: hidden;
+    display: block;
 }
+
+header {
+    margin-bottom: 60px;
+    background-color: silver;
+    margin: 0; /* Space from this element (entire page) and others*/
+    padding: 0; /*space from content and border*/
+    border: solid rgb(120,81,169);
+    border-width: thin;
+    overflow: hidden;
+    display: block;
+}
+
+
+
