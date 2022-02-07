@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Main.Data;
 using Main.Areas.Identity.Data;
 using MyApplication.Data;
+using Main.DAL.Abstract;
+using Main.DAL.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<CrimeDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ICrimeAPIService,CrimeAPIService>();
 
 var app = builder.Build();
 
@@ -38,6 +41,12 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+
+app.MapControllerRoute(
+    name: "API States",
+    pattern: "apiv3/FBI/StateStats",
+    defaults: new {controller = "Home", action= "GetSafestState"});
 
 app.MapControllerRoute(
     name: "default",
