@@ -1,7 +1,7 @@
 html {
-  font-size: 14px;
-  border: solid rgb(120,81,169);
-  border-width: thin;
+    font-size: 14px;
+    border: solid rgb(120,81,169);
+    border-width: thin;
 }
 
 @media (min-width: 768px) {
