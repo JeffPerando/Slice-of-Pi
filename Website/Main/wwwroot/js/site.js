@@ -12,6 +12,16 @@ $(function() {
         error: errorOnAjax
 
     });
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "apiv3/FBI/StateList",
+        success: populateDropDown,
+        error: errorOnAjax
+
+    });
+
 })
 
 function errorOnAjax()
@@ -21,7 +31,6 @@ function errorOnAjax()
 
 function displayStateInformation(data)
 {
-    console.log(data);
 
     $("#safestStatesTable>tbody").empty();
     for (let i = 0; i < data.length; ++i){
@@ -35,3 +44,21 @@ function displayStateInformation(data)
         $("#safestStatesTable").show();
     }
 }
+
+function populateDropDown(data)
+{
+    console.log(data);
+
+    var select = document.getElementById("stateAbbrev");
+    
+
+    for (var i = 0; i < data.length; i++) {
+        var option = data[i];
+        var element = document.createElement("option");
+        element.textContent = option;
+        element.value = option;
+        select.appendChild(element);
+    }
+}
+
+

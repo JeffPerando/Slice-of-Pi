@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Crime Statistics Page";
+}
+<h1>@ViewData["Title"]</h1>
+<br><br><br>
+
+
+    <div class="row">
+        <div class="col-4">
+            <body>
+                <h2>Currently Entered City: </h2>
+                    <h3>@ViewBag.cityName</h3>
+                <h2>State: </h2>
+                    <h3>@ViewBag.stateAbbrev</h3>
+            </body>
+        </div>
+        <div class="col-8">
+            <body>
+                <div class="text-left">
+                    <h1 class="display-5" style="text-align: left;">Crime Statistics for @ViewBag.cityName</h1>
+                    <table id = "cityCrimeStats">
+                        <thead>
+                            <tr>
+                                <th>Offense Type</th>
+                                <th>Total Offenses</th>
+                                <th>Convictions</th>
+                                <th>Year</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </body>
+        </div>
+    </div>
+
+
+
+
+
+
+<input hidden id="cityName" value="@ViewBag.cityName" type="text">
+<input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/crime.js"></script>
+}
