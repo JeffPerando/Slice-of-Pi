@@ -33,7 +33,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<ICrimeAPIService,CrimeAPIService>();
+builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
@@ -64,7 +64,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "API States",
     pattern: "apiv3/FBI/StateStats",
-    defaults: new {controller = "Home", action= "GetSafestState"});
+    defaults: new { controller = "Home", action = "GetSafestState" });
 
 app.MapControllerRoute(
     name: "default",
