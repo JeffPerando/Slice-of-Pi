@@ -15,18 +15,26 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//MainIdentityDbContextConnection
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
+var connectionStringID = builder.Configuration.GetConnectionString("MainIdentityDbContextConnection");
+var connectionStringApp = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
+
 builder.Services.AddDbContext<MainIdentityDbContext>(options =>
-    options.UseSqlServer(connectionString));builder.Services.AddDbContext<CrimeDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionStringID));
+
+builder.Services.AddDbContext<CrimeDbContext>(options =>
+    options.UseSqlServer(connectionStringApp));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<CrimeDbContext>();
+    .AddEntityFrameworkStores<MainIdentityDbContext>();
+
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddScoped<ICrimeAPIService,CrimeAPIService>();
+
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 
