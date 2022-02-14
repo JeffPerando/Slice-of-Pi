@@ -42,9 +42,11 @@ public class CrimeController : Controller
         }
         
         List<Crime> city_stats = new List<Crime>();
-        _CrimeService.SetCredentials(_config["apiFBIKey"]);
-        city_stats = _CrimeService.GetCityStats(cityName, stateAbbrev);
+        List<Crime> getCityStats = new List<Crime>();
 
+        _CrimeService.SetCredentials(_config["apiFBIKey"]);
+        getCityStats = _CrimeService.GetCityStats(cityName, stateAbbrev);
+        city_stats = _CrimeService.ReturnCityStats(getCityStats);
         
         return Json(city_stats);
     }

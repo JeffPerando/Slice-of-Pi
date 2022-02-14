@@ -31,10 +31,13 @@ public class HomeController : Controller
     {
         List<string> state_list = new List<string>();
         List<Crime> top_five_states = new List<Crime>();
+        List<Crime> get_national_stats = new List<Crime>();
 
         _CrimeService.SetCredentials(_config["apiFBIKey"]);
         state_list = _CrimeService.GetStates();
-        top_five_states = _CrimeService.GetSafestStates(state_list);
+        get_national_stats = _CrimeService.ReturnStateCrimeList(state_list);
+        top_five_states = _CrimeService.GetSafestStates(get_national_stats);
+
         return Json(top_five_states);
     }
     [HttpGet]
