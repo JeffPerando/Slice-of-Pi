@@ -1,18 +1,6 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
-var isSidebarOpen = false;
-
-$("#sidebarToggle").click(
-    function toggleSidebar() {
-        let width = "200px";
-        if (isSidebarOpen) {
-            width = "0px";
-        }
-        $("#sidebar").css("width", width);
-        isSidebarOpen = !isSidebarOpen
-    });
-
 $(function() {
     $.ajax({
         type: "GET",
