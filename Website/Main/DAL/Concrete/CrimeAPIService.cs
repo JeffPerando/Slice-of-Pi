@@ -84,7 +84,9 @@ namespace Main.DAL.Concrete
             
             JSONYearVariable year = new JSONYearVariable();
             List<Crime> city_crime_stats = new List<Crime>();
+            string x = crime_statistics_api_url + stateAbbrev + keyFBI;
 
+            Debug.WriteLine(x);
             var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
             JObject info = JObject.Parse(jsonResponse);
             
