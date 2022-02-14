@@ -45,17 +45,16 @@ namespace Main.DAL.Concrete
             return state_abbrevs;
         }
 
-        public List<Crime> GetSafestStates(List<string> states)
+        public List<Crime> ReturnStateCrimeList(List<string> states)
         {
-            var two_years_ago = (DateTime.Now.Year - 2).ToString();
-            string two_year_link = '/' + two_years_ago + '/' + two_years_ago;
+            JSONYearVariable year = new JSONYearVariable();
             List<Crime> states_crime = new List<Crime>();
             
             for ( int i = 0; i < states.Count; i++ )
             {
                 try
                 {
-                    var jsonResponse = new WebClient().DownloadString(crime_api_url + states[i] + two_year_link + keyFBI);
+                    var jsonResponse = new WebClient().DownloadString(crime_api_url + states[i] + year.JSONVariableTwoYears + keyFBI);
                     JObject info = JObject.Parse(jsonResponse);
                     
                     int crime_rate = (int)info["results"][0]["violent_crime"];
@@ -68,8 +67,13 @@ namespace Main.DAL.Concrete
                     continue;
                 }
             }
-            
-            var top_five_states = states_crime.OrderBy(a => a.ActualConvictions).Take(5).ToList();
+
+            return states_crime;
+        }
+
+        public List<Crime> GetSafestStates(List<Crime> crimeList)
+        {
+            var top_five_states = crimeList.OrderBy(a => a.ActualConvictions).Take(5).ToList();
 
             return top_five_states;
 
@@ -78,8 +82,7 @@ namespace Main.DAL.Concrete
         public List<Crime> GetCityStats(string cityName, string stateAbbrev)
         {
             
-            var two_years_ago = (DateTime.Now.Year - 2).ToString();
-            string two_year_link = '/' + two_years_ago + '/' + two_years_ago;
+            JSONYearVariable year = new JSONYearVariable();
             List<Crime> city_crime_stats = new List<Crime>();
 
             var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
@@ -93,7 +96,7 @@ namespace Main.DAL.Concrete
                 //Checks to see if the city exists in the API.
                 if (result)
                 {
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + two_year_link + keyFBI);
+                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.JSONVariableTwoYears + keyFBI);
                     JObject city_stats = JObject.Parse(newjsonResponse);
                     
                     foreach (var crime in city_stats["results"])
@@ -114,7 +117,12 @@ namespace Main.DAL.Concrete
                     break;
                 }
             }
-            return city_crime_stats.OrderByDescending(t => t.TotalOffenses).ToList();
+            return city_crime_stats;
+        }
+
+        public List<Crime> ReturnCityStats(List<Crime> city_stats)
+        {
+            return city_stats.OrderByDescending(t => t.TotalOffenses).ToList();
         }
     }
 }
