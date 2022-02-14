@@ -1,7 +1,11 @@
 
+html {
+    background: url(../bg.jpg);
+    background-size: cover;
+}
+
 body {
     margin-bottom: 60px;
-    background-color: silver;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -11,15 +15,16 @@ body {
 
 header {
     margin-bottom: 60px;
-    background-color: silver;
     margin: 0;
     padding: 0;
     overflow: hidden;
     display: block;
 }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
+.sp-content {
+    margin-top: 80px;
+    margin-bottom: 80px;
+    padding: 8px;
 }
 
 table {
@@ -28,19 +33,14 @@ table {
 
 th {
     border: 1px solid black;
-    background-color: rgb(120,81,169);
 }
 
 td {
     border: 1px solid black;
 }
 
-th td {
-    column-span: none;
-}
-
 .sp-mainbar {
-    /* background-color: rgb(178, 0, 255); */
+    /*background-color: rgb(178, 0, 255);*/
 }
 
 .sp-sidebar {
@@ -48,7 +48,7 @@ th td {
     z-index: 1;
     height: 100%;
     width: 0;
-    top: 40px;
+    top: 36px;
     left: 0;
     overflow-x: hidden;
     transition: 0.5s;

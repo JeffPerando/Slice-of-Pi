@@ -1,12 +1,11 @@
 @{
     ViewData["Title"] = "Crime Statistics";
 }
-<h1>@ViewData["Title"] for <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span></h1>
-<br><br><br>
 <div class="row">
-    <div class="col">
+    <div class="col sp-content bg-white">
         <div class="text-left">
-            <h1 class="display-5" style="text-align: left;">Crime Statistics for @ViewBag.cityName</h1>
+            <h1>@ViewData["Title"] for <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span></h1>
+
             <table id="cityCrimeStats">
                 <thead>
                     <tr>

@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Main.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-transparent">
     <header>
-        <div class="sp-mainbar">
-            <button class="btn" type="button" href="javascript:void(0)" id="sidebarToggle">
+        <div class="sp-mainbar bg-dark">
+            <button class="btn text-white" type="button" href="javascript:void(0)" id="sidebarToggle">
                 &#9776;
             </button>
         </div>
@@ -19,9 +19,6 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
                     <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </li>
                 <partial name="_LoginPartial" />
             </ul>
