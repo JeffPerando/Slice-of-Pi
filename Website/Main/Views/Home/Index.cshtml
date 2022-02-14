@@ -3,20 +3,18 @@
 }
 
 <div class="row">
-    <div class="col-4">
-        <h1 class="display-5" style="text-align: left;">Welcome</h1>
-        <p style="text-align: left;">Make the right choice on your potential new home, <a href="https://docs.microsoft.com/aspnet/core">Crime Statistics of the community of your potential new home</a>.</p>
+    <div class="col text-center">
+        <div class="justify-content-center">
+            <h1 class="display-5">Welcome</h1>
+            <p>Make the right choice on your potential new home, <a href="https://docs.microsoft.com/aspnet/core">Crime Statistics of the community of your potential new home</a>.</p>
+            <partial name="_CityLookupForm" />
+            <partial name="_SafestCities" />
+        </div>
     </div>
-    <div class="col-8">
-        <partial name="_CityLookupForm" />
-    </div>
-<div class="row">
-    <div class="col-4">
-        <partial name="_SafestCities" />
-    </div>  
 </div>
 
 @section Scripts
 {
     <script type="text/javascript" src="~/js/site.js"></script>
 }
+
