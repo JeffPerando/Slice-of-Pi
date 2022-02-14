@@ -1,45 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<html>
 
-
-    <div class = "container">
-        <div class="row">
-            <div class="col-4">
-                <body>
-                    <h1 class="display-5" style="text-align: left;">Welcome</h1>
-                    <p style="text-align: left;">Make the right choice on your potential new home, <a href="https://docs.microsoft.com/aspnet/core">Crime Statistics of the community of your potential new home</a>.</p>
-                </body>
-            </div>
-            <div class="col-8">
-                <body>
-                    <h1 class="display-5" style="text-align: left;">Enter a city you want to look up:</h1>
-                    <form>
-                        <label for="cityName">Enter a city name: </label>
-                        <input type="text" id="cityName" name="cityName"><br><br>
-                        <input type="submit" value="Submit">
-                    </form>
-                </body>
-            </div>
-        <div class="row">
-            <div class="col-4">
-                <body>
-                    <h1 class="display-5" style="text-align: left;">Safest States</h1>
-                    <div class= "text-left">
-                        <table id= "safestStatesTable" border="1">
-                            <thead>
-                                <tr>
-                                    <th>States</th>
-                                    <th>Violent Crimes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </body>
-            </div>  
-        </div>
+<div class="row">
+    <div class="col-4">
+        <h1 class="display-5" style="text-align: left;">Welcome</h1>
+        <p style="text-align: left;">Make the right choice on your potential new home, <a href="https://docs.microsoft.com/aspnet/core">Crime Statistics of the community of your potential new home</a>.</p>
     </div>
+    <div class="col-8">
+        <partial name="_CityLookupForm" />
+    </div>
+<div class="row">
+    <div class="col-4">
+        <partial name="_SafestCities" />
+    </div>  
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/site.js"></script>
+}

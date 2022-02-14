@@ -24,7 +24,8 @@ public class HomeController : Controller
     {
         return View();
     }
-    
+
+
     [HttpGet]
     public IActionResult GetSafestState()
     {
@@ -35,6 +36,13 @@ public class HomeController : Controller
         state_list = _CrimeService.GetStates();
         top_five_states = _CrimeService.GetSafestStates(state_list);
         return Json(top_five_states);
+    }
+    [HttpGet]
+    public IActionResult GetListStates()
+    {
+        List<string> state_list = new List<string>();
+        state_list = _CrimeService.GetStates();
+        return Json(state_list);
     }
 
     public IActionResult Privacy()
