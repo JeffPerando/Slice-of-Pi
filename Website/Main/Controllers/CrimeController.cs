@@ -29,6 +29,7 @@ public class CrimeController : Controller
         }
         ViewBag.cityName = cityName;
         ViewBag.stateAbbrev = stateAbbrev;
+
         return View();
     }
     

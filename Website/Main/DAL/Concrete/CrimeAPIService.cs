@@ -100,6 +100,10 @@ namespace Main.DAL.Concrete
                     
                     foreach (var crime in city_stats["results"])
                     {
+                        if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime")
+                        {
+                            continue;
+                        }
                         // Will get stuff like "data_year", "ori", "actual" meaning real crimes, "offense" meaning the type, and "cleared" for reported and dealt with.
                         int crime_year = (int)crime["data_year"];
                         string ori = (string)crime["ori"];

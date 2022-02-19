@@ -1,47 +1,58 @@
 @{
     ViewData["Title"] = "Crime Statistics";
 }
-<div class="row">
-    <div class="col sp-content bg-white">
-        <div class="text-left">
-            <h1>@ViewData["Title"] for <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span></h1>
-            <table id="cityCrimeStats" class="table">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Offense Type</th>
-                        <th>Total Offenses</th>
-                        <th>Convictions</th>
-                        <th>Year</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+<div class="container sp-content bg-white">
+    <div class="row">
+        <div class="col-8">
+            <h1>Trends of crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span></h1>
+            <p>Bababooey</p>
+        </div>
+        <div class="col-4">
+            <div class="text-left">
+                <h1>Crime Amount for: </h1>
+                <h1><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span></h1>
+                <table id="cityCrimeStats" class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Offense Type</th>
+                            <th>Total Offenses</th>
+                            <th>Convictions</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="w-100 sp-content bg-white"></div>
+        <div class="col-8">
+            <h1 style="border: 1px solid black;">How do I interpret this information?</h1>
+            <h2 style="text-decoration: underline;">Understand the community</h2>
+            <p>These statistics will give you a better understanding about what types of crimes are committed in this 
+                community. This type of information should be compared and contrasted with other searches you have made, in order to gauge the 
+                risk between both communities.  
+            </p>
+            <br>
+            <h2 style="text-decoration: underline;">Types of Offenses</h2>
+            <p>Offenses such as homicide, arson, and aggravated assault are generally easy to understand. However, we understand
+                that there is possible confusion when it comes to property-crime, violent-crime, and burglary compared to robbery.
+                Here are some definitions to keep in mind when viewing these statistics offense types. 
+                <ul>
+                    <li>Burglary: Entry into a home/business with the intent to commit a crime (such as theft).</li>
+                    <li>Robbery: Forcing an individual to hand over personal property under violence or threat of violence (may fall under category of violent-crime).</li>
+                </ul>
+            </p>
+            <br>
+            <h2 style="text-decoration: underline;">State Definition Differences.</h2>
+            <p>Be sure to look up exact definitons for crimes in your areas to be able to get a full understanding of the community beyond the amount of 
+                crimes that occur. Definitions will vary from state to state, so be sure to look up your states definition of things such as larceny, or assault.
+            </p>
+
         </div>
     </div>
-    <div class="col sp-content bg-white">
-        <h1>How do I interpret this information?</h1>
-        <h2 style="text-decoration: underline;">Understand the community</h2>
-        <p>These statistics will give you a better understanding about what types of crimes are committed in this 
-            community. In this instance @ViewBag.cityName, in @ViewBag.stateAbbrev, has a high amount of {Offense Type}. 
-            From this you can make the conclusion: "Is it worth moving here with a high amount of {Offense Type}?" This
-            type of information should be compared and contrasted with other searches you have made, in order to gauge the 
-            risk between both communities.  
-        </p>
-        <br>
-        <h2 style="text-decoration: underline;">Types of Offenses</h2>
-        <p>Offenses such as homicide, arson, and aggravated assault are generally easy to understand. However, we understand
-            that there is possible confusion when it comes to property-crime, violent-crime, and burglary compared to robbery.
-            Here are some definitions to keep in mind when viewing these statistics offense types. 
-            <ul>
-                <li>Property-Crime: Is a crime with the intent to gain money or property.</li>
-                <li>Violent-Crime: A crime that involves an individual being harmed or threatened with violence.</li>
-                <li>Burglary: Entry into a home/business with the intent to commit a crime (such as theft).</li>
-                <li>Robbery: Forcing an individual to hand over personal property under violence or threat of violence (may fall under category of violent-crime).</li>
-            </ul>
-        </p>
-    </div>
 </div>
+
 
 <input hidden id="cityName" value="@ViewBag.cityName" type="text">
 <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
