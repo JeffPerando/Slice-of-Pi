@@ -9,6 +9,7 @@ $(function() {
         error: errorOnAjax
 
     });
+
 })
 
 function errorOnAjax()

@@ -54,7 +54,7 @@ namespace Main.DAL.Concrete
             {
                 try
                 {
-                    var jsonResponse = new WebClient().DownloadString(crime_api_url + states[i] + year.JSONVariableTwoYears + keyFBI);
+                    var jsonResponse = new WebClient().DownloadString(crime_api_url + states[i] + year.setYearForJSON(0) + keyFBI);
                     JObject info = JObject.Parse(jsonResponse);
                     
                     int crime_rate = (int)info["results"][0]["violent_crime"];
@@ -95,7 +95,7 @@ namespace Main.DAL.Concrete
                 //Checks to see if the city exists in the API.
                 if (result)
                 {
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.JSONVariableTwoYears + keyFBI);
+                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0) + keyFBI);
                     JObject city_stats = JObject.Parse(newjsonResponse);
                     
                     foreach (var crime in city_stats["results"])
@@ -126,6 +126,43 @@ namespace Main.DAL.Concrete
         public List<Crime> ReturnCityStats(List<Crime> city_stats)
         {
             return city_stats.OrderByDescending(t => t.TotalOffenses).ToList();
+        }
+
+        public List<Crime> GetCityTrends(string cityName, string stateAbbrev)
+        {
+            JSONYearVariable year = new JSONYearVariable();
+            List<Crime> city_crime_trends = new List<Crime>();
+            var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
+            JObject info = JObject.Parse(jsonResponse);
+            
+            foreach (var item in info["results"])
+            {
+                var text = (string)item["agency_name"];
+                var result = text.Contains(cityName + " " + "Police Department");
+
+                //Checks to see if the city exists in the API.
+                if (result)
+                {
+                    var counter = -1;
+                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + "/" + (year.getYearTwoYearsAgo() - 10) + "/" + year.getYearTwoYearsAgo() + keyFBI);
+                    JObject city_stats = JObject.Parse(newjsonResponse);
+
+                    foreach (var crime in city_stats["results"])
+                    {
+                        if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime")
+                        {
+                            if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
+                            {
+                                city_crime_trends.Add(new Crime {Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"]});
+                                counter++;
+                            }
+                            city_crime_trends[counter].TotalOffenses = city_crime_trends[counter].TotalOffenses + (int)crime["actual"] + (int)crime["cleared"];
+                        }
+                    }
+                    break;
+                }
+            }
+            return city_crime_trends;
         }
     }
 }

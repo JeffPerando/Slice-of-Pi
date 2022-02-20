@@ -4,8 +4,11 @@
 <div class="container sp-content bg-white">
     <div class="row">
         <div class="col-8">
-            <h1>Trends of crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span></h1>
-            <p>Bababooey</p>
+            <h1>Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span></h1>
+            <div>
+                <canvas id="crimeTrendChart" width="50" height="37"></canvas>
+            </div>
+            
         </div>
         <div class="col-4">
             <div class="text-left">
@@ -25,9 +28,9 @@
                 </table>
             </div>
         </div>
-        <div class="w-100 sp-content bg-white"></div>
+        <div class="w-15 sp-content bg-white"></div>
         <div class="col-8">
-            <h1 style="border: 1px solid black;">How do I interpret this information?</h1>
+            <h1 style="border: 1px solid black; text-align: center">How do I interpret this information?</h1>
             <h2 style="text-decoration: underline;">Understand the community</h2>
             <p>These statistics will give you a better understanding about what types of crimes are committed in this 
                 community. This type of information should be compared and contrasted with other searches you have made, in order to gauge the 
@@ -59,5 +62,7 @@
 
 @section Scripts
 {
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
 }
