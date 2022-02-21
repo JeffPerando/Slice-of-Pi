@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col text-center">
+        <div class="justify-content-center">
+            <div class="bg-white sp-content">
+                <h1 class="display-5">Welcome</h1>
+                This new site, courtesy of Slice of Pi, LLC., will help you make house-purchasing decisions. We use the <a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi">FBI's own Crime API</a> and in-house algorithms to help you make an informed decision.
+            </div>
+            <div class="bg-white sp-content">
+                <partial name="_CityLookupForm" />
+            </div>
+            <div class="bg-white sp-content">
+                <partial name="_SafestStates" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+}
+
