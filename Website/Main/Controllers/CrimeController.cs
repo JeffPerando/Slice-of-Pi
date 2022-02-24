@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Main.Models;
 using Main.DAL.Abstract;
-
+using Newtonsoft.Json.Linq;
 
 namespace Main.Controllers;
 
@@ -61,12 +61,14 @@ public class CrimeController : Controller
             stateAbbrev = "CA";
         }
         List<Crime> city_trends = new List<Crime>();
-        List<Crime> getCitytrends = new List<Crime>();
+        JObject getCitytrends = new JObject();
+        List<Crime> returnCityTrends = new List<Crime>();
 
         _CrimeService.SetCredentials(_config["apiFBIKey"]);
         getCitytrends = _CrimeService.GetCityTrends(cityName, stateAbbrev);
-        
-        return Json(getCitytrends);
+        returnCityTrends = _CrimeService.ReturnCityTrends(getCitytrends);
+
+        return Json(returnCityTrends);
     }
     
 
