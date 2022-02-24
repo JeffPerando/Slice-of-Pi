@@ -145,9 +145,10 @@ namespace Main.DAL.Concrete
                 if (result)
                 {
                     var counter = -1;
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + "/" + (year.getYearTwoYearsAgo() - 10) + "/" + year.getYearTwoYearsAgo() + keyFBI);
+                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + "/" + (year.getYearTwoYearsAgo() - 35) + "/" + year.getYearTwoYearsAgo() + keyFBI);
                     JObject city_stats = JObject.Parse(newjsonResponse);
 
+                    //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
                     foreach (var crime in city_stats["results"])
                     {
                         if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime")
