@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Look up By State";
+}
+
+<div class="row">
+    <div class="col text-center">
+        <div class="justify-content-center">
+            <div class="bg-white sp-content">
+                <h1 class="display-5">Welcome</h1>
+                This new site, courtesy of Slice of Pi, LLC., will help you make house-purchasing decisions. We use the <a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi">FBI's own Crime API</a> and in-house algorithms to help you make an informed decision.
+            </div>
+            <div class="bg-white sp-content">
+                <form action="SingleStateStats" method="get"> 
+                    <label for= "stateAbbrev">Select a state: </label>
+                    <select name= "stateAbbrev" id="stateAbbrev" required>
+                        <option value="" disabled>Choose a state</option>
+                    </select>
+                    <br><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col sp-content bg-white">
+        <div class="text-left">
+            <h1>@ViewData["Title"] for <span>@ViewBag.stateAbbrev</span></h1>
+            <table id="stateCrimeTable" class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>State</th>
+                        <th>Year</th>
+                        <th>Population</th>
+                        <th>Violent Crimes</th>
+                        <th>Homicide</th>
+                        <th>Rape(Legacy)</th>
+                        <th>Rape(Revised)</th>
+                        <th>Robbery</th>
+                        <th>Aggravated Assault</th>
+                        <th>Property Crime</th>
+                        <th>Burglary</th>
+                        <th>Larceny</th>
+                        <th>Motor Vehicle Theft</th>
+                        <th>Arson</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
+
+}

@@ -30,7 +30,20 @@ namespace Main.Models
 
     public class JSONYearVariable
     {
-        public string JSONVariableTwoYears = '/' + (DateTime.Now.Year - 2).ToString() + '/' + (DateTime.Now.Year - 2).ToString();
-    }
+        //public string JSONVariableTwoYears = '/' + (DateTime.Now.Year - 2).ToString() + '/' + (DateTime.Now.Year - 2).ToString();
+        public int getYearTwoYearsAgo()
+        {
+            return (DateTime.Now.Year - 2);
+        }
+        public string setYearForJSON(int year)
+        {
+            if (year == null)
+            {
+                year = 0;
+            }
 
+            string JSONVariableTwoYears = '/' + (DateTime.Now.Year - (2 + year)).ToString() + '/' + (DateTime.Now.Year - (2 + year)).ToString();
+            return JSONVariableTwoYears;
+        }
+    }
 }

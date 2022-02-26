@@ -51,4 +51,48 @@ public class CrimeController : Controller
         return Json(city_stats);
     }
 
+    public IActionResult StateCrimeStats(string stateAbbrev)
+    {
+        if (stateAbbrev == null)
+        {
+            stateAbbrev = "CA";
+        }
+        ViewBag.stateAbbrev = stateAbbrev;
+        return View();
+    }
+
+    public IActionResult SingleStateStats(string stateAbbrev)
+    {
+        if (stateAbbrev == null)
+        {
+            stateAbbrev = "CA";
+        }
+        ViewBag.stateAbbrev = stateAbbrev;
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult GetSingleStateStats(string stateAbbrev, StateCrimeViewModel aState)
+    {
+        if (stateAbbrev == null)
+        {
+            stateAbbrev = "CA";
+        }
+
+        StateCrimeViewModel state = new StateCrimeViewModel();
+        _CrimeService.SetCredentials(_config["apiFBIKey"]);
+        state =_CrimeService.GetState(stateAbbrev);
+        return Json(state);
+    }
+
+    [HttpGet]
+    public IActionResult GetStateList()
+    {
+        List<string> state_list = new List<string>();
+        state_list = _CrimeService.GetStates();
+        return Json(state_list);
+    }
+
+
+
 }

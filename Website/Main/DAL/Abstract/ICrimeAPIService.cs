@@ -12,7 +12,7 @@ namespace Main.DAL.Abstract
         List<Crime> GetCityStats(string cityName, string stateAbbrev);
         List<Crime> ReturnStateCrimeList(List<string> states);
         List<Crime> ReturnCityStats(List<Crime> city_stats);
-
+        StateCrimeViewModel GetState( string stateAbbrev);
     }
         
 }
