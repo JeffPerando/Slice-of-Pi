@@ -146,6 +146,7 @@ namespace Main.DAL.Concrete
                 if (result)
                 {
                     var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + "/" + (year.getYearTwoYearsAgo() - 35) + "/" + year.getYearTwoYearsAgo() + keyFBI);
+                    
                     JObject city_stats = JObject.Parse(newjsonResponse);
 
                     return city_stats;
