@@ -25,10 +25,10 @@ namespace Main.DAL.Concrete
         {
             client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
             client.Authenticate(_email, _password);
-
+            
         }
 
-        public void SendTextEmail(string receiver, string receiverName, string subject, string content)
+        public Task SendTextEmail(string receiver, string receiverName, string subject, string content)
         {
             if (string.IsNullOrEmpty(receiver))
             {
@@ -44,10 +44,14 @@ namespace Main.DAL.Concrete
             msg.From.Add(new MailboxAddress(_sender, _email));
             msg.To.Add(new MailboxAddress(receiverName, receiver));
             msg.Subject = subject;
-            msg.Body = new TextPart() { Text = content };
+            msg.Body = new TextPart("html") { Text = content };
 
-            client.Send(msg);
+            return client.SendAsync(msg);
+        }
 
+        public bool IsLoggedIn()
+        {
+            return client.IsSigned;
         }
 
         public void LogOut()

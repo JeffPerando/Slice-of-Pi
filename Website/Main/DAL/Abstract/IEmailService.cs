@@ -4,8 +4,10 @@ namespace Main.DAL.Abstract
     public interface IEmailService
     {
         void LogIn();
-        
-        void SendTextEmail(string receiver, string receiverName, string subject, string content);
+
+        Task SendTextEmail(string email, string receiverName, string subject, string content);
+
+        bool IsLoggedIn();
 
         void LogOut();
 
