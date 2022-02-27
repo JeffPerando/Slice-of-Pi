@@ -6,7 +6,7 @@
 
 <div class="row bg-white">
     <div class="col-md-5">
-        <h1 style="text-decoration: underline;">@ViewData["Title"]</h1>
+        <h1>@ViewData["Title"]</h1>
         <h2>Did you not get the email? That's okay, we can send another!</h2>
         <hr />
         <form method="post">
@@ -16,7 +16,7 @@
                 <label asp-for="Input.Email" class="form-label"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary" style=" font-size: 20px; border: 2px solid #101010 ;background-color: #181818; color: white">Resend</button>
+            <button type="submit" class="btn btn-lg btn-primary">Resend</button>
         </form>
     </div>
     <div class="col-md-6">
