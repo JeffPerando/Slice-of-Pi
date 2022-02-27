@@ -1,6 +1,9 @@
 
 $(function() {
+<<<<<<< HEAD
     var ourObject = {stateAbbrev:$("#stateAbbrev").val()};
+=======
+>>>>>>> dev/dev
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -11,6 +14,7 @@ $(function() {
 
     });
 
+<<<<<<< HEAD
     //$.ajax({
     //    type: "GET",
     //    dataType: "json",
@@ -28,6 +32,8 @@ $(function() {
     //    error: errorOnAjax
 
     //});
+=======
+>>>>>>> dev/dev
 })
 
 
@@ -36,8 +42,15 @@ function errorOnAjax()
     console.log("ERROR in ajax request");
 }
 
+
 function showCityStats(data)
 {
+    if(data.length == 0)
+    {
+        window.alert("Information was not found for this city. We either do not currently have information on this city, or it does not exist.\n\nReturning to homepage.");
+        window.location.href = window.location.origin;
+    }
+
     $("#cityCrimeStats>tbody").empty();
     for (let i = 0; i < data.length; ++i){
         let repoTR = $(
@@ -52,6 +65,7 @@ function showCityStats(data)
         $("#cityCrimeStats").show();
     }
 }
+<<<<<<< HEAD
 
 function displayStateInformation(data) {
     $("#stateCrimeTable>tbody").empty();
@@ -93,3 +107,5 @@ function showStateStats(data) {
         $("#stateCrimeTable").show();
     }
 }
+=======
+>>>>>>> dev/dev

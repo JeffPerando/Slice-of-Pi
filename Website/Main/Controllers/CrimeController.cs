@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Main.Models;
 using Main.DAL.Abstract;
-
+using Newtonsoft.Json.Linq;
 
 namespace Main.Controllers;
 
@@ -29,6 +29,7 @@ public class CrimeController : Controller
         }
         ViewBag.cityName = cityName;
         ViewBag.stateAbbrev = stateAbbrev;
+
         return View();
     }
     
@@ -47,10 +48,11 @@ public class CrimeController : Controller
         _CrimeService.SetCredentials(_config["apiFBIKey"]);
         getCityStats = _CrimeService.GetCityStats(cityName, stateAbbrev);
         city_stats = _CrimeService.ReturnCityStats(getCityStats);
-        
+
         return Json(city_stats);
     }
 
+<<<<<<< HEAD
     public IActionResult StateCrimeStats(string stateAbbrev)
     {
         if (stateAbbrev == null)
@@ -94,5 +96,26 @@ public class CrimeController : Controller
     }
 
 
+=======
+    [HttpGet]
+    public IActionResult GetCrimeTrends(string cityName, string stateAbbrev)
+    {
+        if (cityName == null || stateAbbrev == null)
+        {
+            cityName = "Riverside";
+            stateAbbrev = "CA";
+        }
+        List<Crime> city_trends = new List<Crime>();
+        JObject getCitytrends = new JObject();
+        List<Crime> returnCityTrends = new List<Crime>();
+
+        _CrimeService.SetCredentials(_config["apiFBIKey"]);
+        getCitytrends = _CrimeService.GetCityTrends(cityName, stateAbbrev);
+        returnCityTrends = _CrimeService.ReturnCityTrends(getCitytrends);
+
+        return Json(returnCityTrends);
+    }
+    
+>>>>>>> dev/dev
 
 }
