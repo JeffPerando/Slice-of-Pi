@@ -22,7 +22,7 @@ function showCityStats(data)
 {
     if(data.length == 0)
     {
-        window.alert("Information was not found for this city. Make sure your entering the right city name and state! \nReturning to homepage.");
+        window.alert("Information was not found for this city. We either do not currently have information on this city, or it does not exist.\n\nReturning to homepage.");
         window.location.href = window.location.origin;
     }
 

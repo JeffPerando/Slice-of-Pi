@@ -15,7 +15,6 @@ function showChartTrend(data){
     
     const years = [];
     const crimes = [];
-    console.log(data);
 
     for(let i = 0; i < data.length; i++)
     {
@@ -32,8 +31,13 @@ function showChartTrend(data){
             label: 'Amount of Crime',
             data: crimes,
             backgroundColor: 'transparent',
-            borderColor: 'red',
-            borderWidth: 4
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 4,
+            tension: 0.2,
+            fill: true,
+            pointStyle: 'rectRounded',
+            backgroundColor: 'rgb(100, 192, 192, 0.2)'
+
         }]
     },
     options: {
