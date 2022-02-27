@@ -15,10 +15,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
+
+Console.WriteLine(builder.Configuration.GetDebugView());
+
 //MainIdentityDbContextConnection
 // Add services to the container.
 var connectionStringID = builder.Configuration.GetConnectionString("MainIdentityDbContextConnection");
 var connectionStringApp = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
+
+var emailService = new EmailService("Slice of Pi, LLC.", "sliceofpi.cs46x", builder.Configuration["EmailPW"]);
+emailService.LogIn();
 
 builder.Services.AddDbContext<MainIdentityDbContext>(options =>
     options.UseSqlServer(connectionStringID));
@@ -34,6 +43,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
+builder.Services.AddSingleton<IEmailService>(emailService);
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
@@ -91,3 +101,8 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+void OnShutdown()
+{
+    Console.WriteLine("YEEHAW!");
+}
