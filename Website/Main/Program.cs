@@ -19,8 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
 builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
 
-Console.WriteLine(builder.Configuration.GetDebugView());
-
 //MainIdentityDbContextConnection
 // Add services to the container.
 var connectionStringID = builder.Configuration.GetConnectionString("MainIdentityDbContextConnection");
