@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Main.DAL.Abstract;
+using Main.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -21,69 +22,26 @@ namespace Main.Areas.Identity.Pages.Account
     public class ResendEmailConfirmationModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailService _emailService;
+        private readonly IUserVerifier _verifier;
 
-        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IEmailService emailService)
+        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IUserVerifier verifier)
         {
             _userManager = userManager;
-            _emailService = emailService;
+            _verifier = verifier;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [BindProperty]
-        public InputModel Input { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
+        public async Task<IActionResult> OnGet(string userId)
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-        }
-
-        public void OnGet()
-        {
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            var user = await _userManager.FindByEmailAsync(Input.Email);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "User not found!");
                 return Page();
             }
 
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = userId, code = code },
-                protocol: Request.Scheme);
-            await _emailService.SendTextEmail(
-                Input.Email, "",
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            _verifier.GenerateVerificationCode(user.Email);
 
-            ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
-            return Page();
+            return RedirectToPage("ConfirmEmail", new { userId = user.Id });
         }
     }
 }

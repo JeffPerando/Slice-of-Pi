@@ -7,17 +7,7 @@
 <div class="row bg-white">
     <div class="col-md-4">
         <h1>@ViewData["Title"]</h1>
-        <h2>Enter your email.</h2>
-        <hr />
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" aria-required="true" />
-                <label asp-for="Input.Email" class="form-label"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Resend</button>
-        </form>
+        <h2>Sending email...</h2>
     </div>
 </div>
 

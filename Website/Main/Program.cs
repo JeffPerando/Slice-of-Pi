@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Main.Services.Concrete;
+using Main.Services.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,7 @@ var connectionStringApp = builder.Configuration.GetConnectionString("Application
 
 var emailService = new EmailService("Slice of Pi, LLC.", "sliceofpi.cs46x", builder.Configuration["EmailPW"]);
 emailService.LogIn();
+var userVerifier = new UserVerifier(emailService);
 
 builder.Services.AddDbContext<MainIdentityDbContext>(options =>
     options.UseSqlServer(connectionStringID));
@@ -42,6 +45,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
 builder.Services.AddSingleton<IEmailService>(emailService);
+builder.Services.AddSingleton<IUserVerifier>(userVerifier);
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
