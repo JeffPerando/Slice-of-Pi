@@ -101,8 +101,3 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
-
-void OnShutdown()
-{
-    Console.WriteLine("YEEHAW!");
-}
