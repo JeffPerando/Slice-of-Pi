@@ -1,7 +1,7 @@
 ﻿
 namespace Main.Services.Abstract
 {
-    public interface IUserVerifier
+    public interface IUserVerifierService
     {
         int GenerateVerificationCode(string email);
 

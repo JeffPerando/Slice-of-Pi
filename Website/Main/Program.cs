@@ -28,7 +28,7 @@ var connectionStringApp = builder.Configuration.GetConnectionString("Application
 
 var emailService = new EmailService("Slice of Pi, LLC.", "sliceofpi.cs46x", builder.Configuration["EmailPW"]);
 emailService.LogIn();
-var userVerifier = new UserVerifier(emailService);
+var userVerifier = new UserVerifierService(emailService);
 
 builder.Services.AddDbContext<MainIdentityDbContext>(options =>
     options.UseSqlServer(connectionStringID));
@@ -45,7 +45,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
 builder.Services.AddSingleton<IEmailService>(emailService);
-builder.Services.AddSingleton<IUserVerifier>(userVerifier);
+builder.Services.AddSingleton<IUserVerifierService>(userVerifier);
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 

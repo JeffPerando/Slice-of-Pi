@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Main.DAL.Abstract;
 using Main.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -22,26 +21,55 @@ namespace Main.Areas.Identity.Pages.Account
     public class ResendEmailConfirmationModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserVerifier _verifier;
+        private readonly IUserVerifierService _verifier;
 
-        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IUserVerifier verifier)
+        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IUserVerifierService verifier)
         {
             _userManager = userManager;
             _verifier = verifier;
         }
 
-        public async Task<IActionResult> OnGet(string userId)
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        public class InputModel
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
+            /// <summary>
+            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///     directly from your code. This API may change or be removed in future releases.
+            /// </summary>
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; }
+        }
+
+        public void OnGet() {}
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "User not found!");
                 return Page();
             }
 
-            _verifier.GenerateVerificationCode(user.Email);
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+            if (user == null || (user?.EmailConfirmed ?? false))
+            {
+                ModelState.AddModelError(string.Empty, $"User not found: {Input.Email}");
+                return Page();
+            }
 
-            return RedirectToPage("ConfirmEmail", new { userId = user.Id });
+            var userId = await _userManager.GetUserIdAsync(user);
+            
+            return RedirectToPage("SendEmailConfirmation", new { userId = userId });
         }
     }
 }

@@ -18,9 +18,9 @@ namespace Main.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserVerifier _verifier;
+        private readonly IUserVerifierService _verifier;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager, IUserVerifier verifier)
+        public ConfirmEmailModel(UserManager<IdentityUser> userManager, IUserVerifierService verifier)
         {
             _userManager = userManager;
             _verifier = verifier;

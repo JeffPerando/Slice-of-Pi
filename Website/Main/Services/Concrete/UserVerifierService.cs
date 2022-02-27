@@ -1,6 +1,7 @@
 ﻿
 using Main.DAL.Abstract;
 using Main.Services.Abstract;
+using System;
 
 namespace Main.Services.Concrete
 {
@@ -20,14 +21,7 @@ namespace Main.Services.Concrete
 
     public class UserCodes
     {
-        private string _email;
         private List<UserCode> _codes = new();
-
-        public UserCodes(string email)
-        {
-            _email = email;
-
-        }
 
         public bool Verify(int code)
         {
@@ -35,6 +29,11 @@ namespace Main.Services.Concrete
 
             foreach (UserCode uc in _codes)
             {
+                if (now > uc.Expiration)
+                {
+                    continue;
+                }
+
                 if (uc.Code == code)
                 {
                     return true;
@@ -62,14 +61,16 @@ namespace Main.Services.Concrete
 
     }
 
-    public class UserVerifier : IUserVerifier
+    public class UserVerifierService : IUserVerifierService
     {
         private Dictionary<string, UserCodes> codes = new();
         private IEmailService _emails;
+        private readonly string emailContent;
 
-        public UserVerifier(IEmailService emails)
+        public UserVerifierService(IEmailService emails)
         {
             _emails = emails;
+            emailContent = File.ReadAllText("codeverify.html");
         }
 
         public int GenerateVerificationCode(string email)
@@ -78,32 +79,33 @@ namespace Main.Services.Concrete
 
             if (userCodes == null)
             {
-                userCodes = new(email);
+                userCodes = new();
                 codes.Add(email, userCodes);
 
             }
 
             var code = userCodes.GenerateNewCode();
 
-            _emails.SendTextEmail(email, "", "Confirm Your Email!", $"Enter the code {code} to verify your email with Slice of Pi");
+            _emails.SendTextEmail(email, "", "Confirm Your Email!", String.Format(emailContent, code.ToString()));
 
             return code;
         }
 
         public bool Verify(string email, int code)
         {
+            bool result = false;
             UserCodes? userCodes = codes.GetValueOrDefault(email, null);
 
-            if (userCodes == null)
+            if (userCodes != null)
             {
-                return false;
-            }
+                result = userCodes.Verify(code);
 
-            bool result = userCodes.Verify(code);
+                if (result)
+                {
+                    codes.Remove(email);
 
-            if (result)
-            {
-                codes.Remove(email);
+                }
+
             }
 
             foreach (UserCodes ucs in codes.Values)
