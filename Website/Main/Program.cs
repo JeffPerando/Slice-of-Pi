@@ -85,11 +85,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "API List States",
     pattern: "/apiv3/FBI/StateList",
-<<<<<<< HEAD
     defaults: new { controller = "Home", action = "GetListStates" });
-=======
-    defaults: new {controller = "Home", action = "GetListStates"});
->>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
 
 app.MapControllerRoute(
     name: "API States",
@@ -98,7 +94,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "API Cities",
-<<<<<<< HEAD
     pattern: "apiv3/FBI/GetCityStats",
     defaults: new { controller = "Crime", action = "GetCrimeStats" });
 
@@ -107,14 +102,10 @@ app.MapControllerRoute(
     pattern: "/apiv3/FBI/StateCrimeStats",
     defaults: new { controller = "Crime", action = "GetSingleStateStats" });
 
-
 app.MapControllerRoute(
     name: "API State stats",
     pattern: "/apiv3/FBI/CrimeStateList",
     defaults: new { controller = "Crime", action = "GetStateList" });
-=======
-    pattern: "/apiv3/FBI/GetCityStats",
-    defaults: new {controller = "Crime", action = "GetCrimeStats"});
 
 app.MapControllerRoute(
     name: "API Cities Trends",
@@ -129,7 +120,6 @@ app.MapControllerRoute(
 //app.MapControllerRoute(
 //    name: "City Stats",
 //    pattern: "{controller=Crime}/{action=CrimeStats}/{cityName?}/{stateAbbrev?}");
->>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
 
 app.MapControllerRoute(
     name: "default",
