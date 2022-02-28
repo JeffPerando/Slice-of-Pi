@@ -47,7 +47,7 @@ namespace Main.Areas.Identity.Pages.Account
 
             Email = user.Email;
             Confirmed = false;
-            ResendEmailLink = Url.Page("/Account/ResendEmailConfirmation",
+            ResendEmailLink = Url.Page("/Account/SendEmailConfirmation",
                 pageHandler: null,
                 values: new { userId = userId },
                 protocol: Request.Scheme);
