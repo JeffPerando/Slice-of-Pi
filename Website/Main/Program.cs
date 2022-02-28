@@ -102,6 +102,15 @@ app.MapControllerRoute(
     pattern: "/apiv3/FBI/GetCityTrends",
     defaults: new {controller = "Crime", action = "GetCrimeTrends"});
 
+app.MapControllerRoute(
+    name: "API Site Forms",
+    pattern: "/apiv3/forms/address",
+    defaults: new { controller = "Form", action = "Address" });
+
+app.MapControllerRoute(
+    name: "API Site Forms",
+    pattern: "/apiv3/forms/{id?}",
+    defaults: new { controller = "Form", action = "GetForm"});
 
 //app.MapControllerRoute(
 //    name: "City Stats",
