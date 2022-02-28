@@ -13,6 +13,12 @@
         }
         else
         {
+            if (ViewData.ContainsKey("Message"))
+            {
+                <ul>
+                    <li class="text-danger">@(ViewData["Message"])</li>
+                </ul>
+            }
             <p>Email sent! It will expire in 5 minutes. If you can't find your email, check your spam folder.</p>
             <p>If you didn't get your email or it expired, you may click <a href=@Model.ResendEmailLink>here</a> to resend it.</p>
             <form method="post">

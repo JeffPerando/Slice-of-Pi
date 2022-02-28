@@ -87,6 +87,10 @@ namespace Main.Areas.Identity.Pages.Account
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 await _userManager.ConfirmEmailAsync(user, token);
             }
+            else
+            {
+                ViewData["Message"] = "Could not verify email code! Try resending it.";
+            }
 
             return Page();
         }
