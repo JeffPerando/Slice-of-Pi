@@ -45,7 +45,6 @@ public class CrimeController : Controller
         List<Crime> city_stats = new List<Crime>();
         List<Crime> getCityStats = new List<Crime>();
 
-        _CrimeService.SetCredentials(_config["apiFBIKey"]);
         getCityStats = _CrimeService.GetCityStats(cityName, stateAbbrev);
         city_stats = _CrimeService.ReturnCityStats(getCityStats);
 
@@ -143,7 +142,6 @@ public class CrimeController : Controller
         JObject getCitytrends = new JObject();
         List<Crime> returnCityTrends = new List<Crime>();
 
-        _CrimeService.SetCredentials(_config["apiFBIKey"]);
         getCitytrends = _CrimeService.GetCityTrends(cityName, stateAbbrev);
         returnCityTrends = _CrimeService.ReturnCityTrends(getCitytrends);
 

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Home>
+@{
+    ViewData["Title"] = "Edit Addresses";
+
+}
+
+@if (ViewData.ContainsKey("Message"))
+{
+    <div class="row justify-content-center">
+        <div class="col-3">
+            @ViewData["Message"]
+        </div>
+    </div>
+}
+<div class="row justify-content-center mt-2">
+    <div class="col-3">
+        @if (Model.Count() == 0)
+        {
+            <span>No addresses yet!</span>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Address</th>
+                        <th scope="col">Delete?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var home in Model)
+                    {
+                        <tr>
+                            <td>
+                                @(home.StreetAddress)<br>
+                                @(home.County), @(home.State) @(home.ZipCode)
+                            </td>
+                            <td><a href="/User/DeleteAddress?id=@home.Id" class="btn btn-danger" role="button">x</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<form method="post">
+    <div class="row">
+    <div class="col-md-12">
+        <label for="street" class="form-label">Street</label>
+        <input name="street" type="text" class="form-control" placeholder="1313 Mockingbird Ln." pattern="\d+ .+" required/>
+    </div>
+    <div class="col-md-6">
+        <label for="city" class="form-label">City</label>
+        <input name="city" type="text" class="form-control" placeholder="Mockingbird Heights" required/>
+    </div>
+    <div class="col-md-2">
+        <label for="state" class="form-label">State</label>
+        <select name="state" id="addrStates" type="text" class="form-control">
+            
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="zip" class="form-label">ZIP</label>
+        <input name="zip" type="tel" class="form-control" placeholder="90210 or 90210-0800" pattern="\\d{5}(-\\d{4})?" required/>
+    </div>
+</div>
+    <div class="row justify-content-center">
+        <div class="col-2 mt-2">
+            <button type="submit" class="btn btn-primary btn-lg">Submit Address</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+<script type="text/javascript" src="~/js/addressform.js" asp-append-version="true"></script>
+}
