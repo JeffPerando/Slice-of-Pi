@@ -62,11 +62,8 @@ namespace Main.DAL.Concrete
             {
                 try
                 {
-<<<<<<< HEAD
-                    var jsonResponse = new WebClient().DownloadString(crime_api_url + states[i] + year.getYearTwoYearsAgo() + keyFBI);
-=======
                     var jsonResponse = new WebClient().DownloadString(crime_api_url + states[i] + year.setYearForJSON(0) + keyFBI);
->>>>>>> dev/dev
+
                     JObject info = JObject.Parse(jsonResponse);
 
                     int crime_rate = (int)info["results"][0]["violent_crime"];
@@ -108,20 +105,14 @@ namespace Main.DAL.Concrete
                 //Checks to see if the city exists in the API.
                 if (result)
                 {
-<<<<<<< HEAD
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.getYearTwoYearsAgo() + keyFBI);
-=======
+
                     var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0) + keyFBI);
->>>>>>> dev/dev
+
                     JObject city_stats = JObject.Parse(newjsonResponse);
 
                     foreach (var crime in city_stats["results"])
-                    {
-<<<<<<< HEAD
-                        if ((string)crime["offense"] == "property-crime")
-=======
+                    { 
                         if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime")
->>>>>>> dev/dev
                         {
                             continue;
                         }
@@ -155,8 +146,8 @@ namespace Main.DAL.Concrete
             return city_stats.OrderByDescending(t => t.TotalOffenses).ToList();
         }
 
-<<<<<<< HEAD
-        public StateCrimeViewModel GetState(string stateAbbrev, int aYear)
+
+        public StateCrimeViewModel GetState(string stateAbbrev, int? aYear)
         {
             JSONYearVariable year = new JSONYearVariable();
             StateCrimeViewModel state_crime_stats = new StateCrimeViewModel();
@@ -190,8 +181,8 @@ namespace Main.DAL.Concrete
                 }
             }
             return state_crime_stats;
-=======
-        //DOES ALL THE API CALLS FOR THE GRAPH.
+        }
+
         public JObject GetCityTrends(string cityName, string stateAbbrev)
         {
             JSONYearVariable year = new JSONYearVariable();
@@ -244,7 +235,6 @@ namespace Main.DAL.Concrete
                 }
             }
             return city_crime_trends;
->>>>>>> dev/dev
         }
     }
 }

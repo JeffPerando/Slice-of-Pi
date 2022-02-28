@@ -31,9 +31,7 @@ public class HomeController : Controller
     {
         List<string> state_list = new List<string>();
         List<Crime> top_five_states = new List<Crime>();
-        List<Crime> get_national_stats = new List<Crime>();
-        string X = _config["apiFBIKey"];
-
+        List<Crime> get_national_stats = new List<Crime>();;
 
         _CrimeService.SetCredentials(_config["apiFBIKey"]);
         state_list = _CrimeService.GetStates();

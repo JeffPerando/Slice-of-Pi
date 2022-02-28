@@ -1,6 +1,6 @@
 ﻿ namespace Main.Models
 {
-    public partial class StateCrimeViewModel
+    public class StateCrimeViewModel
     {
       public string? State_abbr          { get; set; }
       public int? Year                   { get; set; }
@@ -15,6 +15,8 @@
       public int? Burglary               { get; set; }
       public int? Larceny                { get; set; }
       public int? Motor_vehicle_theft    { get; set; }
-      public int? Arson                  { get; set; } 
+      public int? Arson                  { get; set; }
+      public string? stateAbbrev         { get; set; }
+      public int? aYear                  { get; set; }
     }
 }

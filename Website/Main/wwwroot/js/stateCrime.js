@@ -1,21 +1,21 @@
 ﻿
 $(function () {
-    var ourObject = { stateAbbrev: $("#stateAbbrev").val() };
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/apiv3/FBI/StateCrimeStats",
-        data: { stateAbbrev: $("#stateAbbrev").val() },
-        success: showStateStats,
-        error: errorOnAjax
-
-    });
-
     $.ajax({
         type: "GET",
         dataType: "json",
         url: "/apiv3/FBI/StateList",
         success: populateDropDown,
+        error: errorOnAjax
+
+    });
+
+
+    $.ajax({
+        type: "Get",
+        dataType: "json",
+        url: "/apiv3/FBI/StateCrimeStats",
+        data: { stateAbbrev: $("#stateAbbrev").val() },
+        success: showStateStats,
         error: errorOnAjax
 
     });
@@ -26,29 +26,25 @@ function errorOnAjax() {
     console.log("ERROR in ajax request");
 }
 
-function updateSlider(slideAmount)
-{
+function updateSlider(slideAmount) {
 
 }
+
 
 function populateDropDown(data) {
-    var select = document.getElementById("stateAbbrev");
-    for (var i = 0; i < data.length; i++) {
-        var option = data[i];
-        var element = document.createElement("option");
-        element.textContent = option;
-        element.value = option;
-        select.appendChild(element);
-    }
+    data.forEach(state => {
+        $("#stateAbbrev").append(`<option>${state}</option>`);
+    }); 
 }
+
 
 function showStateStats(data) {
 
     console.log(data);
     $("#stateCrimeTable>tbody").empty();
 
-        let repoTR = $(
-            `<tr>
+    let repoTR = $(
+        `<tr>
                 <td>${data["state_abbr"]}</td>
                 <td>${data["year"]}</td>
                 <td>${data["population"]}</td>
@@ -64,8 +60,8 @@ function showStateStats(data) {
                 <td>${data["motor_vehicle_theft"]}</td>
                 <td>${data["arson"]}</td>
             </tr>`
-        )
-        $("#stateCrimeTable>tbody").append(repoTR);
-        $("#stateCrimeTable").show();
-    
+    )
+    $("#stateCrimeTable>tbody").append(repoTR);
+    $("#stateCrimeTable").show();
+
 }

@@ -1,9 +1,6 @@
 
 $(function() {
-<<<<<<< HEAD
     var ourObject = {stateAbbrev:$("#stateAbbrev").val()};
-=======
->>>>>>> dev/dev
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -14,26 +11,8 @@ $(function() {
 
     });
 
-<<<<<<< HEAD
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: "apiv3/FBI/StateStats",
-    //    success: displayStateInformation,
-    //    error: errorOnAjax
 
-    //});
 
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: "apiv3/FBI/StateList",
-    //    success: populateDropDown,
-    //    error: errorOnAjax
-
-    //});
-=======
->>>>>>> dev/dev
 })
 
 
@@ -65,7 +44,6 @@ function showCityStats(data)
         $("#cityCrimeStats").show();
     }
 }
-<<<<<<< HEAD
 
 function displayStateInformation(data) {
     $("#stateCrimeTable>tbody").empty();
@@ -78,17 +56,6 @@ function displayStateInformation(data) {
         )
         $("#safestStatesTable>tbody").append(repoTR);
         $("#safestStatesTable").show();
-    }
-}
-
-function populateDropDown(data) {
-    var select = document.getElementById("stateAbbrev");
-    for (var i = 0; i < data.length; i++) {
-        var option = data[i];
-        var element = document.createElement("option");
-        element.textContent = option;
-        element.value = option;
-        select.appendChild(element);
     }
 }
 
@@ -107,5 +74,14 @@ function showStateStats(data) {
         $("#stateCrimeTable").show();
     }
 }
-=======
->>>>>>> dev/dev
+
+function populateDropDown(data) {
+    var select = document.getElementById("stateAbbrev");
+    for (var i = 0; i < data.length; i++) {
+        var option = data[i];
+        var element = document.createElement("option");
+        element.textContent = option;
+        element.value = option;
+        select.appendChild(element);
+    }
+}

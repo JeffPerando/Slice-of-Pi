@@ -35,28 +35,16 @@ namespace Main.Models
         {
             return (DateTime.Now.Year - 2);
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> dev/dev
-        public string setYearForJSON(int year)
+        public string setYearForJSON(int? year)
         {
             if (year == null)
             {
                 year = 0;
             }
-<<<<<<< HEAD
-=======
 
             string JSONVariableTwoYears = '/' + (DateTime.Now.Year - (2 + year)).ToString() + '/' + (DateTime.Now.Year - (2 + year)).ToString();
             return JSONVariableTwoYears;
         }
-        
-    }
->>>>>>> dev/dev
 
-            string JSONVariableTwoYears = '/' + (DateTime.Now.Year - (2 + year)).ToString() + '/' + (DateTime.Now.Year - (2 + year)).ToString();
-            return JSONVariableTwoYears;
-        }
     }
 }

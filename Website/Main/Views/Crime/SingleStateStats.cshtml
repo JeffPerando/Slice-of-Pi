@@ -1,4 +1,5 @@
-﻿<div class="row">
+﻿@model StateCrimeViewModel
+<div class="row">
     <div class="col sp-content bg-white">
         <div class="text-left">
             <h1>@ViewData["Title"] Crime statisctics for the state of <span>@ViewBag.stateAbbrev</span></h1>
@@ -25,15 +26,15 @@
                 </tbody>
             </table>
         </div>
-        <div id="slider"> 2 <input id="slide" type="range" min="2" max="15" step="5" value="100" onchange="updateSlider(this.value)" /> 15
-</div><br/>
     </div>
 </div>
 
+
 <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
+
 
 @section Scripts
 {
     <script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
-
+   
 }
