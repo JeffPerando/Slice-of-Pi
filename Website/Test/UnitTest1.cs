@@ -8,6 +8,10 @@ using Main.Models;
 using Microsoft.Extensions.Logging;
 using Main.Controllers;
 using Microsoft.Extensions.Configuration;
+<<<<<<< HEAD
+=======
+using Newtonsoft.Json.Linq;
+>>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
 
 namespace NUnit_Test
 {
@@ -19,6 +23,10 @@ namespace NUnit_Test
 
 
         }
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
 
         [Test]
         public void VerifyOrder()
@@ -141,11 +149,98 @@ namespace NUnit_Test
 
             Assert.AreEqual(theList.Count, 6);
         }
+<<<<<<< HEAD
     }
 }
 
 
 
+=======
+
+        [Test]
+        public void VerifyCrimeTrendsSizeList()
+        {
+            //Arrange
+            ICrimeAPIService crimeRepo = new CrimeAPIService();
+
+            string text = System.IO.File.ReadAllText(@"JObjectFile.txt");
+            
+
+
+            JObject crimeTrends = JObject.Parse(text);
+            List<Crime> parsedDataList = new List<Crime>();
+            //Gets crimes for 2018 - 2020 meaning 3 total.
+            parsedDataList = crimeRepo.ReturnCityTrends(crimeTrends);
+
+
+            //Assert
+            Assert.AreEqual(parsedDataList.Count, 3);
+        }
+
+        [Test]
+        public void VerifyCrimeTrendListContents()
+        {
+            //Arrange
+            ICrimeAPIService crimeRepo = new CrimeAPIService();
+
+            string text = System.IO.File.ReadAllText(@"JObjectFile.txt");
+            
+
+
+            JObject crimeTrends = JObject.Parse(text);
+            List<Crime> parsedDataList = new List<Crime>();
+            //Gets crimes for 2018 - 2020 meaning the index 1 #SHOULD# be 2019.
+            parsedDataList = crimeRepo.ReturnCityTrends(crimeTrends);
+
+
+            //Assert
+            Assert.AreEqual(parsedDataList[1].Year, 2019);
+        }
+        [Test]
+        public void VerifyCrimeTrendTotalOffenseAmount()
+        {
+            //Arrange
+            ICrimeAPIService crimeRepo = new CrimeAPIService();
+
+            string text = System.IO.File.ReadAllText(@"JObjectFile.txt");
+            
+
+
+            JObject crimeTrends = JObject.Parse(text);
+            List<Crime> parsedDataList = new List<Crime>();
+            //Gets crimes for 2018 - 2020 meaning 2020 Crime total #SHOULD# be 159.
+            parsedDataList = crimeRepo.ReturnCityTrends(crimeTrends);
+
+
+            //Assert
+            Assert.AreEqual(parsedDataList[2].TotalOffenses, 159);
+        }
+
+        [Test]
+        public void VerifyCrimeTrendListOrder()
+        {
+            //Arrange
+            ICrimeAPIService crimeRepo = new CrimeAPIService();
+
+            string text = System.IO.File.ReadAllText(@"JObjectFile.txt");
+            
+
+
+            JObject crimeTrends = JObject.Parse(text);
+            List<Crime> parsedDataList = new List<Crime>();
+            //Gets crimes for 2018 - 2020 meaning order should be 2018 to 2020.
+            parsedDataList = crimeRepo.ReturnCityTrends(crimeTrends);
+
+
+            //Assert
+            Assert.AreEqual(parsedDataList[0].Year, 2018);
+            Assert.AreEqual(parsedDataList[1].Year, 2019);
+            Assert.AreEqual(parsedDataList[2].Year, 2020);
+        }
+        
+    }
+}
+>>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
 
 
 
@@ -153,6 +248,7 @@ namespace NUnit_Test
 
 
 
+<<<<<<< HEAD
 //using NUnit.Framework;
 //using System;
 //using System.Collections.Generic;
@@ -189,3 +285,8 @@ namespace NUnit_Test
 //    }
 //}
 //}
+=======
+
+
+
+>>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
