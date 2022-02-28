@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Main.Data;
 using Main.Areas.Identity.Data;
-using MyApplication.Data;
 using Main.DAL.Abstract;
 using Main.DAL.Concrete;
 using System.Data.SqlClient;
@@ -15,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Main.Services.Concrete;
 using Main.Services.Abstract;
+using Main.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
