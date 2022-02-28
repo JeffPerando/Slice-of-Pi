@@ -2,9 +2,8 @@
 $(function () {
     $.ajax({
         type: "GET",
-        dataType: "text",
-        url: "/apiv3/forms/address",
-        success: addAddressForm,
+        url: "/apiv3/FBI/StateList",
+        success: addStatesToForm,
         error: ajaxErr
 
     });
@@ -16,6 +15,8 @@ function ajaxErr(xhr, options, err) {
     console.log(err);
 }
 
-function addAddressForm(data) {
-    $("#addrForm").html(data);
+function addStatesToForm(data) {
+    data.forEach(state => {
+        $("#addrStates").append(`<option>${state}</option>`);
+    })
 }

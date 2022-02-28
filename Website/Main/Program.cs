@@ -104,11 +104,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "API Site Forms",
-    pattern: "/apiv3/forms/address",
-    defaults: new { controller = "Form", action = "Address" });
-
-app.MapControllerRoute(
-    name: "API Site Forms",
     pattern: "/apiv3/forms/{id?}",
     defaults: new { controller = "Form", action = "GetForm"});
 
