@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Main.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,23 +18,25 @@ namespace Main.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserVerifierService _verifier;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
+        public ConfirmEmailModel(UserManager<IdentityUser> userManager, IUserVerifierService verifier)
         {
             _userManager = userManager;
+            _verifier = verifier;
+
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [TempData]
-        public string StatusMessage { get; set; }
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+        public string Email { get; set; }
+        public bool Confirmed { get; set; }
+        public string ResendEmailLink { get; set; }
+        public List<string> Statuses { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(string userId)
         {
-            if (userId == null || code == null)
+            if (userId == null)
             {
-                return RedirectToPage("/Index");
+                return Redirect("/");
             }
 
             var user = await _userManager.FindByIdAsync(userId);
@@ -42,10 +45,55 @@ namespace Main.Areas.Identity.Pages.Account
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            Email = user.Email;
+            Confirmed = false;
+            ResendEmailLink = Url.Page("/Account/SendEmailConfirmation",
+                pageHandler: null,
+                values: new { userId = userId },
+                protocol: Request.Scheme);
+
             return Page();
         }
+
+        public async Task<IActionResult> OnPost()
+        {
+            string email = Request.Form["email"];
+            string code = Request.Form["code"];
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return RedirectPermanent("Index");
+            }
+
+            if (user.EmailConfirmed)
+            {
+                return Redirect("Login");
+            }
+
+            int parsedCode;
+            Int32.TryParse(code, out parsedCode);
+            Email = email;
+            Confirmed = _verifier.Verify(email, parsedCode);
+            ResendEmailLink = Url.Page("Account/ResendEmailConfirmation",
+                pageHandler: null,
+                values: new { userId = user.Id },
+                protocol: Request.Scheme);
+
+            if (Confirmed)
+            {
+                //workaround for not being able to set the confirmed flag manually
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                await _userManager.ConfirmEmailAsync(user, token);
+            }
+            else
+            {
+                ViewData["Message"] = "Could not verify email code! Try resending it.";
+            }
+
+            return Page();
+        }
+
     }
 }

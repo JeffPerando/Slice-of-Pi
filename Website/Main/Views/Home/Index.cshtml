@@ -2,22 +2,33 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row">
-    <div class="col text-center">
-        <div class="justify-content-center">
-            <div class="bg-white sp-content">
-                <h1 class="display-5">Welcome</h1>
-                This new site, courtesy of Slice of Pi, LLC., will help you make house-purchasing decisions. We use the <a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi">FBI's own Crime API</a> and in-house algorithms to help you make an informed decision.
-            </div>
-            <div class="bg-white sp-content">
-                <partial name="_CityLookupForm" />
-            </div>
-            <div class="bg-white sp-content">
-                <partial name="_SafestStates" />
+
+<div class="row" >
+    <div class="col text-center" >
+        <div class="container" style="color: white; background-size: cover; background-repeat: no-repeat; background-position: center; height: 400px ; width: 1296px; border: 2cm; background-color:  #d4e6f1 ; background-image: url(bg.jpg);" >
+            <div class="text">
+                <br>
+                <br>
+                <br>
+                <h1 style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; background-color: rgb(24,24,24,0.8); border-radius: 10px; text-align: center">Slice of Pi Coding Solutions</h1>
+                <br>
+                <h2 style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; background-color: rgb(24,24,24,0.8); border-radius: 10px; text-align: center">Welcome to the Slice of Pi crime statistics lookup system. Here you will be able to search cities to see their crime statistics! 
+                    We use the <a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi">FBI's own Crime API</a> to provide you with easy to understand statistics!</h2>
             </div>
         </div>
+        <div>
+            <br>
+            <partial name="_CityLookupForm" />
+            <br>
+        </div>
+        <br>
+        <div>
+            <br>
+            <partial name="_SafestStates" />
+            <br>
+        </div>
+        </div>
     </div>
-</div>
 
 @section Scripts
 {

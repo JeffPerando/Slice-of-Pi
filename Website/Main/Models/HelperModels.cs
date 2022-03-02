@@ -35,8 +35,7 @@ namespace Main.Models
         {
             return (DateTime.Now.Year - 2);
         }
-
-        public string setYearForJSON(int year)
+        public string setYearForJSON(int? year)
         {
             if (year == null)
             {
@@ -46,7 +45,6 @@ namespace Main.Models
             string JSONVariableTwoYears = '/' + (DateTime.Now.Year - (2 + year)).ToString() + '/' + (DateTime.Now.Year - (2 + year)).ToString();
             return JSONVariableTwoYears;
         }
-        
-    }
 
+    }
 }

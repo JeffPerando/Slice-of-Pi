@@ -4,7 +4,7 @@ var isSidebarOpen = false;
 $("#sidebarToggle").click(
     function () {
         console.log("Sidebar toggled")
-        let width = "200px";
+        let width = "332px";
         if (isSidebarOpen) {
             width = "0px";
         }
@@ -12,4 +12,3 @@ $("#sidebarToggle").click(
         isSidebarOpen = !isSidebarOpen
     });
 
-console.log("Sidebar registered")

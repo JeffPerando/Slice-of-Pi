@@ -2,11 +2,12 @@
     ViewData["Title"] = "Crime Statistics";
 }
 <div class="container sp-content bg-white">
-    <div class="row">
-        <div class="col-8">
-            <h1>Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span></h1>
-            <div>
+    <div class="row" >
+        <div class="col-8" >
+            <h1 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span></h1>
+            <div style="text-align: center;">
                 <canvas id="crimeTrendChart" width="50" height="37"></canvas>
+                <p style="font-style: italic">(This information combines both violent crime for the year with the property crime for that year)</p>
             </div>
             
         </div>
@@ -28,9 +29,9 @@
                 </table>
             </div>
         </div>
-        <div class="w-15 sp-content bg-white"></div>
+        <div class="w-1 sp-content bg-white"></div>
         <div class="col-8">
-            <h1 style="border: 1px solid black; text-align: center">How do I interpret this information?</h1>
+            <h1 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">How do I interpret this information?</h1>
             <h2 style="text-decoration: underline;">Understand the community</h2>
             <p>These statistics will give you a better understanding about what types of crimes are committed in this 
                 community. This type of information should be compared and contrasted with other searches you have made, in order to gauge the 
@@ -39,11 +40,15 @@
             <br>
             <h2 style="text-decoration: underline;">Types of Offenses</h2>
             <p>Offenses such as homicide, arson, and aggravated assault are generally easy to understand. However, we understand
-                that there is possible confusion when it comes to property-crime, violent-crime, and burglary compared to robbery.
+                that there is possible confusion when it comes to property-crime or violent-crime, and burglary compared to robbery.
                 Here are some definitions to keep in mind when viewing these statistics offense types. 
                 <ul>
                     <li>Burglary: Entry into a home/business with the intent to commit a crime (such as theft).</li>
                     <li>Robbery: Forcing an individual to hand over personal property under violence or threat of violence (may fall under category of violent-crime).</li>
+                    <li>Property-Crime: A blanket term used to describe all crimes involving personal property, such a burglary, or larceny.</li>
+                    <li>Violent-Crime: A blanket term used to describle all crimes involving threats of violence or violence. Situations that fall under 
+                        the definition violent crime are things such as robbery, rape, homicide, human-trafficking, and assault.
+                    </li>
                 </ul>
             </p>
             <br>
@@ -65,4 +70,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
+
 }
+

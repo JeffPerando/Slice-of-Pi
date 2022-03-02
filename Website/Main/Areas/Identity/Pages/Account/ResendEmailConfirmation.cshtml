@@ -5,9 +5,9 @@
 }
 
 <div class="row bg-white">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <h1>@ViewData["Title"]</h1>
-        <h2>Enter your email.</h2>
+        <h2>Did you not get the email? That's okay, we can send another!</h2>
         <hr />
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -16,8 +16,13 @@
                 <label asp-for="Input.Email" class="form-label"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Resend</button>
+            <br>
+            <button type="submit" class="btn btn-lg btn-primary" style=" font-size: 20px; border: 2px solid #101010 ;background-color: #181818; color: white">Resend</button>
         </form>
+    </div>
+    <div class="col-md-6">
+        <h1 style="text-decoration: underline;">Please remember:</h1>
+        <h3>Your email might have accidentally set our notification to your spam so be sure to check your spam just in case it was sent there!</h3>
     </div>
 </div>
 
