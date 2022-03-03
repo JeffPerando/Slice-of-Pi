@@ -1,37 +1,448 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="TemplateMo">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Slice of Pi Real Estate</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="~/lib/Vendor/bootstrap/css/bootstrap.min.css" />
+   
 
 
-<div class="row" >
-    <div class="col text-center" >
-        <div class="container" style="color: white; background-size: cover; background-repeat: no-repeat; background-position: center; height: 400px ; width: 1296px; border: 2cm; background-color:  #d4e6f1 ; background-image: url(bg.jpg);" >
-            <div class="text">
-                <br>
-                <br>
-                <br>
-                <h1 style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; background-color: rgb(24,24,24,0.8); border-radius: 10px; text-align: center">Slice of Pi Coding Solutions</h1>
-                <br>
-                <h2 style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; background-color: rgb(24,24,24,0.8); border-radius: 10px; text-align: center">Welcome to the Slice of Pi crime statistics lookup system. Here you will be able to search cities to see their crime statistics! 
-                    We use the <a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi">FBI's own Crime API</a> to provide you with easy to understand statistics!</h2>
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="~/assets/css/fontawesome.css" />
+    <link rel="stylesheet" href="~/assets/css/templatemo-edu-meeting.css"/>
+    <link rel="stylesheet" href="~/assets/css/owl.css"/>
+    <link rel="stylesheet" href="~/assets/css/lightbox.css" />
+
+  </head>
+
+<body>
+
+
+  <!-- ***** Main Banner Area Start ***** -->
+  <section class="section main-banner" id="top" data-section="section1">
+      <video autoplay muted loop id="bg-video">
+          <source src="assets/images/course-video.mp4" type="video/mp4" />
+      </video>
+
+      <div class="video-overlay header-text">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="caption">
+              <h6>Hello friends</h6>
+              <h2>Welcome to Slice of Pi Real Estate</h2>
+              <p>This is life of Pi bringing you a centralized research application. Be informed about the kind of community you may end up belonging too.</p>
+
+          </div>
+              </div>
             </div>
+          </div>
+      </div>
+  </section>
+  <!-- ***** Main Banner Area End ***** -->
+
+  <section class="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="owl-service-item owl-carousel">
+          
+            <div class="item">
+              <div class="icon">
+                <img src="assets/images/service-icon-01.png" alt="">
+              </div>
+              <div class="down-content">
+                <h4>Get Crime Rates by State</h4>
+                <p>Find out what kind of crime the state you may live in experiences.</p>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="icon">
+                <img src="assets/images/service-icon-02.png" alt="">
+              </div>
+              <div class="down-content">
+                <h4>City Crime Rates</h4>
+                <p>Be even more informed and see what kind of crimes are common in your city of interest.</p>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="icon">
+                <img src="assets/images/service-icon-03.png" alt="">
+              </div>
+              <div class="down-content">
+                <h4>Register</h4>
+                <p>Like what you see? Register for an account using the register link aboove!</p>
+              </div>
+            </div> 
+            
+          </div>
         </div>
-        <div>
-            <br>
-            <partial name="_CityLookupForm" />
-            <br>
-        </div>
-        <br>
-        <div>
-            <br>
-            <partial name="_SafestStates" />
-            <br>
-        </div>
-        </div>
+      </div>
     </div>
+  </section>
 
-@section Scripts
-{
+  <section class="upcoming-meetings" id="meetings">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <h2>Enter a City You Would like to Look Up:</h2>
+          </div>
+        </div>
+        <div class="row">
+    <div class="col text-center">
+            <div class="bg-white sp-content">
+                <partial name="_CityLookupForm" />
+            </div>
+            <div class="bg-white sp-content">
+                <partial name="_SafestStates" />
+            </div>
+    </div>
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="apply-now" id="apply">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 align-self-center">
+          <div class="row">
+            <div class="col-lg-12">
+             <div class="col-lg-12">
+              <div class="item">
+                <h3>Register for an account here!</h3>
+                <p>Register and be part of a new generation of informed home buyers!.</p>
+                <div class="main-button-yellow">
+
+
+                        <a asp-area="Identity" asp-page="/Account/Register">Join Us Now!</a>
+                </div>
+
+              </div>
+            </div>
+            </div>
+           
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="accordions is-first-expanded">
+            <article class="accordion">
+                <div class="accordion-head">
+                    <span>About The crime statistics</span>
+                    <span class="icon">
+                        <i class="icon fa fa-chevron-right"></i>
+                    </span>
+                </div>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>This website uses data from the FBI's crime API. Through this set of data we can present data in a way that is readible for humans, not just computers! </p><br><br>
+                    </div>
+                </div>
+            </article>
+            <article class="accordion">
+                <div class="accordion-head">
+                    <span>Future Content News</span>
+                    <span class="icon">
+                        <i class="icon fa fa-chevron-right"></i>
+                    </span>
+                </div>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>This website is not finished! Not only are we streamlining the ability for anyone to make an informed decision on the future community they may belong too, we plan on offering a one stop shop for browsing for future homes as well! <br><br></p>
+                    </div>
+                </div>
+            </article>
+            <article class="accordion">
+                <div class="accordion-head">
+                    <span>Tell your friends and family</span>
+                    <span class="icon">
+                        <i class="icon fa fa-chevron-right"></i>
+                    </span>
+                </div>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>We implore you to tell your friends and family! Give them the opportunity to make an informed decison.<br><br>
+
+                    </div>
+                </div>
+            </article>
+            <article class="accordion last-accordion">
+                <div class="accordion-head">
+                    <span>Share this to your colleagues</span>
+                    <span class="icon">
+                        <i class="icon fa fa-chevron-right"></i>
+                    </span>
+                </div>
+                <div class="accordion-body">
+                    <div class="content">
+                        <p>Be a leader at the work place, inform your colleagues too!<br><br>
+
+                    </div>
+                </div>
+            </article>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="our-courses" id="courses">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <h2>Our Top Community Picks</h2>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="owl-courses-item owl-carousel">
+
+            <div class="item">
+              <img src="assets/images/course-01.jpg" alt="Course One" width="400" height="200" >
+              <div class="down-content">
+                <h4>lake Oswego, OR</h4>
+
+              </div>
+            </div>
+            <div class="item">
+              <img src="assets/images/course-02.jpg" alt="Course Two" width="400" height="200">
+              <div class="down-content">
+                <h4>Sedona, AZ</h4>
+               
+              </div>
+            </div>
+
+            <div class="item">
+              <img src="assets/images/course-03.jpg" alt="" width="400" height="200">
+              <div class="down-content">
+                <h4>Shaker Heights, OH</h4>
+                
+              </div>
+            </div>
+
+            <div class="item">
+              <img src="assets/images/GreenWood.jpg" alt="" width="400" height="200">
+              <div class="down-content">
+                <h4>Greenwood Village, Co</h4>
+              
+              </div>
+            </div>
+            <div class="item">
+              <img src="assets/images/Evanston.jpg" alt="" width="400" height="200">
+              <div class="down-content">
+                <h4>Evanston, IL</h4>
+                
+              </div>
+            </div>
+            <div class="item">
+              <img src="assets/images/Amherst.jpg" alt="" width="400" height="200">
+              <div class="down-content">
+                <h4>Amherst, NH</h4>
+                
+              </div>
+            </div>
+           
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="our-facts">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-12">
+              <h2>A Few Facts About Our Company</h2>
+            </div>
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-12">
+                  <div class="count-area-content">
+                    <div class="count-digit">3</div>
+                    <div class="count-title">Three individuals looking to bring knowledge to the world</div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="count-area-content percentage">
+                    <div class="count-digit">100</div>
+                    <div class="count-title">Our diversity brings us a broader view of the people we serve.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="row">
+                <div class="col-12">
+                  <div class="count-area-content new-students">
+                    <div class="count-digit">59</div>
+                    <div class="count-title">Crime statistics for states and territories of the United States of America</div>
+                  </div>
+                </div> 
+                <div class="col-12">
+                  <div class="count-area-content">
+                    <div class="count-digit">2022</div>
+                    <div class="count-title">Founded</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="col-lg-6 align-self-center">
+          <div class="video">
+            <a href="https://www.youtube.com/watch?v=HndV87XpkWg" target="_blank"><img src="assets/images/play-icon.png" alt=""></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-us" id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 align-self-center">
+          <div class="row">
+            <div class="col-lg-12">
+              <form id="contact" action="" method="post">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h2>Let's get in touch</h2>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                      <input name="name" type="text" id="name" placeholder="YOURNAME...*" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                  
+                  </fieldset>
+                  </div>
+                  <div class="col-lg-4">
+                    <fieldset>
+                      <input name="subject" type="text" id="subject" placeholder="SUBJECT...*" required="">
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <textarea name="message" type="text" class="form-control" id="message" placeholder="YOUR MESSAGE..." required=""></textarea>
+                    </fieldset>
+                  </div>
+                  <div class="col-lg-12">
+                    <fieldset>
+                      <button type="submit" id="form-submit" class="button">SEND MESSAGE NOW</button>
+                    </fieldset>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="right-info">
+            <ul>
+              <li>
+                <h6>Phone Number</h6>
+                <span>010-020-0340</span>
+              </li>
+              <li>
+                <h6>Email Address</h6>
+                <span>info@meeting.edu</span>
+              </li>
+              <li>
+                <h6>Street Address</h6>
+                <span>Rio de Janeiro - RJ, 22795-008, Brazil</span>
+              </li>
+              <li>
+                <h6>Website URL</h6>
+                <span>www.meeting.edu</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+       <div class="footer">
+      <p>Copyright © 2021 Slice of Pi, Ltd. All Rights Reserved. 
+          <br>Design: <a href="https://templatemo.com" target="_parent" title="free css templates">TemplateMo</a></p>
+    </div>
+  </section>
+
+ 
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/assets/js/isotope.min.js"></script>
+    <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/tabs.js"></script>
+    <script src="~/assets/js/video.js"></script>
+    <script src="~/assets/js/slick-slider.js"></script>
+    <script src="~/assets/js/custom.js"></script>
     <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
-}
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
 
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+          e.preventDefault();
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+
+</html>

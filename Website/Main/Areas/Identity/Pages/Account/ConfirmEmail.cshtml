@@ -4,28 +4,7 @@
     ViewData["Title"] = "Confirm email";
 }
 
-<div class="row bg-white">
-    <div class="col">
-        <h1>@ViewData["Title"]</h1>
-        @if (Model.Confirmed)
-        {
-            <p>Email confirmed! You may now log in.</p>
-        }
-        else
-        {
-            if (ViewData.ContainsKey("Message"))
-            {
-                <ul>
-                    <li class="text-danger">@(ViewData["Message"])</li>
-                </ul>
-            }
-            <p>Email sent! It will expire in 5 minutes. If you can't find your email, check your spam folder.</p>
-            <p>If you didn't get your email or it expired, you may click <a href=@Model.ResendEmailLink>here</a> to resend it.</p>
-            <form method="post">
-                <input type="hidden" name="email" value=@Model.Email>
-                <input type="tel" name="code" pattern="[0-9]{6}" required>
-                <button type="submit" class="btn btn-primary">Submit Code</button>
-            </form>
-        }
-    </div>
+<div class="bg-white">
+    <h1>@ViewData["Title"]</h1>
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
 </div>

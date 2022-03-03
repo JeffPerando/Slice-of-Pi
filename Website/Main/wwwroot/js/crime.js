@@ -11,8 +11,23 @@ $(function() {
 
     });
 
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: "apiv3/FBI/StateStats",
+    //    success: displayStateInformation,
+    //    error: errorOnAjax
 
+    //});
 
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: "apiv3/FBI/StateList",
+    //    success: populateDropDown,
+    //    error: errorOnAjax
+
+    //});
 })
 
 
@@ -21,15 +36,8 @@ function errorOnAjax()
     console.log("ERROR in ajax request");
 }
 
-
 function showCityStats(data)
 {
-    if(data.length == 0)
-    {
-        window.alert("Information was not found for this city. We either do not currently have information on this city, or it does not exist.\n\nReturning to homepage.");
-        window.location.href = window.location.origin;
-    }
-
     $("#cityCrimeStats>tbody").empty();
     for (let i = 0; i < data.length; ++i){
         let repoTR = $(
@@ -59,6 +67,17 @@ function displayStateInformation(data) {
     }
 }
 
+function populateDropDown(data) {
+    var select = document.getElementById("stateAbbrev");
+    for (var i = 0; i < data.length; i++) {
+        var option = data[i];
+        var element = document.createElement("option");
+        element.textContent = option;
+        element.value = option;
+        select.appendChild(element);
+    }
+}
+
 function showStateStats(data) {
     $("#stateCrimeTable>tbody").empty();
     for (let i = 0; i < data.length; ++i) {
@@ -72,16 +91,5 @@ function showStateStats(data) {
         )
         $("#stateCrimeTable>tbody").append(repoTR);
         $("#stateCrimeTable").show();
-    }
-}
-
-function populateDropDown(data) {
-    var select = document.getElementById("stateAbbrev");
-    for (var i = 0; i < data.length; i++) {
-        var option = data[i];
-        var element = document.createElement("option");
-        element.textContent = option;
-        element.value = option;
-        select.appendChild(element);
     }
 }

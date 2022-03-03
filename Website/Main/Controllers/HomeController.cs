@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Main.Models;
 using Main.DAL.Abstract;
 
+
 namespace Main.Controllers;
 
 public class HomeController : Controller
@@ -30,14 +31,10 @@ public class HomeController : Controller
     {
         List<string> state_list = new List<string>();
         List<Crime> top_five_states = new List<Crime>();
-<<<<<<< HEAD
-        List<Crime> get_national_stats = new List<Crime>();;
+        List<Crime> get_national_stats = new List<Crime>();
+        string X = _config["apiFBIKey"];
 
         _CrimeService.SetCredentials(_config["apiFBIKey"]);
-=======
-        List<Crime> get_national_stats = new List<Crime>();
-        
->>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
         state_list = _CrimeService.GetStates();
         get_national_stats = _CrimeService.ReturnStateCrimeList(state_list);
         top_five_states = _CrimeService.GetSafestStates(get_national_stats);
