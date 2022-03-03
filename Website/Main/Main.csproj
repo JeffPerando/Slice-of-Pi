@@ -35,5 +35,8 @@
     <None Include="wwwroot\codeverify.html" />
   </ItemGroup>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2a8ad5621163fd6fd6fc75de2cfaf7f58d1f1760
 </Project>
