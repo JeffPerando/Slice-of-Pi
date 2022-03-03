@@ -1,30 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD:Website/NUnit_Test/NUnit_Test.csproj
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
-    <PackageReference Include="coverlet.collector" Version="3.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Main\Main.csproj" />
-  </ItemGroup>
-
-</Project>
-=======
-=======
-<<<<<<<< HEAD:Website/Test/Test.csproj
->>>>>>> 2a8ad5621163fd6fd6fc75de2cfaf7f58d1f1760
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -46,30 +19,3 @@
     <ProjectReference Include="..\Main\Main.csproj" />
   </ItemGroup>
 </Project>
-<<<<<<< HEAD
->>>>>>> 2a8ad5621163fd6fd6fc75de2cfaf7f58d1f1760:Website/Test/Test.csproj
-=======
-========
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
-    <PackageReference Include="coverlet.collector" Version="3.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Main\Main.csproj" />
-  </ItemGroup>
-
-</Project>
->>>>>>>> 2a8ad5621163fd6fd6fc75de2cfaf7f58d1f1760:Website/NUnit_Test/NUnit_Test.csproj
->>>>>>> 2a8ad5621163fd6fd6fc75de2cfaf7f58d1f1760
