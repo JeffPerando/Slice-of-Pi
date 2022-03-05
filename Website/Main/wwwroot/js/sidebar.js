@@ -12,4 +12,3 @@ $("#sidebarToggle").click(
         isSidebarOpen = !isSidebarOpen
     });
 
-console.log("Sidebar registered")
