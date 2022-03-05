@@ -36,8 +36,8 @@ function showChartTrend(data){
             tension: 0.2,
             fill: true,
             pointStyle: 'rectRounded',
-            backgroundColor: 'rgb(100, 192, 192, 0.2)'
-
+            backgroundColor: 'rgb(100, 192, 192, 0.2)',
+  
         }]
     },
     options: {

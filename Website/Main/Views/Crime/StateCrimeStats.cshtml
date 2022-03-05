@@ -1,33 +1,144 @@
-﻿@model StateCrimeViewModel
-@{
-    ViewData["Title"] = "Look up By State";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<html>
+    <body>
+               
+    <section class="heading-page header-text" id="top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+<form action="SingleStateStats" method="get">
 
-<div class="row">
-    <div class="col text-center">
-        <div class="justify-content-center">
-            <div class="bg-white sp-content">
-                <h1 class="display-5">Welcome</h1>
-                Please Select a State from the drop down menu below
-            </div>
-            <div class="bg-white sp-content">
-                <form action="SingleStateStats" method="Get"> 
-                    <label for= "stateAbbrev">Select a state: </label>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="caption">
+              <h6>HERE ARE A LIST OF STATES</h6>
+              <h2>SELECT A STATE</h2>
+              <label for= "stateAbbrev"></label>
                     <select name= "stateAbbrev" id="stateAbbrev" required>
                         <option value="" disabled>Choose a state</option>
                     </select>
                     <br><br>
                     <input type="submit" value="Submit">
-                </form>
-            </div>
+                </div>
+            </div>             
+              
+          </div>     
+    </div>     
+
+</form>         
         </div>
+      </div>
     </div>
+  </section>
+
+   
+<section class="upcoming-meetings" id="meetings">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+          </div>
+        </div>
+        <div class="row">
+<div class="text-left">
+            <h1 style="color:white;">Here Are the Crime Statistics For <span>@ViewBag.stateAbbrev</span></h1>
+            <table id="stateCrimeTable" class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>State</th>
+                        <th>Year</th>
+                        <th>Population</th>
+                        <th>Violent Crimes</th>
+                        <th>Homicide</th>
+                        <th>Rape(Legacy)</th>
+                        <th>Rape(Revised)</th>
+                        <th>Robbery</th>
+                        <th>Aggravated Assault</th>
+                        <th>Property Crime</th>
+                        <th>Burglary</th>
+                        <th>Larceny</th>
+                        <th>Motor Vehicle Theft</th>
+                        <th>Arson</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
 </div>
 
-<input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
-
-@section Scripts
-{
+      </div>
+    </div>
+    <div class="footer">
+      <p>Copyright © 2021 Slice of Pi, Ltd. All Rights Reserved. </p>
+    </div>
+  </section>  
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
-
 }
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/assets/js/isotope.min.js"></script>
+    <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/tabs.js"></script>
+    <script src="~/assets/js/video.js"></script>
+    <script src="~/assets/js/slick-slider.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+          e.preventDefault();
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+    </body>
+</html>
