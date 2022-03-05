@@ -178,6 +178,7 @@ namespace Main.DAL.Concrete
                     {
                         city_crime_trends.Add(new Crime {Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"]});
                         counter++;
+                        continue;
                     }
                     city_crime_trends[counter].TotalOffenses = city_crime_trends[counter].TotalOffenses + (int)crime["actual"] + (int)crime["cleared"];
                 }

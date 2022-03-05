@@ -21,6 +21,17 @@ function showChartTrend(data){
         years.push(data[i]["year"]);
         crimes.push(data[i]["totalOffenses"]);
     }
+
+    var select = document.getElementById("yearSelector");
+    for (let i = 0; i < years.length; i++)
+    {
+        
+        var option = years[i];
+        var element = document.createElement("option");
+        element.textContent = option;
+        element.value = option;
+        select.appendChild(element);
+    }
     
     const ctx = document.getElementById('crimeTrendChart').getContext('2d');
     const myChart = new Chart(ctx, {
