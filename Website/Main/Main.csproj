@@ -31,4 +31,8 @@
     <Folder Include="Forms\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\codeverify.html" />
+  </ItemGroup>
+
 </Project>
