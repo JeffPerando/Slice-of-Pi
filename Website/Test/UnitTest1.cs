@@ -8,10 +8,8 @@ using Main.Models;
 using Microsoft.Extensions.Logging;
 using Main.Controllers;
 using Microsoft.Extensions.Configuration;
-<<<<<<< HEAD
-=======
 using Newtonsoft.Json.Linq;
->>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
+
 
 namespace NUnit_Test
 {
@@ -23,10 +21,7 @@ namespace NUnit_Test
 
 
         }
-<<<<<<< HEAD
-=======
-        
->>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
+
 
         [Test]
         public void VerifyOrder()
@@ -149,13 +144,6 @@ namespace NUnit_Test
 
             Assert.AreEqual(theList.Count, 6);
         }
-<<<<<<< HEAD
-    }
-}
-
-
-
-=======
 
         [Test]
         public void VerifyCrimeTrendsSizeList()
@@ -240,53 +228,3 @@ namespace NUnit_Test
         
     }
 }
->>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
-
-
-
-
-
-
-
-<<<<<<< HEAD
-//using NUnit.Framework;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using Main.DAL.Abstract;
-//using Main.DAL.Concrete;
-//using Main.Models;
-//using Microsoft.Extensions.Logging;
-//using Main.Controllers;
-//using Microsoft.Extensions.Configuration;
-
-//namespace NUnit_Test
-//{
-//    public class Tests
-//    {
-//        [SetUp]
-//        public void Setup()
-//        {
-//        private readonly ILogger<HomeController> _logger;
-//        private readonly ICrimeAPIService _CrimeService;
-//        private readonly IConfiguration _config;
-
-//    }
-//    [Test]
-//    public void Test1()
-//    {
-//        List<string> state_list = new List<string>();
-//        List<Crime> top_five_states = new List<Crime>();
-
-//        _CrimeService.SetCredentials(_config["apiFBIKey"]);
-//        state_list = _CrimeService.GetStates();
-//        top_five_states = _CrimeService.GetSafestStates(state_list);
-//        return Json(top_five_states);
-//    }
-//}
-//}
-=======
-
-
-
->>>>>>> 43d6b077a43d216ea66a2342ebe3e387d79474bc
