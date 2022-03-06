@@ -12,6 +12,8 @@ namespace Main.Models
         public int TotalOffenses { get; set; }
         public int ActualConvictions { get; set; }
         public int? AgencyId { get; set; }
+        public string Population { get; set; }
+        public float Crime_Per_Capita {get; set;}
 
         public virtual AgencyInformation? Agency { get; set; }
     }

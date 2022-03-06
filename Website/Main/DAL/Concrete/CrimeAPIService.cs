@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections;
 using Newtonsoft.Json;
 
+
 namespace Main.DAL.Concrete
 {
     public class CrimeAPIService : ICrimeAPIService
@@ -17,12 +18,11 @@ namespace Main.DAL.Concrete
 
         public string keyFBI = null;
 
-        public string keyFBII = null;
-        public string state_json { get; }
-        public string crime_api_url { get; }
-        public string crime_statistics_api_url { get; }
-        public string crime_url_agency_reported_crime { get; }
-        public string crime_state_api_url { get; }
+        public string state_json {get;}
+        public string crime_api_state_info {get;}
+        public string crime_statistics_api_url {get;}
+        public string crime_url_agency_reported_crime {get;}
+
 
         public void SetCredentials(string token)
         {
@@ -32,7 +32,7 @@ namespace Main.DAL.Concrete
         public CrimeAPIService()
         {
             state_json = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_titlecase.json";
-            crime_api_url = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
+            crime_api_state_info = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
             crime_statistics_api_url = "https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr/";
             crime_url_agency_reported_crime = "https://api.usa.gov/crime/fbi/sapi/api/summarized/agencies/";
             crime_state_api_url = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
@@ -62,14 +62,19 @@ namespace Main.DAL.Concrete
             {
                 try
                 {
-                    var jsonResponse = new WebClient().DownloadString(crime_api_url + states[i] + year.setYearForJSON(0) + keyFBI);
 
+                    var jsonResponse = new WebClient().DownloadString(crime_api_state_info + states[i] + year.setYearForJSON(0) + keyFBI);
                     JObject info = JObject.Parse(jsonResponse);
-
-                    int crime_rate = (int)info["results"][0]["violent_crime"];
+                    
+                    float population = (int)info["results"][0]["population"];
+                    float total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
                     string state_abbrevs = (string)info["results"][0]["state_abbr"];
 
-                    states_crime.Add(new Crime { State = state_abbrevs, ActualConvictions = crime_rate });
+                    float crimes_per_capita = (float)Math.Round((total_crime / population) * 100000, 2);
+                    string formatted_population = String.Format("{0:n0}", population);
+
+                    states_crime.Add(new Crime {State = state_abbrevs, Population = formatted_population ,Crime_Per_Capita = crimes_per_capita});
+
                 }
                 catch
                 {
@@ -82,7 +87,7 @@ namespace Main.DAL.Concrete
 
         public List<Crime> GetSafestStates(List<Crime> crimeList)
         {
-            var top_five_states = crimeList.OrderBy(a => a.ActualConvictions).Take(5).ToList();
+            var top_five_states = crimeList.OrderBy(c => c.Crime_Per_Capita).Take(5).ToList();
 
             return top_five_states;
 
@@ -231,6 +236,7 @@ namespace Main.DAL.Concrete
                     {
                         city_crime_trends.Add(new Crime {Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"]});
                         counter++;
+                        continue;
                     }
                     city_crime_trends[counter].TotalOffenses = city_crime_trends[counter].TotalOffenses + (int)crime["actual"] + (int)crime["cleared"];
                 }
