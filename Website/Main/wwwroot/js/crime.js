@@ -57,9 +57,9 @@ function showCityStats(data)
 
         let repoTR = $(
             `<tr>
-                <td>${data[i]["offenseType"]}</td>
-                <td>${data[i]["totalOffenses"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["offenseType"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["totalOffenses"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
             </tr>`
         )
         $("#cityCrimeStats>tbody").append(repoTR);
@@ -75,8 +75,8 @@ function displayStateInformation(data) {
     for (let i = 0; i < data.length; ++i) {
         let repoTR = $(
             `<tr>
-                <td>${data[i]["state"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
             </tr>`
         )
         $("#safestStatesTable>tbody").append(repoTR);
@@ -100,10 +100,10 @@ function showStateStats(data) {
     for (let i = 0; i < data.length; ++i) {
         let repoTR = $(
             `<tr>
-                <td>${data[i]["offenseType"]}</td>
-                <td>${data[i]["totalOffenses"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
-                <td>${data[i]["year"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["offenseType"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["totalOffenses"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["year"]}</td>
             </tr>`
         )
         $("#stateCrimeTable>tbody").append(repoTR);

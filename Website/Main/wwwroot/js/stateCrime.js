@@ -56,20 +56,20 @@ function showStateStats(data) {
 
         let repoTR = $(
             `<tr>
-                <td style="color:white;">${data["state_abbr"]}</td>
-                <td style="color:white;">${data["year"]}</td>
-                <td style="color:white;">${data["population"]}</td>
-                <td style="color:white;">${data["violent_crime"]}</td>
-                <td style="color:white;">${data["homicide"]}</td>
-                <td style="color:white;">${data["rape_legacy"]}</td>
-                <td style="color:white;">${data["rape_revised"]}</td>
-                <td style="color:white;">${data["robbery"]}</td>
-                <td style="color:white;">${data["aggravated_assault"]}</td>
-                <td style="color:white;">${data["property_crime"]}</td>
-                <td style="color:white;">${data["burglary"]}</td>
-                <td style="color:white;">${data["larceny"]}</td>
-                <td style="color:white;">${data["motor_vehicle_theft"]}</td>
-                <td style="color:white;">${data["arson"]}</td>
+                <td style="color:white; font-weight:bold;">${data["state_abbr"]}</td>
+                <td style="color:white; font-weight:bold;">${data["year"]}</td>
+                <td style="color:white; font-weight:bold;">${data["population"]}</td>
+                <td style="color:white; font-weight:bold;">${data["violent_crime"]}</td>
+                <td style="color:white; font-weight:bold;">${data["homicide"]}</td>
+                <td style="color:white; font-weight:bold;">${data["rape_legacy"]}</td>
+                <td style="color:white; font-weight:bold;">${data["rape_revised"]}</td>
+                <td style="color:white; font-weight:bold;">${data["robbery"]}</td>
+                <td style="color:white; font-weight:bold;">${data["aggravated_assault"]}</td>
+                <td style="color:white; font-weight:bold;">${data["property_crime"]}</td>
+                <td style="color:white; font-weight:bold;">${data["burglary"]}</td>
+                <td style="color:white; font-weight:bold;">${data["larceny"]}</td>
+                <td style="color:white; font-weight:bold;">${data["motor_vehicle_theft"]}</td>
+                <td style="color:white; font-weight:bold;">${data["arson"]}</td>
             </tr>`
         )
         $("#stateCrimeTable>tbody").append(repoTR);
