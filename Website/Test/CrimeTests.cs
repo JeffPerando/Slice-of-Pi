@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace NUnit_Test
 {
-    public class Tests
+    public class Test
     {
         [SetUp]
         public void Setup()
