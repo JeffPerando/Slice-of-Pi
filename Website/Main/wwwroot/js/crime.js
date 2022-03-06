@@ -1,4 +1,3 @@
-
 $(function() {
     var ourObject = {stateAbbrev:$("#stateAbbrev").val()};
     $.ajax({

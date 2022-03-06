@@ -24,6 +24,7 @@ builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
 //MainIdentityDbContextConnection
 // Add services to the container.
 var connectionStringID = builder.Configuration.GetConnectionString("MainIdentityDbContextConnection");
+
 var connectionStringApp = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
 
 //Make singletons
