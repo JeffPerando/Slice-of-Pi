@@ -38,13 +38,13 @@ function errorOnAjax() {
 
 function displayStateInformation(data)
 {
-    console.log(data);
 
     $("#safestStatesTable>tbody").empty();
     for (let i = 0; i < data.length; ++i) {
         let repoTR = $(
             `<tr>
                 <td>${data[i]["state"]}</td>
+                <td>${data[i]["population"]}</td>
                 <td>${data[i]["crime_Per_Capita"]}</td>
             </tr>`
         )

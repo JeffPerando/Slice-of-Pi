@@ -11,6 +11,7 @@ using System.Collections;
 using Newtonsoft.Json;
 
 
+
 namespace Main.DAL.Concrete
 {
     public class CrimeAPIService : ICrimeAPIService
@@ -22,12 +23,13 @@ namespace Main.DAL.Concrete
         public string crime_api_state_info {get;}
         public string crime_statistics_api_url {get;}
         public string crime_url_agency_reported_crime {get;}
-
+        public string crime_state_api_url {get;}
+  
 
         public void SetCredentials(string token)
         {
             keyFBI = token;
-            keyFBII = token;
+            
         }
         public CrimeAPIService()
         {
