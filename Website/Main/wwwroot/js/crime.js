@@ -10,8 +10,23 @@ $(function() {
 
     });
 
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: "apiv3/FBI/StateStats",
+    //    success: displayStateInformation,
+    //    error: errorOnAjax
 
+    //});
 
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: "apiv3/FBI/StateList",
+    //    success: populateDropDown,
+    //    error: errorOnAjax
+
+    //});
 })
 
 
@@ -19,7 +34,6 @@ function errorOnAjax()
 {
     console.log("ERROR in ajax request");
 }
-
 
 function showCityStats(data)
 {
@@ -42,9 +56,9 @@ function showCityStats(data)
 
         let repoTR = $(
             `<tr>
-                <td>${data[i]["offenseType"]}</td>
-                <td>${data[i]["totalOffenses"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["offenseType"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["totalOffenses"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
             </tr>`
         )
         $("#cityCrimeStats>tbody").append(repoTR);
@@ -60,31 +74,10 @@ function displayStateInformation(data) {
     for (let i = 0; i < data.length; ++i) {
         let repoTR = $(
             `<tr>
-                <td>${data[i]["state"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
             </tr>`
         )
-        $("#safestStatesTable>tbody").append(repoTR);
-        $("#safestStatesTable").show();
-    }
-}
-
-function showStateStats(data) {
-    $("#stateCrimeTable>tbody").empty();
-    for (let i = 0; i < data.length; ++i) {
-        let repoTR = $(
-            `<tr>
-                <td>${data[i]["offenseType"]}</td>
-                <td>${data[i]["totalOffenses"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
-                <td>${data[i]["year"]}</td>
-            </tr>`
-        )
-        $("#stateCrimeTable>tbody").append(repoTR);
-        $("#stateCrimeTable").show();
-    }
-}
-
 function populateDropDown(data) {
     var select = document.getElementById("stateAbbrev");
     for (var i = 0; i < data.length; i++) {
@@ -94,4 +87,21 @@ function populateDropDown(data) {
         element.value = option;
         select.appendChild(element);
     }
+}
+
+function showStateStats(data) {
+    $("#stateCrimeTable>tbody").empty();
+    for (let i = 0; i < data.length; ++i) {
+        let repoTR = $(
+            `<tr>
+                <td style="color:white; font-weight:bold;">${data[i]["offenseType"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["totalOffenses"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["year"]}</td>
+            </tr>`
+        )
+        $("#stateCrimeTable>tbody").append(repoTR);
+        $("#stateCrimeTable").show();
+    }
+}
 }
