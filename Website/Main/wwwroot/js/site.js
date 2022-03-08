@@ -1,7 +1,19 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
-$(function() {
+//please don't touch this import, ty
+import '../lib/bootstrap/dist/js/bootstrap.bundle.js';
+
+$(function () {
+
+    var popovers = [];
+    //don't touch this either
+    $(".popover").each(function (i) {
+        popovers.push(new bootstrap.Popover(this, {
+            trigger: 'focus'
+        }));
+    });
+    
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -35,7 +47,6 @@ function errorOnAjax()
 {
     console.log("ERROR in ajax request");
 }
-
 
 function displayStateInformation(data)
 {
