@@ -93,6 +93,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Home", action = "GetSafestState" });
 
 app.MapControllerRoute(
+    name: "API Cities Update",
+    pattern: "/apiv3/FBI/UpdateCityStats",
+    defaults: new { controller = "Crime", action = "UpdateCrimeStats" });
+
+app.MapControllerRoute(
     name: "API Cities",
     pattern: "apiv3/FBI/GetCityStats",
     defaults: new { controller = "Crime", action = "GetCrimeStats" });

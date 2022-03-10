@@ -15,6 +15,12 @@
             <div class="text-left">
                 <h1>Crime Amount for: </h1>
                 <h3><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
+                <label for= "yearSelector">Select a year:  </label>
+                <select name= "yearSelector" id="yearSelector" required>
+                    <option value="" disabled>Select year</option>
+                </select>
+                <br>
+                <br>
                 <table id="cityCrimeStats" class="table">
                     <thead class="table-dark">
                         <tr>
@@ -26,12 +32,9 @@
                     <tbody>
                     </tbody>
                 </table>
-                <label for= "yearSelector">Select a year:  </label>
-                <select name= "yearSelector" id="yearSelector" required>
-                    <option value="" disabled>Select year</option>
-                </select>
-                <br><br>
-                <input type="submit" value="Submit" style="border-radius: 10px; font-size: 20px; border: 2px solid #101010 ;background-color: #181818; color: white">
+                <h3 id="cityCrimeNoCrimeheader"></h3>
+                <ul id="cityCrimeStatsNoCrime">
+                </ul>
             </div>
         </div>
         <div class="w-1 sp-content bg-white"></div>
@@ -75,6 +78,28 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
+
+<script>
+    $('select').on('change', function (e) {
+    var optionValue = $("option:selected", this);
+    var selectedValue = this.value;
+    
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/apiv3/FBI/UpdateCityStats",
+        data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(),year:selectedValue},
+        success: function(data){
+            showCityStats(data);
+        },
+        error: function(){
+            console.log("Updater Issue.")
+        }
+
+    });
+
+});
+</script>
 
 }
 

@@ -1,6 +1,6 @@
 
 $(function() {
-    var ourObject = {stateAbbrev:$("#stateAbbrev").val()};
+
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -48,10 +48,27 @@ function showCityStats(data)
                 <td>${data[i]["actualConvictions"]}</td>
             </tr>`
         )
+        
         $("#cityCrimeStats>tbody").append(repoTR);
         $("#cityCrimeStats").show();
     }
-    console.log("These are all the offenses that have not happened in this year: ", noOffenses);
+
+    if (noOffenses.length > 0)
+    {
+        $("#cityCrimeStatsNoCrime").empty();
+        for (let i = 0; i < noOffenses.length; ++i)
+        {
+            document.getElementById("cityCrimeNoCrimeheader").textContent="Crimes not committed: ";
+            var offense = noOffenses[i]["offenseType"]
+            var ul = document.getElementById("cityCrimeStatsNoCrime");
+            var li = document.createElement("li")
+            
+            li.appendChild(document.createTextNode(capitalize(offense)));
+            ul.appendChild(li);
+        }
+        
+    }
+
 
     document.getElementById("year").textContent=" (" + currentYearSelected + ")";
 }
@@ -96,3 +113,9 @@ function populateDropDown(data) {
         select.appendChild(element);
     }
 }
+
+function capitalize(offense) {
+    const lower = offense.toLowerCase()
+    return offense.charAt(0).toUpperCase() + lower.slice(1)
+}
+

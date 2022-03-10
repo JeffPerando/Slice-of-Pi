@@ -20,14 +20,6 @@ $(function () {
 
     });
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "apiv3/FBI/StateList",
-        success: populateDropDown,
-        error: errorOnAjax
-
-    });
 
 })
 
