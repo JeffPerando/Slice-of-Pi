@@ -29,7 +29,7 @@ namespace Main.DAL.Concrete
         public void SetCredentials(string token)
         {
             keyFBI = token;
-            
+
         }
         public CrimeAPIService()
         {
@@ -37,7 +37,7 @@ namespace Main.DAL.Concrete
             crime_api_state_info = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
             crime_statistics_api_url = "https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr/";
             crime_url_agency_reported_crime = "https://api.usa.gov/crime/fbi/sapi/api/summarized/agencies/";
-            crime_state_api_url = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
+
         }
 
         public List<string> GetStates()
@@ -208,7 +208,7 @@ namespace Main.DAL.Concrete
         {
             JSONYearVariable year = new JSONYearVariable();
             StateCrimeViewModel state_crime_stats = new StateCrimeViewModel();
-            var jsonResponse = new WebClient().DownloadString(crime_state_api_url + stateAbbrev + year.setYearForJSON(aYear) + keyFBI);
+            var jsonResponse = new WebClient().DownloadString(crime_api_state_info + stateAbbrev + year.setYearForJSON(aYear) + keyFBI);
             JObject info = JObject.Parse(jsonResponse);
             //var deserializedProduct = JsonConvert.DeserializeObject<IEnumerable<StateCrimeViewModel>>(jsonResponse);
 

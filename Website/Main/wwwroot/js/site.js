@@ -1,7 +1,7 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
-$(function () {
+$(function() {
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -23,7 +23,8 @@ $(function () {
 
 })
 
-function errorOnAjax() {
+function errorOnAjax()
+{
     console.log("ERROR in ajax request");
 }
 
@@ -32,12 +33,12 @@ function displayStateInformation(data)
 {
 
     $("#safestStatesTable>tbody").empty();
-    for (let i = 0; i < data.length; ++i) {
+    for (let i = 0; i < data.length; ++i){
         let repoTR = $(
             `<tr>
-                <td>${data[i]["state"]}</td>
-                <td>${data[i]["population"]}</td>
-                <td>${data[i]["crime_Per_Capita"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["population"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["crime_Per_Capita"]}</td>
             </tr>`
         )
         $("#safestStatesTable>tbody").append(repoTR);
@@ -45,7 +46,8 @@ function displayStateInformation(data)
     }
 }
 
-function populateDropDown(data) {
+function populateDropDown(data)
+{
     var select = document.getElementById("stateAbbrev");
     for (var i = 0; i < data.length; i++) {
         var option = data[i];
