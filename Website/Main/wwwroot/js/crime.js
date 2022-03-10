@@ -1,5 +1,5 @@
 $(function() {
-    var ourObject = {stateAbbrev:$("#stateAbbrev").val()};
+
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -10,23 +10,8 @@ $(function() {
 
     });
 
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: "apiv3/FBI/StateStats",
-    //    success: displayStateInformation,
-    //    error: errorOnAjax
 
-    //});
 
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: "apiv3/FBI/StateList",
-    //    success: populateDropDown,
-    //    error: errorOnAjax
-
-    //});
 })
 
 
@@ -34,6 +19,7 @@ function errorOnAjax()
 {
     console.log("ERROR in ajax request");
 }
+
 
 function showCityStats(data)
 {
@@ -56,15 +42,32 @@ function showCityStats(data)
 
         let repoTR = $(
             `<tr>
-                <td style="color:white; font-weight:bold;">${data[i]["offenseType"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["totalOffenses"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
+                <td>${data[i]["offenseType"]}</td>
+                <td>${data[i]["totalOffenses"]}</td>
+                <td>${data[i]["actualConvictions"]}</td>
             </tr>`
         )
+        
         $("#cityCrimeStats>tbody").append(repoTR);
         $("#cityCrimeStats").show();
     }
-    console.log("These are all the offenses that have not happened in this year: ", noOffenses);
+
+    if (noOffenses.length > 0)
+    {
+        $("#cityCrimeStatsNoCrime").empty();
+        for (let i = 0; i < noOffenses.length; ++i)
+        {
+            document.getElementById("cityCrimeNoCrimeheader").textContent="Crimes not committed: ";
+            var offense = noOffenses[i]["offenseType"]
+            var ul = document.getElementById("cityCrimeStatsNoCrime");
+            var li = document.createElement("li")
+            
+            li.appendChild(document.createTextNode(capitalize(offense)));
+            ul.appendChild(li);
+        }
+        
+    }
+
 
     document.getElementById("year").textContent=" (" + currentYearSelected + ")";
 }
@@ -74,10 +77,31 @@ function displayStateInformation(data) {
     for (let i = 0; i < data.length; ++i) {
         let repoTR = $(
             `<tr>
-                <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
+                <td>${data[i]["state"]}</td>
+                <td>${data[i]["actualConvictions"]}</td>
             </tr>`
         )
+        $("#safestStatesTable>tbody").append(repoTR);
+        $("#safestStatesTable").show();
+    }
+}
+
+function showStateStats(data) {
+    $("#stateCrimeTable>tbody").empty();
+    for (let i = 0; i < data.length; ++i) {
+        let repoTR = $(
+            `<tr>
+                <td>${data[i]["offenseType"]}</td>
+                <td>${data[i]["totalOffenses"]}</td>
+                <td>${data[i]["actualConvictions"]}</td>
+                <td>${data[i]["year"]}</td>
+            </tr>`
+        )
+        $("#stateCrimeTable>tbody").append(repoTR);
+        $("#stateCrimeTable").show();
+    }
+}
+
 function populateDropDown(data) {
     var select = document.getElementById("stateAbbrev");
     for (var i = 0; i < data.length; i++) {
@@ -89,19 +113,8 @@ function populateDropDown(data) {
     }
 }
 
-function showStateStats(data) {
-    $("#stateCrimeTable>tbody").empty();
-    for (let i = 0; i < data.length; ++i) {
-        let repoTR = $(
-            `<tr>
-                <td style="color:white; font-weight:bold;">${data[i]["offenseType"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["totalOffenses"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["actualConvictions"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["year"]}</td>
-            </tr>`
-        )
-        $("#stateCrimeTable>tbody").append(repoTR);
-        $("#stateCrimeTable").show();
-    }
+function capitalize(offense) {
+    const lower = offense.toLowerCase()
+    return offense.charAt(0).toUpperCase() + lower.slice(1)
 }
-}
+

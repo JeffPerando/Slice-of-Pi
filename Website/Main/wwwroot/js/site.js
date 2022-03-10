@@ -20,14 +20,6 @@ $(function() {
 
     });
 
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: "apiv3/FBI/StateList",
-    //    success: populateDropDown,
-    //    error: errorOnAjax
-
-    //});
 
 })
 
@@ -39,13 +31,13 @@ function errorOnAjax()
 
 function displayStateInformation(data)
 {
-    console.log(data);
 
     $("#safestStatesTable>tbody").empty();
     for (let i = 0; i < data.length; ++i){
         let repoTR = $(
             `<tr>
                 <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["population"]}</td>
                 <td style="color:white; font-weight:bold;">${data[i]["crime_Per_Capita"]}</td>
             </tr>`
         )

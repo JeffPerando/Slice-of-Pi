@@ -24,7 +24,6 @@ builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
 //MainIdentityDbContextConnection
 // Add services to the container.
 var connectionStringID = builder.Configuration.GetConnectionString("MainIdentityDbContextConnection");
-
 var connectionStringApp = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
 
 //Make singletons
@@ -92,6 +91,11 @@ app.MapControllerRoute(
     name: "API States",
     pattern: "apiv3/FBI/StateStats",
     defaults: new { controller = "Home", action = "GetSafestState" });
+
+app.MapControllerRoute(
+    name: "API Cities Update",
+    pattern: "/apiv3/FBI/UpdateCityStats",
+    defaults: new { controller = "Crime", action = "UpdateCrimeStats" });
 
 app.MapControllerRoute(
     name: "API Cities",
