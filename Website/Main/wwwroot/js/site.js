@@ -5,15 +5,15 @@
 import '../lib/bootstrap/dist/js/bootstrap.bundle.js';
 
 $(function () {
-
-    var popovers = [];
     //don't touch this either
-    $(".popover").each(function (i) {
+    //I MEAN IT, it took me way too long to get this code working
+    var popovers = [];
+    $(".sp-popover").each(function (i) {
         popovers.push(new bootstrap.Popover(this, {
-            trigger: 'focus'
+            trigger: 'hover focus'
         }));
     });
-    
+
     $.ajax({
         type: "GET",
         dataType: "json",

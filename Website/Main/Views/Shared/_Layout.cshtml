@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
-
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -11,91 +10,96 @@
     <title>Slice of Pi RealEstate</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="~/lib/Vendor/bootstrap/css/bootstrap.min.css" />
-   
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
 
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="~/assets/css/fontawesome.css" />
-    <link rel="stylesheet" href="~/assets/css/templatemo-edu-meeting.css"/>
-    <link rel="stylesheet" href="~/assets/css/owl.css"/>
+    <link rel="stylesheet" href="~/assets/css/templatemo-edu-meeting.css" />
+    <link rel="stylesheet" href="~/assets/css/owl.css" />
     <link rel="stylesheet" href="~/assets/css/lightbox.css" />
 
-  </head>
-
+</head>
+<body>
     <!-- Sub Header -->
-  <div class="sub-header">
-    <div class="container">
-      <div class="row">
-        <!-- <div class="col-lg-8 col-sm-8">
-          <!-- <div class="left-content">
-            <p>This is Slice of Pi Real Estate brought to you by <em>Slice of Pi</em> </p>
-          </div>
-        </div>-->
-        <div class="col-lg-4 col-sm-4">
-          <div class="right-icons">
-            <ul><!--
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-behance"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-            --></ul>
-          </div>
+    <div class="sub-header">
+        <div class="container">
+            <div class="row">
+                <!-- <div class="col-lg-8 col-sm-8">
+                  <!-- <div class="left-content">
+                    <p>This is Slice of Pi Real Estate brought to you by <em>Slice of Pi</em> </p>
+                  </div>
+                </div>-->
+                <div class="col-lg-4 col-sm-4">
+                    <div class="right-icons">
+                        <ul>
+                            <!--
+                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                              <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
 
-     <header class="header-area header-sticky">
-      <div class="container">
-          <div class="row">
-              <div class="col-12">
-                  <nav class="main-nav">
-                      <!-- ***** Logo Start ***** -->
-                      <a href="index.html" class="logo">
-                          Slice of Pi RealEstate
-                      </a>
-                      <!-- ***** Logo End ***** -->
-                      <!-- ***** Menu Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="index.html" class="logo">
+                            Slice of Pi RealEstate
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
 
-                      <ul class="nav">
-                          <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
-                          <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                          <li><a asp-area="" asp-controller="Crime" asp-action="StateCrimeStats">State Crime Statistics</a></li>                        
-                          <!--<li class="has-sub">
-                              <a href="javascript:void(0)">Pages</a>
-                              <ul class="sub-menu">
-                                  <li><a href="meetings.html">Upcoming Meetings</a></li>
-                                  <li><a href="meeting-details.html">Meeting Details</a></li>
-                              </ul>
-                          </li>-->
-                          <partial name="_LoginPartial" />
-                      </ul>        
-                      <a class='menu-trigger'>
-                          <span>Menu</span>
-                      </a>
-                      <!-- ***** Menu End ***** -->
-                  </nav>
-              </div>
-          </div>
-      </div>
-  </header>
-
-            
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-area="" asp-controller="Crime" asp-action="StateCrimeStats">State Crime Statistics</a></li>
+                            <!--<li class="has-sub">
+                                <a href="javascript:void(0)">Pages</a>
+                                <ul class="sub-menu">
+                                    <li><a href="meetings.html">Upcoming Meetings</a></li>
+                                    <li><a href="meeting-details.html">Meeting Details</a></li>
+                                </ul>
+                            </li>-->
+                            <partial name="_LoginPartial" />
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
 
 
-    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
-    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-                 
-    <script src="~/assets/js/isotope.min.js"></script>
+
+    <div class="sitebody">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <!--<script src="~/assets/js/isotope.min.js"></script>-->
     <script src="~/assets/js/owl-carousel.js"></script>
     <script src="~/assets/js/lightbox.js"></script>
     <script src="~/assets/js/tabs.js"></script>
     <script src="~/assets/js/video.js"></script>
     <script src="~/assets/js/slick-slider.js"></script>
-    <script src="~/assets/js/custom.js"></script>
-  
-    </html>
-    @RenderBody()
+    <!--<script src="~/assets/js/custom.js"></script>-->
+    <script type="module" src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
