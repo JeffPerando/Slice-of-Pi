@@ -5,22 +5,22 @@ $(function () {
         type: "GET",
         dataType: "json",
         url: "/apiv3/FBI/StateCrimeStats",
-        data: { stateAbbrev: $("#stateAbbrev").val() },
+        //data: { stateAbbrev: $("#stateAbbrev").val() },
+        data: { stateAbbrev: $("#stateAbbrev").val(), year: $("#year").val() },
         success: showStateStats,
         error: errorOnAjax
 
     });
 
+    //$.ajax({
+    //    type: "GET",
+    //    dataType: "json",
+    //    url: "/apiv3/FBI/StateStats",
+    //    data: { stateAbbrev: $("#stateAbbrev").val() },
+    //    success: showStateStats,
+    //    error: errorOnAjax
 
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/apiv3/FBI/StateStats",
-        data: { stateAbbrev: $("#stateAbbrev").val() },
-        success: showStateStats,
-        error: errorOnAjax
-
-    });
+    //});
 
 
     $.ajax({
@@ -49,6 +49,19 @@ function populateDropDown(data) {
     }
 }
 
+function callAjaxForState() {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/apiv3/FBI/StateCrimeStats",
+        data: { stateAbbrev: $("#stateAbbrev").val(), year: $("#year") },
+        success: showStateStats,
+        error: errorOnAjax
+
+    });
+
+}
+
 function showStateStats(data) {
 
     console.log(data);
@@ -74,5 +87,17 @@ function showStateStats(data) {
         )
         $("#stateCrimeTable>tbody").append(repoTR);
         $("#stateCrimeTable").show();
-    
+  
 }
+//function callAjaxForState() {
+//    $.ajax({
+//        type: "GET",
+//        dataType: "json",
+//        url: "/apiv3/FBI/StateCrimeStats?" + $("form").serialize(),
+//        data: { stateAbbrev: $("#stateAbbrev").val() },
+//        success: showStateStats,
+//        error: errorOnAjax
+
+//    });
+
+//}

@@ -18,5 +18,6 @@
       public int? Arson                  { get; set; }
       public string? stateAbbrev         { get; set; }
       public int? aYear                  { get; set; }
+
     }
 }

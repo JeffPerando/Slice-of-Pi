@@ -1,3 +1,4 @@
+
 $(function() {
 
     $.ajax({
@@ -113,8 +114,18 @@ function populateDropDown(data) {
     }
 }
 
+function populateYear(data) {
+    var select = document.getElementById("yearSelector");
+    for (var i = 0; i < data.length; i++) {
+        var option = data[i];
+        var element = document.createElement("option");
+        element.textContent = option;
+        element.value = option;
+        select.appendChild(element);
+    }
+}
+
 function capitalize(offense) {
     const lower = offense.toLowerCase()
     return offense.charAt(0).toUpperCase() + lower.slice(1)
 }
-

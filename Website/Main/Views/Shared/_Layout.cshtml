@@ -53,7 +53,7 @@
               <div class="col-12">
                   <nav class="main-nav">
                       <!-- ***** Logo Start ***** -->
-                      <a href="index.html" class="logo">
+                      <a class="logo" asp-area="" asp-controller="Home" asp-action="Index">
                           Slice of Pi RealEstate
                       </a>
                       <!-- ***** Logo End ***** -->
@@ -62,7 +62,8 @@
                       <ul class="nav">
                           <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
                           <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                          <li><a asp-area="" asp-controller="Crime" asp-action="StateCrimeStats">State Crime Statistics</a></li>                        
+                          <li><a asp-area="" asp-controller="StateCrime" asp-action="StateCrimeStats">State Crime Statistics</a></li>        
+                          <li><a asp-area="" asp-controller="Home" asp-action="Workcited">Workcited</a></li>        
                           <!--<li class="has-sub">
                               <a href="javascript:void(0)">Pages</a>
                               <ul class="sub-menu">
@@ -84,9 +85,9 @@
 
             
 
-
+    @section Scripts {
     <script src="~/lib/vendor/jquery/jquery.min.js"></script>
-    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
                  
     <script src="~/assets/js/isotope.min.js"></script>
     <script src="~/assets/js/owl-carousel.js"></script>
@@ -95,7 +96,7 @@
     <script src="~/assets/js/video.js"></script>
     <script src="~/assets/js/slick-slider.js"></script>
     <script src="~/assets/js/custom.js"></script>
-  
+  }
     </html>
     @RenderBody()
     @await RenderSectionAsync("Scripts", required: false)

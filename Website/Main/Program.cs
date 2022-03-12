@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Main.Data;
@@ -105,7 +106,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "API State stats",
     pattern: "/apiv3/FBI/StateCrimeStats",
-    defaults: new { controller = "Crime", action = "GetSingleStateStats" });
+    defaults: new { controller = "StateCrime", action = "GetStateCrimeStats" });
 
 app.MapControllerRoute(
     name: "API State stats",

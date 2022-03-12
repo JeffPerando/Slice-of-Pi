@@ -94,6 +94,3 @@ function showChartTrend(data){
     }
     });
 }
-
-
-

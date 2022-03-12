@@ -1,3 +1,4 @@
+
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Main.Models;
@@ -167,5 +168,4 @@ public class CrimeController : Controller
         return Json(new {totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends});
     }
     
-
 }
