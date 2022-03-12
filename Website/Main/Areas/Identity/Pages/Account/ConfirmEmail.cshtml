@@ -3,99 +3,26 @@
 @{
     ViewData["Title"] = "Confirm email";
 }
-<html>
-    <body>
-<section class="section main-banner" id="top" data-section="section1">
-          <img src="~/assets/images/City.gif" type="video/mp4" />
 
-<div class="row bg-white">
-    <div class="col">
-        <h1>@ViewData["Title"]</h1>
-        @if (Model.Confirmed)
-        {
-            <p>Email confirmed! You may now log in.</p>
-        }
-        else
-        {
-            if (ViewData.ContainsKey("Message"))
-            {
-                <ul>
-                    <li class="text-danger">@(ViewData["Message"])</li>
-                </ul>
-            }
-            <p>Email sent! It will expire in 5 minutes. If you can't find your email, check your spam folder.</p>
-            <p>If you didn't get your email or it expired, you may click <a href=@Model.ResendEmailLink>here</a> to resend it.</p>
-            <form method="post">
-                <input type="hidden" name="email" value=@Model.Email>
-                <input type="tel" name="code" pattern="[0-9]{6}" required>
-                <button type="submit" class="btn btn-primary">Submit Code</button>
-            </form>
-        }
-    </div>
-</div>
-
-  </section>
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-  <!-- Scripts -->
-  <!-- Bootstrap core JavaScript -->
-    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
-    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script src="~/assets/js/isotope.min.js"></script>
-    <script src="~/assets/js/owl-carousel.js"></script>
-    <script src="~/assets/js/lightbox.js"></script>
-    <script src="~/assets/js/tabs.js"></script>
-    <script src="~/assets/js/video.js"></script>
-    <script src="~/assets/js/slick-slider.js"></script>
-    <script src="~/assets/js/custom.js"></script>
-    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
-    <script>
-        //according to loftblog tut
-        $('.nav li:first').addClass('active');
-
-        var showSection = function showSection(section, isAnimate) {
-          var
-          direction = section.replace(/#/, ''),
-          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
-          reqSectionPos = reqSection.offset().top - 0;
-
-          if (isAnimate) {
-            $('body, html').animate({
-              scrollTop: reqSectionPos },
-            800);
-          } else {
-            $('body, html').scrollTop(reqSectionPos);
-          }
-
-        };
-
-        var checkSection = function checkSection() {
-          $('.section').each(function () {
-            var
-            $this = $(this),
-            topEdge = $this.offset().top - 80,
-            bottomEdge = topEdge + $this.height(),
-            wScroll = $(window).scrollTop();
-            if (topEdge < wScroll && bottomEdge > wScroll) {
-              var
-              currentId = $this.data('section'),
-              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
-              reqLink.closest('li').addClass('active').
-              siblings().removeClass('active');
-            }
-          });
-        };
-
-        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
-          e.preventDefault();
-          showSection($(this).attr('href'), true);
-        });
-
-        $(window).scroll(function () {
-          checkSection();
-        });
-    </script>
+@section Banner {
+    @if (Model.Confirmed)
+    {
+        <p>Email confirmed! You may now log in.</p>
     }
-    </body>
-</html>
+    else
+    {
+        if (ViewData.ContainsKey("Message"))
+        {
+            <ul>
+                <li class="text-danger">@(ViewData["Message"])</li>
+            </ul>
+        }
+        <p>Email sent! It will expire in 5 minutes. If you can't find your email, check your spam folder.</p>
+        <p>If you didn't get your email or it expired, you may click <a href=@Model.ResendEmailLink>here</a> to resend it.</p>
+        <form method="post">
+            <input type="hidden" name="email" value=@Model.Email>
+            <input type="tel" name="code" pattern="[0-9]{6}" required>
+            <button type="submit" class="btn btn-primary">Submit Code</button>
+        </form>
+    }
+}

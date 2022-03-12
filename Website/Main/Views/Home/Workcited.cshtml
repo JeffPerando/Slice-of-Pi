@@ -1,89 +1,10 @@
-﻿<html>
-    <body>
-<section class="section main-banner" id="top" data-section="section1">
-          <img src="~/assets/images/City.gif" type="video/mp4" />
-         <div class="video-overlay header-text">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="caption">
-              <h2><a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi">FBI Crime API Link</a></h2>
-              <h6>The FBI crime api page offers statistical data about crime in a state and the states respective city.</h6>
-              <h6>Data is provided in JSON format, which is easy to read for a program, and a programmer. This is how we</h6>
-              <h6>provide our users with accurate and up tp date information.</h6><
+﻿@{
+    ViewData["Title"] = "Works Cited";
+}
 
-
-             
-              
-
-          </div>
-              </div>
-            </div>
-          </div>
-      </div>
-
-              
-  </section>
-    @section Scripts {
-  <!-- Scripts -->
-  <!-- Bootstrap core JavaScript -->
-    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
-    <script src="~/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <script src="~/assets/js/isotope.min.js"></script>
-    <script src="~/assets/js/owl-carousel.js"></script>
-    <script src="~/assets/js/lightbox.js"></script>
-    <script src="~/assets/js/tabs.js"></script>
-    <script src="~/assets/js/video.js"></script>
-    <script src="~/assets/js/slick-slider.js"></script>
-    <script src="~/assets/js/custom.js"></script>
-    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
-    <script>
-        //according to loftblog tut
-        $('.nav li:first').addClass('active');
-
-        var showSection = function showSection(section, isAnimate) {
-          var
-          direction = section.replace(/#/, ''),
-          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
-          reqSectionPos = reqSection.offset().top - 0;
-
-          if (isAnimate) {
-            $('body, html').animate({
-              scrollTop: reqSectionPos },
-            800);
-          } else {
-            $('body, html').scrollTop(reqSectionPos);
-          }
-
-        };
-
-        var checkSection = function checkSection() {
-          $('.section').each(function () {
-            var
-            $this = $(this),
-            topEdge = $this.offset().top - 80,
-            bottomEdge = topEdge + $this.height(),
-            wScroll = $(window).scrollTop();
-            if (topEdge < wScroll && bottomEdge > wScroll) {
-              var
-              currentId = $this.data('section'),
-              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
-              reqLink.closest('li').addClass('active').
-              siblings().removeClass('active');
-            }
-          });
-        };
-
-        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
-          e.preventDefault();
-          showSection($(this).attr('href'), true);
-        });
-
-        $(window).scroll(function () {
-          checkSection();
-        });
-    </script>
-    }
-    </body>
-</html>
+@section Banner {
+<h2><a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi">FBI Crime API Link</a></h2>
+<h6>The FBI crime api page offers statistical data about crime in a state and the states respective city.</h6>
+<h6>Data is provided in JSON format, which is easy to read for a program, and a programmer. This is how we</h6>
+<h6>provide our users with accurate and up tp date information.</h6>
+}
