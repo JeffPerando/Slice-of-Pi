@@ -84,7 +84,6 @@
     <div class="sitebody">
         @RenderBody()
     </div>
-    @section Scripts {
     <script src="~/lib/vendor/jquery/jquery.min.js"></script>
     <script src="~/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
     
@@ -97,6 +96,5 @@
     <script src="~/assets/js/custom.js"></script>
     <script type="module" src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
 </html>
