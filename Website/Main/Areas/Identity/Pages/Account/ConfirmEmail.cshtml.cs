@@ -47,7 +47,7 @@ namespace Main.Areas.Identity.Pages.Account
 
             Email = user.Email;
             Confirmed = false;
-            ResendEmailLink = Url.Page("/Account/ResendEmailConfirmation",
+            ResendEmailLink = Url.Page("/Account/SendEmailConfirmation",
                 pageHandler: null,
                 values: new { userId = userId },
                 protocol: Request.Scheme);
@@ -86,6 +86,10 @@ namespace Main.Areas.Identity.Pages.Account
                 //workaround for not being able to set the confirmed flag manually
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 await _userManager.ConfirmEmailAsync(user, token);
+            }
+            else
+            {
+                ViewData["Message"] = "Could not verify email code! Try resending it.";
             }
 
             return Page();
