@@ -9,6 +9,7 @@ using System.Threading;
 namespace Test
 {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
     public class UserVerifierTests
     {
         private IUserVerifierService? verifier;
@@ -69,7 +70,29 @@ namespace Test
             });
         }
 
+        [Test]
+        public void UserVerifier_AnyCodeWorks()
+        {
+            var code1 = verifier.GenerateVerificationCode("a");
+            var code2 = verifier.GenerateVerificationCode("a");
+            Assert.That(verifier.Verify("a", code1));
+        }
+
+        [Test]
+        public void UserVerifier_CodesActuallyExpire()
+        {
+            var oldCode = verifier.GenerateVerificationCode("a");
+            Thread.Sleep(700);
+            var newCode = verifier.GenerateVerificationCode("a");
+            Assert.Multiple(() =>
+            {
+                Assert.That(!verifier.Verify("a", oldCode));
+                Assert.That(verifier.Verify("a", newCode));
+            });
+        }
+
     }
 
 }
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore IDE0059 // Unnecessary assignment of a value

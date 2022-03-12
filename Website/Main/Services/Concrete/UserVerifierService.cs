@@ -81,7 +81,7 @@ namespace Main.Services.Concrete
             }
 
             emailContent = emailTemplate;
-            _expiry = expiry ?? new TimeSpan(hours: 0, minutes: 5, seconds: 0);
+            _expiry = expiry ?? new TimeSpan(hours: 0, minutes: 10, seconds: 0);
 
         }
 
