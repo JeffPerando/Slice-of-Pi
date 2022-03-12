@@ -51,47 +51,70 @@ public class CrimeController : Controller
         return Json(city_stats);
     }
 
-    public IActionResult StateCrimeStats(string stateAbbrev)
-    {
-        if (stateAbbrev == null)
-        {
-            stateAbbrev = "CA";
-        }
-        ViewBag.stateAbbrev = stateAbbrev;
-        return View();
-    }
+    //public IActionResult StateCrimeStats(string stateAbbrev)
+    //{
+    //    if (stateAbbrev == null)
+    //    {
+    //        stateAbbrev = "CA";
+    //    }
+    //    ViewBag.stateAbbrev = stateAbbrev;
+    //    return View();
+    //}
+    //public IActionResult StateCrimeStats(int? year, string stateAbbrev)
+    //{
+    //    if (stateAbbrev == null)
+    //    {
+    //        stateAbbrev = "CA";
+    //    }
 
-    public IActionResult SingleStateStats(string stateAbbrev, [Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
-    {
-        if (stateAbbrev == null)
-        {
-            stateAbbrev = "CA";
-        }
-        ViewBag.stateAbbrev = stateAbbrev;
-        model.stateAbbrev = stateAbbrev;
-        return View(model);
-    }
+    //    if (year == null)
+    //    {
+    //        year = 0;
+    //    }
+    //    ViewBag.stateAbbrev = stateAbbrev;
+        
+    //    return View();
+    //}
 
-    [HttpGet]
-    public IActionResult GetSingleStateStats([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
-    {
-        if (model.stateAbbrev == null)
-        {
-            model.stateAbbrev = "CA";
-        }
+    //[HttpGet]
+    //public IActionResult GetStateCrimeStats(int? year, string stateAbbrev)
+    //{
+    //    if (stateAbbrev == null)
+    //    {
+    //        stateAbbrev = "CA";
+    //    }
 
-        if (model.aYear == null)
-        {
-            model.aYear = 0;
-        }
+    //    if (year == null)
+    //    {
+    //        year = 0;
+    //    }
 
-        StateCrimeViewModel state = new StateCrimeViewModel();
-        _CrimeService.SetCredentials(_config["apiFBIKey"]);
-        state = _CrimeService.GetState(model.stateAbbrev, model.aYear);
-        state.aYear = model.aYear;
-        state.stateAbbrev = model.stateAbbrev;
-        return Json(state);
-    }
+    //    StateCrimeViewModel state = new StateCrimeViewModel();
+    //    _CrimeService.SetCredentials(_config["apiFBIKey"]);
+    //    state = _CrimeService.GetState(stateAbbrev, year);
+    //    state.aYear = year;
+    //    state.stateAbbrev = stateAbbrev;
+    //    return Json(state);
+    //}
+
+
+    //[HttpGet]
+    //public IActionResult GetCrimeTrends(string cityName, string stateAbbrev)
+    //{
+    //    if (cityName == null || stateAbbrev == null)
+    //    {
+    //        cityName = "Riverside";
+    //        stateAbbrev = "CA";
+    //    }
+    //    List<Crime> city_trends = new List<Crime>();
+    //    JObject getCitytrends = new JObject();
+    //    List<Crime> returnCityTrends = new List<Crime>();
+
+    //    getCitytrends = _CrimeService.GetCityTrends(cityName, stateAbbrev);
+    //    returnCityTrends = _CrimeService.ReturnCityTrends(getCitytrends);
+
+    //    return Json(returnCityTrends);
+    //}
 
     public IActionResult CheckAnotherYear([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
     {

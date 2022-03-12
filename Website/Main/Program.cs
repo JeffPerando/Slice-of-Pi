@@ -98,10 +98,15 @@ app.MapControllerRoute(
     pattern: "apiv3/FBI/GetCityStats",
     defaults: new { controller = "Crime", action = "GetCrimeStats" });
 
+//app.MapControllerRoute(
+//    name: "API State stats",
+//    pattern: "/apiv3/FBI/StateCrimeStats",
+//    defaults: new { controller = "Crime", action = "GetStateCrimeStats" });
 app.MapControllerRoute(
     name: "API State stats",
     pattern: "/apiv3/FBI/StateCrimeStats",
-    defaults: new { controller = "Crime", action = "GetSingleStateStats" });
+    defaults: new { controller = "StateCrime", action = "GetStateCrimeStats" });
+
 
 app.MapControllerRoute(
     name: "API State stats",
@@ -121,6 +126,7 @@ app.MapControllerRoute(
 //app.MapControllerRoute(
 //    name: "City Stats",
 //    pattern: "{controller=Crime}/{action=CrimeStats}/{cityName?}/{stateAbbrev?}");
+
 
 app.MapControllerRoute(
     name: "default",

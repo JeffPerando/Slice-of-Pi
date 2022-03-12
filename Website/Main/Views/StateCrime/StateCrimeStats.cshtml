@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model StateCrimeViewModel
+<!DOCTYPE html>
 <html lang="en">
 <html>
     <body>
@@ -7,20 +8,22 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-<form action="SingleStateStats" method="get">
-
+<!--<form action="#" onsubmit="return callAjaxForState()" method="get">-->
+<!--<form action="stateCrimeStats" method="get">-->
+<form onsubmit="callAjaxForState()" method="get">
           <div class="container">
             <div class="row">
               <div class="col-lg-12">
                 <div class="caption">
               <h6>HERE ARE A LIST OF STATES</h6>
-              <h2>SELECT A STATE</h2>
+              <h2>SELECT A STATE AND YEAR</h2>
               <label for= "stateAbbrev"></label>
                     <select name= "stateAbbrev" id="stateAbbrev" required>
                         <option value="" disabled>Choose a state</option>
                     </select>
                     <br><br>
-                    <input type="submit" value="Submit">
+                     <partial name="_YearPartial" />
+                <input type="submit" value="Submit">
                 </div>
             </div>             
               
@@ -75,16 +78,17 @@
     <div class="footer">
       <p>Copyright © 2021 Slice of Pi, Ltd. All Rights Reserved. </p>
     </div>
+      <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
+  <input hidden id="year" value="@ViewBag.year" type="text">
   </section>  
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
-}
-
+    <!--<script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>-->
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
     <script src="~/lib/vendor/jquery/jquery.min.js"></script>
-    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <script src="~/assets/js/isotope.min.js"></script>
     <script src="~/assets/js/owl-carousel.js"></script>
@@ -93,7 +97,7 @@
     <script src="~/assets/js/video.js"></script>
     <script src="~/assets/js/slick-slider.js"></script>
     <script src="~/assets/js/custom.js"></script>
-    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
     <script>
         //according to loftblog tut
         $('.nav li:first').addClass('active');
@@ -140,5 +144,6 @@
           checkSection();
         });
     </script>
+    }
     </body>
 </html>
