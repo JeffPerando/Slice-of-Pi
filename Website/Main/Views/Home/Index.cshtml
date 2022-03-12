@@ -60,20 +60,13 @@
 <section class="upcoming-meetings" id="meetings">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="section-heading">
-                    <h2>Enter a City You Would like to Look Up:</h2>
-                </div>
+            <div class="col text-center my-5">
+                <partial name="_CityLookupForm" />
             </div>
-            <div class="row">
-                <div class="col text-center">
-
-                    <partial name="_CityLookupForm" />
-
-
-                    <partial name="_SafestStates" />
-
-                </div>
+        </div>
+        <div class="row">
+            <div class="col text-center my-5">
+                <partial name="_SafestStates" />
             </div>
         </div>
     </div>

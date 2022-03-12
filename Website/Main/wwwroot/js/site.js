@@ -10,7 +10,8 @@ $(function () {
     var popovers = [];
     $(".sp-popover").each(function (i) {
         popovers.push(new bootstrap.Popover(this, {
-            trigger: 'hover focus'
+            trigger: 'hover focus',
+            html: true
         }));
     });
 

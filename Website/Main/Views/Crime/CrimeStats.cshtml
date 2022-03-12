@@ -10,7 +10,7 @@
                         <div class="col-lg-12">
                             <div class="item">
                                 <div class="col-8">
-                                    <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span> @Html.Tooltip("This information includes both violent crime and property crime for that year") </h3>
+                                    <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span> @Html.Tooltip("This information includes both violent crime and property crime for that year. Further: <ul><li>Violent crime is classified as: Assault, robbery, rape, and homicide.</li><li>Property crime is classified as: Larceny, vehicle theft, and burglary.</li></ul>") </h3>
                                     <div style="text-align: center;">
                                         <canvas id="crimeTrendChart" width="50" height="37"></canvas>
                                     </div>
