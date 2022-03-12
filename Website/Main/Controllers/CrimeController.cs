@@ -1,3 +1,4 @@
+
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Main.Models;
@@ -42,6 +43,7 @@ public class CrimeController : Controller
             stateAbbrev = "CA";
         }
         
+        
         List<Crime> city_stats = new List<Crime>();
         List<Crime> getCityStats = new List<Crime>();
 
@@ -51,70 +53,60 @@ public class CrimeController : Controller
         return Json(city_stats);
     }
 
-    //public IActionResult StateCrimeStats(string stateAbbrev)
-    //{
-    //    if (stateAbbrev == null)
-    //    {
-    //        stateAbbrev = "CA";
-    //    }
-    //    ViewBag.stateAbbrev = stateAbbrev;
-    //    return View();
-    //}
-    //public IActionResult StateCrimeStats(int? year, string stateAbbrev)
-    //{
-    //    if (stateAbbrev == null)
-    //    {
-    //        stateAbbrev = "CA";
-    //    }
+    [HttpGet]
+    public IActionResult UpdateCrimeStats(string cityName, string stateAbbrev, string year)
+    {
+        List<Crime> city_stats = new List<Crime>();
+        List<Crime> getCityStats = new List<Crime>();
 
-    //    if (year == null)
-    //    {
-    //        year = 0;
-    //    }
-    //    ViewBag.stateAbbrev = stateAbbrev;
-        
-    //    return View();
-    //}
+        getCityStats = _CrimeService.GetCityStatsByYear(cityName, stateAbbrev, year);
+        city_stats = _CrimeService.ReturnCityStats(getCityStats);
 
-    //[HttpGet]
-    //public IActionResult GetStateCrimeStats(int? year, string stateAbbrev)
-    //{
-    //    if (stateAbbrev == null)
-    //    {
-    //        stateAbbrev = "CA";
-    //    }
-
-    //    if (year == null)
-    //    {
-    //        year = 0;
-    //    }
-
-    //    StateCrimeViewModel state = new StateCrimeViewModel();
-    //    _CrimeService.SetCredentials(_config["apiFBIKey"]);
-    //    state = _CrimeService.GetState(stateAbbrev, year);
-    //    state.aYear = year;
-    //    state.stateAbbrev = stateAbbrev;
-    //    return Json(state);
-    //}
+        return Json(city_stats);
+    }
 
 
-    //[HttpGet]
-    //public IActionResult GetCrimeTrends(string cityName, string stateAbbrev)
-    //{
-    //    if (cityName == null || stateAbbrev == null)
-    //    {
-    //        cityName = "Riverside";
-    //        stateAbbrev = "CA";
-    //    }
-    //    List<Crime> city_trends = new List<Crime>();
-    //    JObject getCitytrends = new JObject();
-    //    List<Crime> returnCityTrends = new List<Crime>();
+    public IActionResult StateCrimeStats(string stateAbbrev)
+    {
+        if (stateAbbrev == null)
+        {
+            stateAbbrev = "CA";
+        }
+        ViewBag.stateAbbrev = stateAbbrev;
+        return View();
+    }
 
-    //    getCitytrends = _CrimeService.GetCityTrends(cityName, stateAbbrev);
-    //    returnCityTrends = _CrimeService.ReturnCityTrends(getCitytrends);
+    public IActionResult SingleStateStats(string stateAbbrev, [Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
+    {
+        if (stateAbbrev == null)
+        {
+            stateAbbrev = "CA";
+        }
+        ViewBag.stateAbbrev = stateAbbrev;
+        model.stateAbbrev = stateAbbrev;
+        return View(model);
+    }
 
-    //    return Json(returnCityTrends);
-    //}
+    [HttpGet]
+    public IActionResult GetSingleStateStats([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
+    {
+        if (model.stateAbbrev == null)
+        {
+            model.stateAbbrev = "CA";
+        }
+
+        if (model.aYear == null)
+        {
+            model.aYear = 0;
+        }
+
+        StateCrimeViewModel state = new StateCrimeViewModel();
+        _CrimeService.SetCredentials(_config["apiFBIKey"]);
+        state = _CrimeService.GetState(model.stateAbbrev, model.aYear);
+        state.aYear = model.aYear;
+        state.stateAbbrev = model.stateAbbrev;
+        return Json(state);
+    }
 
     public IActionResult CheckAnotherYear([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
     {
@@ -163,13 +155,17 @@ public class CrimeController : Controller
         }
         List<Crime> city_trends = new List<Crime>();
         JObject getCitytrends = new JObject();
-        List<Crime> returnCityTrends = new List<Crime>();
+        List<Crime> returnTotalCityTrends = new List<Crime>();
+        List<Crime> returnPropertyCityTrends = new List<Crime>();
+        List<Crime> returnViolentCityTrends = new List<Crime>();
 
         getCitytrends = _CrimeService.GetCityTrends(cityName, stateAbbrev);
-        returnCityTrends = _CrimeService.ReturnCityTrends(getCitytrends);
+        returnTotalCityTrends = _CrimeService.ReturnTotalCityTrends(getCitytrends);
+        returnPropertyCityTrends = _CrimeService.ReturnPropertyCityTrends(getCitytrends);
+        returnViolentCityTrends = _CrimeService.ReturnViolentCityTrends(getCitytrends);
+        
 
-        return Json(returnCityTrends);
+        return Json(new {totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends});
     }
     
-
 }

@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Main.Data;
@@ -24,7 +25,6 @@ builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
 //MainIdentityDbContextConnection
 // Add services to the container.
 var connectionStringID = builder.Configuration.GetConnectionString("MainIdentityDbContextConnection");
-
 var connectionStringApp = builder.Configuration.GetConnectionString("ApplicationDbContextConnection");
 
 //Make singletons
@@ -94,19 +94,19 @@ app.MapControllerRoute(
     defaults: new { controller = "Home", action = "GetSafestState" });
 
 app.MapControllerRoute(
+    name: "API Cities Update",
+    pattern: "/apiv3/FBI/UpdateCityStats",
+    defaults: new { controller = "Crime", action = "UpdateCrimeStats" });
+
+app.MapControllerRoute(
     name: "API Cities",
     pattern: "apiv3/FBI/GetCityStats",
     defaults: new { controller = "Crime", action = "GetCrimeStats" });
 
-//app.MapControllerRoute(
-//    name: "API State stats",
-//    pattern: "/apiv3/FBI/StateCrimeStats",
-//    defaults: new { controller = "Crime", action = "GetStateCrimeStats" });
 app.MapControllerRoute(
     name: "API State stats",
     pattern: "/apiv3/FBI/StateCrimeStats",
     defaults: new { controller = "StateCrime", action = "GetStateCrimeStats" });
-
 
 app.MapControllerRoute(
     name: "API State stats",
@@ -126,7 +126,6 @@ app.MapControllerRoute(
 //app.MapControllerRoute(
 //    name: "City Stats",
 //    pattern: "{controller=Crime}/{action=CrimeStats}/{cityName?}/{stateAbbrev?}");
-
 
 app.MapControllerRoute(
     name: "default",
