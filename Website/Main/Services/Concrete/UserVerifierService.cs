@@ -10,19 +10,17 @@ namespace Main.Services.Concrete
     {
         public int Code { get; set; }
         public DateTime Expiration { get; set; }
-
-        public UserCode()
-        {
-            Code = Random.Shared.Next(100000, 999999);
-            Expiration = DateTime.UtcNow.AddMinutes(5);
-
-        }
-
     }
 
     public class UserCodes
     {
         private List<UserCode> _codes = new();
+        private readonly TimeSpan _expiry;
+
+        public UserCodes(TimeSpan expiry)
+        {
+            _expiry = expiry;
+        }
 
         public bool Verify(int code)
         {
@@ -48,6 +46,10 @@ namespace Main.Services.Concrete
         public int GenerateNewCode()
         {
             UserCode code = new();
+
+            code.Code = Random.Shared.Next(100000, 999999);
+            code.Expiration = DateTime.UtcNow + _expiry;
+
             _codes.Add(code);
             return code.Code;
         }
@@ -67,11 +69,20 @@ namespace Main.Services.Concrete
         private Dictionary<string, UserCodes> codes = new();
         private IEmailService _emails;
         private readonly string emailContent;
+        private readonly TimeSpan _expiry;
 
-        public UserVerifierService(IEmailService emails)
+        public UserVerifierService(IEmailService emails, string emailTemplate = "", TimeSpan? expiry = null)
         {
             _emails = emails;
-            emailContent = new FormController().ReadForm("emailconfirm");
+
+            if (string.IsNullOrEmpty(emailTemplate))
+            {
+                emailTemplate = new FormController().ReadForm("emailconfirm");
+            }
+
+            emailContent = emailTemplate;
+            _expiry = expiry ?? new TimeSpan(hours: 0, minutes: 5, seconds: 0);
+
         }
 
         public int GenerateVerificationCode(string email)
@@ -80,7 +91,7 @@ namespace Main.Services.Concrete
 
             if (userCodes == null)
             {
-                userCodes = new();
+                userCodes = new(_expiry);
                 codes.Add(email, userCodes);
 
             }
@@ -117,6 +128,11 @@ namespace Main.Services.Concrete
             }
 
             return result;
+        }
+
+        public void ClearAllCodes()
+        {
+            codes.Clear();
         }
 
     }
