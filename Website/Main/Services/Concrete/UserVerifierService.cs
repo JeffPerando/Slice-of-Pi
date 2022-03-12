@@ -86,8 +86,8 @@ namespace Main.Services.Concrete
             }
 
             var code = userCodes.GenerateNewCode();
-
-            _emails.SendTextEmail(email, "", "Confirm Your Email!", String.Format(emailContent, code.ToString()));
+            
+            _emails.SendTextEmail(email, "", "Confirm Your Email!", emailContent.Replace("{CODE}", code.ToString()));
 
             return code;
         }
