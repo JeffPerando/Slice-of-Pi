@@ -4,6 +4,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using System;
+using System.Diagnostics;
 
 namespace Main.DAL.Concrete
 {
@@ -23,9 +24,17 @@ namespace Main.DAL.Concrete
 
         public void LogIn()
         {
-            client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            client.Authenticate(_email, _password);
-            
+            try
+            {
+                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                client.Authenticate(_email, _password);
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+
         }
 
         public Task SendTextEmail(string receiver, string receiverName, string subject, string content)
@@ -46,7 +55,16 @@ namespace Main.DAL.Concrete
             msg.Subject = subject;
             msg.Body = new TextPart("html") { Text = content };
 
-            return client.SendAsync(msg);
+            try
+            {
+                var task = client.SendAsync(msg);
+                return task;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+            return Task.CompletedTask;
         }
 
         public bool IsLoggedIn()
