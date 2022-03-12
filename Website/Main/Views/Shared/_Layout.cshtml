@@ -44,57 +44,57 @@
             </div>
         </div>
     </div>
+     <header class="header-area header-sticky">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+                      <a class="logo" asp-area="" asp-controller="Home" asp-action="Index">
+                          Slice of Pi RealEstate
+                      </a>
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
 
-    <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="/" class="logo">
-                            Slice of Pi RealEstate
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-
-                        <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li><a asp-area="" asp-controller="Crime" asp-action="StateCrimeStats">State Crime Statistics</a></li>
-                            <!--<li class="has-sub">
-                                <a href="javascript:void(0)">Pages</a>
-                                <ul class="sub-menu">
-                                    <li><a href="meetings.html">Upcoming Meetings</a></li>
-                                    <li><a href="meeting-details.html">Meeting Details</a></li>
-                                </ul>
-                            </li>-->
-                            <partial name="_LoginPartial" />
-                        </ul>
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-
+                      <ul class="nav">
+                          <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
+                          <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                          <li><a asp-area="" asp-controller="StateCrime" asp-action="StateCrimeStats">State Crime Statistics</a></li>        
+                          <li><a asp-area="" asp-controller="Home" asp-action="Workcited">Workcited</a></li>        
+                          <!--<li class="has-sub">
+                              <a href="javascript:void(0)">Pages</a>
+                              <ul class="sub-menu">
+                                  <li><a href="meetings.html">Upcoming Meetings</a></li>
+                                  <li><a href="meeting-details.html">Meeting Details</a></li>
+                              </ul>
+                          </li>-->
+                          <partial name="_LoginPartial" />
+                      </ul>        
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
 
 
     <div class="sitebody">
         @RenderBody()
     </div>
-
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    <!--<script src="~/assets/js/isotope.min.js"></script>-->
+    @section Scripts {
+    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
+    
+    <script src="~/assets/js/isotope.min.js"></script>
     <script src="~/assets/js/owl-carousel.js"></script>
     <script src="~/assets/js/lightbox.js"></script>
     <script src="~/assets/js/tabs.js"></script>
     <script src="~/assets/js/video.js"></script>
     <script src="~/assets/js/slick-slider.js"></script>
-    <!--<script src="~/assets/js/custom.js"></script>-->
+    <script src="~/assets/js/custom.js"></script>
     <script type="module" src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
