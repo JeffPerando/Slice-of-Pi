@@ -70,7 +70,7 @@ namespace Main.Controllers
 
             if (user == null)
             {
-                return Redirect("/");
+                return Redirect("/Identity/Account/Login");
             }
 
             return View(user);
@@ -83,7 +83,7 @@ namespace Main.Controllers
 
             if (user == null)
             {
-                return Redirect("/");
+                return Redirect("/Identity/Account/Login");
             }
 
             var msgs = new List<string>();
@@ -92,6 +92,12 @@ namespace Main.Controllers
             {
                 user.Name = form.Name;
                 msgs.Add("Name successfully changed!");
+            }
+
+            if (user.EmailAddress != form.EmailAddress && !string.IsNullOrEmpty(form.EmailAddress))
+            {
+                user.EmailAddress = form.EmailAddress;
+                msgs.Add("Email successfully changed!");
             }
 
             if (user.Address != form.Address && !string.IsNullOrEmpty(form.Address))

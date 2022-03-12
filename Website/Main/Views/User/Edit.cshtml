@@ -25,7 +25,7 @@
             <b>@Html.LabelFor(u => u.Name)</b> @Html.Tooltip("Your preferred name; Used in emails sent to you.")
         </div>
         <div class="col-4">
-            @Html.TextBoxFor(u => u.Name, htmlAttributes: new { @class="form-control", pattern="\\w+.*\\w", })
+            @Html.TextBoxFor(u => u.Name, htmlAttributes: new { @class="form-control", pattern=".+" })
         </div>
     </div>
     <div class="row mt-2 mb-2 justify-content-center">
@@ -33,7 +33,7 @@
             <b>@Html.LabelFor(u => u.EmailAddress)</b> @Html.Tooltip("Your communications email. Separate from your login email")
         </div>
         <div class="col-4">
-            @Model.EmailAddress
+            @Html.TextAreaFor(u => u.EmailAddress, htmlAttributes: new { @class="form-control", pattern="[+-\\.\\w]+@(\\w+\\.)+\\w+" })
         </div>
     </div>
     <div class="row mt-2 mb-2 justify-content-center">
