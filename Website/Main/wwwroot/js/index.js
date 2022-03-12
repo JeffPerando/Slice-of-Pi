@@ -2,6 +2,7 @@
 $('.nav li:first').addClass('active');
 
 $(function () {
+    console.log("Loading index JS");
 
     $.ajax({
         type: "GET",
@@ -53,7 +54,6 @@ function populateDropDown(data) {
         select.appendChild(element);
     }
 }
-
 
 var showSection = function showSection(section, isAnimate) {
     var
