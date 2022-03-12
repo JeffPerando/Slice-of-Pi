@@ -1,4 +1,5 @@
 ﻿
+using Main.Controllers;
 using Main.DAL.Abstract;
 using Main.Services.Abstract;
 using System;
@@ -70,7 +71,7 @@ namespace Main.Services.Concrete
         public UserVerifierService(IEmailService emails)
         {
             _emails = emails;
-            emailContent = "<h1>{0}</h1><hr><br />That is your verification code for the Crime and Housing Services website of Slice of Pi, LLC.<br />We hope you enjoy our website :) <br />-- Slice of Pi Dev Team";//File.ReadAllText("codeverify.html");
+            emailContent = new FormController().ReadForm("emailconfirm");
         }
 
         public int GenerateVerificationCode(string email)
