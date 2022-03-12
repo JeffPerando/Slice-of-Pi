@@ -39,6 +39,11 @@ namespace Main.Areas.Identity.Pages.Account
                 return Page();
             }
 
+            if (user.EmailConfirmed)
+            {
+                return RedirectPermanent("/");
+            }
+
             _verifier.GenerateVerificationCode(user.Email);
 
             return RedirectToPage("ConfirmEmail", new { userId = user.Id });

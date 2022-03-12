@@ -22,7 +22,7 @@
     }
     <div class="row mt-2 mb-2 justify-content-center">
         <div class="col-2">
-            <b>@Html.LabelFor(u => u.Name)</b>
+            <b>@Html.LabelFor(u => u.Name)</b> @Html.Tooltip("Your preferred name; Used in emails sent to you.")
         </div>
         <div class="col-4">
             @Html.TextBoxFor(u => u.Name, htmlAttributes: new { @class="form-control", pattern="\\w+.*\\w", })
@@ -30,7 +30,7 @@
     </div>
     <div class="row mt-2 mb-2 justify-content-center">
         <div class="col-2">
-            <b>@Html.LabelFor(u => u.EmailAddress)</b>
+            <b>@Html.LabelFor(u => u.EmailAddress)</b> @Html.Tooltip("Your communications email. Separate from your login email")
         </div>
         <div class="col-4">
             @Model.EmailAddress
@@ -38,7 +38,7 @@
     </div>
     <div class="row mt-2 mb-2 justify-content-center">
         <div class="col-2">
-            <b>@Html.LabelFor(u => u.Address)</b>
+            <b>@Html.LabelFor(u => u.Address)</b> @Html.Tooltip("Your primary home address.")
         </div>
         <div class="col-4">
             @Html.TextAreaFor(u => u.Address, htmlAttributes: new { @class="form-control" })
@@ -46,15 +46,16 @@
     </div>
     <div class="row mb-2 mt-2 justify-content-center">
         <div class="col-2">
-            <b>Addresses</b>
+            <b>Addresses</b> @Html.Tooltip("Your address book. Useful for keeping track of multiple properties you own")
         </div>
         <div class="col-4">
             <a href="/User/Addresses" class="btn btn-success" role="button">Edit Address Book</a>
         </div>
     </div>
     <div class="row mt-4 justify-content-center">
-        <div class="col-2">
+        <div class="col-3">
             <button type="submit" class="btn btn-primary btn-lg">Submit Changes</button>
+            <a href="/User/Edit" class="btn btn-danger btn-lg">Cancel</a>
         </div>
     </div>
 </form>

@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Main.Data;
@@ -85,27 +86,37 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "API List States",
     pattern: "/apiv3/FBI/StateList",
-    defaults: new {controller = "Home", action = "GetListStates"});
+    defaults: new { controller = "Home", action = "GetListStates" });
 
 app.MapControllerRoute(
     name: "API States",
-    pattern: "/apiv3/FBI/StateStats",
+    pattern: "apiv3/FBI/StateStats",
     defaults: new { controller = "Home", action = "GetSafestState" });
 
 app.MapControllerRoute(
+    name: "API Cities Update",
+    pattern: "/apiv3/FBI/UpdateCityStats",
+    defaults: new { controller = "Crime", action = "UpdateCrimeStats" });
+
+app.MapControllerRoute(
     name: "API Cities",
-    pattern: "/apiv3/FBI/GetCityStats",
-    defaults: new {controller = "Crime", action = "GetCrimeStats"});
+    pattern: "apiv3/FBI/GetCityStats",
+    defaults: new { controller = "Crime", action = "GetCrimeStats" });
+
+app.MapControllerRoute(
+    name: "API State stats",
+    pattern: "/apiv3/FBI/StateCrimeStats",
+    defaults: new { controller = "StateCrime", action = "GetStateCrimeStats" });
+
+app.MapControllerRoute(
+    name: "API State stats",
+    pattern: "/apiv3/FBI/CrimeStateList",
+    defaults: new { controller = "Crime", action = "GetStateList" });
 
 app.MapControllerRoute(
     name: "API Cities Trends",
     pattern: "/apiv3/FBI/GetCityTrends",
     defaults: new {controller = "Crime", action = "GetCrimeTrends"});
-
-app.MapControllerRoute(
-    name: "API Site Forms",
-    pattern: "/apiv3/forms/address",
-    defaults: new { controller = "Form", action = "Address" });
 
 app.MapControllerRoute(
     name: "API Site Forms",
