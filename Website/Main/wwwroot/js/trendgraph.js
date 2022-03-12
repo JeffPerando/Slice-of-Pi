@@ -11,6 +11,10 @@ $(function() {
 
 })
 
+function errorOnAjax() {
+    console.log("ERROR in ajax request");
+}
+
 function showChartTrend(data){
     
     const years = [];
