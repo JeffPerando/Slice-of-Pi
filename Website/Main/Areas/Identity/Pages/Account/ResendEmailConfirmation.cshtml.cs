@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Main.DAL.Abstract;
 using Main.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,11 +22,13 @@ namespace Main.Areas.Identity.Pages.Account
     public class ResendEmailConfirmationModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IReCaptchaService _captcha;
         private readonly IUserVerifierService _verifier;
 
-        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IUserVerifierService verifier)
+        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IReCaptchaService captcha, IUserVerifierService verifier)
         {
             _userManager = userManager;
+            _captcha = captcha;
             _verifier = verifier;
         }
 
@@ -49,6 +52,9 @@ namespace Main.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            
+            [Required]
+            public string CaptchaResponse { get; set; }
         }
 
         public void OnGet() {}
@@ -56,6 +62,11 @@ namespace Main.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (!await _captcha.Passes(Input.CaptchaResponse))
             {
                 return Page();
             }

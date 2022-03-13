@@ -1,114 +1,39 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Welcome, Create a new account";
 }
 
-<html>
-    <body>
-<section class="section main-banner" id="top" data-section="section1">
-          <img src="~/assets/images/City.gif" type="video/mp4" />
-     <form id="account" method="post">
-         <div class="video-overlay header-text">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="caption">
-              <h6>Hello friend</h6>
-              <h2>Welcome, Create a new account</h2>
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.Email"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.Password"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.ConfirmPassword"></label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button style="background-color:crimson;border-color:crimson" id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
-</div>             
-              
+@section Banner {
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-floating py-1">
+            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+            <label asp-for="Input.Email" class="text-dark"></label>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="form-floating py-1">
+            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+            <label asp-for="Input.Password" class="text-dark"></label>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="form-floating py-1">
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+            <label asp-for="Input.ConfirmPassword" class="text-dark"></label>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
+        <button style="background-color:crimson;border-color:crimson" id="registerSubmit" type="submit" class="py-2 w-100 btn btn-lg btn-primary">Register</button>
+    </form>
+}
 
-          </div>
-              </div>
-            </div>
-                
-
-        </form>
-  </section>
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-
-
-  <!-- Scripts -->
-  <!-- Bootstrap core JavaScript -->
-    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
-    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script src="~/assets/js/isotope.min.js"></script>
-    <script src="~/assets/js/owl-carousel.js"></script>
-    <script src="~/assets/js/lightbox.js"></script>
-    <script src="~/assets/js/tabs.js"></script>
-    <script src="~/assets/js/video.js"></script>
-    <script src="~/assets/js/slick-slider.js"></script>
-    <script src="~/assets/js/custom.js"></script>
-    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
-    <script>
-        //according to loftblog tut
-        $('.nav li:first').addClass('active');
-
-        var showSection = function showSection(section, isAnimate) {
-          var
-          direction = section.replace(/#/, ''),
-          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
-          reqSectionPos = reqSection.offset().top - 0;
-
-          if (isAnimate) {
-            $('body, html').animate({
-              scrollTop: reqSectionPos },
-            800);
-          } else {
-            $('body, html').scrollTop(reqSectionPos);
-          }
-
-        };
-
-        var checkSection = function checkSection() {
-          $('.section').each(function () {
-            var
-            $this = $(this),
-            topEdge = $this.offset().top - 80,
-            bottomEdge = topEdge + $this.height(),
-            wScroll = $(window).scrollTop();
-            if (topEdge < wScroll && bottomEdge > wScroll) {
-              var
-              currentId = $this.data('section'),
-              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
-              reqLink.closest('li').addClass('active').
-              siblings().removeClass('active');
-            }
-          });
-        };
-
-        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
-          e.preventDefault();
-          showSection($(this).attr('href'), true);
+<script src="https://www.google.com/recaptcha/api.js?render=6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn"></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn', { action: 'register' }).then(function (token) {
+            $("#cappy").val(token);
         });
-
-        $(window).scroll(function () {
-          checkSection();
-        });
-    </script>
-    }
-    </body>
-</html>
+    });
+</script>
+}

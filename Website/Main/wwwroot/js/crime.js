@@ -34,7 +34,7 @@ function showCityStats(data) {
 
         let repoTR = $(
             `<tr>
-                <td>${data[i]["offenseType"]}</td>
+                <td>${data[i]["offenseType"].replaceAll("-", " ")}</td>
                 <td>${data[i]["totalOffenses"]}</td>
                 <td>${data[i]["actualConvictions"]}</td>
             </tr>`

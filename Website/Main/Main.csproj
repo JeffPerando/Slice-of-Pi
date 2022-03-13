@@ -29,11 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Forms\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\codeverify.html" />
+    <None Include="wwwroot\forms\emailconfirm.html" />
   </ItemGroup>
 
 </Project>
