@@ -70,6 +70,11 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 });
 
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+{
+    options.TokenLifespan = TimeSpan.FromHours(1);
+});
+
 //Registration w/internal things
 
 builder.Services.AddControllersWithViews();
