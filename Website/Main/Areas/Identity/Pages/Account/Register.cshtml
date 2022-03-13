@@ -7,23 +7,23 @@
 @section Banner {
     <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-floating">
+        <div class="form-floating py-1">
             <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-            <label asp-for="Input.Email"></label>
+            <label asp-for="Input.Email" class="text-dark"></label>
             <span asp-validation-for="Input.Email" class="text-danger"></span>
         </div>
-        <div class="form-floating">
+        <div class="form-floating py-1">
             <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.Password"></label>
+            <label asp-for="Input.Password" class="text-dark"></label>
             <span asp-validation-for="Input.Password" class="text-danger"></span>
         </div>
-        <div class="form-floating">
+        <div class="form-floating py-1">
             <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.ConfirmPassword"></label>
+            <label asp-for="Input.ConfirmPassword" class="text-dark"></label>
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
         </div>
         <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
-        <button style="background-color:crimson;border-color:crimson" id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        <button style="background-color:crimson;border-color:crimson" id="registerSubmit" type="submit" class="py-2 w-100 btn btn-lg btn-primary">Register</button>
     </form>
 }
 
