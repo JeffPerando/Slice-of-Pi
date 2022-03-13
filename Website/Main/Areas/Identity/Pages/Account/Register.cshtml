@@ -22,6 +22,18 @@
             <label asp-for="Input.ConfirmPassword"></label>
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
         </div>
+        <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
         <button style="background-color:crimson;border-color:crimson" id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
     </form>
+}
+
+@section Scripts {
+<script src="https://www.google.com/recaptcha/api.js?render=6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn"></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn', { action: 'register' }).then(function (token) {
+            $("#cappy").val(token);
+        });
+    });
+</script>
 }
