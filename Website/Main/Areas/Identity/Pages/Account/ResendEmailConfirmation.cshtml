@@ -11,12 +11,25 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-floating">
         <input asp-for="Input.Email" class="form-control" aria-required="true" />
-        <label asp-for="Input.Email" class="form-label"></label>
+        <label asp-for="Input.Email" class="form-label text-dark"></label>
         <span asp-validation-for="Input.Email" class="text-danger"></span>
-    </div>
+    </div>        
+    <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
     <br>
     <button type="submit" class="btn btn-lg btn-primary" style=" font-size: 20px; border: 2px solid #101010 ;background-color: #181818; color: white">Resend</button>
 </form>
 <h1 style="text-decoration: underline;">Please remember:</h1>
 <h3>Your email might have accidentally set our notification to your spam so be sure to check your spam just in case it was sent there!</h3>
+}
+
+@section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js?render=6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn', { action: 'emailCodeReq' }).then(function (token) {
+                $("#cappy").val(token);
+            });
+        });
+
+    </script>
 }
