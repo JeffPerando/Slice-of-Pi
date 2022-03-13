@@ -46,11 +46,12 @@ namespace Main.Controllers
                 return null;
             }
 
-            var crimeUser = _db.Users.Where(u => u.EmailAddress == user.Email).FirstOrDefault();
+            var crimeUser = _db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
 
             if (crimeUser == null)
             {
                 crimeUser = new User();
+                crimeUser.Id = user.Id;
                 crimeUser.Name = "J. Doe";
                 crimeUser.EmailAddress = user.Email;
                 crimeUser.Address = "";
