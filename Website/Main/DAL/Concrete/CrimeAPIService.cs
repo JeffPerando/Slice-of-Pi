@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ using System.Collections;
 using Newtonsoft.Json;
 
 
+
 namespace Main.DAL.Concrete
 {
     public class CrimeAPIService : ICrimeAPIService
@@ -22,11 +24,13 @@ namespace Main.DAL.Concrete
         public string crime_api_state_info {get;}
         public string crime_statistics_api_url {get;}
         public string crime_url_agency_reported_crime {get;}
-
+        public string crime_state_api_url {get;}
+  
 
         public void SetCredentials(string token)
         {
             keyFBI = token;
+
         }
         public CrimeAPIService()
         {
@@ -165,7 +169,7 @@ namespace Main.DAL.Concrete
 
                     foreach (var crime in city_stats["results"])
                     { 
-                        if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime")
+                        if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson" || (string)crime["offense"] == "rape-legacy")
                         {
                             continue;
                         }
@@ -367,7 +371,7 @@ namespace Main.DAL.Concrete
             }
             var counter = -1;
             List<Crime> city_crime_trends = new List<Crime>();
-
+            
             //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
             foreach (var crime in city_stats["results"])
             {
@@ -385,12 +389,57 @@ namespace Main.DAL.Concrete
             return city_crime_trends;
 
         }
+        public List<Crime> ReturnPropertyCityTrends(JObject city_stats)
+        {
+            if (city_stats == null)
+            {
+                return null;
+            }
+            var counter = -1;
+            List<Crime> city_crime_trends = new List<Crime>();
+
+            //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
+            foreach (var crime in city_stats["results"])
+            {
+                if((string)crime["offense"] == "property-crime")
+                {
+                    if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
+                    {
+                        city_crime_trends.Add(new Crime {Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"], OffenseType = (string)crime["offense"]});
+                        counter++;
+                        continue;
+                    }
+                    city_crime_trends[counter].TotalOffenses = city_crime_trends[counter].TotalOffenses + (int)crime["actual"] + (int)crime["cleared"];
+                }
+            }
+            return city_crime_trends;
+            
+        }
+        public List<Crime> ReturnViolentCityTrends(JObject city_stats)
+        {
+            if (city_stats == null)
+            {
+                return null;
+            }
+            var counter = -1;
+            List<Crime> city_crime_trends = new List<Crime>();
+
+            //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
+            foreach (var crime in city_stats["results"])
+            {
+                if((string)crime["offense"] == "violent-crime")
+                {
+                    if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
+                    {
+                        city_crime_trends.Add(new Crime {Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"], OffenseType = (string)crime["offense"]});
+                        counter++;
+                        continue;
+                    }
+                    city_crime_trends[counter].TotalOffenses = city_crime_trends[counter].TotalOffenses + (int)crime["actual"] + (int)crime["cleared"];
+                }
+            }
+            return city_crime_trends;
+            
+        }
     }
 }
-
-
-
-
-
-
-

@@ -20,6 +20,16 @@ public class StateCrimeController : Controller
 
     }
 
+
+    //public IActionResult StateCrimeStats(string stateAbbrev)
+    //{
+    //    if (stateAbbrev == null)
+    //    {
+    //        stateAbbrev = "CA";
+    //    }
+    //    ViewBag.stateAbbrev = stateAbbrev;
+    //    return View();
+    //}
     public IActionResult StateCrimeStats(int? year, string stateAbbrev, StateCrimeViewModel model)
     {
 

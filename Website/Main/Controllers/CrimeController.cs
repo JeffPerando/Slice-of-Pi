@@ -1,3 +1,4 @@
+
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Main.Models;
@@ -41,6 +42,7 @@ public class CrimeController : Controller
             cityName = "Riverside";
             stateAbbrev = "CA";
         }
+        
         
         List<Crime> city_stats = new List<Crime>();
         List<Crime> getCityStats = new List<Crime>();

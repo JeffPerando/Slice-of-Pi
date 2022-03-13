@@ -1,3 +1,4 @@
+
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
@@ -30,13 +31,13 @@ function errorOnAjax()
 
 function displayStateInformation(data)
 {
-    console.log(data);
 
     $("#safestStatesTable>tbody").empty();
     for (let i = 0; i < data.length; ++i){
         let repoTR = $(
             `<tr>
                 <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["population"]}</td>
                 <td style="color:white; font-weight:bold;">${data[i]["crime_Per_Capita"]}</td>
                 <td style="color:white; font-weight:bold;">${data[i]["population"]}</td>
             </tr>`
