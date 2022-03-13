@@ -37,6 +37,8 @@ emailService.LogIn();
 
 var userVerifier = new UserVerifierService(emailService);
 
+var reCaptchaService = new ReCaptchaV3Service(builder.Configuration["captchaServerKey"]);
+
 //DB stuff
 
 builder.Services.AddDbContext<MainIdentityDbContext>(options =>
@@ -75,6 +77,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ICrimeAPIService>(crimeAPIService);
 builder.Services.AddSingleton<IEmailService>(emailService);
 builder.Services.AddSingleton<IUserVerifierService>(userVerifier);
+builder.Services.AddSingleton<IReCaptchaService>(reCaptchaService);
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
