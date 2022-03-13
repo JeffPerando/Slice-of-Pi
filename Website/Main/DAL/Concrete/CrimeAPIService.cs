@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
 
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +15,10 @@ using System.Collections;
 using Newtonsoft.Json;
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
 namespace Main.DAL.Concrete
 {
     public class CrimeAPIService : ICrimeAPIService
@@ -24,13 +30,20 @@ namespace Main.DAL.Concrete
         public string crime_api_state_info {get;}
         public string crime_statistics_api_url {get;}
         public string crime_url_agency_reported_crime {get;}
+<<<<<<< HEAD
+
+=======
         public string crime_state_api_url {get;}
   
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
 
         public void SetCredentials(string token)
         {
             keyFBI = token;
+<<<<<<< HEAD
+=======
 
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
         }
         public CrimeAPIService()
         {
@@ -68,7 +81,11 @@ namespace Main.DAL.Concrete
 
                     var jsonResponse = new WebClient().DownloadString(crime_api_state_info + states[i] + year.setYearForJSON(0) + keyFBI);
                     JObject info = JObject.Parse(jsonResponse);
+<<<<<<< HEAD
 
+=======
+                    
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
                     float population = (int)info["results"][0]["population"];
                     float total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
                     string state_abbrevs = (string)info["results"][0]["state_abbr"];
@@ -76,7 +93,11 @@ namespace Main.DAL.Concrete
                     float crimes_per_capita = (float)Math.Round((total_crime / population) * 100000, 2);
                     string formatted_population = String.Format("{0:n0}", population);
 
+<<<<<<< HEAD
                     states_crime.Add(new Crime { State = state_abbrevs, Population = formatted_population, Crime_Per_Capita = crimes_per_capita });
+=======
+                    states_crime.Add(new Crime {State = state_abbrevs, Population = formatted_population ,Crime_Per_Capita = crimes_per_capita});
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
 
                 }
                 catch
@@ -95,6 +116,10 @@ namespace Main.DAL.Concrete
             return top_five_states;
 
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
         public List<Crime> GetCityStatsByYear(string cityName, string stateAbbrev, string year)
         {
             List<Crime> city_crime_stats = new List<Crime>();
@@ -115,8 +140,13 @@ namespace Main.DAL.Concrete
                     JObject city_stats = JObject.Parse(newjsonResponse);
 
                     foreach (var crime in city_stats["results"])
+<<<<<<< HEAD
                     {
                         if ((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson" || (string)crime["offense"] == "rape-legacy")
+=======
+                    { 
+                        if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson" || (string)crime["offense"] == "rape-legacy")
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
                         {
                             continue;
                         }
@@ -169,7 +199,11 @@ namespace Main.DAL.Concrete
 
                     foreach (var crime in city_stats["results"])
                     { 
+<<<<<<< HEAD
+                        if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime")
+=======
                         if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson" || (string)crime["offense"] == "rape-legacy")
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
                         {
                             continue;
                         }
@@ -217,6 +251,7 @@ namespace Main.DAL.Concrete
                 try
                 {
                     state_crime_stats.State_abbr = (string)item["state_abbr"];
+<<<<<<< HEAD
                     if (state_crime_stats.State_abbr == null)
                         state_crime_stats.State_abbr = "N/A";
 
@@ -271,6 +306,21 @@ namespace Main.DAL.Concrete
                     state_crime_stats.Arson = (int?)item["arson"];
                     if (state_crime_stats.Arson == null)
                         state_crime_stats.Arson = 0;
+=======
+                    state_crime_stats.Year = (int?)item["year"];
+                    state_crime_stats.Population = (int?)item["population"];
+                    state_crime_stats.Violent_crime = (int?)item["violent_crime"];
+                    state_crime_stats.Homicide = (int)item["homicide"];
+                    state_crime_stats.Rape_legacy = (int?)item["rape_legacy"];
+                    state_crime_stats.Rape_revised = (int?)item["rape_revised"];
+                    state_crime_stats.Robbery = (int?)item["robbery"];
+                    state_crime_stats.Aggravated_assault = (int?)item["aggravated_assault"];
+                    state_crime_stats.Property_crime = (int?)item["property_crime"];
+                    state_crime_stats.Burglary = (int?)item["burglary"];
+                    state_crime_stats.Larceny = (int?)item["larceny"];
+                    state_crime_stats.Motor_vehicle_theft = (int?)item["motor_vehicle_theft"];
+                    state_crime_stats.Arson = (int?)item["arson"];
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
 
                 }
                 catch
@@ -278,7 +328,10 @@ namespace Main.DAL.Concrete
                     continue;
                 }
             }
+<<<<<<< HEAD
            
+=======
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
             return state_crime_stats;
         }
 
@@ -312,7 +365,11 @@ namespace Main.DAL.Concrete
         //FORMATS THE DATA INTO CRIME OBJECT LIST FOR GRAPH DISPLAYING
         public List<Crime> ReturnTotalCityTrends(JObject city_stats)
         {
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
             if (city_stats == null)
             {
                 return null;
@@ -320,6 +377,7 @@ namespace Main.DAL.Concrete
 
             var counter = -1;
             List<Crime> city_crime_trends = new List<Crime>();
+<<<<<<< HEAD
 
             //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
             foreach (var crime in city_stats["results"])
@@ -329,6 +387,17 @@ namespace Main.DAL.Concrete
                     if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
                     {
                         city_crime_trends.Add(new Crime { Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"] });
+=======
+            
+            //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
+            foreach (var crime in city_stats["results"])
+            {
+                if((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime")
+                {
+                    if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
+                    {
+                        city_crime_trends.Add(new Crime {Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"]});
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
                         counter++;
                         continue;
                     }
@@ -349,63 +418,19 @@ namespace Main.DAL.Concrete
             //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
             foreach (var crime in city_stats["results"])
             {
+<<<<<<< HEAD
                 if ((string)crime["offense"] == "property-crime")
                 {
                     if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
                     {
                         city_crime_trends.Add(new Crime { Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"], OffenseType = (string)crime["offense"] });
-                        counter++;
-                        continue;
-                    }
-                    city_crime_trends[counter].TotalOffenses = city_crime_trends[counter].TotalOffenses + (int)crime["actual"] + (int)crime["cleared"];
-                }
-            }
-            return city_crime_trends;
-
-        }
-        public List<Crime> ReturnViolentCityTrends(JObject city_stats)
-        {
-            if (city_stats == null)
-            {
-                return null;
-            }
-            var counter = -1;
-            List<Crime> city_crime_trends = new List<Crime>();
-            
-            //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
-            foreach (var crime in city_stats["results"])
-            {
-                if ((string)crime["offense"] == "violent-crime")
-                {
-                    if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
-                    {
-                        city_crime_trends.Add(new Crime { Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"], OffenseType = (string)crime["offense"] });
-                        counter++;
-                        continue;
-                    }
-                    city_crime_trends[counter].TotalOffenses = city_crime_trends[counter].TotalOffenses + (int)crime["actual"] + (int)crime["cleared"];
-                }
-            }
-            return city_crime_trends;
-
-        }
-        public List<Crime> ReturnPropertyCityTrends(JObject city_stats)
-        {
-            if (city_stats == null)
-            {
-                return null;
-            }
-            var counter = -1;
-            List<Crime> city_crime_trends = new List<Crime>();
-
-            //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
-            foreach (var crime in city_stats["results"])
-            {
+=======
                 if((string)crime["offense"] == "property-crime")
                 {
                     if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
                     {
                         city_crime_trends.Add(new Crime {Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"], OffenseType = (string)crime["offense"]});
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
                         counter++;
                         continue;
                     }
@@ -413,7 +438,11 @@ namespace Main.DAL.Concrete
                 }
             }
             return city_crime_trends;
+<<<<<<< HEAD
+
+=======
             
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
         }
         public List<Crime> ReturnViolentCityTrends(JObject city_stats)
         {
@@ -427,11 +456,19 @@ namespace Main.DAL.Concrete
             //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
             foreach (var crime in city_stats["results"])
             {
+<<<<<<< HEAD
+                if ((string)crime["offense"] == "violent-crime")
+                {
+                    if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
+                    {
+                        city_crime_trends.Add(new Crime { Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"], OffenseType = (string)crime["offense"] });
+=======
                 if((string)crime["offense"] == "violent-crime")
                 {
                     if (!city_crime_trends.Any(y => y.Year == (int)crime["data_year"]))
                     {
                         city_crime_trends.Add(new Crime {Year = (int)crime["data_year"], TotalOffenses = (int)crime["actual"] + (int)crime["cleared"], OffenseType = (string)crime["offense"]});
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
                         counter++;
                         continue;
                     }
@@ -439,7 +476,21 @@ namespace Main.DAL.Concrete
                 }
             }
             return city_crime_trends;
+<<<<<<< HEAD
+
+        }
+    }
+}
+
+
+
+
+
+
+
+=======
             
         }
     }
 }
+>>>>>>> f549f3e37a09af3477f8fe03088a24a1be407577
