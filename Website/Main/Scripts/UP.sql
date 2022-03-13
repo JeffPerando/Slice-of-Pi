@@ -6,18 +6,18 @@ CREATE TABLE [Home]
     [State]             NVARCHAR(2)   NOT NULL,
     [County]            NVARCHAR(100) NOT NULL,
     [Price]             FLOAT         NOT NULL,
-    [UserID]            INT,
+    [UserID]            NVARCHAR (450) NOT NULL,
     [AgencyID]          INT
 );
 
 CREATE TABLE [User]
 (
-    [ID]                INT PRIMARY    KEY IDENTITY(1,1),
+    [ID]                NVARCHAR (450) PRIMARY KEY,
     [Name]              NVARCHAR (100) NOT NULL,
     [EmailAddress]      NVARCHAR (100) NOT NULL,
-    [Address]           NVARCHAR (100) NOT NULL,
+    [Address]           NVARCHAR (100) NOT NULL
 );
-    
+
 CREATE TABLE [AgencyInformation]
 (
     [ID]                INT PRIMARY   KEY IDENTITY(1,1),
