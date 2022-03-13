@@ -6,20 +6,33 @@
 <html>
     <body>
 <section class="section main-banner" id="top" data-section="section1">
+         <section class="section main-banner" id="top" data-section="section1">
           <img src="~/assets/images/City.gif" type="video/mp4" />
-     
-<div class="bg-white">
+          <div class="video-overlay header-text">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="caption">
+              <h6>Hello friend</h6>
+             <h1 style="color:white">@ViewData["Title"]</h1>
+        <div class="bg-white">
+    <h1>@ViewData["Title"]</h1>
     <h1>@ViewData["Title"]</h1>
     @{
         <p>
             Registration confirmed! Sending code...
         </p>
     }
-</div>
+
+
+          </div>
+              </div>
+            </div>
+          </div>
+      </div>
   </section>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
 
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
@@ -80,5 +93,6 @@
           checkSection();
         });
     </script>
+    }
     </body>
 </html>

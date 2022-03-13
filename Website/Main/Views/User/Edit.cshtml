@@ -4,9 +4,17 @@
 @{
     ViewData["Title"] = "Edit User Info";
 }
-
+<html>
+    <body>
+<section class="section main-banner" id="top" data-section="section1">
+          <img src="~/assets/images/City.gif" type="video/mp4" />
 <form method="post">
-    @Html.AntiForgeryToken()
+         <div class="video-overlay header-text">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="caption">
+     @Html.AntiForgeryToken()
     @if (ViewData.ContainsKey("Messages"))
     {
         <div class="row mt-2 mb-2 justify-content-center">
@@ -14,7 +22,7 @@
                 <ul>
                     @foreach (var msg in ViewData["Messages"]?.ToString().Split('\n'))
                     {
-                        <li>@(msg)</li>
+                        <li style="color:white">@(msg)</li>
                     }
                 </ul>
             </div>
@@ -22,7 +30,7 @@
     }
     <div class="row mt-2 mb-2 justify-content-center">
         <div class="col-2">
-            <b>@Html.LabelFor(u => u.Name)</b>
+            <b style="color:white">@Html.LabelFor(u => u.Name)</b>
         </div>
         <div class="col-4">
             @Html.TextBoxFor(u => u.Name, htmlAttributes: new { @class="form-control", pattern="\\w+.*\\w", })
@@ -30,7 +38,7 @@
     </div>
     <div class="row mt-2 mb-2 justify-content-center">
         <div class="col-2">
-            <b>@Html.LabelFor(u => u.EmailAddress)</b>
+            <b style="color:white">@Html.LabelFor(u => u.EmailAddress)</b>
         </div>
         <div class="col-4">
             @Model.EmailAddress
@@ -38,7 +46,7 @@
     </div>
     <div class="row mt-2 mb-2 justify-content-center">
         <div class="col-2">
-            <b>@Html.LabelFor(u => u.Address)</b>
+            <b style="color:white">@Html.LabelFor(u => u.Address)</b>
         </div>
         <div class="col-4">
             @Html.TextAreaFor(u => u.Address, htmlAttributes: new { @class="form-control" })
@@ -46,16 +54,93 @@
     </div>
     <div class="row mb-2 mt-2 justify-content-center">
         <div class="col-2">
-            <b>Addresses</b>
+            <h2>Addresses</h2>
         </div>
         <div class="col-4">
-            <a href="/User/Addresses" class="btn btn-success" role="button">Edit Address Book</a>
+            <a href="/User/Addresses" style="background-color:crimson;border-color:crimson" class="btn btn-success" role="button">Edit</a>
         </div>
     </div>
     <div class="row mt-4 justify-content-center">
         <div class="col-3">
-            <button type="submit" class="btn btn-primary btn-lg">Submit Changes</button>
+            <button style="background-color:crimson;border-color:crimson" type="submit" class="btn btn-primary btn-lg">Submit</button>
             <a href="/User/Edit" class="btn btn-danger btn-lg">Cancel</a>
         </div>
+    </div>                   
+
+
+
+     </div>
     </div>
-</form>
+   </div>
+ </div>
+</div>
+
+                
+
+        </form>
+  </section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript" src="~/js/addressform.js" asp-append-version="true"></script>
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/assets/js/isotope.min.js"></script>
+    <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/tabs.js"></script>
+    <script src="~/assets/js/video.js"></script>
+    <script src="~/assets/js/slick-slider.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+          e.preventDefault();
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+    }
+    </body>
+</html>

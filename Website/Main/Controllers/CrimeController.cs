@@ -51,76 +51,6 @@ public class CrimeController : Controller
         return Json(city_stats);
     }
 
-    public IActionResult StateCrimeStats(string stateAbbrev)
-    {
-        if (stateAbbrev == null)
-        {
-            stateAbbrev = "CA";
-        }
-        ViewBag.stateAbbrev = stateAbbrev;
-        return View();
-    }
-
-    public IActionResult SingleStateStats(string stateAbbrev, [Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
-    {
-        if (stateAbbrev == null)
-        {
-            stateAbbrev = "CA";
-        }
-        ViewBag.stateAbbrev = stateAbbrev;
-        model.stateAbbrev = stateAbbrev;
-        return View(model);
-    }
-
-    [HttpGet]
-    public IActionResult GetSingleStateStats([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
-    {
-        if (model.stateAbbrev == null)
-        {
-            model.stateAbbrev = "CA";
-        }
-
-        if (model.aYear == null)
-        {
-            model.aYear = 0;
-        }
-
-        StateCrimeViewModel state = new StateCrimeViewModel();
-        _CrimeService.SetCredentials(_config["apiFBIKey"]);
-        state = _CrimeService.GetState(model.stateAbbrev, model.aYear);
-        state.aYear = model.aYear;
-        state.stateAbbrev = model.stateAbbrev;
-        return Json(state);
-    }
-
-    public IActionResult CheckAnotherYear([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
-    {
-        ViewBag.stateAbbrev = model.stateAbbrev;
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult FillCheckAnotherYear([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
-    {
-        if (model.stateAbbrev == null)
-        {
-            model.stateAbbrev = "CA";
-        }
-
-        if (model.aYear == null)
-        {
-            model.aYear = 0;
-        }
-
-        StateCrimeViewModel state = new StateCrimeViewModel();
-        _CrimeService.SetCredentials(_config["apiFBIKey"]);
-        
-        state =_CrimeService.GetState(model.stateAbbrev, model.aYear);
-        state.aYear = model.aYear;
-        state.stateAbbrev = model.stateAbbrev;
-        return Json(state);
-    }
-
     [HttpGet]
     public IActionResult GetStateList()
     {
@@ -140,13 +70,18 @@ public class CrimeController : Controller
         }
         List<Crime> city_trends = new List<Crime>();
         JObject getCitytrends = new JObject();
-        List<Crime> returnCityTrends = new List<Crime>();
+        List<Crime> returnTotalCityTrends = new List<Crime>();
+        List<Crime> returnPropertyCityTrends = new List<Crime>();
+        List<Crime> returnViolentCityTrends = new List<Crime>();
 
         getCitytrends = _CrimeService.GetCityTrends(cityName, stateAbbrev);
-        returnCityTrends = _CrimeService.ReturnCityTrends(getCitytrends);
+        returnTotalCityTrends = _CrimeService.ReturnTotalCityTrends(getCitytrends);
+        returnPropertyCityTrends = _CrimeService.ReturnPropertyCityTrends(getCitytrends);
+        returnViolentCityTrends = _CrimeService.ReturnViolentCityTrends(getCitytrends);
 
-        return Json(returnCityTrends);
+
+        return Json(new { totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends });
     }
+}
     
 
-}

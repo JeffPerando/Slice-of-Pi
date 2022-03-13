@@ -3,7 +3,8 @@
     ViewData["Title"] = "Edit Addresses";
 
 }
-
+<html>
+    <body>
 @if (ViewData.ContainsKey("Message"))
 {
     <div class="row justify-content-center">
@@ -12,19 +13,29 @@
         </div>
     </div>
 }
-<div class="row justify-content-center mt-2">
+
+
+<section class="section main-banner" id="top" data-section="section1">
+          <img src="~/assets/images/City.gif" type="video/mp4" />
+          <form method="post">
+         <div class="video-overlay header-text">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="caption">
+             <div class="row justify-content-center mt-2">
     <div class="col-3">
-        @if (Model.Count() == 0)
+                @if (Model.Count() == 0)
         {
-            <span>No addresses yet!</span>
+            <span style="color:white">No addresses yet!</span>
         }
         else
         {
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Address</th>
-                        <th scope="col">Delete?</th>
+                        <th style="color:white;" scope="col">Address</th>
+                        <th style="color:white;" scope="col">Delete?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,35 +54,108 @@
         }
     </div>
 </div>
-<form method="post">
-    <div class="row">
+
+
+             <div class="row">
     <div class="col-md-12">
-        <label for="street" class="form-label">Street</label>
+        <label for="street" class="form-label" style="color:white;">Street</label>
         <input name="street" type="text" class="form-control" placeholder="1313 Mockingbird Ln." pattern="\d+ .+" required/>
     </div>
     <div class="col-md-6">
-        <label for="city" class="form-label">City</label>
+        <label for="city" class="form-label" style="color:white;">City</label>
         <input name="city" type="text" class="form-control" placeholder="Mockingbird Heights" required/>
     </div>
     <div class="col-md-2">
-        <label for="state" class="form-label">State</label>
+        <label style="color:white;" for="state" class="form-label">State</label>
         <select name="state" id="addrStates" type="text" class="form-control">
             
         </select>
     </div>
     <div class="col-md-4">
-        <label for="zip" class="form-label">ZIP</label>
+        <label for="zip" class="form-label" style="color:white;">ZIP</label>
         <input name="zip" type="tel" class="form-control" placeholder="90210 or 90210-0800" pattern="\\d{5}(-\\d{4})?" required/>
-    </div>
+    </div> 
 </div>
+
     <div class="row justify-content-center">
         <div class="col-2 mt-2">
-            <button type="submit" class="btn btn-primary btn-lg">Submit Address</button>
+            <button style="background-color:crimson;border-color:crimson" type="submit" class="btn btn-primary btn-lg">Submit</button>
         </div>
     </div>
-</form>
 
-@section Scripts
-{
-<script type="text/javascript" src="~/js/addressform.js" asp-append-version="true"></script>
-}
+
+     </div>
+    </div>
+   </div>
+ </div>
+</div>
+
+                
+
+        </form>
+  </section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript" src="~/js/addressform.js" asp-append-version="true"></script>
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
+    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/assets/js/isotope.min.js"></script>
+    <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/lightbox.js"></script>
+    <script src="~/assets/js/tabs.js"></script>
+    <script src="~/assets/js/video.js"></script>
+    <script src="~/assets/js/slick-slider.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+          e.preventDefault();
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+    }
+    </body>
+</html>

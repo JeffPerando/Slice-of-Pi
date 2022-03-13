@@ -4,27 +4,30 @@
     ViewData["Title"] = "Crime Statistics";
 }
 <section class="apply-now" id="apply">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 align-self-center">
-          <div class="row">
-            <div class="col-lg-12">
-             <div class="col-lg-12">
+    <div class="container" style ="background:white">
+
+       
               <div class="item">
 
-        <div class="col-8" >
+        <div class="col" >
             <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span></h3>
             <div style="text-align: center;">
                 <canvas id="crimeTrendChart" width="50" height="37" ></canvas>
-                <p style="font-style: italic">(This information combines both violent crime for the year with the property crime for that year)</p>
+                <p style="font-style: italic; color:black">(This information combines both violent crime for the year with the property crime for that year)</p>
             </div>
-            
-        </div>
-        <div class="col-4">
-            <div class="text-left">
+                <div class="text-left">
                 <h5 style="color:white"><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span></h5>
                 <h1>Crime Amount for: </h1>
-                <h3><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
+                <br>
+                <h3 style="color:black;"><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
+                <br>
+               <div hidden>
+               <label for= "yearSelector">Select a year:  </label>
+                <select name= "yearSelector" id="yearSelector" required>
+                    <option value="" disabled>Select year</option>
+                </select>
+                </div>
+               
                 <table id="cityCrimeStats" class="table">
                     <thead class="table-dark">
                         <tr>
@@ -36,23 +39,16 @@
                     <tbody>
                     </tbody>
                 </table>
-                <label for= "yearSelector">Select a year:  </label>
-                <select name= "yearSelector" id="yearSelector" required>
-                    <option value="" disabled>Select year</option>
-                </select>
-                <br><br>
-                <input type="submit" value="Submit" style="border-radius: 10px; font-size: 20px; border: 2px solid #101010 ;background-color: #181818; color: white">
+                <h1 id="cityCrimeNoCrimeheader"></h1>
+                <ul id="cityCrimeStatsNoCrime">
+                </ul>
             </div>
-        </div>      
-    </div>
-    </div>
-   </div>
-  </div>   
- </div>
-</div>
+        </div>
 
 
-        <div class="col-lg-6">
+ 
+        
+                <div class="col-lg-6">
           <div class="accordions is-first-expanded">
             <article class="accordion">
                 <div class="accordion-head">
@@ -63,7 +59,7 @@
                 </div>
                 <div class="accordion-body">
                     <div class="content">
-                        <p>These statistics will give you a better understanding about what types of crimes are committed in this community. 
+                        <p style="color:black">These statistics will give you a better understanding about what types of crimes are committed in this community. 
                             This type of information should be compared and contrasted with other searches you have made, in order to gauge the risk between both communities.</p><br><br>
                     </div>
                 </div>
@@ -77,7 +73,7 @@
                 </div>
                 <div class="accordion-body">
                     <div class="content">
-                        <p>Offenses such as homicide, arson, and aggravated assault are generally easy to understand. However, we understand that there is possible confusion 
+                        <p style="color:black">Offenses such as homicide, arson, and aggravated assault are generally easy to understand. However, we understand that there is possible confusion 
                             when it comes to property-crime or violent-crime, and burglary compared to robbery. Here are some definitions to keep in mind when viewing these statistics offense types.
                             <br><br>
                             Burglary: Entry into a home/business with the intent to commit a crime (such as theft).
@@ -100,7 +96,7 @@
                 </div>
                 <div class="accordion-body">
                     <div class="content">
-                        <p>Be sure to look up exact definitons for crimes in your areas to be able to get a full understanding of the community beyond the amount of crimes that occur. 
+                        <p style="color:black">Be sure to look up exact definitons for crimes in your areas to be able to get a full understanding of the community beyond the amount of crimes that occur. 
                             Definitions will vary from state to state, so be sure to look up your states definition of things such as larceny, or assaul<br><br>
                     </div>
                 </div>
@@ -108,7 +104,14 @@
            
         </div>
         </div>
-      </div>
+
+    </div>
+
+</div>
+
+
+
+      
 
     <div class="footer">
       <p>2021 Slice of Pi, Ltd. All Rights Reserved. 
@@ -125,6 +128,26 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
+
+<script>
+    $('select').on('change', function (e) {
+    var optionValue = $("option:selected", this);
+    var selectedValue = this.value;
+    
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/apiv3/FBI/UpdateCityStats",
+        data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(),year:selectedValue},
+        success: function(data){
+            showCityStats(data);
+        },
+        error: function(){
+            console.log("Updater Issue.")
+        }
+    });
+});
+</script>
 
 }
 
@@ -144,13 +167,11 @@
     <script>
         //according to loftblog tut
         $('.nav li:first').addClass('active');
-
         var showSection = function showSection(section, isAnimate) {
           var
           direction = section.replace(/#/, ''),
           reqSection = $('.section').filter('[data-section="' + direction + '"]'),
           reqSectionPos = reqSection.offset().top - 0;
-
           if (isAnimate) {
             $('body, html').animate({
               scrollTop: reqSectionPos },
@@ -158,9 +179,7 @@
           } else {
             $('body, html').scrollTop(reqSectionPos);
           }
-
         };
-
         var checkSection = function checkSection() {
           $('.section').each(function () {
             var
@@ -177,12 +196,10 @@
             }
           });
         };
-
         $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
           e.preventDefault();
           showSection($(this).attr('href'), true);
         });
-
         $(window).scroll(function () {
           checkSection();
         });

@@ -20,15 +20,6 @@ $(function() {
 
     });
 
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: "apiv3/FBI/StateList",
-    //    success: populateDropDown,
-    //    error: errorOnAjax
-
-    //});
-
 })
 
 function errorOnAjax()
@@ -47,12 +38,15 @@ function displayStateInformation(data)
             `<tr>
                 <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
                 <td style="color:white; font-weight:bold;">${data[i]["crime_Per_Capita"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["population"]}</td>
             </tr>`
         )
         $("#safestStatesTable>tbody").append(repoTR);
         $("#safestStatesTable").show();
     }
 }
+
+
 
 function populateDropDown(data)
 {
