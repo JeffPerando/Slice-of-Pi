@@ -7,7 +7,12 @@
 @section Banner {
     @if (Model.Confirmed)
     {
-        <p>Email confirmed! You may now log in.</p>
+        <p>
+            Email confirmed! You may now log in.
+        </p>
+        <p>
+            You'll be redirected in 4 seconds. If nothing happens, click <a href="/Identity/Account/Login">here</a>
+        </p>
     }
     else
     {
@@ -17,12 +22,19 @@
                 <li class="text-danger">@(ViewData["Message"])</li>
             </ul>
         }
-        <p>Email sent! It will expire in 5 minutes. If you can't find your email, check your spam folder.</p>
+        <p>Email sent! It will expire in 10 minutes. If you can't find your email, check your spam folder.</p>
         <p>If you didn't get your email or it expired, you may click <a href=@Model.ResendEmailLink>here</a> to resend it.</p>
         <form method="post">
             <input type="hidden" name="email" value=@Model.Email>
-            <input type="tel" name="code" pattern="[0-9]{6}" required>
+            <input type="tel" name="code" pattern="[0-9]{6}" placeholder="123456" required>
             <button type="submit" class="btn btn-primary">Submit Code</button>
         </form>
+    }
+}
+
+@section Scripts {
+    @if (Model.Confirmed)
+    {
+    <script src="~/js/redirectToLogin.js"></script>
     }
 }
