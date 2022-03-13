@@ -102,6 +102,8 @@
         }
         <!-- ***** Main Banner Area End ***** -->
         @RenderBody()
+        @if (IsSectionDefined("ApplyNow"))
+        {
         <section class="apply-now" id="apply">
             <div class="container">
                 @RenderSection("ApplyNow", required: false)
@@ -110,6 +112,7 @@
                 <p>Copyright © 2021 Slice of Pi, Ltd. All Rights Reserved.
             </div>
         </section>
+        }
     </div>
     <script src="~/lib/vendor/jquery/jquery.min.js"></script>
     <script src="~/lib/vendor/bootstrap/js/bootstrap.min.js"></script>
