@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Main.Controllers;
 using Main.DAL.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,11 +22,13 @@ namespace Main.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailService _emailService;
+        private readonly IReCaptchaService _captcha;
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailService emailService)
+        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailService emailService, IReCaptchaService captcha)
         {
             _userManager = userManager;
             _emailService = emailService;
+            _captcha = captcha;
         }
 
         /// <summary>
@@ -48,12 +51,21 @@ namespace Main.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            public string CaptchaResponse { get; set; }
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
+                if (!await _captcha.Passes(Input.CaptchaResponse))
+                {
+                    // make the bot think we fell for it
+                    return RedirectToPage("./ForgotPasswordConfirmation");
+                }
+
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
@@ -70,11 +82,12 @@ namespace Main.Areas.Identity.Pages.Account
                     pageHandler: null,
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
+                var resetLink = HtmlEncoder.Default.Encode(callbackUrl);
 
                 await _emailService.SendTextEmail(
                     Input.Email, "",
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Password Reset Request",
+                    new FormController().ReadForm("pwreset").Replace("{LINK}", resetLink));
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
