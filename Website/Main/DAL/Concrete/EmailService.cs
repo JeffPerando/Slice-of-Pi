@@ -28,7 +28,6 @@ namespace Main.DAL.Concrete
             {
                 client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
                 client.Authenticate(_email, _password);
-
             }
             catch (Exception e)
             {
@@ -37,7 +36,7 @@ namespace Main.DAL.Concrete
 
         }
 
-        public Task SendTextEmail(string receiver, string receiverName, string subject, string content)
+        public async Task<string> SendTextEmail(string receiver, string receiverName, string subject, string content)
         {
             if (string.IsNullOrEmpty(receiver))
             {
@@ -49,22 +48,18 @@ namespace Main.DAL.Concrete
                 throw new ArgumentException("No content provided!");
             }
 
+            if (!IsLoggedIn())
+            {
+                LogIn();
+            }
+
             var msg = new MimeMessage();
             msg.From.Add(new MailboxAddress(_sender, _email));
             msg.To.Add(new MailboxAddress(receiverName, receiver));
             msg.Subject = subject;
             msg.Body = new TextPart("html") { Text = content };
 
-            try
-            {
-                var task = client.SendAsync(msg);
-                return task;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
-            return Task.CompletedTask;
+            return await client.SendAsync(msg);
         }
 
         public bool IsLoggedIn()
