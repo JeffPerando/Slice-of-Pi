@@ -17,6 +17,14 @@
                 <div class="text-left">
                 <h5 style="color:white"><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span></h5>
                 <h1>Crime Amount for: </h1>
+                <h3><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
+                <div hidden>
+                <br>
+                <label for="yearSelector">Select a year:  </label>
+                    <select name="yearSelector" id="yearSelector" required>
+                        <option value="" disabled>Select year</option>
+                    </select>
+                </div>
                 <br>
                 <h3 style="color:black;"><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
                 <br>
