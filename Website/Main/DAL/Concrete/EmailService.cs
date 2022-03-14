@@ -4,6 +4,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using System;
+using System.Diagnostics;
 
 namespace Main.DAL.Concrete
 {
@@ -23,12 +24,19 @@ namespace Main.DAL.Concrete
 
         public void LogIn()
         {
-            client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            client.Authenticate(_email, _password);
-            
+            try
+            {
+                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                client.Authenticate(_email, _password);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+
         }
 
-        public Task SendTextEmail(string receiver, string receiverName, string subject, string content)
+        public async Task<string> SendTextEmail(string receiver, string receiverName, string subject, string content)
         {
             if (string.IsNullOrEmpty(receiver))
             {
@@ -40,13 +48,18 @@ namespace Main.DAL.Concrete
                 throw new ArgumentException("No content provided!");
             }
 
+            if (!IsLoggedIn())
+            {
+                LogIn();
+            }
+
             var msg = new MimeMessage();
             msg.From.Add(new MailboxAddress(_sender, _email));
             msg.To.Add(new MailboxAddress(receiverName, receiver));
             msg.Subject = subject;
             msg.Body = new TextPart("html") { Text = content };
 
-            return client.SendAsync(msg);
+            return await client.SendAsync(msg);
         }
 
         public bool IsLoggedIn()

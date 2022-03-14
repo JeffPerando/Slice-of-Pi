@@ -4,94 +4,32 @@
     ViewData["Title"] = "Resend email confirmation";
 }
 
-<html>
-    <body>
-<section class="section main-banner" id="top" data-section="section1">
-          <img src="~/assets/images/City.gif" type="video/mp4" />
-<div class="row bg-white">
-    <div class="col-md-5">
-        <h1>@ViewData["Title"]</h1>
-        <h2>Did you not get the email? That's okay, we can send another!</h2>
-        <hr />
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" aria-required="true" />
-                <label asp-for="Input.Email" class="form-label"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-lg btn-primary" style=" font-size: 20px; border: 2px solid #101010 ;background-color: #181818; color: white">Resend</button>
-        </form>
-    </div>
-    <div class="col-md-6">
-        <h1 style="text-decoration: underline;">Please remember:</h1>
-        <h3>Your email might have accidentally set our notification to your spam so be sure to check your spam just in case it was sent there!</h3>
-    </div>
-</div>
+@section Banner {
+<h2>Did you not get the email? That's okay, we can send another!</h2>
+<hr />
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-floating">
+        <input asp-for="Input.Email" class="form-control" aria-required="true" />
+        <label asp-for="Input.Email" class="form-label text-dark"></label>
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>        
+    <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
+    <br>
+    <button type="submit" class="btn btn-lg btn-primary" style=" font-size: 20px; border: 2px solid #101010 ;background-color: #181818; color: white">Resend</button>
+</form>
+<h1 style="text-decoration: underline;">Please remember:</h1>
+<h3>Your email might have accidentally set our notification to your spam so be sure to check your spam just in case it was sent there!</h3>
+}
 
-  </section>
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-  <!-- Scripts -->
-  <!-- Bootstrap core JavaScript -->
-    <script src="~/lib/vendor/jquery/jquery.min.js"></script>
-    <script src="~/lib/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script src="~/assets/js/isotope.min.js"></script>
-    <script src="~/assets/js/owl-carousel.js"></script>
-    <script src="~/assets/js/lightbox.js"></script>
-    <script src="~/assets/js/tabs.js"></script>
-    <script src="~/assets/js/video.js"></script>
-    <script src="~/assets/js/slick-slider.js"></script>
-    <script src="~/assets/js/custom.js"></script>
-    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn"></script>
     <script>
-        //according to loftblog tut
-        $('.nav li:first').addClass('active');
-
-        var showSection = function showSection(section, isAnimate) {
-          var
-          direction = section.replace(/#/, ''),
-          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
-          reqSectionPos = reqSection.offset().top - 0;
-
-          if (isAnimate) {
-            $('body, html').animate({
-              scrollTop: reqSectionPos },
-            800);
-          } else {
-            $('body, html').scrollTop(reqSectionPos);
-          }
-
-        };
-
-        var checkSection = function checkSection() {
-          $('.section').each(function () {
-            var
-            $this = $(this),
-            topEdge = $this.offset().top - 80,
-            bottomEdge = topEdge + $this.height(),
-            wScroll = $(window).scrollTop();
-            if (topEdge < wScroll && bottomEdge > wScroll) {
-              var
-              currentId = $this.data('section'),
-              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
-              reqLink.closest('li').addClass('active').
-              siblings().removeClass('active');
-            }
-          });
-        };
-
-        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
-          e.preventDefault();
-          showSection($(this).attr('href'), true);
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn', { action: 'emailCodeReq' }).then(function (token) {
+                $("#cappy").val(token);
+            });
         });
 
-        $(window).scroll(function () {
-          checkSection();
-        });
     </script>
-    }
-    </body>
-</html>
+}

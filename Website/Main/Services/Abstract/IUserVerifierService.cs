@@ -7,6 +7,8 @@ namespace Main.Services.Abstract
 
         bool Verify(string email, int code);
 
+        void ClearAllCodes();
+
     }
 
 }
