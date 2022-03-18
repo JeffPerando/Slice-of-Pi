@@ -1,5 +1,4 @@
-﻿@model StateCrimeViewModel
-<div class="row">
+﻿<div class="row">
     <div class="col sp-content bg-white">
         <div class="text-left">
             <h1>@ViewData["Title"] Crime statisctics for the state of <span>@ViewBag.stateAbbrev</span></h1>
@@ -11,7 +10,7 @@
                         <th>Population</th>
                         <th>Violent Crimes</th>
                         <th>Homicide</th>
-                        <th>Rape(Legacy)</th>
+                        <th>Rape(Legacy) @Html.Tooltip("The legal definition of rape in the US was revised in 2015; this stat is for pre-2015 data.")</th>
                         <th>Rape(Revised)</th>
                         <th>Robbery</th>
                         <th>Aggravated Assault</th>
@@ -29,12 +28,10 @@
     </div>
 </div>
 
-
 <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
-
 
 @section Scripts
 {
     <script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
-   
+
 }

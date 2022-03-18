@@ -11,7 +11,7 @@ namespace Main.Models
         public string State { get; set; } = null!;
         public string County { get; set; } = null!;
         public double Price { get; set; }
-        public int? UserId { get; set; }
+        public string UserId { get; set; } = null!;
         public int? AgencyId { get; set; }
 
         public virtual AgencyInformation? Agency { get; set; }

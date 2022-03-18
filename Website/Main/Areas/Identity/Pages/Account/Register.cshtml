@@ -1,52 +1,39 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Welcome, Create a new account";
 }
 
-<div class="row bg-white">
-    <h1 style="text-align: left;">Welcome to the registration!</h1>
-    <div class="col-md-6">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2 style="text-align: left;">Please, create an account:</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.Email"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.Password"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.ConfirmPassword"></label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary" style=" font-size: 20px; border: 2px solid #101010 ;background-color: #181818; color: white">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6">
-        <h1 style="text-decoration: underline;">Why should you consider registering?</h1>
-        <p>The reason you should consider registering is because you will gain access to multiple abilities regular visitors who don't log in
-            are not able to. These abilities can be things such as:
-            <li>Comparing current home to new home crime information.</li>
-            <li>Downloading information about searches.</li>
-            <li>Having a search history that gives details on what you have looked up in the past.</li>
-            <li>And more!</li>
-        </p>
-    </div>
-    <!--<div class="col-md-2 col-md-offset-2">
-        <section>
-            <h3>Title for picture here</h3>
-            <hr />
-        </section>
-    </div>-->
-</div>
+@section Banner {
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-floating py-1">
+            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+            <label asp-for="Input.Email" class="text-dark"></label>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="form-floating py-1">
+            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+            <label asp-for="Input.Password" class="text-dark"></label>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="form-floating py-1">
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+            <label asp-for="Input.ConfirmPassword" class="text-dark"></label>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
+        <button style="background-color:crimson;border-color:crimson" id="registerSubmit" type="submit" class="py-2 w-100 btn btn-lg btn-primary">Register</button>
+    </form>
+}
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+<script src="https://www.google.com/recaptcha/api.js?render=6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn"></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('6LclWdYeAAAAAC9jApJxsbBpuHEUIODlc8yOICgn', { action: 'register' }).then(function (token) {
+            $("#cappy").val(token);
+        });
+    });
+</script>
 }

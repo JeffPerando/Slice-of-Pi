@@ -1,21 +1,22 @@
 ﻿
 using Main.DAL.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace Main.Controllers
 {
     public class FormController : Controller
     {
-        private readonly ICrimeAPIService _crimeAPI;
-
-        public FormController(ICrimeAPIService cs)
+        private readonly string root;
+        public FormController()
         {
-            _crimeAPI = cs;
+            root = Path.GetFullPath(Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"wwwroot\"));
+            
         }
 
-        private string ReadForm(string name)
+        public string ReadForm(string name)
         {
-            return System.IO.File.ReadAllText($"Forms/{name.ToLower()}.html");
+            return System.IO.File.ReadAllText(root + $@"\forms\{name.ToLower()}.html");
         }
 
         public IActionResult GetForm(string id)
@@ -25,7 +26,7 @@ namespace Main.Controllers
                 return View("Error");
             }
 
-            return Content(ReadForm(id), "text/html");
+            return Content(ReadForm(id), "text/plain");
         }
 
     }

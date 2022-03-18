@@ -14,20 +14,20 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Main.Services.Abstract;
+using Main.DAL.Abstract;
 
 namespace Main.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IReCaptchaService _captcha;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, IReCaptchaService captcha, ILogger<LoginModel> logger)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
+            _captcha = captcha;
             _logger = logger;
         }
 
@@ -85,6 +85,9 @@ namespace Main.Areas.Identity.Pages.Account
             /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
+            [Required]
+            public string CaptchaResponse { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -96,9 +99,17 @@ namespace Main.Areas.Identity.Pages.Account
 
             returnUrl ??= Url.Content("~/");
 
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            //If you're signed in, then you should just go to the front page.
+            if (_signInManager.IsSignedIn(User))
+            {
+                returnUrl = Url.Content("/");
+            }
 
+            // Clear the existing external cookie to ensure a clean login process
+            // dude, no.
+            //await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            // I have no idea what this does, but it seems like we can integrate Google logins easier with this --Jeff
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
@@ -112,37 +123,33 @@ namespace Main.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                if (!await _captcha.Passes(Input.CaptchaResponse))
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                //NOTE: Would help if the user isn't email verified. However, this may be a security breach, so I won't mess with it.
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
-                else
-                {
-                    var user = await _userManager.FindByEmailAsync(Input.Email);
-                    
-                    if (!user.EmailConfirmed)
-                    {
-                        return RedirectToPage("./ConfirmEmail", new { userId = user.Id });
-                    }
-                }
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
-                else if (result.IsLockedOut)
+                if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return Page();
             }
 
             // If we got this far, something failed, redisplay form

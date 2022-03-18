@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Main.Data;
@@ -36,6 +37,8 @@ emailService.LogIn();
 
 var userVerifier = new UserVerifierService(emailService);
 
+var reCaptchaService = new ReCaptchaV3Service(builder.Configuration["captchaServerKey"]);
+
 //DB stuff
 
 builder.Services.AddDbContext<MainIdentityDbContext>(options =>
@@ -46,8 +49,31 @@ builder.Services.AddDbContext<CrimeDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<MainIdentityDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<MainIdentityDbContext>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Lockout.AllowedForNewUsers = true;
+
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 12;
+
+    options.User.RequireUniqueEmail = true;
+
+});
+
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+{
+    options.TokenLifespan = TimeSpan.FromHours(1);
+});
 
 //Registration w/internal things
 
@@ -56,6 +82,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ICrimeAPIService>(crimeAPIService);
 builder.Services.AddSingleton<IEmailService>(emailService);
 builder.Services.AddSingleton<IUserVerifierService>(userVerifier);
+builder.Services.AddSingleton<IReCaptchaService>(reCaptchaService);
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
@@ -93,6 +120,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Home", action = "GetSafestState" });
 
 app.MapControllerRoute(
+    name: "API Cities Update",
+    pattern: "/apiv3/FBI/UpdateCityStats",
+    defaults: new { controller = "Crime", action = "UpdateCrimeStats" });
+
+app.MapControllerRoute(
     name: "API Cities",
     pattern: "apiv3/FBI/GetCityStats",
     defaults: new { controller = "Crime", action = "GetCrimeStats" });
@@ -100,7 +132,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "API State stats",
     pattern: "/apiv3/FBI/StateCrimeStats",
-    defaults: new { controller = "Crime", action = "GetSingleStateStats" });
+    defaults: new { controller = "StateCrime", action = "GetStateCrimeStats" });
 
 app.MapControllerRoute(
     name: "API State stats",

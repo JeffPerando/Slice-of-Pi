@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
+using Main.DAL.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,12 @@ namespace Main.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IReCaptchaService _captcha;
 
-        public ResetPasswordModel(UserManager<IdentityUser> userManager)
+        public ResetPasswordModel(UserManager<IdentityUser> userManager, IReCaptchaService captcha)
         {
             _userManager = userManager;
+            _captcha = captcha;
         }
 
         /// <summary>
@@ -69,6 +72,8 @@ namespace Main.Areas.Identity.Pages.Account
             [Required]
             public string Code { get; set; }
 
+            [Required]
+            public string CaptchaResponse { get; set; }
         }
 
         public IActionResult OnGet(string code = null)
@@ -92,6 +97,12 @@ namespace Main.Areas.Identity.Pages.Account
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            if (!await _captcha.Passes(Input.CaptchaResponse))
+            {
+                // confuse the bot
+                return RedirectToPage("./ResetPasswordConfirmation");
             }
 
             var user = await _userManager.FindByEmailAsync(Input.Email);

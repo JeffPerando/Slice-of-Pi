@@ -6,18 +6,18 @@ CREATE TABLE [Home]
     [State]             NVARCHAR(2)   NOT NULL,
     [County]            NVARCHAR(100) NOT NULL,
     [Price]             FLOAT         NOT NULL,
-    [UserID]            INT,
+    [UserID]            NVARCHAR (450) NOT NULL,
     [AgencyID]          INT
 );
 
 CREATE TABLE [User]
 (
-    [ID]                INT PRIMARY    KEY IDENTITY(1,1),
+    [ID]                NVARCHAR (450) PRIMARY KEY,
     [Name]              NVARCHAR (100) NOT NULL,
     [EmailAddress]      NVARCHAR (100) NOT NULL,
-    [Address]           NVARCHAR (100) NOT NULL,
+    [Address]           NVARCHAR (100) NOT NULL
 );
-    
+
 CREATE TABLE [AgencyInformation]
 (
     [ID]                INT PRIMARY   KEY IDENTITY(1,1),
@@ -30,10 +30,14 @@ CREATE TABLE [Crime]
 (
     [ID]                INT PRIMARY   KEY IDENTITY(1,1),
     [Year]              INT           NOT NULL,
+    [State]             NVARCHAR(100)   NOT NULL,
     [OffenseType]       NVARCHAR(100) NOT NULL,
     [TotalOffenses]     INT           NOT NULL, 
     [ActualConvictions] INT           NOT NULL,
-    [AgencyID]          INT
+    [AgencyID]          INT,
+    [Population]        NVARCHAR(100) NOT NULL,
+    [CrimePerCapita]    FLOAT         NOT NULL
+
 );
 
 ALTER TABLE [Home]  ADD CONSTRAINT [Home_Fk_User]              FOREIGN KEY  ([UserID])   REFERENCES   [User]              ([ID])  ON DELETE NO ACTION ON UPDATE NO ACTION;

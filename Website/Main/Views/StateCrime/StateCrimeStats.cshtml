@@ -1,0 +1,74 @@
+﻿@model StateCrimeViewModel
+<section class="heading-page header-text" id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!--<form action="#" onsubmit="return callAjaxForState()" method="get">-->
+                <!--<form action="stateCrimeStats" method="get">-->
+                <form onsubmit="callAjaxForState()" method="get">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="caption">
+                                    <h6>HERE ARE A LIST OF STATES</h6>
+                                    <h2>SELECT A STATE AND YEAR</h2>
+                                    <label for="stateAbbrev"></label>
+                                    <select name="stateAbbrev" id="stateAbbrev" required>
+                                        <option value="" disabled>Choose a state</option>
+                                    </select>
+                                    <br><br>
+                                    <partial name="_YearPartial" />
+                                    <input type="submit" value="Submit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="upcoming-meetings" id="meetings">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-heading">
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-left">
+                    <h1 style="color:white;">Here Are the Crime Statistics For <span>@ViewBag.stateAbbrev</span></h1>
+                    <table id="stateCrimeTable" class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>State</th>
+                                <th>Year</th>
+                                <th>Population</th>
+                                <th>Violent Crimes</th>
+                                <th>Homicide</th>
+                                <th>Rape(Legacy) @Html.Tooltip("The legal definition of rape in the US was revised in 2015; this stat is for pre-2015 data.")</th>
+                                <th>Rape(Revised)</th>
+                                <th>Robbery</th>
+                                <th>Aggravated Assault</th>
+                                <th>Property Crime</th>
+                                <th>Burglary</th>
+                                <th>Larceny</th>
+                                <th>Motor Vehicle Theft</th>
+                                <th>Arson</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
+    <input hidden id="year" value="@ViewBag.year" type="text">
+</section>
+
+@section Scripts {
+<script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
+}
