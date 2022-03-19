@@ -104,7 +104,6 @@ namespace Test
             //crimeAPI.AddCrimes(year, zip, dummyCrimeData);
 
             //Act
-
             //double murderEst = priceCalc.Calculate(home, year);
 
             // add different, lesser crime than dummy data says
@@ -116,6 +115,25 @@ namespace Test
 
             // Assert
             //Assert.That(burglaryEst > murderEst);
+        }
+
+        [Test]
+        public void HousePriceCalcService_Calculate_InflationIsIncluded()
+        {
+            string oldYear = "2021";
+
+            //Arrange
+            //add average crimes for both zip and state, last year and current
+            //crimeAPI.AddStateCrime(oldYear, state, dummyCrimeData);
+            //crimeAPI.AddCrimes(oldYear, zip, dummyCrimeData);
+            //crimeAPI.AddCrimes(year, zip, dummyCrimeData);
+
+            //Act
+            //double oldEst = priceCalc.Calculate(home, oldYear);
+            //double estimate = priceCalc.Calculate(home, year);
+
+            // Assert
+            //Assert.That(estimate > oldEst);
         }
 
     }
