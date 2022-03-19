@@ -28,7 +28,7 @@ namespace Test
             //crimeAPI.SetPopulation(state, 20000);
             //crimeAPI.AddStateCrime(year, state, dummyCrimeData);
 
-            //add hypothetical price to housing API
+            //add hypothetical price to housing API (mirrored in Home struct [may remove that field])
             //housingAPI.AddAssessedValue(address, year, 500_000);
 
         }
@@ -79,6 +79,21 @@ namespace Test
 
             // Assert
             //Assert.That(estimate > home.Price);
+        }
+
+        [Test]
+        public void HousePriceCalcService_Calculate_AverageCrimeKeepsPriceSteady()
+        {
+            //Arrange
+            //add average crimes to current zip
+            //crimeAPI.AddCrimes(year, zip, dummyCrimeData);
+
+            //Act
+
+            //double estimate = priceCalc.Calculate(home, year);
+
+            // Assert
+            //Assert.That(estimate == home.Price);
         }
 
         [Test]
