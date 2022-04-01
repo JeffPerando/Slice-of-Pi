@@ -10,7 +10,7 @@ using Main.Controllers;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
-namespace NUnit_Test
+namespace Test
 {
     public class Test
     {
