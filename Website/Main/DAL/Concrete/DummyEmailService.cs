@@ -16,10 +16,10 @@ namespace Main.DAL.Concrete
 
         public void LogOut(){}
 
-        public Task SendTextEmail(string email, string receiverName, string subject, string content)
+        public Task<string> SendTextEmail(string email, string receiverName, string subject, string content)
         {
             LastEmailSent = content;
-            return Task.CompletedTask;
+            return Task.Delay(1).ContinueWith(t => content);
         }
 
     }

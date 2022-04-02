@@ -1,11 +1,10 @@
 {
   "dependencies": {
-    "secrets1": {
-      "type": "secrets"
-    },
     "mssql1": {
+      "ignored": "true",
+      "suggestion": "true",
       "type": "mssql",
-      "connectionId": "MainIdentityDbContextConnection"
+      "connectionId": ""
     }
   }
 }
