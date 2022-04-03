@@ -51,7 +51,6 @@ CREATE TABLE [StateCrimeSearchResult]
     [Population]        INT             NOT NULL,
     [ViolentCrimes]     INT             NOT NULL,
     [Homicide]          INT             NOT NULL,
-    [Homicide]          INT             NOT NULL,
     [RapeLegacy]        INT             NOT NULL,
     [RapeRevised]       INT             NOT NULL,
     [Robbery]           INT             NOT NULL,
