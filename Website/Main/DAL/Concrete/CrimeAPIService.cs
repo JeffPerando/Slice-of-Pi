@@ -75,7 +75,7 @@ namespace Main.DAL.Concrete
                     float crimes_per_capita = (float)Math.Round((total_crime / population) * 100000, 2);
                     string formatted_population = String.Format("{0:n0}", population);
 
-                    states_crime.Add(new Crime { State = state_abbrevs, Population = formatted_population, Crime_Per_Capita = crimes_per_capita });
+                    states_crime.Add(new Crime { State = state_abbrevs, Population = formatted_population, CrimePerCapita = crimes_per_capita });
 
 
                 }
@@ -90,7 +90,7 @@ namespace Main.DAL.Concrete
 
         public List<Crime> GetSafestStates(List<Crime> crimeList)
         {
-            var top_five_states = crimeList.OrderBy(c => c.Crime_Per_Capita).Take(5).ToList();
+            var top_five_states = crimeList.OrderBy(c => c.CrimePerCapita).Take(5).ToList();
 
             return top_five_states;
 

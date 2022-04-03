@@ -28,32 +28,32 @@ namespace Test
 
             var randomList = new List<Crime>      // Sorts the highest actual conviction first. 
             {
-                new Crime { State = "AB", TotalOffenses = 1738, OffenseType = "property-crime", Crime_Per_Capita = 1552.6f },
-                new Crime { State = "CD", TotalOffenses = 69  , OffenseType = "larceny", Crime_Per_Capita = 1622.6f },
-                new Crime { State = "EF", TotalOffenses = 420 , OffenseType = "burglary", Crime_Per_Capita = 1582.6f },
-                new Crime { State = "GH", TotalOffenses = 1337, OffenseType = "homicide", Crime_Per_Capita = 2672.6f },
-                new Crime { State = "IJ", TotalOffenses = 24  , OffenseType = "arson", Crime_Per_Capita = 1512.6f },
-                new Crime { State = "KL", TotalOffenses = 25  , OffenseType = "rape", Crime_Per_Capita = 195.2f }
+                new Crime { State = "AB", TotalOffenses = 1738, OffenseType = "property-crime", CrimePerCapita = 1552.6f },
+                new Crime { State = "CD", TotalOffenses = 69  , OffenseType = "larceny", CrimePerCapita = 1622.6f },
+                new Crime { State = "EF", TotalOffenses = 420 , OffenseType = "burglary", CrimePerCapita = 1582.6f },
+                new Crime { State = "GH", TotalOffenses = 1337, OffenseType = "homicide", CrimePerCapita = 2672.6f },
+                new Crime { State = "IJ", TotalOffenses = 24  , OffenseType = "arson", CrimePerCapita = 1512.6f },
+                new Crime { State = "KL", TotalOffenses = 25  , OffenseType = "rape", CrimePerCapita = 195.2f }
             };
 
             var expectedList = new List<Crime>
             {
-                new Crime { State = "IJ", TotalOffenses = 24  , OffenseType = "arson", Crime_Per_Capita = 195.2f },
-                new Crime { State = "KL", TotalOffenses = 25  , OffenseType = "rape", Crime_Per_Capita = 1512.6f },
-                new Crime { State = "AB", TotalOffenses = 1738, OffenseType = "property-crime", Crime_Per_Capita = 1552.6f },
-                new Crime { State = "EF", TotalOffenses = 420 , OffenseType = "burglary", Crime_Per_Capita = 1582.6f },
-                new Crime { State = "GH", TotalOffenses = 1337, OffenseType = "homicide" , Crime_Per_Capita = 1622.6f },
-                new Crime { State = "CD", TotalOffenses = 69  , OffenseType = "larceny", Crime_Per_Capita = 2672.6f }
+                new Crime { State = "IJ", TotalOffenses = 24  , OffenseType = "arson", CrimePerCapita = 195.2f },
+                new Crime { State = "KL", TotalOffenses = 25  , OffenseType = "rape", CrimePerCapita = 1512.6f },
+                new Crime { State = "AB", TotalOffenses = 1738, OffenseType = "property-crime", CrimePerCapita = 1552.6f },
+                new Crime { State = "EF", TotalOffenses = 420 , OffenseType = "burglary", CrimePerCapita = 1582.6f },
+                new Crime { State = "GH", TotalOffenses = 1337, OffenseType = "homicide" , CrimePerCapita = 1622.6f },
+                new Crime { State = "CD", TotalOffenses = 69  , OffenseType = "larceny", CrimePerCapita = 2672.6f }
             };
 
             List<Crime> theList = new List<Crime>();
             theList = crimeRepo.GetSafestStates(randomList);
 
-            Assert.AreEqual(theList[0].Crime_Per_Capita, expectedList[0].Crime_Per_Capita);
-            Assert.AreEqual(theList[1].Crime_Per_Capita, expectedList[1].Crime_Per_Capita);
-            Assert.AreEqual(theList[2].Crime_Per_Capita, expectedList[2].Crime_Per_Capita);
-            Assert.AreEqual(theList[3].Crime_Per_Capita, expectedList[3].Crime_Per_Capita);
-            Assert.AreEqual(theList[4].Crime_Per_Capita, expectedList[4].Crime_Per_Capita);
+            Assert.AreEqual(theList[0].CrimePerCapita, expectedList[0].CrimePerCapita);
+            Assert.AreEqual(theList[1].CrimePerCapita, expectedList[1].CrimePerCapita);
+            Assert.AreEqual(theList[2].CrimePerCapita, expectedList[2].CrimePerCapita);
+            Assert.AreEqual(theList[3].CrimePerCapita, expectedList[3].CrimePerCapita);
+            Assert.AreEqual(theList[4].CrimePerCapita, expectedList[4].CrimePerCapita);
         }
 
         [Test]
@@ -120,22 +120,22 @@ namespace Test
 
             var randomList = new List<Crime>      // Sorts the highest actual conviction first. 
             {
-                new Crime { State = "AB", TotalOffenses = 1738, OffenseType = "property-crime", Crime_Per_Capita = 1552.6f },
-                new Crime { State = "CD", TotalOffenses = 69  , OffenseType = "larceny", Crime_Per_Capita = 1622.6f },
-                new Crime { State = "EF", TotalOffenses = 420 , OffenseType = "burglary", Crime_Per_Capita = 1582.6f },
-                new Crime { State = "GH", TotalOffenses = 1337, OffenseType = "homicide", Crime_Per_Capita = 2672.6f },
-                new Crime { State = "IJ", TotalOffenses = 24  , OffenseType = "arson", Crime_Per_Capita = 1512.6f },
-                new Crime { State = "KL", TotalOffenses = 25  , OffenseType = "rape", Crime_Per_Capita = 195.2f }
+                new Crime { State = "AB", TotalOffenses = 1738, OffenseType = "property-crime", CrimePerCapita = 1552.6f },
+                new Crime { State = "CD", TotalOffenses = 69  , OffenseType = "larceny", CrimePerCapita = 1622.6f },
+                new Crime { State = "EF", TotalOffenses = 420 , OffenseType = "burglary", CrimePerCapita = 1582.6f },
+                new Crime { State = "GH", TotalOffenses = 1337, OffenseType = "homicide", CrimePerCapita = 2672.6f },
+                new Crime { State = "IJ", TotalOffenses = 24  , OffenseType = "arson", CrimePerCapita = 1512.6f },
+                new Crime { State = "KL", TotalOffenses = 25  , OffenseType = "rape", CrimePerCapita = 195.2f }
             };
 
             var compareList = new List<Crime>
             {
-                new Crime { State = "IJ", TotalOffenses = 24  , OffenseType = "arson", Crime_Per_Capita = 195.2f },
-                new Crime { State = "KL", TotalOffenses = 25  , OffenseType = "rape", Crime_Per_Capita = 1512.6f },
-                new Crime { State = "AB", TotalOffenses = 1738, OffenseType = "property-crime", Crime_Per_Capita = 1552.6f },
-                new Crime { State = "EF", TotalOffenses = 420 , OffenseType = "burglary", Crime_Per_Capita = 1582.6f },
-                new Crime { State = "GH", TotalOffenses = 1337, OffenseType = "homicide" , Crime_Per_Capita = 1622.6f },
-                new Crime { State = "CD", TotalOffenses = 69  , OffenseType = "larceny", Crime_Per_Capita = 2672.6f }
+                new Crime { State = "IJ", TotalOffenses = 24  , OffenseType = "arson", CrimePerCapita = 195.2f },
+                new Crime { State = "KL", TotalOffenses = 25  , OffenseType = "rape", CrimePerCapita = 1512.6f },
+                new Crime { State = "AB", TotalOffenses = 1738, OffenseType = "property-crime", CrimePerCapita = 1552.6f },
+                new Crime { State = "EF", TotalOffenses = 420 , OffenseType = "burglary", CrimePerCapita = 1582.6f },
+                new Crime { State = "GH", TotalOffenses = 1337, OffenseType = "homicide" , CrimePerCapita = 1622.6f },
+                new Crime { State = "CD", TotalOffenses = 69  , OffenseType = "larceny", CrimePerCapita = 2672.6f }
             };
 
             List<Crime> theList = new List<Crime>();

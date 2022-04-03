@@ -104,6 +104,27 @@ namespace Main.Models
                 entity.Property(e => e.Name).HasMaxLength(100);
             });
 
+            modelBuilder.Entity<StateCrimeSearchResult>(entity =>
+            {
+                entity.ToTable("StateCrimeSearchResult");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.DateSearched).HasColumnType("datetime");
+
+                entity.Property(e => e.State).HasMaxLength(100);
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(450)
+                    .HasColumnName("UserID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.StateCrimeSearchResults)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("SCSR_Fk_User");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

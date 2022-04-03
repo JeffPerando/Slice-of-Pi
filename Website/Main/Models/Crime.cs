@@ -7,13 +7,13 @@ namespace Main.Models
     {
         public int Id { get; set; }
         public int Year { get; set; }
-        public string State { get; set; }
+        public string State { get; set; } = null!;
         public string OffenseType { get; set; } = null!;
         public int TotalOffenses { get; set; }
         public int ActualConvictions { get; set; }
         public int? AgencyId { get; set; }
-        public string Population { get; set; }
-        public float Crime_Per_Capita {get; set;}
+        public string Population { get; set; } = null!;
+        public double CrimePerCapita { get; set; }
 
         public virtual AgencyInformation? Agency { get; set; }
     }
