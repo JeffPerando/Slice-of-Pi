@@ -19,6 +19,8 @@ namespace Main.Controllers
 
         }
 
+        //Login helpers
+
         private async Task<IdentityUser?> ConfirmLoginAsync()
         {
             if (!_signInManager.IsSignedIn(User))
@@ -63,6 +65,8 @@ namespace Main.Controllers
 
             return crimeUser;
         }
+
+        //Actions
 
         [HttpGet]
         public async Task<IActionResult> Edit()
@@ -190,6 +194,16 @@ namespace Main.Controllers
             }
 
             return RedirectToAction("Addresses", "User");
+        }
+
+        public async Task<IActionResult> Searches()
+        {
+            if (_signInManager.IsSignedIn(User))
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            return View();
         }
 
     }

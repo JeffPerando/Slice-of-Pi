@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Your Searches";
+}
+
+@section Banner
+{
+
+}
+
+@section Scripts
+{
+    <script type="module" src="~/js/searchHistory.js" asp-append-version="true"></script>
+}
