@@ -117,7 +117,7 @@ namespace Main.DAL.Concrete
 
                     foreach (var crime in city_stats["results"])
                     {
-                        if ((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson" || (string)crime["offense"] == "rape-legacy")
+                        if ((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson")
 
                         {
                             continue;
