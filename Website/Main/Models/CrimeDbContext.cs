@@ -20,6 +20,7 @@ namespace Main.Models
         public virtual DbSet<Crime> Crimes { get; set; } = null!;
         public virtual DbSet<Home> Homes { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<StateCrimeSearchResult> StateCrimeSearchResults { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
