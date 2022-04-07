@@ -5,7 +5,7 @@ namespace Main.DAL.Abstract
     {
         void LogIn();
 
-        Task SendTextEmail(string email, string receiverName, string subject, string content);
+        Task<string> SendTextEmail(string email, string receiverName, string subject, string content);
 
         bool IsLoggedIn();
 
