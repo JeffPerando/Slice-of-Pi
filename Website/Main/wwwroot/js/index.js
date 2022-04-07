@@ -35,7 +35,7 @@ function displayStateInformation(data) {
             `<tr>
                 <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
                 <td style="color:white; font-weight:bold;">${data[i]["population"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["crime_Per_Capita"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["crimePerCapita"]}</td>
             </tr>`
         )
         $("#safestStatesTable>tbody").append(repoTR);

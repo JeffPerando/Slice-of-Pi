@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main", "Main\Main.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{FA760A0F-1770-46EF-8BDA-80342A246E16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test-BDD", "BDD\Test-BDD.csproj", "{7323C113-2970-4A9F-8CFD-06C50B9C591D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestBDD", "BDD\TestBDD.csproj", "{7323C113-2970-4A9F-8CFD-06C50B9C591D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
