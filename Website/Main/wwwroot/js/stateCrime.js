@@ -1,38 +1,32 @@
 ﻿
-$(function () {
-    var ourObject = { stateAbbrev: $("#stateAbbrev").val() };
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "/apiv3/FBI/StateList",
+    success: populateDropDown,
+    error: errorOnAjax
+
+});
+
+function fetchCrimeStats(btn) {
+    $("#spinnyBoi").show();
+    $("#stateCrimeDiv").removeAttr("hidden");
+    let form = $(btn).parents('form');
+
+    let formData = form.serialize();
+
+    console.log(`Form data: ${formData}`);
+
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/apiv3/FBI/StateCrimeStats",
-        //data: { stateAbbrev: $("#stateAbbrev").val() },
-        data: { stateAbbrev: $("#stateAbbrev").val(), year: $("#year").val() },
+        url: `/apiv3/FBI/StateCrimeStats`,
+        data: form.serialize(),
         success: showStateStats,
         error: errorOnAjax
 
     });
-
-    //$.ajax({
-    //    type: "GET",
-    //    dataType: "json",
-    //    url: "/apiv3/FBI/StateStats",
-    //    data: { stateAbbrev: $("#stateAbbrev").val() },
-    //    success: showStateStats,
-    //    error: errorOnAjax
-
-    //});
-
-
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/apiv3/FBI/StateList",
-        success: populateDropDown,
-        error: errorOnAjax
-
-    });
-})
-
+}
 
 function errorOnAjax() {
     console.log("ERROR in ajax request");
@@ -49,27 +43,13 @@ function populateDropDown(data) {
     }
 }
 
-function callAjaxForState() {
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/apiv3/FBI/StateCrimeStats",
-        data: { stateAbbrev: $("#stateAbbrev").val(), year: $("#year") },
-        success: showStateStats,
-        error: errorOnAjax
-
-    });
-
-}
-
 function showStateStats(data) {
+    $("#spinnyBoi").removeAttr("hidden");
     console.log(data);
-    $("#stateCrimeTable>tbody").empty();
 
-    let repoTR =
-        `<tr>
-            <td style="color:white; font-weight:bold;">${data["state"]}</td>
-            <td style="color:white; font-weight:bold;">${data["year"]}</td>
+    $("#stateCrimeHeader").html(`Here Are the Crime Statistics For ${data["state"]} in ${data["year"]}`);
+
+    $("#stateCrimeTable>tbody").html(`<tr>
             <td style="color:white; font-weight:bold;">${data["population"]}</td>
             <td style="color:white; font-weight:bold;">${data["violentCrimes"]}</td>
             <td style="color:white; font-weight:bold;">${data["homicide"]}</td>
@@ -82,20 +62,7 @@ function showStateStats(data) {
             <td style="color:white; font-weight:bold;">${data["larceny"]}</td>
             <td style="color:white; font-weight:bold;">${data["motorVehicleTheft"]}</td>
             <td style="color:white; font-weight:bold;">${data["arson"]}</td>
-        </tr>`;
-        $("#stateCrimeTable>tbody").append(repoTR);
-        $("#stateCrimeTable").show();
-  
+        </tr>`);
+    $("#spinnyBoi").hide();
+    window.scrollTo(0, document.body.scrollHeight);
 }
-//function callAjaxForState() {
-//    $.ajax({
-//        type: "GET",
-//        dataType: "json",
-//        url: "/apiv3/FBI/StateCrimeStats?" + $("form").serialize(),
-//        data: { stateAbbrev: $("#stateAbbrev").val() },
-//        success: showStateStats,
-//        error: errorOnAjax
-
-//    });
-
-//}

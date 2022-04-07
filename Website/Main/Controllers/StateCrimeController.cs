@@ -25,21 +25,18 @@ public class StateCrimeController : Controller
 
     }
 
-    public IActionResult StateCrimeStats(int? year, string stateAbbrev)
+    public IActionResult StateCrimeStats()
     {
-        ViewBag.stateAbbrev = stateAbbrev ?? "CA";
-        ViewBag.year = year ?? 0;
-        
         return View();
     }
 
     [HttpGet]
     public IActionResult GetStateCrimeStats(int? year, string? stateAbbrev)
     {
-        string state = stateAbbrev ?? "CA";
-        int actualYear = year ?? 2020;
+        year ??= 2020;
+        stateAbbrev ??= "CA";
 
-        var result = _CrimeService.GetState(state, actualYear);
+        var result = _CrimeService.GetState(stateAbbrev, year);
         
         if (_signInManager.IsSignedIn(User))
         {
