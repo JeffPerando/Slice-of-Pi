@@ -149,6 +149,11 @@ app.MapControllerRoute(
     pattern: "/apiv3/forms/{id?}",
     defaults: new { controller = "Form", action = "GetForm"});
 
+app.MapControllerRoute(
+    name: "API User State Search History",
+    pattern: "/api/SearchHistory/StateCrime",
+    defaults: new { controller = "API", action = "StateCrimeSearchResults" });
+
 //app.MapControllerRoute(
 //    name: "City Stats",
 //    pattern: "{controller=Crime}/{action=CrimeStats}/{cityName?}/{stateAbbrev?}");

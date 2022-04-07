@@ -24,25 +24,19 @@ public class HomeController : Controller
         return View();
     }
 
-
     [HttpGet]
     public IActionResult GetSafestState()
     {
-        List<string> state_list = new List<string>();
-        List<Crime> top_five_states = new List<Crime>();
-        List<Crime> get_national_stats = new List<Crime>();
-        
-        state_list = _CrimeService.GetStates();
-        get_national_stats = _CrimeService.ReturnStateCrimeList(state_list);
-        top_five_states = _CrimeService.GetSafestStates(get_national_stats);
+        var state_list = _CrimeService.GetStates();
+        var get_national_stats = _CrimeService.ReturnStateCrimeList(state_list);
+        var top_five_states = _CrimeService.GetSafestStates(get_national_stats);
 
         return Json(top_five_states);
     }
     [HttpGet]
     public IActionResult GetListStates()
     {
-        List<string> state_list = new List<string>();
-        state_list = _CrimeService.GetStates();
+        var state_list = _CrimeService.GetStates();
         return Json(state_list);
     }
 

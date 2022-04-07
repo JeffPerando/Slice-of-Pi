@@ -15,7 +15,7 @@ namespace Main.DAL.Concrete
     public class CrimeAPIService : ICrimeAPIService
     {
 
-        public string keyFBI = null;
+        public string keyFBI = "";
 
         public string state_json { get; }
         public string crime_api_state_info { get; }
@@ -24,13 +24,12 @@ namespace Main.DAL.Concrete
 
         public string crime_state_api_url { get; }
 
-
-
         public void SetCredentials(string token)
         {
             keyFBI = token;
 
         }
+
         public CrimeAPIService()
         {
             state_json = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_titlecase.json";
@@ -64,13 +63,12 @@ namespace Main.DAL.Concrete
             {
                 try
                 {
-
                     var jsonResponse = new WebClient().DownloadString(crime_api_state_info + states[i] + year.setYearForJSON(0) + keyFBI);
                     JObject info = JObject.Parse(jsonResponse);
 
                     float population = (int)info["results"][0]["population"];
                     float total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
-                    string state_abbrevs = (string)info["results"][0]["state_abbr"];
+                    string state_abbrevs = (string)info["results"][0]["state_abbr"] ?? "CA";
 
                     float crimes_per_capita = (float)Math.Round((total_crime / population) * 100000, 2);
                     string formatted_population = String.Format("{0:n0}", population);
@@ -93,7 +91,6 @@ namespace Main.DAL.Concrete
             var top_five_states = crimeList.OrderBy(c => c.CrimePerCapita).Take(5).ToList();
 
             return top_five_states;
-
         }
 
         public List<Crime> GetCityStatsByYear(string cityName, string stateAbbrev, string year)
@@ -206,11 +203,10 @@ namespace Main.DAL.Concrete
             return city_stats.OrderByDescending(t => t.TotalOffenses).ToList();
         }
 
-
-        public StateCrimeViewModel GetState(string stateAbbrev, int? aYear)
+        public StateCrimeSearchResult GetState(string stateAbbrev, int? aYear)
         {
             JSONYearVariable year = new JSONYearVariable();
-            StateCrimeViewModel state_crime_stats = new StateCrimeViewModel();
+            var state_crime_stats = new StateCrimeSearchResult();
             var jsonResponse = new WebClient().DownloadString(crime_api_state_info + stateAbbrev + year.setYearForJSON(aYear) + keyFBI);
             JObject info = JObject.Parse(jsonResponse);
             state_crime_stats = state_crime_stats.PresentJSONRespone(info);

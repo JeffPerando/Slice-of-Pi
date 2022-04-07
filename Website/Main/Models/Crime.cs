@@ -13,7 +13,7 @@ namespace Main.Models
         public int ActualConvictions { get; set; }
         public int? AgencyId { get; set; }
         public string Population { get; set; } = null!;
-        public double CrimePerCapita { get; set; }
+        public float CrimePerCapita { get; set; }
 
         public virtual AgencyInformation? Agency { get; set; }
     }

@@ -5,11 +5,19 @@
     ViewData["Title"] = "Your Searches";
 }
 
-@section Banner
+@section Banner{}
+
+@section UpcomingMeetings
 {
-
+    <div class="text-center text-light" id="stateCrime">
+        <h3 class="my-1">Your State Crime Searches</h3>
+        <div id="scsr">
+            <h4>Retrieving your search history...</h4>
+            <img src="/spinner.gif" style='width: 64px; height: 64px;'/>
+        </div>
+        <a href="/Download/StateCrimeSearchHistory" class="btn btn-success">Download</a>
+    </div>
 }
-
 @section Scripts
 {
     <script type="module" src="~/js/searchHistory.js" asp-append-version="true"></script>

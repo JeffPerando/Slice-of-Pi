@@ -25,57 +25,33 @@ public class StateCrimeController : Controller
 
     }
 
-    public IActionResult StateCrimeStats(int? year, string stateAbbrev, StateCrimeViewModel model)
+    public IActionResult StateCrimeStats(int? year, string stateAbbrev)
     {
-
-        if (stateAbbrev == null)
-        {
-            stateAbbrev = "CA";
-        }
-
-        if (year == null)
-        {
-            year = 0;
-        }
-        TempData["stuff"] = stateAbbrev;
-        TempData["moreStuff"] = year;
-        ViewBag.stateAbbrev = stateAbbrev;
-        ViewBag.year = year;
+        ViewBag.stateAbbrev = stateAbbrev ?? "CA";
+        ViewBag.year = year ?? 0;
+        
         return View();
     }
 
     [HttpGet]
-    public IActionResult GetStateCrimeStats(int? year, string stateAbbrev, StateCrimeViewModel model)
+    public IActionResult GetStateCrimeStats(int? year, string? stateAbbrev)
     {
-        /*
-        if (stateAbbrev == null)
-        {
-            stateAbbrev = "CA";
-        }
+        string state = stateAbbrev ?? "CA";
+        int actualYear = year ?? 2020;
 
-        if (year == null)
-        {
-            year = 0;
-        }
-        */
-        stateAbbrev = TempData["stuff"].ToString();
-        year = Convert.ToInt32(TempData["moreStuff"]);
-
-        StateCrimeViewModel state = new StateCrimeViewModel();
-        state = _CrimeService.GetState(stateAbbrev, year);
+        var result = _CrimeService.GetState(state, actualYear);
         
         if (_signInManager.IsSignedIn(User))
         {
-            var result = new StateCrimeSearchResult();
-
             result.UserId = _userManager.GetUserId(User);
             result.DateSearched = DateTime.Now;
-            result.State = stateAbbrev;
-            result.Year = year ?? 0;
+            
+            _db.StateCrimeSearchResults.Add(result);
+            _db.SaveChangesAsync();
 
         }
 
-        return Json(state);
+        return Json(result);
     }
 
     [HttpGet]

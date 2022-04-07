@@ -63,28 +63,26 @@ function callAjaxForState() {
 }
 
 function showStateStats(data) {
-
     console.log(data);
     $("#stateCrimeTable>tbody").empty();
 
-        let repoTR = $(
-            `<tr>
-                <td style="color:white; font-weight:bold;">${data["state_abbr"]}</td>
-                <td style="color:white; font-weight:bold;">${data["year"]}</td>
-                <td style="color:white; font-weight:bold;">${data["population"]}</td>
-                <td style="color:white; font-weight:bold;">${data["violent_crime"]}</td>
-                <td style="color:white; font-weight:bold;">${data["homicide"]}</td>
-                <td style="color:white; font-weight:bold;">${data["rape_legacy"]}</td>
-                <td style="color:white; font-weight:bold;">${data["rape_revised"]}</td>
-                <td style="color:white; font-weight:bold;">${data["robbery"]}</td>
-                <td style="color:white; font-weight:bold;">${data["aggravated_assault"]}</td>
-                <td style="color:white; font-weight:bold;">${data["property_crime"]}</td>
-                <td style="color:white; font-weight:bold;">${data["burglary"]}</td>
-                <td style="color:white; font-weight:bold;">${data["larceny"]}</td>
-                <td style="color:white; font-weight:bold;">${data["motor_vehicle_theft"]}</td>
-                <td style="color:white; font-weight:bold;">${data["arson"]}</td>
-            </tr>`
-        )
+    let repoTR =
+        `<tr>
+            <td style="color:white; font-weight:bold;">${data["state"]}</td>
+            <td style="color:white; font-weight:bold;">${data["year"]}</td>
+            <td style="color:white; font-weight:bold;">${data["population"]}</td>
+            <td style="color:white; font-weight:bold;">${data["violentCrimes"]}</td>
+            <td style="color:white; font-weight:bold;">${data["homicide"]}</td>
+            <td style="color:white; font-weight:bold;">${data["rapeLegacy"]}</td>
+            <td style="color:white; font-weight:bold;">${data["rapeRevised"]}</td>
+            <td style="color:white; font-weight:bold;">${data["robbery"]}</td>
+            <td style="color:white; font-weight:bold;">${data["assault"]}</td>
+            <td style="color:white; font-weight:bold;">${data["propertyCrimes"]}</td>
+            <td style="color:white; font-weight:bold;">${data["burglary"]}</td>
+            <td style="color:white; font-weight:bold;">${data["larceny"]}</td>
+            <td style="color:white; font-weight:bold;">${data["motorVehicleTheft"]}</td>
+            <td style="color:white; font-weight:bold;">${data["arson"]}</td>
+        </tr>`;
         $("#stateCrimeTable>tbody").append(repoTR);
         $("#stateCrimeTable").show();
   

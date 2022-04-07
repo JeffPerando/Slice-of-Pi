@@ -46,20 +46,20 @@ CREATE TABLE [StateCrimeSearchResult]
     [UserID]            NVARCHAR(450)   NOT NULL,
     [DateSearched]      DATETIME        NOT NULL,
     [State]             NVARCHAR(100)   NOT NULL,
-    [Year]              INT             NOT NULL,
+    [Year]              INT,
     --Crime data below this point
-    [Population]        INT             NOT NULL,
-    [ViolentCrimes]     INT             NOT NULL,
-    [Homicide]          INT             NOT NULL,
-    [RapeLegacy]        INT             NOT NULL,
-    [RapeRevised]       INT             NOT NULL,
-    [Robbery]           INT             NOT NULL,
-    [Assault]           INT             NOT NULL,
-    [PropertyCrimes]    INT             NOT NULL,
-    [Burglary]          INT             NOT NULL,
-    [Larceny]           INT             NOT NULL,
-    [MotorVehicleTheft] INT             NOT NULL,
-    [Arson]             INT             NOT NULL
+    [Population]        INT,
+    [ViolentCrimes]     INT,
+    [Homicide]          INT,
+    [RapeLegacy]        INT,
+    [RapeRevised]       INT,
+    [Robbery]           INT,
+    [Assault]           INT,
+    [PropertyCrimes]    INT,
+    [Burglary]          INT,
+    [Larceny]           INT,
+    [MotorVehicleTheft] INT,
+    [Arson]             INT
 );
 
 ALTER TABLE [Home]  ADD CONSTRAINT [Home_Fk_User]              FOREIGN KEY  ([UserID])   REFERENCES   [User]              ([ID])  ON DELETE NO ACTION ON UPDATE NO ACTION;

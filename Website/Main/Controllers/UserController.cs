@@ -198,7 +198,7 @@ namespace Main.Controllers
 
         public async Task<IActionResult> Searches()
         {
-            if (_signInManager.IsSignedIn(User))
+            if (!_signInManager.IsSignedIn(User))
             {
                 return Redirect("/Identity/Account/Login");
             }
