@@ -6,10 +6,10 @@ using Main.Services.Abstract;
 using Main.Services.Concrete;
 using System.Threading;
 
-namespace Test
-{
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable IDE0059 // Unnecessary assignment of a value
+namespace Test
+{
     public class UserVerifierTests
     {
         private IUserVerifierService? verifier;

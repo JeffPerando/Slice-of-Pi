@@ -3,7 +3,7 @@
 }
 
 @section Banner {
-<p>This is life of Pi bringing you a centralized research application. Be informed about the kind of community you may end up belonging too.</p>
+<p>This is life of Pi bringing you a centralized research application. Be informed about the kind of community you may end up belonging to.</p>
 }
 
 <section class="services">
@@ -44,20 +44,18 @@
     </div>
 </section>
 
-<section class="upcoming-meetings" id="meetings">
-    <div class="container">
-        <div class="row">
-            <div class="col text-center my-5">
-                <partial name="_CityLookupForm" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col text-center my-5">
-                <partial name="_SafestStates" />
-            </div>
+@section UpcomingMeetings {
+    <div class="row">
+        <div class="col text-center my-5">
+            <partial name="_CityLookupForm" />
         </div>
     </div>
-</section>
+    <div class="row">
+        <div class="col text-center my-5">
+            <partial name="_SafestStates" />
+        </div>
+    </div>
+}
 
 @*<form action="Crime/CrimeStats" method="get">
     <label for="cityName" style="color:white">Enter a city name: </label>
