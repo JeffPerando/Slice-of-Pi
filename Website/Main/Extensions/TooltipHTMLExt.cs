@@ -4,7 +4,7 @@ using System.Web;
 
 namespace Main.Extensions
 {
-    public static class TooltipHelper
+    public static class TooltipHTMLExt
     {
         public static IHtmlContent Tooltip(this IHtmlHelper helper, string tooltip, string direction = "top")
         {

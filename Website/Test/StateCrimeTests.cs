@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections;
 using Newtonsoft.Json;
 
-namespace NUnit_Test
+namespace Test
 {
     public class StateCrimeTests
     {

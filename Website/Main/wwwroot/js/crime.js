@@ -31,10 +31,14 @@ function showCityStats(data) {
             noOffenses.push(data[i]);
             continue;
         }
+        if (data[i]["offenseType"] == "rape-legacy")
+        {
+            data[i]["offenseType"] = "rape (Legacy)";
+        }
 
         let repoTR = $(
             `<tr>
-                <td>${data[i]["offenseType"].replaceAll("-", " ")}</td>
+                <td>${capitalize(data[i]["offenseType"].replaceAll("-", " "))}</td>
                 <td>${data[i]["totalOffenses"]}</td>
                 <td>${data[i]["actualConvictions"]}</td>
             </tr>`
@@ -54,7 +58,7 @@ function showCityStats(data) {
             var ul = document.getElementById("cityCrimeStatsNoCrime");
             var li = document.createElement("li")
             
-            li.appendChild(document.createTextNode(capitalize(offense)));
+            li.appendChild(document.createTextNode("> " + (capitalize(offense))));
             ul.appendChild(li);
         }
         
