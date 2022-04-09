@@ -66,6 +66,72 @@ function showCityStats(data) {
 
 
     document.getElementById("year").textContent = " (" + currentYearSelected + ")";
+
+    // Creates the Pi Graph
+    showChartPercentage(data);
+}
+
+function showChartPercentage(data){
+
+    let crimes = data;
+    const crimeTypes = [];
+    const amountCrimes = [];
+    const percentagesCrimes = []
+    //Sorts the list by offense type kinda like a Linq 
+    crimes.sort((a,b) => a.offenseType.localeCompare(b.offenseType));
+    console.log(crimes);
+
+    for (let i = 0; i < crimes.length; i++)
+    {
+        if (crimes[i]["totalOffenses"] <= 0)
+        {
+            continue;
+        }
+        crimeTypes.push(capitalize(crimes[i]["offenseType"]));
+        amountCrimes.push(crimes[i]["totalOffenses"]);
+    }
+    
+    //Gets sum of amountCrimes
+    var sum = amountCrimes.reduce(function(a, b){
+        return a + b;
+    }, 0);
+
+    for (let i = 0; i < crimes.length; i++)
+    {
+        percentagesCrimes.push(((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1));
+    }
+
+    console.log(amountCrimes);
+    console.log(crimeTypes);
+    console.log(percentagesCrimes);
+
+    const ctx = document.getElementById('crimeTrendPercentage').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'pie',
+        options: {
+        },
+        data: {
+            labels: crimeTypes,
+            datasets: [{
+              label: 'Crimes percentages in this area.',
+              data: percentagesCrimes,
+              backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(56, 32, 86)',
+                'rgb(29, 205, 125)',
+                'rgb(32, 194, 39)',
+                'rgb(220, 205, 100)',
+                'rgb(212, 20, 136)',
+                'rgb(239, 130, 93)',
+                'rgb(93, 130, 86)',
+                'rgb(159, 205, 86)',
+                'rgb(0, 205, 143)',
+              ],
+              hoverOffset: 4
+            }]
+          },
+    });
 }
 
 function displayStateInformation(data) {

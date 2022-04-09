@@ -13,6 +13,11 @@
             <div style="text-align: center;">
                 <canvas id="crimeTrendChart" width="50" height="37"></canvas>
             </div>
+            <hr>
+            <div style="text-align: center;">
+                <canvas id="crimeTrendPercentage" width="50" height="37"></canvas>
+            </div>
+            
         </div>
         <div class="col-sm-4">
             <div class="text-left">
@@ -114,11 +119,12 @@
 @section Scripts
 {
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
 
 <script>
-    $('select').on('change', function (e) {
+    $('#yearSelector').on('change', function (e) {
     var optionValue = $("option:selected", this);
     var selectedValue = this.value;
     
