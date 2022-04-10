@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Main.Models;
 using Main.DAL.Abstract;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace Main.Controllers;
 
@@ -10,64 +11,44 @@ public class StateCrimeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ICrimeAPIService _CrimeService;
-    private readonly IConfiguration _config;
+    private readonly CrimeDbContext _db;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public StateCrimeController(ILogger<HomeController> logger, ICrimeAPIService cs, IConfiguration config)
+    public StateCrimeController(ILogger<HomeController> logger, ICrimeAPIService cs, CrimeDbContext db, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
     {
         _logger = logger;
         _CrimeService = cs;
-        _config = config;
+        _db = db;
+        _userManager = userManager;
+        _signInManager = signInManager;
 
     }
 
-
-    //public IActionResult StateCrimeStats(string stateAbbrev)
-    //{
-    //    if (stateAbbrev == null)
-    //    {
-    //        stateAbbrev = "CA";
-    //    }
-    //    ViewBag.stateAbbrev = stateAbbrev;
-    //    return View();
-    //}
-    public IActionResult StateCrimeStats(int? year, string stateAbbrev, StateCrimeViewModel model)
+    public IActionResult StateCrimeStats()
     {
-
-        if (stateAbbrev == null)
-        {
-            stateAbbrev = "CA";
-        }
-
-        if (year == null)
-        {
-            year = 0;
-        }
-        TempData["stuff"] = stateAbbrev;
-        TempData["moreStuff"] = year;
-        ViewBag.stateAbbrev = stateAbbrev;
-        ViewBag.year = year;
         return View();
     }
 
     [HttpGet]
-    public IActionResult GetStateCrimeStats(int? year, string stateAbbrev, StateCrimeViewModel model)
+    public IActionResult GetStateCrimeStats(int? year, string? stateAbbrev)
     {
-        if (stateAbbrev == null)
+        year ??= 2020;
+        stateAbbrev ??= "CA";
+
+        var result = _CrimeService.GetState(stateAbbrev, year);
+        
+        if (_signInManager.IsSignedIn(User))
         {
-            stateAbbrev = "CA";
+            result.UserId = _userManager.GetUserId(User);
+            result.DateSearched = DateTime.Now;
+            
+            _db.StateCrimeSearchResults.Add(result);
+            _db.SaveChangesAsync();
+
         }
 
-        if (year == null)
-        {
-            year = 0;
-        }
-        stateAbbrev = TempData["stuff"].ToString();
-        year = Convert.ToInt32(TempData["moreStuff"]);
-        StateCrimeViewModel state = new StateCrimeViewModel();
-        _CrimeService.SetCredentials(_config["apiFBIKey"]);
-        state = _CrimeService.GetState(stateAbbrev, year);
- 
-        return Json(state);
+        return Json(result);
     }
 
     [HttpGet]
