@@ -15,8 +15,8 @@ function errorOnAjax() {
     console.log("ERROR in ajax request");
 }
 
+
 function showChartTrend(data){
-    
     const years = [];
     const crimes = [];
     const propertyCrimes = [];
@@ -43,7 +43,8 @@ function showChartTrend(data){
         element.value = option;
         select.appendChild(element);
     }
-    
+
+    //Creats the Line Graph
     const ctx = document.getElementById('crimeTrendChart').getContext('2d');
     const myChart = new Chart(ctx, {
     type: 'line',
@@ -97,4 +98,6 @@ function showChartTrend(data){
         }
     }
     });
+
+    
 }
