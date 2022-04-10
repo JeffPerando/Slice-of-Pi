@@ -26,7 +26,7 @@
                         </div>
                         <div class="down-content">
                             <h4>City Crime Rates</h4>
-                            <p>Be even more informed and see what kind of crimes are common in your city of interest.</p>
+                            <p>See what kind of crimes are common in your city of interest.</p>
                         </div>
                     </div>
                     <div class="item">
@@ -44,30 +44,21 @@
     </div>
 </section>
 
-@section UpcomingMeetings {
-    <div class="row">
-        <div class="col text-center my-5">
-            <partial name="_CityLookupForm" />
+<section class="upcoming-meetings" id="meetings">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center my-5">
+                <partial name="_CityLookupForm" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center my-5">
+                <partial name="_SafestStates" />
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col text-center my-5">
-            <partial name="_SafestStates" />
-        </div>
-    </div>
-}
+</section>
 
-@*<form action="Crime/CrimeStats" method="get">
-    <label for="cityName" style="color:white">Enter a city name: </label>
-    <input type="text" id="cityName" name="cityName" required><br><br>
-
-    <label for= "stateAbbrev" style="color:white">Select a state: </label>
-    <select name= "stateAbbrev" id="stateAbbrev" required>
-        <option value="" disabled>Choose a state</option>
-    </select>
-    <br><br>
-    <input type="submit" value="Submit">
-</form>*@
 
 <section class="our-courses" id="courses">
   <div class="container">
@@ -214,7 +205,7 @@
       </div>
       <div class="col-lg-6 align-self-center">
         <div class="video">
-          <a href="https://www.youtube.com/watch?v=HndV87XpkWg" target="_blank"><img src="assets/images/play-icon.png" alt=""></a>
+          <a href="https://www.youtube.com/watch?v=b1TuS31G_dg" target="_blank"><img src="assets/images/play-icon.png" alt=""></a>
         </div>
       </div>
     </div>
