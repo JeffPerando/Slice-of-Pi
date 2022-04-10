@@ -85,7 +85,6 @@ function showChartPercentage(data){
     const percentagesCrimes = []
     //Sorts the list by offense type kinda like a Linq 
     crimes.sort((a,b) => a.offenseType.localeCompare(b.offenseType));
-    console.log(crimes);
 
     for (let i = 0; i < crimes.length; i++)
     {
@@ -110,10 +109,6 @@ function showChartPercentage(data){
         }
         percentagesCrimes.push(((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1));
     }
-
-    console.log(amountCrimes);
-    console.log(crimeTypes);
-    console.log(percentagesCrimes);
     
     const config = {
         type: 'pie',
