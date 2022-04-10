@@ -78,7 +78,7 @@
         </div>
         <div class="col-sm-4">
             <div class="text-left">
-                <h1>Crime Amount for: </h1>
+                <h1 style="text-decoration: underline; color:black;">Crime Amount for: </h1>
                 <br>
                 <h3 style="color:black;"><span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
                 <label for="yearSelector">Select a year:  </label>
@@ -86,7 +86,9 @@
                     <option value="" disabled>Select year</option>
                 </select>
                 <hr>
+                <h3 class="text-center" style="color:black">Crime by Percentage @Html.Tooltip("Calculation information:<br>These calculations are done by taking the total amount of crimes and getting the percentage by dividing it by the crime in question, and then multiplying by 100.<br><br>Information displaying: <br>If a specific label is present, however you are not seeing it present in the pie graph, then please click on other labels to allow for the label to expand, it might be that there is so little of the crime in the area.")</h3>
                 <canvas id="crimeTrendPercentage" width="100" height="100"></canvas>
+                <br>
                 <br>
                 <table id="cityCrimeStats" class="table">
                     <thead class="table-dark">
