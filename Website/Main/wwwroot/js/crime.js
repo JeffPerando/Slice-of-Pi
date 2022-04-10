@@ -98,6 +98,10 @@ function showChartPercentage(data){
 
     for (let i = 0; i < crimes.length; i++)
     {
+        if (((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1) <= 0)
+        {
+            continue
+        }
         percentagesCrimes.push(((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1));
     }
 
