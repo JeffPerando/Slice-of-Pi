@@ -21,6 +21,7 @@ function showCityStats(data) {
         window.alert("Information was not found for this city. We either do not currently have information on this city, or it does not exist.\n\nReturning to homepage.");
         window.location.href = window.location.origin;
     }
+
     var noOffenses = [];
     var currentYearSelected = data[0]["year"];
 
@@ -69,10 +70,15 @@ function showCityStats(data) {
 
     // Creates the Pi Graph
     showChartPercentage(data);
+    
+    document.getElementById("loadingIcon").textContent = "";
 }
 
+
+let myChart = null;
 function showChartPercentage(data){
 
+    
     let crimes = data;
     const crimeTypes = [];
     const amountCrimes = [];
@@ -108,9 +114,8 @@ function showChartPercentage(data){
     console.log(amountCrimes);
     console.log(crimeTypes);
     console.log(percentagesCrimes);
-
-    const ctx = document.getElementById('crimeTrendPercentage').getContext('2d');
-    const myChart = new Chart(ctx, {
+    
+    const config = {
         type: 'pie',
         options: {
         },
@@ -135,7 +140,16 @@ function showChartPercentage(data){
               hoverOffset: 4
             }]
           },
-    });
+    }
+
+    const ctx = document.getElementById('crimeTrendPercentage').getContext('2d');
+
+    if (myChart != null)
+    {
+        myChart.destroy();
+    }
+    myChart = new Chart(ctx, config);
+    
 }
 
 function displayStateInformation(data) {

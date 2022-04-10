@@ -17,8 +17,6 @@ function errorOnAjax() {
 
 
 function showChartTrend(data){
-    
-    
     const years = [];
     const crimes = [];
     const propertyCrimes = [];
