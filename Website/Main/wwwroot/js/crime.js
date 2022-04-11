@@ -32,10 +32,6 @@ function showCityStats(data) {
             noOffenses.push(data[i]);
             continue;
         }
-        if (data[i]["offenseType"] == "rape-legacy")
-        {
-            data[i]["offenseType"] = "rape (Legacy)";
-        }
 
         let repoTR = $(
             `<tr>
@@ -77,12 +73,11 @@ function showCityStats(data) {
 
 let myChart = null;
 function showChartPercentage(data){
-
-    
+  
     let crimes = data;
-    const crimeTypes = [];
-    const amountCrimes = [];
-    const percentagesCrimes = []
+    let crimeTypes = [];
+    let amountCrimes = [];
+    let percentagesCrimes = []
     //Sorts the list by offense type kinda like a Linq 
     crimes.sort((a,b) => a.offenseType.localeCompare(b.offenseType));
 
@@ -91,7 +86,7 @@ function showChartPercentage(data){
         if (crimes[i]["totalOffenses"] <= 0)
         {
             continue;
-        }
+        }   
         crimeTypes.push(capitalize(crimes[i]["offenseType"]));
         amountCrimes.push(crimes[i]["totalOffenses"]);
     }
@@ -109,7 +104,6 @@ function showChartPercentage(data){
         }
         percentagesCrimes.push(((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1));
     }
-    
     const config = {
         type: 'pie',
         options: {
@@ -144,7 +138,7 @@ function showChartPercentage(data){
         myChart.destroy();
     }
     myChart = new Chart(ctx, config);
-    
+
 }
 
 function displayStateInformation(data) {
