@@ -44,12 +44,13 @@ reset
     margin-right: 0;
     font-weight: bold;
     color: black;
-    width: 300px;
+    width: 250px;
     height: 60px;
     border: none;
     margin: 0;
     padding: 0;
     background: white;
+    align-content: center;
 }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, div

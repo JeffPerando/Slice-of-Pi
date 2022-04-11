@@ -27,6 +27,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="107.3.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="100.0.4896.6000" />
+    <PackageReference Include="SpecFlow.Actions.Configuration" Version="0.1.298" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.9.58" />
+    <PackageReference Include="SpecFlow.Plus.LivingdocPlugin" Version="3.9.57" />
   </ItemGroup>
 
   <ItemGroup>

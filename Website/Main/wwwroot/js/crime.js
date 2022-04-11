@@ -104,8 +104,6 @@ function showChartPercentage(data){
         }
         percentagesCrimes.push(((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1));
     }
-
-    
     const config = {
         type: 'pie',
         options: {
