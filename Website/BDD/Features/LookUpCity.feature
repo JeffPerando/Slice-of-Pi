@@ -1,3 +1,4 @@
+Feature: LookUpCity
 
 Scenario Outline: Visitor can lookup crime statistics
     Given I am on the Home page
