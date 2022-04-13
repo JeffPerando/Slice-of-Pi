@@ -49,12 +49,17 @@ namespace Main.DAL.Concrete
                 url = QueryHelpers.AddQueryString(url, query);
             }
 
+            //Debug.WriteLine($"Fetching {url}");
+
             try
             {
                 result = _client.GetAsync(url).GetAwaiter().GetResult();
 
             }
-            catch {}
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
 
             return result;
         }
@@ -65,6 +70,7 @@ namespace Main.DAL.Concrete
 
             if (result == null || !result.IsSuccessStatusCode)
             {
+                //Debug.WriteLine($"ERROR: {url} came back with {result?.StatusCode ?? 0}");
                 return null;
             }
 
