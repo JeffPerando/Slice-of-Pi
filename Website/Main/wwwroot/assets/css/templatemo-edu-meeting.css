@@ -34,6 +34,25 @@ font & reset css
 reset
 --------------------------------------------- 
 */
+
+.IvansText {
+    display: block;
+    font-size: 1em;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+    color: black;
+    width: 250px;
+    height: 60px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: white;
+    align-content: center;
+}
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, div
 pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q,
 s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
@@ -1287,6 +1306,12 @@ section.our-facts h2 {
 }
 
 .count-digit {
+    margin: 5px 0px;
+    color: #f5a425;
+    font-weight: 700;
+    font-size: 36px;
+}
+.words {
     margin: 5px 0px;
     color: #f5a425;
     font-weight: 700;

@@ -15,7 +15,6 @@ namespace Main.Models
         public int? AgencyId { get; set; }
 
         public virtual AgencyInformation? Agency { get; set; }
-        public virtual User? User { get; set; }
-
+        public virtual User User { get; set; } = null!;
     }
 }
