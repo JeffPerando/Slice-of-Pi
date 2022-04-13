@@ -37,9 +37,9 @@ namespace Final_Tests
             checkYears = crimeRepo.ReturnYearsDropdown(yearsReported);
 
             //Assert
-            Assert.IsTrue(checkYears.Any(y => y.Years == 2018));
-            Assert.IsTrue(checkYears.Any(y => y.Years == 2019));
-            Assert.IsTrue(checkYears.Any(y => y.Years == 2020));
+            Assert.IsTrue(checkYears.Any(y => y.Year == 2018));
+            Assert.IsTrue(checkYears.Any(y => y.Year == 2019));
+            Assert.IsTrue(checkYears.Any(y => y.Year == 2020));
 
             //If true all of the years will be properly sent to the JavaScript (Disregards order)!
         }
@@ -54,12 +54,12 @@ namespace Final_Tests
 
             //Act
             JObject yearsReported = JObject.Parse(years);
-            checkYears = crimeRepo.ReturnYearsDropdown(yearsReported);
+            checkYears = crimeRepo.ReturnYearDropdown(yearsReported);
 
             //Assert
-            Assert.AreEqual(checkYears[0].Years, 2020);
-            Assert.AreEqual(checkYears[1].Years, 2019);
-            Assert.AreEqual(checkYears[2].Years, 2018);
+            Assert.AreEqual(checkYears[0].Year, 2020);
+            Assert.AreEqual(checkYears[1].Year, 2019);
+            Assert.AreEqual(checkYears[2].Year, 2018);
 
         }
 

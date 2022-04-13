@@ -14,37 +14,36 @@ namespace Main.DAL.Concrete
 {
     public class CrimeAPIService : ICrimeAPIService
     {
+        private readonly string keyFBI = "";
+        private readonly IWebService _web;
 
-        public string keyFBI = "";
+        public readonly string state_json = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_titlecase.json";
+        public readonly string crime_api_state_info = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
+        public readonly string crime_statistics_api_url = "https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr/";
+        public readonly string crime_url_agency_reported_crime = "https://api.usa.gov/crime/fbi/sapi/api/summarized/agencies/";
 
-        public string state_json { get; }
-        public string crime_api_state_info { get; }
-        public string crime_statistics_api_url { get; }
-        public string crime_url_agency_reported_crime { get; }
+        // public string crime_state_api_url { get; }
 
-        public string crime_state_api_url { get; }
+        //old unit tests don't like this, please don't use
+        //and turns out it breaks the app entirely. commenting out...
+        //[Obsolete("Please clean this up. Unit tests that use this class are actually integration tests. Move things that don't need to contact the FBI somewhere else, like a service or the API controller")]
+        //public CrimeAPIService() : this("INVALID_KEY", new WebService()) {}
 
-        public void SetCredentials(string token)
+        public CrimeAPIService(IConfiguration config) : this(config["apiFBIKey"], new WebService()) { }
+
+        public CrimeAPIService(string token) : this(token, new WebService()) { }
+
+        public CrimeAPIService(string token, IWebService web)
         {
             keyFBI = token;
-
-        }
-
-        public CrimeAPIService()
-        {
-            state_json = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_titlecase.json";
-            crime_api_state_info = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
-            crime_statistics_api_url = "https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr/";
-            crime_url_agency_reported_crime = "https://api.usa.gov/crime/fbi/sapi/api/summarized/agencies/";
+            _web = web;
 
         }
 
         public List<string> GetStates()
         {
-            var jsonResponse = new WebClient().DownloadString(state_json);
-
+            var info = _web.FetchJArray(state_json);
             List<string> state_abbrevs = new List<string>();
-            JArray info = JArray.Parse(jsonResponse);
 
             for (int i = 0; i < info.Count; i++)
             {
@@ -63,8 +62,13 @@ namespace Main.DAL.Concrete
             {
                 try
                 {
-                    var jsonResponse = new WebClient().DownloadString(crime_api_state_info + states[i] + year.setYearForJSON(0) + keyFBI);
-                    JObject info = JObject.Parse(jsonResponse);
+                    var url = crime_api_state_info + states[i] + year.setYearForJSON(0) + keyFBI;
+                    var info = _web.FetchJObject(url);
+
+                    if (info == null)
+                    {
+                        continue;
+                    }
 
                     float population = (int)info["results"][0]["population"];
                     float total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
@@ -97,8 +101,7 @@ namespace Main.DAL.Concrete
         {
             List<Crime> city_crime_stats = new List<Crime>();
 
-            var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
-            JObject info = JObject.Parse(jsonResponse);
+            var info = _web.FetchJObject(crime_statistics_api_url + stateAbbrev + keyFBI);
 
             foreach (var item in info["results"])
             {
@@ -108,9 +111,9 @@ namespace Main.DAL.Concrete
                 //Checks to see if the city exists in the API.
                 if (result)
                 {
-
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses/" + year + "/" + year + "/" + keyFBI);
-                    JObject city_stats = JObject.Parse(newjsonResponse);
+                    //TODO two "years" here look redundant and weird.
+                    var url = $"{crime_url_agency_reported_crime}{item["ori"]}/offenses/{year}/{year}/{keyFBI}";
+                    var city_stats = _web.FetchJObject(url);
 
                     foreach (var crime in city_stats["results"])
                     {
@@ -146,12 +149,10 @@ namespace Main.DAL.Concrete
 
         public List<Crime> GetCityStats(string cityName, string stateAbbrev)
         {
+            var info = _web.FetchJObject(crime_statistics_api_url + stateAbbrev + keyFBI);
 
             JSONYearVariable year = new JSONYearVariable();
             List<Crime> city_crime_stats = new List<Crime>();
-
-            var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
-            JObject info = JObject.Parse(jsonResponse);
 
             foreach (var item in info["results"])
             {
@@ -161,15 +162,13 @@ namespace Main.DAL.Concrete
                 //Checks to see if the city exists in the API.
                 if (result)
                 {
-
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0) + keyFBI);
+                    var newjsonResponse = new System.Net.WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0) + keyFBI);
 
                     JObject city_stats = JObject.Parse(newjsonResponse);
 
                     foreach (var crime in city_stats["results"])
                     {
                         if ((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson" || (string)crime["offense"] == "rape-legacy")
-
                         {
                             continue;
                         }
@@ -207,8 +206,7 @@ namespace Main.DAL.Concrete
         {
             JSONYearVariable year = new JSONYearVariable();
             var state_crime_stats = new StateCrimeSearchResult();
-            var jsonResponse = new WebClient().DownloadString(crime_api_state_info + stateAbbrev + year.setYearForJSON(aYear) + keyFBI);
-            JObject info = JObject.Parse(jsonResponse);
+            var info = _web.FetchJObject(crime_api_state_info + stateAbbrev + year.setYearForJSON(aYear) + keyFBI);
             state_crime_stats = state_crime_stats.PresentJSONRespone(info);
             //var deserializedProduct = JsonConvert.DeserializeObject<IEnumerable<StateCrimeViewModel>>(jsonResponse);
 
@@ -219,8 +217,7 @@ namespace Main.DAL.Concrete
         {
             JSONYearVariable year = new JSONYearVariable();
             List<Crime> city_crime_trends = new List<Crime>();
-            var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
-            JObject info = JObject.Parse(jsonResponse);
+            var info = _web.FetchJObject(crime_statistics_api_url + stateAbbrev + keyFBI);
 
             foreach (var item in info["results"])
             {
@@ -230,7 +227,7 @@ namespace Main.DAL.Concrete
                 //Checks to see if the city exists in the API.
                 if (result)
                 {
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + "/" + (year.getYearTwoYearsAgo() - 35) + "/" + year.getYearTwoYearsAgo() + keyFBI);
+                    var newjsonResponse = new System.Net.WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + "/" + (year.getYearTwoYearsAgo() - 35) + "/" + year.getYearTwoYearsAgo() + keyFBI);
 
                     JObject city_stats = JObject.Parse(newjsonResponse);
 
@@ -245,7 +242,6 @@ namespace Main.DAL.Concrete
         //FORMATS THE DATA INTO CRIME OBJECT LIST FOR GRAPH DISPLAYING
         public List<Crime> ReturnTotalCityTrends(JObject city_stats)
         {
-
             if (city_stats == null)
             {
                 return null;

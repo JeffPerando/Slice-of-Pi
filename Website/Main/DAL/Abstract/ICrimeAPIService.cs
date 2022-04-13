@@ -7,7 +7,6 @@ namespace Main.DAL.Abstract
 {
     public interface ICrimeAPIService
     {
-        void SetCredentials(string token);
         List<string>GetStates();
         List<Crime> GetSafestStates(List<Crime> states);
         List<Crime> GetCityStats(string cityName, string stateAbbrev);

@@ -10,10 +10,12 @@ namespace Main.DAL.Concrete
 {
     public class EmailService : IEmailService
     {
-        private SmtpClient client = new SmtpClient();
+        private SmtpClient client = new();
         private string _sender;
         private string _email;
         private string _password;
+
+        public EmailService(IConfiguration config) : this("Slice of Pi, LLC.", "sliceofpi.cs46x", config["EmailPW"]) {}
 
         public EmailService(string sender, string email, string password)
         {
