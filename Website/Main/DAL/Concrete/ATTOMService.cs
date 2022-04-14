@@ -34,6 +34,7 @@ namespace Main.DAL.Concrete
 
             return _client.FetchInto<T>(url + endpoint, query);
         }
+
         /*
         public async Task<List<HouseAssessment>> GetPriceHistory(Home addr)
         {
