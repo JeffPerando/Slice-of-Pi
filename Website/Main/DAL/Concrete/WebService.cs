@@ -23,7 +23,7 @@ namespace Main.DAL.Concrete
          * BUT, our APIs are singletons. Therefore, we don't bother.
          * Note: Refactor services with better dependency injection and their own config handling
          */
-        private static readonly HttpClient _client = new();
+        private readonly HttpClient _client = new();
 
         public WebService() {}
         
