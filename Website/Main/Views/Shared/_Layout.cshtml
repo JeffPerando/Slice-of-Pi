@@ -62,8 +62,17 @@
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
                             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li><a asp-area="" asp-controller="StateCrime" asp-action="StateCrimeStats">State Crime Statistics</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-item dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Searches
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><a class="dropdown-item" href="/Crime/CityCrimeLookUp">City Crime Search</a></li>
+                                </ul>
+                            </li>
                             <li><a asp-area="" asp-controller="Home" asp-action="Workcited">Workcited</a></li>
+
+                            <!--<a asp-area="" asp-controller="Crime" asp-action="CityCrimeLookUp">Search</a>-->
 
                             <!--<li class="has-sub">
                                 <a href="javascript:void(0)">Pages</a>

@@ -65,10 +65,8 @@ public class CrimeController : Controller
         return Json(city_stats);
     }
 
-    public IActionResult StateCrimeStats(string? stateAbbrev)
+    public IActionResult CityCrimeLookUp(string? stateAbbrev)
     {
-        ViewBag.stateAbbrev = stateAbbrev ?? "CA";
-
         return View();
     }
 
