@@ -47,6 +47,7 @@ namespace Main.DAL.Concrete
             if (query != null)
             {
                 url = QueryHelpers.AddQueryString(url, query);
+                
             }
 
             //Debug.WriteLine($"Fetching {url}");
@@ -66,7 +67,7 @@ namespace Main.DAL.Concrete
 
         public string? FetchStr(string url, Dictionary<string, string?>? query = null)
         {
-            var result = FetchRaw(url);
+            var result = FetchRaw(url, query);
 
             if (result == null || !result.IsSuccessStatusCode)
             {
@@ -79,7 +80,7 @@ namespace Main.DAL.Concrete
 
         public JObject? FetchJObject(string url, Dictionary<string, string?>? query)
         {
-            var result = FetchStr(url);
+            var result = FetchStr(url, query);
 
             if (string.IsNullOrEmpty(result))
             {
@@ -91,7 +92,7 @@ namespace Main.DAL.Concrete
         
         public JArray? FetchJArray(string url, Dictionary<string, string?>? query)
         {
-            var result = FetchStr(url);
+            var result = FetchStr(url, query);
 
             if (string.IsNullOrEmpty(result))
             {
