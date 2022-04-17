@@ -70,6 +70,12 @@ namespace Main.DAL.Concrete
 
             for (int i = 0; i < info.Count; i++)
             {
+                if ((string)info[i]["abbreviation"] == "AS" || (string)info[i]["abbreviation"] == "FM" || (string)info[i]["abbreviation"] == "GU" ||
+                (string)info[i]["abbreviation"] == "MH" || (string)info[i]["abbreviation"] == "MP" || (string)info[i]["abbreviation"] == "PW" || 
+                (string)info[i]["abbreviation"] == "PR")
+                {
+                    continue;
+                }
                 string abbreviation = (string)info[i]["abbreviation"];
                 state_abbrevs.Add(abbreviation);
             }
@@ -93,6 +99,7 @@ namespace Main.DAL.Concrete
                         continue;
                     }
 
+
                     float population = (int)info["results"][0]["population"];
                     float total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
                     string state_abbrevs = (string)info["results"][0]["state_abbr"] ?? "CA";
@@ -112,6 +119,7 @@ namespace Main.DAL.Concrete
 
             return states_crime;
         }
+
 
         public List<Crime> GetSafestStates(List<Crime> crimeList)
         {
@@ -172,7 +180,7 @@ namespace Main.DAL.Concrete
 
         public List<Crime> GetCityStats(string cityName, string stateAbbrev)
         {
-            var info = FetchFBIObj(crime_statistics_api_url + stateAbbrev + keyFBI);
+            var info = FetchFBIObj(crime_statistics_api_url + stateAbbrev);
 
             JSONYearVariable year = new JSONYearVariable();
             List<Crime> city_crime_stats = new List<Crime>();
@@ -185,9 +193,8 @@ namespace Main.DAL.Concrete
                 //Checks to see if the city exists in the API.
                 if (result)
                 {
-                    var newjsonResponse = new System.Net.WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0));
+                    var city_stats = FetchFBIObj(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0));
 
-                    JObject city_stats = JObject.Parse(newjsonResponse);
 
                     foreach (var crime in city_stats["results"])
                     {
@@ -227,9 +234,11 @@ namespace Main.DAL.Concrete
 
         public StateCrimeSearchResult GetState(string stateAbbrev, int? aYear)
         {
-            JSONYearVariable year = new JSONYearVariable();
+            var year = "/" + aYear + "/" + aYear;
             var state_crime_stats = new StateCrimeSearchResult();
-            var info = FetchFBIObj(crime_api_state_info + stateAbbrev + year.setYearForJSON(aYear));
+            Debug.WriteLine(crime_api_state_info + stateAbbrev + year);
+            var info = FetchFBIObj(crime_api_state_info + stateAbbrev + year);
+            Debug.WriteLine(info);
             state_crime_stats = state_crime_stats.PresentJSONRespone(info);
             //var deserializedProduct = JsonConvert.DeserializeObject<IEnumerable<StateCrimeViewModel>>(jsonResponse);
 
