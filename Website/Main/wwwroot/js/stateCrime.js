@@ -43,10 +43,5 @@ function showStateStats(data) {
     $("#stateCrimeTable>tbody").append(repoTR);
     $("#stateCrimeTable").show();
 
-    console.log(data["population"]);
-    console.log(total_offenses);
-    console.log(crime_per_capita.toFixed(2))
-
-
 
 }
