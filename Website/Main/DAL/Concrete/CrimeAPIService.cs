@@ -43,24 +43,28 @@ namespace Main.DAL.Concrete
 
         }
 
-        private string AddAPIKey(string url)
-        {
-            return $"{url}?API_KEY={keyFBI}";
-        }
-
         private JObject? FetchFBIObj(string url)
         {
-            return _web.FetchJObject(AddAPIKey(url));
+            return _web.FetchJObject(url, new()
+            {
+                ["API_KEY"] = keyFBI
+            });
         }
 
         private Task<JObject?> FetchFBIObjAsync(string url)
         {
-            return _web.FetchJObjectAsync(AddAPIKey(url));
+            return _web.FetchJObjectAsync(url, new()
+            {
+                ["API_KEY"] = keyFBI
+            });
         }
 
         private JArray? FetchFBIArray(string url)
         {
-            return _web.FetchJArray(AddAPIKey(url));
+            return _web.FetchJArray(url, new()
+            {
+                ["API_KEY"] = keyFBI
+            });
         }
 
         public List<string> GetStates()
@@ -101,7 +105,6 @@ namespace Main.DAL.Concrete
                     string formatted_population = String.Format("{0:n0}", population);
 
                     states_crime.Add(new Crime { State = state_abbrevs, Population = formatted_population, CrimePerCapita = crimes_per_capita });
-
 
                 }
                 catch
@@ -185,9 +188,7 @@ namespace Main.DAL.Concrete
                 //Checks to see if the city exists in the API.
                 if (result)
                 {
-                    var newjsonResponse = new System.Net.WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0));
-
-                    JObject city_stats = JObject.Parse(newjsonResponse);
+                    JObject city_stats = FetchFBIObj(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0));
 
                     foreach (var crime in city_stats["results"])
                     {
@@ -287,6 +288,7 @@ namespace Main.DAL.Concrete
             }
             return city_crime_trends;
         }
+
         public List<Crime> ReturnPropertyCityTrends(JObject city_stats)
         {
             if (city_stats == null)
@@ -311,8 +313,8 @@ namespace Main.DAL.Concrete
                 }
             }
             return city_crime_trends;
-
         }
+
         public List<Crime> ReturnViolentCityTrends(JObject city_stats)
         {
             if (city_stats == null)
@@ -337,7 +339,18 @@ namespace Main.DAL.Concrete
                 }
             }
             return city_crime_trends;
-
         }
+
+        public double AvgCrimePerCapitaState(string state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double AvgCrimePerCapitaCity(string city)
+        {
+            throw new NotImplementedException();
+        }
+
     }
+
 }

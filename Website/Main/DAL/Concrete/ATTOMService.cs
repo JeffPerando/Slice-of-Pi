@@ -36,20 +36,20 @@ namespace Main.DAL.Concrete
             return _web.FetchInto<T>(url + endpoint, query);
         }
 
-        public int GetAssessmentFor(Home addr)
+        public int? GetAssessmentFor(Home addr)
         {
             var result = FetchATTOM<ATTOMAssessment>("/assessment/detail", new()
             {
                 ["address1"] = addr.StreetAddress,
                 ["address2"] = addr.StreetAddress2,
             });
-
+            
             if (result?.Property == null)
             {
-                return 0;
+                return null;
             }
 
-            return result.Property.First().Assessment?.Assessed.AssdTtlValue ?? 0;
+            return result.Property.First().Assessment?.Assessed.AssdTtlValue;
         }
         
     }

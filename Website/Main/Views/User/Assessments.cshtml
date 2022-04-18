@@ -1,0 +1,47 @@
+﻿@using Main.Extensions
+@using Main.Models
+@model List<HomeAssessment>
+@{
+    ViewData["Title"] = "Your Crime-Weighted Assessments";
+}
+
+@section Banner{}
+
+@section UpcomingMeetings {
+    @if (Model != null && Model.Count > 0)
+    {
+    <table class="table table-dark table-condensed">
+        <thead>
+            <tr>
+                <th>Address</th>
+                <th>Current Assessment</th>
+                <th>Weighted Assessment @Html.Tooltip("meep") </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var home in Model) {
+                <tr>
+                    <td>@home.Address.StreetAddress<br />@home.Address.StreetAddress2</td>
+                    @if (home.InitAssessment == null)
+                    {
+                        <td colspan="2">No assessment found!</td>
+                    }
+                    else
+                    {
+                        <td>@home.InitAssessment</td>
+                        <td>@home.WeightedAssessment</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    else
+    {
+        <h3>No addresses found!</h3>
+    }
+    
+    <form method="post">
+        @Html.RenderAddressFields()
+    </form>
+}

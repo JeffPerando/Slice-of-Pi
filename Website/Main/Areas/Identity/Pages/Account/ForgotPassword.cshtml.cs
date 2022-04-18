@@ -60,7 +60,7 @@ namespace Main.Areas.Identity.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                if (!await _captcha.Passes(Input.CaptchaResponse))
+                if (!_captcha.Passes(Input.CaptchaResponse))
                 {
                     // make the bot think we fell for it
                     return RedirectToPage("./ForgotPasswordConfirmation");

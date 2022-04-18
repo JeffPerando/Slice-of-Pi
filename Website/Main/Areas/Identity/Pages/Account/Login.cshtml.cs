@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Main.DAL.Abstract;
+using System.Diagnostics;
 
 namespace Main.Areas.Identity.Pages.Account
 {
@@ -123,8 +124,9 @@ namespace Main.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                if (!await _captcha.Passes(Input.CaptchaResponse))
+                if (!_captcha.Passes(Input.CaptchaResponse))
                 {
+                    Debug.WriteLine("OOF");
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }

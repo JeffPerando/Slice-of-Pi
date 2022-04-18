@@ -1,14 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
+@inject ISiteUserService Users
 
-@if (SignInManager.IsSignedIn(User))
+@if (Users.IsLoggedIn(User))
 {
     <li class="nav-item dropdown">
         <a class="nav-item dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-            Hello @User.Identity?.Name!
+            Hello, @Users.Name(User)!
         </a>
         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" href="/User/Edit">My Info</a></li>
+            <li><a class="dropdown-item" href="/User/Assessments">My Assessments</a></li>
             <li><a class="dropdown-item" href="/User/Searches">My Searches</a></li>
         </ul>
     </li>

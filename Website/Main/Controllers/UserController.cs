@@ -1,5 +1,7 @@
 ﻿
+using Main.DAL.Abstract;
 using Main.Models;
+using Main.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,101 +9,49 @@ namespace Main.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ISiteUserService _users;
+        private readonly IHousePriceCalcService _housePriceCalc;
         private readonly CrimeDbContext _db;
 
-        public UserController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, CrimeDbContext db)
+        public UserController(ISiteUserService users, IHousePriceCalcService housePriceCalc, CrimeDbContext db)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _users = users;
+            _housePriceCalc = housePriceCalc;
             _db = db;
 
         }
 
-        //Login helpers
-
-        private async Task<IdentityUser?> ConfirmLoginAsync()
-        {
-            if (!_signInManager.IsSignedIn(User))
-            {
-                return null;
-            }
-
-            var userId = _userManager.GetUserId(User);
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (!user.EmailConfirmed)
-            {
-                return null;
-            }
-
-            return user;
-        }
-
-        private async Task<User?> GetCrimeUserAsync()
-        {
-            var user = await ConfirmLoginAsync();
-
-            if (user == null)
-            {
-                return null;
-            }
-
-            var crimeUser = _db.Users.Where(u => u.Id == user.Id).FirstOrDefault();
-
-            if (crimeUser == null)
-            {
-                crimeUser = new User();
-                crimeUser.Id = user.Id;
-                crimeUser.Name = "J. Doe";
-                crimeUser.EmailAddress = user.Email;
-                crimeUser.Address = "";
-
-                _db.Users.Add(crimeUser);
-                _db.SaveChanges();
-
-            }
-
-            return crimeUser;
-        }
-
-        //Actions
-
         [HttpGet]
-        public async Task<IActionResult> Edit()
+        public IActionResult Edit()
         {
-            var user = await GetCrimeUserAsync();
-
-            if (user == null)
+            if (!_users.IsLoggedIn(User))
             {
                 return Redirect("/Identity/Account/Login");
             }
 
-            return View(user);
+            return View(_users.Data(User));
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(User form)
         {
-            var user = await GetCrimeUserAsync();
-
-            if (user == null)
+            if (!_users.IsLoggedIn(User))
             {
                 return Redirect("/Identity/Account/Login");
             }
 
+            var user = _users.Data(User);
             var msgs = new List<string>();
 
             if (user.Name != form.Name && !string.IsNullOrEmpty(form.Name))
             {
-                user.Name = form.Name;
+                user.Name = form.Name.Trim();
                 msgs.Add("Name successfully changed!");
             }
 
             if (user.EmailAddress != form.EmailAddress && !string.IsNullOrEmpty(form.EmailAddress))
             {
-                user.EmailAddress = form.EmailAddress;
+                user.EmailAddress = form.EmailAddress.Trim();
                 msgs.Add("Email successfully changed!");
             }
 
@@ -118,7 +68,7 @@ namespace Main.Controllers
             else
             {
                 _db.Users.Update(user);
-                _db.SaveChanges();
+                _db.SaveChangesAsync();
             }
 
             ViewData["Messages"] = string.Join("\n", msgs);
@@ -127,30 +77,26 @@ namespace Main.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Addresses()
+        public IActionResult Addresses()
         {
-            var user = await GetCrimeUserAsync();
-
-            if (user == null)
+            if (!_users.IsLoggedIn(User))
             {
-                return Redirect("/");
+                return Redirect("/Identity/Account/Login");
             }
 
-            var homes = _db.Homes.Where((h) => h.UserId == user.Id).ToList();
-
-            return View(homes);
+            return View(_users.Addresses(User));
         }
 
         [HttpPost]
         //The POST adds an address to the current user
-        public async Task<IActionResult> Addresses(string street, string city, string state, string zip)
+        public IActionResult Addresses(string street, string city, string state, string zip)
         {
-            var user = await GetCrimeUserAsync();
-
-            if (user == null)
+            if (!_users.IsLoggedIn(User))
             {
-                return Redirect("/");
+                return Redirect("/Identity/Account/Login");
             }
+
+            var id = _users.ID(User);
 
             var newHome = new Home
             {
@@ -158,37 +104,36 @@ namespace Main.Controllers
                 County = city,
                 State = state,
                 ZipCode = zip,
-                UserId = user.Id
+                UserId = id
             };
 
             _db.Homes.Add(newHome);
             _db.SaveChanges();
 
-            var homes = _db.Homes.Where((h) => h.UserId == user.Id).ToList();
-
             ViewData["Message"] = "Address added successfully!";
 
-            return View(homes);
+            return View(_users.Addresses(User));
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteAddress(int? id)
+        public IActionResult DeleteAddress(int? id)
         {
-            var user = await GetCrimeUserAsync();
-
-            if (user == null)
+            if (!_users.IsLoggedIn(User))
             {
-                return Redirect("/");
+                return Redirect("/Identity/Account/Login");
             }
+
+            var uid = _users.ID(User);
 
             if (id != null)
             {
-                var home = _db.Homes.Where((h) => h.Id == id && h.UserId == user.Id).FirstOrDefault();
+                var home = _db.Homes.Where((h) => h.Id == id && h.UserId == uid).FirstOrDefault();
 
                 if (home != null)
                 {
                     _db.Homes.Remove(home);
                     _db.SaveChanges();
+
                 }
 
             }
@@ -196,14 +141,34 @@ namespace Main.Controllers
             return RedirectToAction("Addresses", "User");
         }
 
-        public async Task<IActionResult> Searches()
+        public IActionResult Searches()
         {
-            if (!_signInManager.IsSignedIn(User))
+            if (!_users.IsLoggedIn(User))
             {
                 return Redirect("/Identity/Account/Login");
             }
 
             return View();
+        }
+
+        public IActionResult Assessments()
+        {
+            if (!_users.IsLoggedIn(User))
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            List<HomeAssessment> assms = new();
+
+            var addresses = _users.Addresses(User);
+
+            foreach (var addr in addresses)
+            {
+                assms.Add(_housePriceCalc.CalcCrimeWeightAssessment(addr));
+
+            }
+
+            return View(assms);
         }
 
     }

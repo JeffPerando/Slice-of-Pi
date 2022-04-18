@@ -72,11 +72,13 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 //Some services need custom headers, others don't. Hence, having this be registered is kind of a bad idea for now.
 //We'll look deeper into it... probably never, honestly.
 //builder.Services.AddScoped<IWebService, WebService>();
+builder.Services.AddScoped<ISiteUserService, SiteUserService>();
 builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserVerifierService, UserVerifierService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();
 builder.Services.AddScoped<IHousingAPI, ATTOMService>();
+builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
 
 
 //BUILD. THE. APP.
