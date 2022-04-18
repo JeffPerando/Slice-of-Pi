@@ -24,25 +24,28 @@ namespace Main.Models
         {
             return _price.ToString("C");
         }
-
-        public static bool operator==(DisplayPrice a, DisplayPrice b)
+        /*
+        DO NOT USE THESE
+        I have no idea why, but they cause access violation exceptions.
+        and since VS 2022 has no stack trace*/
+        public static bool operator==(DisplayPrice? a, DisplayPrice? b)
         {
-            return a._price == b._price;
+            return a?._price == b?._price;
         }
 
-        public static bool operator!=(DisplayPrice a, DisplayPrice b)
+        public static bool operator!=(DisplayPrice? a, DisplayPrice? b)
         {
-            return a._price != b._price;
+            return a?._price != b?._price;
         }
 
-        public static bool operator>(DisplayPrice a, DisplayPrice b)
+        public static bool operator>(DisplayPrice? a, DisplayPrice? b)
         {
-            return a._price > b._price;
+            return a?._price > b?._price;
         }
 
-        public static bool operator<(DisplayPrice a, DisplayPrice b)
+        public static bool operator<(DisplayPrice? a, DisplayPrice? b)
         {
-            return a._price < b._price;
+            return a?._price < b?._price;
         }
 
         public override bool Equals(object? obj)
@@ -69,6 +72,7 @@ namespace Main.Models
         {
             return _price.GetHashCode();
         }
+        
     }
 
 }
