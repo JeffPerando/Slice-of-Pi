@@ -12,8 +12,10 @@ namespace Main.Models
         public int TotalOffenses { get; set; }
         public int ActualConvictions { get; set; }
         public int? AgencyId { get; set; }
-        public string Population { get; set; } = null!;
-        public float CrimePerCapita { get; set; }
+        //Formatted with String.Format("{0:n0}", Population)
+        public int Population { get; set; }
+
+        public double CrimePerCapita { get { return Math.Round(((double)TotalOffenses / Population) * 100000, 2); } }
 
         public virtual AgencyInformation? Agency { get; set; }
     }

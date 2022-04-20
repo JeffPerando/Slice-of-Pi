@@ -2,7 +2,7 @@
 $.ajax({
     type: "GET",
     dataType: "json",
-    url: "/apiv3/FBI/StateList",
+    url: "/api/States",
     success: populateDropDown,
     error: errorOnAjax
 
@@ -20,7 +20,7 @@ function fetchCrimeStats(btn) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: `/apiv3/FBI/StateCrimeStats`,
+        url: `/api/StateCrimeStats`,
         data: form.serialize(),
         success: showStateStats,
         error: errorOnAjax

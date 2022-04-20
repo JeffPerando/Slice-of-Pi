@@ -6,19 +6,17 @@ namespace Main.DAL.Concrete
 {
     public class DummyHousingService : IHousingAPI
     {
-        /*
-        private readonly List<HouseAssessment> _assessments;
+        private readonly Dictionary<Tuple<string, string>, HomeAssessment?> _assessments;
 
-        public DummyHousingService(List<HouseAssessment> assessments)
+        public DummyHousingService(Dictionary<Tuple<string, string>, HomeAssessment?> assessments)
         {
             _assessments = assessments;
 
         }
 
-        */
-        public int? GetAssessmentFor(Home address)
+        public HomeAssessment? GetAssessmentFor(Home address)
         {
-            throw new NotImplementedException();
+            return _assessments.GetValueOrDefault(new(address.StreetAddress, address.StreetAddress2), null);
         }
 
     }

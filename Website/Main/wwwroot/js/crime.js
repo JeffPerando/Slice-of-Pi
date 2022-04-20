@@ -3,7 +3,7 @@ $(function() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/apiv3/FBI/GetCityStats",
+        url: "/api/GetCityStats",
         data: { cityName: $("#cityName").val(), stateAbbrev: $("#stateAbbrev").val() },
         success: showCityStats,
         error: errorOnAjax

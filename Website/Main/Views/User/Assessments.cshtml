@@ -1,6 +1,6 @@
 ﻿@using Main.Extensions
 @using Main.Models
-@model List<HomeAssessment>
+@model List<WeightedAssessment>
 @{
     ViewData["Title"] = "Your Crime-Weighted Assessments";
 }
@@ -14,8 +14,8 @@
         <thead>
             <tr>
                 <th>Address</th>
-                <th>Current Assessment</th>
-                <th>Weighted Assessment @Html.Tooltip("meep") </th>
+                <th>Current Market Value</th>
+                <th>Weighted Assessment @Html.Tooltip("We use the crime stats in your area to determine this figure. The more crime, the lower the assessment, and vice versa.") </th>
             </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@
                     else
                     {
                         <td>@home.InitAssessment</td>
-                        <td>@home.WeightedAssessment</td>
+                        <td>@home.CalcAssessment</td>
                     }
                 </tr>
             }

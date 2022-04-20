@@ -55,12 +55,6 @@ namespace Main.Controllers
                 msgs.Add("Email successfully changed!");
             }
 
-            if (user.Address != form.Address && !string.IsNullOrEmpty(form.Address))
-            {
-                user.Address = form.Address;
-                msgs.Add("Address updated successfully!");
-            }
-
             if (msgs.Count() == 0)
             {
                 msgs.Add("Nothing updated");
@@ -96,19 +90,9 @@ namespace Main.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
+            _users.AddAddress(User, new Home { StreetAddress = street, County = city, State = state, ZipCode = zip });
+
             var id = _users.ID(User);
-
-            var newHome = new Home
-            {
-                StreetAddress = street,
-                County = city,
-                State = state,
-                ZipCode = zip,
-                UserId = id
-            };
-
-            _db.Homes.Add(newHome);
-            _db.SaveChanges();
 
             ViewData["Message"] = "Address added successfully!";
 
@@ -151,6 +135,7 @@ namespace Main.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Assessments()
         {
             if (!_users.IsLoggedIn(User))
@@ -158,7 +143,7 @@ namespace Main.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            List<HomeAssessment> assms = new();
+            List<WeightedAssessment> assms = new();
 
             var addresses = _users.Addresses(User);
 
@@ -169,6 +154,19 @@ namespace Main.Controllers
             }
 
             return View(assms);
+        }
+
+        [HttpPost]
+        public IActionResult Assessments(string street, string city, string state, string zip)
+        {
+            if (!_users.IsLoggedIn(User))
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            _users.AddAddress(User, new Home { StreetAddress = street, County = city, State = state, ZipCode = zip });
+
+            return Assessments();
         }
 
     }

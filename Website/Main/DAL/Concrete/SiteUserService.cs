@@ -83,6 +83,23 @@ namespace Main.DAL.Concrete
             return _db.Homes.Where(addr => addr.UserId == id);
         }
 
+        public bool AddAddress(ClaimsPrincipal user, Home addr)
+        {
+            var id = ID(user);
+
+            if (id == null)
+            {
+                return false;
+            }
+
+            addr.UserId = id;
+
+            _db.Homes.Add(addr);
+            _db.SaveChanges();
+
+            return true;
+        }
+
     }
 
 }

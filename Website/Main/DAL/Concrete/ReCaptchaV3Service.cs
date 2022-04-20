@@ -20,7 +20,7 @@ namespace Main.DAL.Concrete
         private readonly string _key;
         private readonly float _threshold;
 
-        public ReCaptchaV3Service(IConfiguration config) : this(new WebService(), config["captchaServerKey"]) {}
+        public ReCaptchaV3Service(IConfiguration config, IWebService web) : this(web, config["captchaServerKey"]) {}
 
         public ReCaptchaV3Service(IWebService web, string serverKey, float threshold = 0.5f)
         {

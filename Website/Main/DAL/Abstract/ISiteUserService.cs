@@ -16,6 +16,8 @@ namespace Main.DAL.Abstract
 
         public IEnumerable<Home> Addresses(ClaimsPrincipal user);
 
+        public bool AddAddress(ClaimsPrincipal user, Home addr);
+
     }
 
 }

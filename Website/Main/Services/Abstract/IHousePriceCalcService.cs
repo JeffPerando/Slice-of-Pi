@@ -5,7 +5,7 @@ namespace Main.Services.Abstract
 {
     public interface IHousePriceCalcService
     {
-        public HomeAssessment CalcCrimeWeightAssessment(Home address);
+        public WeightedAssessment CalcCrimeWeightAssessment(Home address);
 
     }
 

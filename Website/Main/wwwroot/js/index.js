@@ -5,7 +5,7 @@ $(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "apiv3/FBI/StateStats",
+        url: "/api/GetSafestStats",
         success: displayStateInformation,
         error: errorOnAjax
 
@@ -14,7 +14,7 @@ $(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/apiv3/FBI/StateList",
+        url: "/api/States",
         success: populateDropDown,
         error: errorOnAjax
 
