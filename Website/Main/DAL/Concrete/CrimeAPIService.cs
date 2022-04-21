@@ -86,40 +86,55 @@ namespace Main.DAL.Concrete
         {
             JSONYearVariable year = new JSONYearVariable();
             List<Crime> states_crime = new List<Crime>();
+            var fetches = new List<Task<Crime?>>();
 
-            for (int i = 0; i < states.Count; i++)
+
+            foreach (var state in states)
             {
-                try
+                fetches.Add(GetOverallStateCrimeAsync(state));
+
+            }
+
+            foreach (var fetch in fetches)
+            {
+                var crimes = fetch.GetAwaiter().GetResult();
+
+                if (crimes != null)
                 {
-                    var url = crime_api_state_info + states[i] + year.setYearForJSON(0);
-                    var info = FetchFBIObj(url);
-
-                    if (info == null)
-                    {
-                        continue;
-                    }
-
-
-                    float population = (int)info["results"][0]["population"];
-                    float total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
-                    string state_abbrevs = (string)info["results"][0]["state_abbr"] ?? "CA";
-
-                    float crimes_per_capita = (float)Math.Round((total_crime / population) * 100000, 2);
-                    string formatted_population = String.Format("{0:n0}", population);
-
-                    states_crime.Add(new Crime { State = state_abbrevs, Population = formatted_population, CrimePerCapita = crimes_per_capita });
-
-
+                    states_crime.Add(crimes);
                 }
-                catch
-                {
-                    continue;
-                }
+
             }
 
             return states_crime;
         }
 
+        public async Task<Crime?> GetOverallStateCrimeAsync(string state)
+        {
+            //idk why this is here
+            JSONYearVariable year = new JSONYearVariable();
+
+            try
+            {
+                var url = crime_api_state_info + state + year.setYearForJSON(0);
+                var info = await FetchFBIObjAsync(url);
+
+                if (info == null)
+                {
+                    return null;
+                }
+
+                int population = (int)info["results"][0]["population"];
+                int total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
+
+                return new Crime { State = state, Population = population, TotalOffenses = total_crime };
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
 
         public List<Crime> GetSafestStates(List<Crime> crimeList)
         {
@@ -195,6 +210,11 @@ namespace Main.DAL.Concrete
                 {
                     var city_stats = FetchFBIObj(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0));
 
+                    foreach(var crime in city_stats["results"])
+                    {
+                        Debug.WriteLine(crime);
+                    }
+                    
 
                     foreach (var crime in city_stats["results"])
                     {
