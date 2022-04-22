@@ -14,7 +14,7 @@ namespace Main.DAL.Concrete
     public class ATTOMService : IHousingAPI
     {
         private readonly string _apiKey = "";
-        private readonly IWebService _client;
+        private readonly IWebService _web;
         public readonly string ATTOMUrl = "https://api.gateway.attomdata.com/propertyapi/v1.0.0/";
 
         private ATTOMKeyVerification _keyVerification = new ATTOMKeyVerification();
