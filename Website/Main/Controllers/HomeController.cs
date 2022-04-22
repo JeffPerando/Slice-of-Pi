@@ -10,13 +10,14 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly ICrimeAPIService _CrimeService;
     private readonly IConfiguration _config;
+    private readonly IHousingAPI  _ATTOMService;
 
-    public HomeController(ILogger<HomeController> logger, ICrimeAPIService cs, IConfiguration config)
+    public HomeController(ILogger<HomeController> logger, ICrimeAPIService cs, IConfiguration config, IHousingAPI attom)
     {
         _logger = logger;
         _CrimeService = cs;
         _config = config;
-
+        _ATTOMService = attom;
     }
 
     public IActionResult Index()
@@ -53,6 +54,8 @@ public class HomeController : Controller
 
     public IActionResult Workcited()
     {
+
         return View();
     }
+    
 }

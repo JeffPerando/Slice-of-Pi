@@ -23,7 +23,7 @@ namespace Main.DAL.Concrete
          * BUT, our APIs are singletons. Therefore, we don't bother.
          * Note: Refactor services with better dependency injection and their own config handling
          */
-        private static readonly HttpClient _client = new();
+        private readonly HttpClient _client = new();
 
         public WebService() {}
         
@@ -54,8 +54,10 @@ namespace Main.DAL.Concrete
                 result = _client.GetAsync(url).GetAwaiter().GetResult();
 
             }
-            catch {}
-
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
             return result;
         }
 
@@ -79,7 +81,7 @@ namespace Main.DAL.Concrete
             {
                 return null;
             }
-
+            //unprotected parse can fail, can crash server 
             return JObject.Parse(result);
         }
         
