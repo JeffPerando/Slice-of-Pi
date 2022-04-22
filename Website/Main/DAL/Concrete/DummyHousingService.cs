@@ -1,18 +1,18 @@
 ﻿
-using Main.DAL.Abstract;
-using Main.Models;
+//using Main.DAL.Abstract;
+//using Main.Models;
 
-namespace Main.DAL.Concrete
-{
-    public class DummyHousingService : IHousingAPI
-    {
-        /*
-        private readonly List<HouseAssessment> _assessments;
-        public DummyHousingService(List<HouseAssessment> assessments)
-        {
-            _assessments = assessments;
+//namespace Main.DAL.Concrete
+//{
+//    public class DummyHousingService : IHousingAPI
+//    {
+//        /*
+//        private readonly List<HouseAssessment> _assessments;
+//        public DummyHousingService(List<HouseAssessment> assessments)
+//        {
+//            _assessments = assessments;
 
-        }
+//        }
 
         public Task<List<HouseAssessment>> GetPriceHistory(Home address)
         {
@@ -26,4 +26,4 @@ namespace Main.DAL.Concrete
 
     }
 
-}
+//}

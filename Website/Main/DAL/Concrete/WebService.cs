@@ -57,10 +57,7 @@ namespace Main.DAL.Concrete
                 result = _client.GetAsync(url).GetAwaiter().GetResult();
 
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
+            catch {}
 
             return result;
         }
@@ -86,7 +83,7 @@ namespace Main.DAL.Concrete
             {
                 return null;
             }
-
+            //unprotected parse can fail, can crash server 
             return JObject.Parse(result);
         }
         
