@@ -26,8 +26,9 @@ namespace Main.DAL.Concrete
         public ATTOMService(string apiKey, IWebService web)
         {
             _apiKey = apiKey;
-            _client = web;
-            _client.AddHeader("apikey", _apiKey);
+            _web = web;
+            _web.AddHeader("apikey", _apiKey);
+
         }
 
         private T? FetchATTOM<T>(string endpoint, Dictionary<string, string?>? query = null)
@@ -39,27 +40,23 @@ namespace Main.DAL.Concrete
                 url += '/';
             }
 
-            return _client.FetchInto<T>(url + endpoint, query);
+            return _web.FetchInto<T>(url + endpoint, query);
         }
-        /*
-        public async Task<List<HouseAssessment>> GetPriceHistory(Home addr)
-        {
-            var prices = new List<HouseAssessment>();
 
-            var priceData = await FetchATTOMAsync("", new()
+        public int GetAssessmentFor(Home addr)
+        {
+            var result = FetchATTOM<ATTOMAssessment>("/assessment/detail", new()
             {
                 ["address1"] = addr.StreetAddress,
-                ["address2"] = addr.StreetAddress2
+                ["address2"] = addr.StreetAddress2,
             });
 
-            return prices;
-        }
-        */
+            if (result?.Property == null)
+            {
+                return 0;
+            }
 
-        //TODO implement
-        public int GetAssessmentFor(Home address)
-        {
-            throw new NotImplementedException();
+            return result.Property.First().Assessment?.Assessed.AssdTtlValue ?? 0;
         }
 
         public string SetNullResponse()

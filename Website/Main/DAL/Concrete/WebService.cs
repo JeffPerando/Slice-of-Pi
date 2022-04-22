@@ -47,26 +47,28 @@ namespace Main.DAL.Concrete
             if (query != null)
             {
                 url = QueryHelpers.AddQueryString(url, query);
+                
             }
+
+            //Debug.WriteLine($"Fetching {url}");
 
             try
             {
                 result = _client.GetAsync(url).GetAwaiter().GetResult();
 
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
+            catch {}
+
             return result;
         }
 
         public string? FetchStr(string url, Dictionary<string, string?>? query = null)
         {
-            var result = FetchRaw(url);
+            var result = FetchRaw(url, query);
 
             if (result == null || !result.IsSuccessStatusCode)
             {
+                //Debug.WriteLine($"ERROR: {url} came back with {result?.StatusCode ?? 0}");
                 return null;
             }
 
@@ -75,7 +77,7 @@ namespace Main.DAL.Concrete
 
         public JObject? FetchJObject(string url, Dictionary<string, string?>? query)
         {
-            var result = FetchStr(url);
+            var result = FetchStr(url, query);
 
             if (string.IsNullOrEmpty(result))
             {
@@ -87,7 +89,7 @@ namespace Main.DAL.Concrete
         
         public JArray? FetchJArray(string url, Dictionary<string, string?>? query)
         {
-            var result = FetchStr(url);
+            var result = FetchStr(url, query);
 
             if (string.IsNullOrEmpty(result))
             {
