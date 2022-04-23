@@ -5,7 +5,7 @@ $(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "apiv3/FBI/StateStats",
+        url: "/api/FBI/StateStats",
         success: displayStateInformation,
         error: errorOnAjax
 
@@ -14,7 +14,7 @@ $(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/apiv3/FBI/StateList",
+        url: "/api/FBI/StateList",
         success: populateDropDown,
         error: errorOnAjax
 
@@ -27,7 +27,6 @@ function errorOnAjax() {
 }
 
 function displayStateInformation(data) {
-    console.log(data);
 
     $("#safestStatesTable>tbody").empty();
     for (let i = 0; i < data.length; ++i) {
@@ -41,6 +40,7 @@ function displayStateInformation(data) {
         $("#safestStatesTable>tbody").append(repoTR);
         $("#safestStatesTable").show();
     }
+    document.getElementById("loadingIcon").textContent = "";
 }
 
 function populateDropDown(data) {
