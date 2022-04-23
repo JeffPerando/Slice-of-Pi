@@ -124,6 +124,6 @@ function toggleCrimePerCapita() {
     //$("#natCrimeTable").tablesorter({ sortList: [[0, 0]] });
 
     $("#natCrimeTable").trigger("update");
-    $("#natCrimeTable").trigger("sorton", [[0, 0]]);
+    //$("#natCrimeTable").trigger("sorton", [[0, 0]]);
 
 }

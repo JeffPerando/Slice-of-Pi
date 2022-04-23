@@ -54,7 +54,9 @@ namespace Main.Controllers
             return Json(new
             {
                 year = year,
-                stateCrimes = _crime.GetStates().Take(5).Select(state => _crime.GetState(state, year)).Where(scsr => scsr != null).ToList()
+                stateCrimes = _crime.GetStates()
+                    //.Take(5)
+                    .Select(state => _crime.GetState(state, year)).Where(scsr => scsr != null).ToList()
             });
         }
 
