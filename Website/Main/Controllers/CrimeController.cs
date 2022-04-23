@@ -20,6 +20,11 @@ public class CrimeController : Controller
 
     }
 
+    public IActionResult National()
+    {
+        return View();
+    }
+
     public IActionResult CrimeStats(string cityName, string stateAbbrev)
     {
         if (cityName == null || stateAbbrev == null)

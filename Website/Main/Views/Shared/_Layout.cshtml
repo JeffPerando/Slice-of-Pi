@@ -12,8 +12,14 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 
-        <!-- Site-wide CSS -->
-    <link rel="stylesheet" href="~/site.css" />
+    <!-- Site-wide CSS -->
+    <!--p.s. this is busted, do not use. it broke SP-189's formatting horrifically-->
+    <!--<link rel="stylesheet" href="~/css/site.css" />-->
+
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles")
+    }
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="~/assets/css/fontawesome.css" />
@@ -62,7 +68,7 @@
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
                             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li><a asp-area="" asp-controller="StateCrime" asp-action="StateCrimeStats">State Crime Statistics</a></li>
+                            <li><a asp-area="" asp-controller="Crime" asp-action="National">US Crime Statistics</a></li>
                             <li><a asp-area="" asp-controller="Home" asp-action="Workcited">Workcited</a></li>
 
                             <!--<li class="has-sub">

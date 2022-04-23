@@ -12,7 +12,7 @@ namespace Main.DAL.Abstract
         List<Crime> GetCityStats(string cityName, string stateAbbrev);
         List<Crime> ReturnStateCrimeList(List<string> states);
         List<Crime> ReturnCityStats(List<Crime> city_stats);
-        StateCrimeSearchResult GetState( string stateAbbrev,int? aYear);
+        StateCrimeSearchResult? GetState( string stateAbbrev,int? aYear);
         List<Crime> GetCityStatsByYear(string cityName, string stateAbbrev, string year);
         JObject GetCityTrends(string cityName, string stateAbbrev);
         List<Crime> ReturnTotalCityTrends(JObject city_stats);
