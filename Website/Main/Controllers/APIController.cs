@@ -27,7 +27,7 @@ namespace Main.Controllers
         }
 
         [HttpGet]
-        public IActionResult SafestStates()
+        public IActionResult GetSafestStates()
         {
             var state_list = _crime.GetStates();
             var get_national_stats = _crime.ReturnStateCrimeList(state_list);

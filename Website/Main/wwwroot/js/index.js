@@ -5,7 +5,7 @@ $(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/api/GetSafestStats",
+        url: "/api/GetSafestStates",
         success: displayStateInformation,
         error: errorOnAjax
 
@@ -22,8 +22,9 @@ $(function () {
 
 })
 
-function errorOnAjax() {
-    console.log("ERROR in ajax request");
+function errorOnAjax(xhr, status, error) {
+    console.log(xhr);
+    console.log(`ERROR in ajax request: Status code ${xhr.status}, error: ${error}`);
 }
 
 function displayStateInformation(data) {
@@ -33,7 +34,7 @@ function displayStateInformation(data) {
         let repoTR = $(
             `<tr>
                 <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["population"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["population"].toLocaleString("en-US")}</td>
                 <td style="color:white; font-weight:bold;">${data[i]["crimePerCapita"]}</td>
             </tr>`
         )

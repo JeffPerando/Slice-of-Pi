@@ -2,7 +2,7 @@
 $.ajax({
     type: "GET",
     dataType: "json",
-    url: `/api/States`,
+    url: `/api/StateCrimeStats`,
     data: {year: 2020, stateAbbrev: $("#stateAbbrev").val() },
     success: showStateStats,
     error: errorOnAjax
@@ -27,7 +27,6 @@ function errorOnAjax() {
 }
 
 function showStateStats(data) {
-
     internationalNumberFormat = new Intl.NumberFormat('en-US')
     var total_offenses = (data["violentCrimes"] + data["propertyCrimes"])
     var crime_per_capita = ((total_offenses / data["population"]) * 100000);

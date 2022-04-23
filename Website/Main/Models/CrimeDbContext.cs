@@ -98,8 +98,6 @@ namespace Main.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Address).HasMaxLength(100);
-
                 entity.Property(e => e.EmailAddress).HasMaxLength(100);
 
                 entity.Property(e => e.Name).HasMaxLength(100);

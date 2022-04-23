@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections;
 using Newtonsoft.Json;
 using Main.Helpers;
+using System.Diagnostics;
 
 namespace Main.DAL.Concrete
 {
@@ -42,6 +43,11 @@ namespace Main.DAL.Concrete
 
         private JObject? FetchFBIObj(string url)
         {
+            if (url.Contains(crime_url_agency_reported_crime))
+            {
+                Debug.WriteLine(url);
+            }
+
             return _web.FetchJObject(url, new()
             {
                 ["API_KEY"] = keyFBI
@@ -254,7 +260,7 @@ namespace Main.DAL.Concrete
 
             if (searchedCity == cityJTokenName)
             {
-                var city_stats = FetchFBIObj(crime_url_agency_reported_crime + city["ori"] + "/offenses" + year.setYearForJSON(0));
+                var city_stats = FetchFBIObj(crime_url_agency_reported_crime + city["ori"] + "/offenses/" + year.setYearForJSON(0));
                 
                 foreach (var crime in city_stats["results"])
                 {
