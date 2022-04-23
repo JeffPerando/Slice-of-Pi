@@ -3,7 +3,7 @@ using Main.DAL.Abstract;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-using System;
+//using System;
 using System.Diagnostics;
 
 namespace Main.DAL.Concrete

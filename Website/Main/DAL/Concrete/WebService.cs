@@ -23,7 +23,7 @@ namespace Main.DAL.Concrete
          * BUT, our APIs are singletons. Therefore, we don't bother.
          * Note: Refactor services with better dependency injection and their own config handling
          */
-        private static readonly HttpClient _client = new();
+        private readonly HttpClient _client = new();
 
         public WebService() {}
         
@@ -47,6 +47,7 @@ namespace Main.DAL.Concrete
             if (query != null)
             {
                 url = QueryHelpers.AddQueryString(url, query);
+                
             }
 
             //Debug.WriteLine($"Fetching {url}");
@@ -56,17 +57,14 @@ namespace Main.DAL.Concrete
                 result = _client.GetAsync(url).GetAwaiter().GetResult();
 
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
+            catch {}
 
             return result;
         }
 
         public string? FetchStr(string url, Dictionary<string, string?>? query = null)
         {
-            var result = FetchRaw(url);
+            var result = FetchRaw(url, query);
 
             if (result == null || !result.IsSuccessStatusCode)
             {
@@ -79,19 +77,19 @@ namespace Main.DAL.Concrete
 
         public JObject? FetchJObject(string url, Dictionary<string, string?>? query)
         {
-            var result = FetchStr(url);
+            var result = FetchStr(url, query);
 
             if (string.IsNullOrEmpty(result))
             {
                 return null;
             }
-
+            //unprotected parse can fail, can crash server 
             return JObject.Parse(result);
         }
         
         public JArray? FetchJArray(string url, Dictionary<string, string?>? query)
         {
-            var result = FetchStr(url);
+            var result = FetchStr(url, query);
 
             if (string.IsNullOrEmpty(result))
             {
