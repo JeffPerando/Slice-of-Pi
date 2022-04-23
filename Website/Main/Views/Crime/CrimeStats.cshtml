@@ -150,7 +150,7 @@
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/api/FBI/UpdateCityStats",
+        url: "/api/UpdateCityStats",
         data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
         success: function(data){
             showCityStats(data), showChartPercentage(data), fetchStateCrimeStats(selectedValue);

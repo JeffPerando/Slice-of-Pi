@@ -13,14 +13,17 @@ function disableYearDropdown(off) {
 function fetchCrimeStats() {
     disableYearDropdown(true);
     $("#spinnyBoi").show();
-    let form = $("#yearSelect");
-    let formData = form.serialize();
-    
+    let year = $("#year")[0].value;
+
+    console.log(year);
+
     $.ajax({
         type: "GET",
         dataType: "json",
         url: `/api/NationalCrime`,
-        data: formData,
+        data: {
+            year: year
+        },
         success: function (data) {
             showCrimeStats(data, $("#year option:selected").text());
         },
@@ -34,7 +37,12 @@ function errorOnAjax() {
     console.log("ERROR in ajax request");
 }
 
+function toTD(data) {
+    return `<td style="color:white; font-weight:bold;">${data}</td>`;
+}
+
 function showCrimeStats(data, year) {
+    console.log(data);
     $("#spinnyBoi").hide();//.removeAttr("hidden");
 
     $("#natCrimeHeader").html(`National Crime Statistics For ${year}`);
@@ -42,29 +50,30 @@ function showCrimeStats(data, year) {
     $("#natCrimeTable>tbody").html("");
     for (let state of data.stateCrimes) {
         $("#natCrimeTable>tbody").append(`<tr>
-            <td style="color:white; font-weight:bold;">${state["state"]}</td>
-            <td style="color:white; font-weight:bold;">${state["population"]}</td>
-            <td style="color:white; font-weight:bold;">${state["violentCrimes"]}</td>
-            <td style="color:white; font-weight:bold;">${state["homicide"]}</td>
-            <td style="color:white; font-weight:bold;">${state["rapeLegacy"]}</td>
-            <td style="color:white; font-weight:bold;">${state["rapeRevised"]}</td>
-            <td style="color:white; font-weight:bold;">${state["robbery"]}</td>
-            <td style="color:white; font-weight:bold;">${state["assault"]}</td>
-            <td style="color:white; font-weight:bold;">${state["propertyCrimes"]}</td>
-            <td style="color:white; font-weight:bold;">${state["burglary"]}</td>
-            <td style="color:white; font-weight:bold;">${state["larceny"]}</td>
-            <td style="color:white; font-weight:bold;">${state["motorVehicleTheft"]}</td>
-            <td style="color:white; font-weight:bold;">${state["arson"]}</td>
+            ${toTD(state["state"])}
+            ${toTD(state["population"])}
+            ${toTD(state["violentCrimes"])}
+            ${toTD(state["homicide"])}
+            ${toTD(state["rapeLegacy"])}
+            ${toTD(state["rapeRevised"])}
+            ${toTD(state["robbery"])}
+            ${toTD(state["assault"])}
+            ${toTD(state["propertyCrimes"])}
+            ${toTD(state["burglary"])}
+            ${toTD(state["larceny"])}
+            ${toTD(state["motorVehicleTheft"])}
+            ${toTD(state["arson"])}
         </tr>`);
     }
 
     prettifyTable();
-
+    
     $("#natCrimeTable").tablesorter({
         sortList: [[0, 0]], textExtraction: function (node) {
             return node.innerHTML.replaceAll(',', '');
         }
     });
+    
     $("#natCrimeDiv").show();
     disableYearDropdown(false);
 
