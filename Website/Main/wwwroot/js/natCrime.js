@@ -4,18 +4,30 @@ $(document).ready(function ()
     $("#yearSelect").change(fetchCrimeStats);
     $("#perCapita").change(toggleCrimePerCapita);
     $("#natCrimeDiv").hide();
+    
+    $("#natCrimeTable").tablesorter({
+        sortList: [[0, 0]], textExtraction: function (node) {
+            return node.innerHTML.replaceAll(',', '');
+        }
+    });
+    
 });
 
-function disableYearDropdown(off) {
-    $("#yearSelect :input").prop('disabled', off ? 'disabled' : '');
+function disableForms(off) {
+    $(":input").prop('disabled', off ? 'disabled' : '');
 }
 
 function fetchCrimeStats() {
-    disableYearDropdown(true);
-    $("#spinnyBoi").show();
     let year = $("#year")[0].value;
 
-    console.log(year);
+    if (year == 0) {
+        return;
+    }
+
+    disableForms(true);
+    $("#spinnyBoi").show();
+    $("#natCrimeDiv").hide();
+    $("#natCrimeTable>tbody").html("");
 
     $.ajax({
         type: "GET",
@@ -25,7 +37,7 @@ function fetchCrimeStats() {
             year: year
         },
         success: function (data) {
-            showCrimeStats(data, $("#year option:selected").text());
+            showCrimeStats(data, year);
         },
         error: errorOnAjax
 
@@ -42,14 +54,21 @@ function toTD(data) {
 }
 
 function showCrimeStats(data, year) {
-    console.log(data);
-    $("#spinnyBoi").hide();//.removeAttr("hidden");
+    //awful, awful code to reset the per-capita check.
+    //this is in case someone leaves it checked, to prevent weird crime stat displays
+    $("#perCapita").change(null)[0].checked = false;
+    $("#perCapita").change(toggleCrimePerCapita);
 
+    $("#spinnyBoi").hide();//.removeAttr("hidden");
+    $("#natCrimeDiv").show();
+    
     $("#natCrimeHeader").html(`National Crime Statistics For ${year}`);
 
-    $("#natCrimeTable>tbody").html("");
+    let tbl = $("#natCrimeTable>tbody");
+    tbl.html("");
+
     for (let state of data.stateCrimes) {
-        $("#natCrimeTable>tbody").append(`<tr>
+        tbl.append(`<tr>
             ${toTD(state["state"])}
             ${toTD(state["population"])}
             ${toTD(state["violentCrimes"])}
@@ -65,19 +84,19 @@ function showCrimeStats(data, year) {
             ${toTD(state["arson"])}
         </tr>`);
     }
-
-    prettifyTable();
-    
+    /*
     $("#natCrimeTable").tablesorter({
         sortList: [[0, 0]], textExtraction: function (node) {
             return node.innerHTML.replaceAll(',', '');
         }
     });
+    */
+    prettifyTable();
     
-    $("#natCrimeDiv").show();
-    disableYearDropdown(false);
-
+    disableForms(false);
     window.scrollTo(0, 1020);
+
+    $("#natCrimeTable").trigger("update");
 
 }
 
@@ -102,19 +121,24 @@ function tblSet(table, x, y, text) {
     table.rows[x].cells[y].innerText = text;
 }
 
-function toggleCrimePerCapita() {
-    let tbl = $("#natCrimeTable")[0];
-    let perCapita = $("#perCapita")[0].checked;
+var debounce = true;
 
+function toggleCrimePerCapita(e) {
+    e.stopImmediatePropagation();
+    let tbl = $("#natCrimeTable")[0];
+    let perCapIn = $("#perCapita")[0].checked;
+    
+    //console.log(`Per capita: ${perCapIn}`)
+    
     for (let x = 1; x < tbl.rows.length; x++) {
         for (let y = 2; y < 13; y++) {
             let pop = tblGet(tbl, x, 1);
             let cell = tblGet(tbl, x, y);
             let result = "";
 
-            if (perCapita) {
-                //This ensures the resulting fraction is to 2 decimal places
-                result = Math.round((cell / pop) * 10000000) / 100;
+            if (perCapIn) {
+                //This ensures the resulting fraction is to 4 decimal places
+                result = Math.round((cell / pop) * 1000000000) / 10000;
             } else {
                 result = Math.round((cell * pop) / 100000);
             }
@@ -125,7 +149,7 @@ function toggleCrimePerCapita() {
 
     }
 
-    if (!perCapita) {
+    if (!perCapIn) {
         prettifyTable();
 
     }
