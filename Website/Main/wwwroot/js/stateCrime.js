@@ -2,7 +2,7 @@
 $.ajax({
     type: "GET",
     dataType: "json",
-    url: `/api/FBI/StateCrimeStats`,
+    url: `/api/States`,
     data: {year: 2020, stateAbbrev: $("#stateAbbrev").val() },
     success: showStateStats,
     error: errorOnAjax
@@ -14,7 +14,7 @@ function fetchStateCrimeStats(year) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: `/api/FBI/StateCrimeStats`,
+        url: `/api/StateCrimeStats`,
         data: {year: year, stateAbbrev: $("#stateAbbrev").val() },
         success: showStateStats,
         error: errorOnAjax

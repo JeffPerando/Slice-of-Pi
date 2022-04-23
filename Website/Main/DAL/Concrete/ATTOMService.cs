@@ -1,27 +1,25 @@
-﻿using Main.DAL.Abstract;
+
+using Main.DAL.Abstract;
 using Main.Models;
+using Main.Models.ATTOM;
 using Main.Models.Listings;
-//using Newtonsoft.Json;
-//using Newtonsoft.Json.Linq;
-//using System.Diagnostics;
-//using Main.Models;
-//using Main.Models.ATTOM;
-//using System.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using Nancy.Json;
 
 namespace Main.DAL.Concrete
 {
     public class ATTOMService : IHousingAPI
     {
-        private readonly string _apiKey = "";
-        private readonly IWebService _web;
         public readonly string ATTOMUrl = "https://api.gateway.attomdata.com/propertyapi/v1.0.0/";
+
+        private readonly string _apiKey;
+        private readonly IWebService _web;
 
         private ATTOMKeyVerification _keyVerification = new ATTOMKeyVerification();
 
-        public ATTOMService(IConfiguration config) : this(config["ATTOMKey"]) {}
-
-        public ATTOMService(string apiKey) : this(apiKey, new WebService()) {}
+        public ATTOMService(IConfiguration config, IWebService web) : this(config["ATTOMKey"], web) { }
 
         public ATTOMService(string apiKey, IWebService web)
         {
@@ -31,19 +29,27 @@ namespace Main.DAL.Concrete
 
         }
 
-        private T? FetchATTOM<T>(string endpoint, Dictionary<string, string?>? query = null)
+        private JObject? FetchATTOMObj(string endpoint, Dictionary<string, string?>? query = null)
         {
-            string url = "https://api.gateway.attomdata.com/propertyapi/v1.0.0";
-            
-            if (!endpoint.StartsWith('/'))
+            if (endpoint.StartsWith('/'))
             {
-                url += '/';
+                endpoint = endpoint[1..];
             }
 
-            return _web.FetchInto<T>(url + endpoint, query);
+            return _web.FetchJObject(ATTOMUrl + endpoint, query);
         }
 
-        public int GetAssessmentFor(Home addr)
+        private T? FetchATTOM<T>(string endpoint, Dictionary<string, string?>? query = null)
+        {
+            if (endpoint.StartsWith('/'))
+            {
+                endpoint = endpoint[1..];
+            }
+
+            return _web.FetchInto<T>(ATTOMUrl + endpoint, query);
+        }
+
+        public HomeAssessment? GetAssessmentFor(Home addr)
         {
             var result = FetchATTOM<ATTOMAssessment>("/assessment/detail", new()
             {
@@ -53,63 +59,62 @@ namespace Main.DAL.Concrete
 
             if (result?.Property == null)
             {
-                return 0;
+                Debug.WriteLine("Property not found");
+                return null;
             }
 
-            return result.Property.First().Assessment?.Assessed.AssdTtlValue ?? 0;
-        }
+            var assess = result.Property.First().Assessment;
 
-        public string SetNullResponse()
-        {
-            string zipcode  = "97304";
-            string minPrice = "100000";
-            string maxPrice = "600000";
-            string pages    = "50";
-            string endpoint = "assessment/detail?postalcode=" + zipcode + "&minAssdTtlValue=" + minPrice + "&maxAssdTtlValue=" + maxPrice + "&pagesize=" + pages;
-
-            var x = ATTOMUrl + endpoint;
-            var info = _client.FetchJObject(x);
-            string? response = info.ToString();
-
-            return response;
-        }
-
-        public string OrderBy(string orderBy, string call)
-        {
-            if (orderBy != "None")
+            if (assess == null)
             {
-                call = call + "&orderBy=AssdTtlValue+" + orderBy;
+                Debug.WriteLine("Assessment not found");
+                return null;
             }
 
-            return call;
+            return new HomeAssessment
+            {
+                MarketValue = assess.Market.MktTtlValue,
+                AssessedValue = assess.Assessed.AssdTtlValue,
+                TaxYear = assess.Tax.TaxYear ?? DateTime.Now.Year
+            };
         }
+
+        private AttomJson? FetchNullResponse()
+        {
+            return FetchATTOM<AttomJson>("assessment/detail", new()
+            {
+                ["postalcode"] = "97304",
+                ["minAssdTtlValue"] = "100000",
+                ["maxAssdTtlValue"] = "600000",
+                ["pagesize"] = "50"
+            });
+        }
+
         public AttomJson GetListing(string zipcode, string pages, string minPrice, string maxPrice, string? orderBy)
         {
-            
-            string endpoint = "assessment/detail?postalcode=" + zipcode + "&minAssdTtlValue=" + minPrice+ "&maxAssdTtlValue="+maxPrice+"&pagesize="+pages;
-
-            if (orderBy != null)
+            var query = new Dictionary<string, string?>()
             {
-                endpoint = OrderBy(orderBy, endpoint);
+                ["postalcode"] = zipcode,
+                ["minAssdTtlValue"] = minPrice,
+                ["maxAssdTtlValue"] = maxPrice,
+                ["pagesize"] = pages
+            };
+
+            if (orderBy != null && orderBy != "None")
+            {
+                query.Add("orderBy", $"AssdTtlValue+{orderBy}");
             }
 
-            var x = ATTOMUrl + endpoint;
-
-            var info = _client.FetchJObject(x);
+            var info = FetchATTOM<AttomJson>("assessment/detail", query);
 
             if (info == null)
             {
-                string? nullResponse = SetNullResponse();
-                AttomJson nullResponseResult = new JavaScriptSerializer().Deserialize<AttomJson>(nullResponse);
-                return nullResponseResult;
+                return FetchNullResponse();
             }
 
-            string response = info.ToString();
-
-
-            AttomJson data = new JavaScriptSerializer().Deserialize<AttomJson>(response);
-
-            return data;
+            return info;
         }
+
     }
+
 }

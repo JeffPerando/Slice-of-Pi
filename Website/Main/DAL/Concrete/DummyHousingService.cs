@@ -1,29 +1,30 @@
 ﻿
-//using Main.DAL.Abstract;
-//using Main.Models;
+using Main.DAL.Abstract;
+using Main.Models;
+using Main.Models.Listings;
 
-//namespace Main.DAL.Concrete
-//{
-//    public class DummyHousingService : IHousingAPI
-//    {
-//        /*
-//        private readonly List<HouseAssessment> _assessments;
-//        public DummyHousingService(List<HouseAssessment> assessments)
-//        {
-//            _assessments = assessments;
+namespace Main.DAL.Concrete
+{
+    public class DummyHousingService : IHousingAPI
+    {
+        private readonly Dictionary<Tuple<string, string>, HomeAssessment?> _assessments;
 
-//        }
-
-        public Task<List<HouseAssessment>> GetPriceHistory(Home address)
+        public DummyHousingService(Dictionary<Tuple<string, string>, HomeAssessment?> assessments)
         {
-            return new Task<List<HouseAssessment>>(() => { return _assessments; });
+            _assessments = assessments;
+
         }
-        */
-        public int GetAssessmentFor(Home address)
+
+        public HomeAssessment? GetAssessmentFor(Home address)
+        {
+            return _assessments.GetValueOrDefault(new(address.StreetAddress, address.StreetAddress2), null);
+        }
+
+        public AttomJson GetListing(string zipcode, string pages, string minPrice, string maxPrice, string? orderBy)
         {
             throw new NotImplementedException();
         }
 
     }
 
-//}
+}

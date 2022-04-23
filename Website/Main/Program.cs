@@ -68,14 +68,16 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
-//Some services need custom headers, others don't. Hence, having this be registered is kind of a bad idea for now.
-//We'll look deeper into it... probably never, honestly.
-//builder.Services.AddScoped<IWebService, WebService>();
+builder.Services.AddHttpClient<IWebService, WebService>();
+//No, this is not redundant.
+builder.Services.AddScoped<IWebService, WebService>();
+builder.Services.AddScoped<ISiteUserService, SiteUserService>();
 builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserVerifierService, UserVerifierService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();
 builder.Services.AddScoped<IHousingAPI, ATTOMService>();
+builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
 
 
 //BUILD. THE. APP.
@@ -100,41 +102,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "API List States",
-    pattern: "/api/FBI/StateList",
-    defaults: new { controller = "Home", action = "GetListStates" });
-
-app.MapControllerRoute(
-    name: "API States",
-    pattern: "api/FBI/StateStats",
-    defaults: new { controller = "Home", action = "GetSafestState" });
-
-app.MapControllerRoute(
-    name: "API Cities Update",
-    pattern: "/api/FBI/UpdateCityStats",
-    defaults: new { controller = "Crime", action = "UpdateCrimeStats" });
-
-app.MapControllerRoute(
-    name: "API Cities",
-    pattern: "api/FBI/GetCityStats",
-    defaults: new { controller = "Crime", action = "GetCrimeStats" });
-
-app.MapControllerRoute(
-    name: "API State stats",
-    pattern: "/api/FBI/StateCrimeStats",
-    defaults: new { controller = "StateCrime", action = "GetStateCrimeStats" });
-
-app.MapControllerRoute(
-    name: "API State stats",
-    pattern: "/api/FBI/CrimeStateList",
-    defaults: new { controller = "Crime", action = "GetStateList" });
-
-app.MapControllerRoute(
-    name: "API Cities Trends",
-    pattern: "/api/FBI/GetCityTrends",
-    defaults: new {controller = "Crime", action = "GetCrimeTrends"});
 
 app.MapControllerRoute(
     name: "API Site Forms",

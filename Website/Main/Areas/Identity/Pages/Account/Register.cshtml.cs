@@ -119,7 +119,7 @@ namespace Main.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                if (!await _captcha.Passes(Input.CaptchaResponse))
+                if (!_captcha.Passes(Input.CaptchaResponse))
                 {
                     //they're a bot. confuse 'em
                     return RedirectToPage("/");

@@ -139,7 +139,7 @@ namespace Main.Models.ATTOM
         public string Longitude { get; set; }
 
         [JsonProperty("distance")]
-        public int Distance { get; set; }
+        public float Distance { get; set; }
 
         [JsonProperty("geoId")]
         public string GeoId { get; set; }
@@ -232,7 +232,7 @@ namespace Main.Models.ATTOM
         public int BathsFull { get; set; }
 
         [JsonProperty("bathsTotal")]
-        public int BathsTotal { get; set; }
+        public float BathsTotal { get; set; }
 
         [JsonProperty("beds")]
         public int Beds { get; set; }

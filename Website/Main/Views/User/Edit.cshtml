@@ -43,14 +43,6 @@
             <a href="/Identity/Account/ForgotPassword" class="btn btn-danger">Request Password Reset</a>
         </div>
     </div>
-    <div class="row mt-2 mb-2 justify-content-center">
-        <div class="col">
-            <b>@Html.LabelFor(u => u.Address)</b> @Html.Tooltip("Your primary home address.")
-        </div>
-        <div class="col">
-            @Html.TextAreaFor(u => u.Address, htmlAttributes: new { @class="form-control" })
-        </div>
-    </div>
     <div class="row mb-2 mt-2 justify-content-center">
         <div class="col">
             <b>Addresses</b> @Html.Tooltip("Your address book. Useful for keeping track of multiple properties you own")
