@@ -50,7 +50,6 @@ namespace Main.DAL.Concrete
                 data.Id = id;
                 data.Name = "J. Doe";
                 data.EmailAddress = identity.Email;
-                data.Address = "";
 
                 _db.Users.Add(data);
                 _db.SaveChangesAsync();
