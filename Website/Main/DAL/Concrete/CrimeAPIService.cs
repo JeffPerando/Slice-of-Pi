@@ -50,6 +50,7 @@ namespace Main.DAL.Concrete
 
         private JObject? FetchFBIObj(string url)
         {
+            //Debug.WriteLine($"Fetching {url}");
             return _web.FetchJObject(AddAPIKey(url));
         }
 
@@ -225,11 +226,17 @@ namespace Main.DAL.Concrete
             return city_stats.OrderByDescending(t => t.TotalOffenses).ToList();
         }
 
-        public StateCrimeSearchResult GetState(string stateAbbrev, int? aYear)
+        public StateCrimeSearchResult? GetState(string stateAbbrev, int? aYear)
         {
             JSONYearVariable year = new JSONYearVariable();
             var state_crime_stats = new StateCrimeSearchResult();
             var info = FetchFBIObj(crime_api_state_info + stateAbbrev + year.setYearForJSON(aYear));
+
+            if (info == null)
+            {
+                return null;
+            }
+
             state_crime_stats = state_crime_stats.PresentJSONRespone(info);
             //var deserializedProduct = JsonConvert.DeserializeObject<IEnumerable<StateCrimeViewModel>>(jsonResponse);
 

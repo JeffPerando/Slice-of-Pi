@@ -1,4 +1,6 @@
-﻿using Main.Models;
+﻿
+using Main.DAL.Abstract;
+using Main.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +11,14 @@ namespace Main.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly CrimeDbContext _db;
+        private readonly ICrimeAPIService _crime;
 
-        public APIController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, CrimeDbContext db)
+        public APIController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, CrimeDbContext db, ICrimeAPIService crime)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
+            _crime = crime;
 
         }
 
@@ -41,6 +45,16 @@ namespace Main.Controllers
                 //page = page,
                 //totalPages = totalResultCount / itemsPerPage,
                 results = allResults.Take(10)
+            });
+        }
+
+        [HttpGet]
+        public IActionResult NationalCrime(int year)
+        {
+            return Json(new
+            {
+                year = year,
+                stateCrimes = _crime.GetStates().Take(5).Select(state => _crime.GetState(state, year)).Where(scsr => scsr != null).ToList()
             });
         }
 

@@ -1,0 +1,63 @@
+﻿@using Main.Extensions
+@{
+    ViewData["Title"] = "National Crime Stats";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/natCrime.css" />
+}
+
+@section Banner {
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="bg-white p-3" style="border-radius: 24px">
+                <h2 class="text-dark">SELECT A YEAR</h2>
+                <br>
+                <form id="yearSelect">
+                    <partial name="_YearPartial" />
+                    <span><img id="spinnyBoi" src="https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif" style="width: 32px; display: none;" /></span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@section UpcomingMeetings {
+<div class="text-left" id="natCrimeDiv">
+    <h1 id="natCrimeHeader" style="color:white;"></h1>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="perCapita">
+        <label class="form-check-label text-light" for="perCapita">
+            Display Crimes Per-Capita @Html.Tooltip("Crimes per-capita is defined as the average number of crimes per 100,000 people")
+        </label>
+    </div>
+    <table id="natCrimeTable" class="table tablesorter">
+        <thead class="table-dark">
+            <tr>
+                <th>State</th>
+                <th>Population</th>
+                <th>Violent Crimes</th>
+                <th>Homicide</th>
+                <th>Rape (Legacy) @Html.Tooltip("The legal definition of rape in the US was revised in 2015; this stat is for pre-2015 data.")</th>
+                <th>Rape (Revised)</th>
+                <th>Robbery</th>
+                <th>Aggravated Assault</th>
+                <th>Property Crime</th>
+                <th>Burglary</th>
+                <th>Larceny</th>
+                <th>Motor Vehicle Theft</th>
+                <th>Arson</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+}
+
+@section Scripts {
+<script type="text/javascript" src="~/lib/tablesorter/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="~/js/natCrime.js" asp-append-version="true"></script>
+}
