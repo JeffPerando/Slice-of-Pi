@@ -1,5 +1,6 @@
-﻿using Main.Models;
-using Microsoft.AspNetCore.Identity;
+﻿
+using Main.DAL.Abstract;
+using Main.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Main.Controllers
@@ -9,14 +10,12 @@ namespace Main.Controllers
         private readonly ISiteUserService _users;
         private readonly ICrimeAPIService _crime;
         private readonly CrimeDbContext _db;
-        private readonly ICrimeAPIService _crime;
 
-        public APIController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, CrimeDbContext db)
+        public APIController(ISiteUserService users, ICrimeAPIService crime, CrimeDbContext db)
         {
             _users = users;
             _crime = crime;
             _db = db;
-            _crime = crime;
 
         }
 
@@ -63,7 +62,7 @@ namespace Main.Controllers
 
             var result = _crime.GetState(stateAbbrev, year);
 
-            if (_users.IsLoggedIn(User))
+            if (_users.IsLoggedIn(User) && result != null)
             {
                 result.UserId = _users.ID(User);
                 result.DateSearched = DateTime.Now;

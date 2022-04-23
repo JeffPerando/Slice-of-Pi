@@ -1,43 +1,42 @@
-﻿using System.Diagnostics;
+﻿
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Main.Models;
-using Main.DAL.Abstract;
 
-namespace Main.Controllers;
-
-public class HomeController : Controller
+namespace Main.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-    private readonly IConfiguration _config;
-    private readonly IHousingAPI  _ATTOMService;
-
-    public HomeController(ILogger<HomeController> logger, ICrimeAPIService cs, IConfiguration config, IHousingAPI attom)
+    public class HomeController : Controller
     {
-        _logger = logger;
-        _config = config;
-        _ATTOMService = attom;
+        private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _config;
+
+        public HomeController(ILogger<HomeController> logger, IConfiguration config)
+        {
+            _logger = logger;
+            _config = config;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Workcited()
+        {
+            return View();
+        }
+
     }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-
-    public IActionResult Workcited()
-    {
-
-        return View();
-    }
-    
 }
