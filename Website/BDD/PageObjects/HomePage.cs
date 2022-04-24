@@ -12,6 +12,8 @@ namespace TestBDD.PageObjects
         private IEnumerable<IWebElement> AppleButtons => _browserInteractions.WaitAndReturnElements(By.CssSelector("#listOfApples button"));
         private IEnumerable<IWebElement> NavBar => _browserInteractions.WaitAndReturnElements(By.CssSelector("#navbarDropdownMenuLink a"));
         private IWebElement ServerNav => _browserInteractions.WaitAndReturnElement(By.Id("serversNav"));
+        private IWebElement DropDownList => _browserInteractions.WaitAndReturnElement(By.Id("navbarDropdownMenuLink"));
+        private IWebElement DropDown_CityLookUp => _browserInteractions.WaitAndReturnElement(By.Id("CityCrimeLookUpLink"));
         private IWebElement DropDownTextHomeListing => _browserInteractions.WaitAndReturnElement(By.Id("HomeListingsLink"));
 
         public HomePage(IBrowserInteractions browserInteractions)
@@ -23,10 +25,23 @@ namespace TestBDD.PageObjects
         public string GetServerNav => ServerNav.Text;
         public string GetTitle => Title.Text;
         public bool GetWelcomeText => WelcomeText.Displayed;
+        
+        public bool GetCityLookUp => DropDown_CityLookUp.Displayed;
+        public string GetDropDownText => DropDownList.Text;
+
         public bool GetDropDownText => DropDownText.Displayed;
         public bool GetDropDownTextHomeListingItem => DropDownTextHomeListing.Displayed;
         public string GetAppleButtonText(int index) => AppleButtons.ElementAt(index).Text;
         public IEnumerable<string> GetAppleButtonTexts() => AppleButtons.Select(x => x.Text);
+
+        public void ClickSearchesButton()
+        {
+            DropDownList.ClickWithRetry();
+        }
+        public void ClickCityLookUpButton()
+        {
+            DropDown_CityLookUp.ClickWithRetry();
+        }
 
         public void ClickAppleButton(int index)
         {
