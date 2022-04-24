@@ -16,7 +16,7 @@
                                 <thead>
                                     <tr class="row100 head">
                                         <th class="cell100 column1" style="color:crimson;">ZipCode</th>
-                                        <th class="cell100 column2" style="color:crimson;">Pages</th>
+                                        <th class="cell100 column2" style="color:crimson;">Result Count</th>
                                         <th class="cell100 column2" style="color:crimson;">Minimum Price</th>
                                         <th class="cell100 column2" style="color:crimson;">Maximum Price</th>
                                     </tr>
@@ -34,9 +34,12 @@
                                             <td class="cell100 column2"><input min="1" id="minPrice" type="number" name="minPrice" required="required" /></td>
                                             <td class="cell100 column2"><input min="1" id="maxPrice" type="number" name="maxPrice" required="required" /></td>
                                         </tr>
-
-
-
+                                         <tr class="row100 head">
+                                            <td class="cell100 column1"></td>
+                                            <td class="cell100 column2"></td>
+                                            <td class="cell100 column2"></td>
+                                            <td class="cell100 column2"><input type="submit" class ="btn" value="SUBMIT" style = "color:crimson; width:100px;"></td>
+                                        </tr>
                                     }
 
                                 </tbody>
@@ -48,23 +51,10 @@
             </div>
         </div>
         <!--<form asp-action="ListingsSubmission" asp-controller = "ATTOM" method = "get" enctype="multipart/form-data">-->
-        <div class="row my-2"><h1 style="color:white;">Listings</h1></div>
+        <div class="row my-2"><h1 style="color:white;">Listings</h1>
         <div class="limiter">
             <div class="wrap-table100">
                 <div class="table100 ver3 m-b-110">
-                    <!--<div class="table100-head">
-                        <table>
-                            <thead>
-                                <tr class="row100 head">
-                                    <th class="cell100 column1" style = "color:crimson;">Address</th>
-                                    <th class="cell100 column2" style = "color:crimson;">Size(SQFT)</th>
-                                    <th class="cell100 column2" style = "color:crimson;">Bedrooms</th>
-                                    <th class="cell100 column2" style = "color:crimson;">Bathrooms</th>
-                                    <th class="cell100 column2" style = "color:crimson;">Price $</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>-->
 
                     <div class="table100-body js-pscroll">
                         <table id="sortMe">
@@ -74,8 +64,8 @@
                                     <th class="cell100 column2" style="color:crimson;">Size(SQFT)</th>
                                     <th class="cell100 column2" style="color:crimson;">Bedrooms</th>
                                     <th class="cell100 column2" style="color:crimson;">Bathrooms</th>
-                                    <!--<th class="cell100 column2" style = "color:crimson;">Price $</th>-->
-                                    <th class="cell100 column2"><button style="color:crimson;" class="table__header">PRICE $</button></th>
+
+                                    <th class="cell100 column2"><button style="color:crimson;" class="table__header">PRICE $  @Html.Tooltip("Click the boxes in the first row to sort!")</button></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -104,7 +94,7 @@
                 </div>
             </div>
         </div>
-
+        </div>
 
 
         <!--</form>-->

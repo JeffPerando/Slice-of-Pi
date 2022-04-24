@@ -1,4 +1,4 @@
-﻿
+
 using Main.DAL.Abstract;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
@@ -152,3 +152,4 @@ namespace Main.DAL.Concrete
     }
 
 }
+
