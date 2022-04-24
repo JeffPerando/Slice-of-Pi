@@ -7,51 +7,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+using Main.DAL.Concrete;
+using Main.Services.Concrete;
 
 namespace Test
 {
     public class HousePriceCalcServiceTests
     {
-        private static string state = "CA";
-        private static string zip = "90210";
-        private static string year = "2022";
-        //private DummyCrimeAPI crimeAPI = new DummyCrimeAPI();
-        //private IHousingAPI housingAPI = new DummyHousingAPI();
-        //private IHousePriceCalcService priceCalc = new HousePriceCalcService(crimeAPI, housingAPI);
-        private static Home address = new Home { StreetAddress = "1313 Mockingbird Ln.", County = "Hollywood", State = state, ZipCode = zip, Price = 500_000 };
-        private static Dictionary<string, int> dummyCrimeData = new Dictionary<string, int> { { "murder", 4 } };
+        private static readonly Home address = new() { StreetAddress = "1313 Mockingbird Ln.", County = "Hollywood", State = "CA", ZipCode = "90210" };
+
+        private static ICrimeAPIService MockCrimeAPI(int stateCrimes, int cityCrimes, int cityCount)
+        {
+            var mock = new Mock<MockCrimeAPIService>();
+            mock.CallBase = true;
+            mock.Setup(api => api.GetOverallStateCrimeAsync(It.IsAny<string>())).ReturnsAsync(new Crime { TotalOffenses = stateCrimes });
+            mock.Setup(api => api.GetTotalCityCrime(It.IsAny<string>(), It.IsAny<string>())).Returns(cityCrimes);
+            mock.Setup(api => api.GetCityCount(It.IsAny<string>())).Returns(cityCount);
+
+            return mock.Object;
+        }
+
+        private static IHousingAPI MockHousingAPI(HomeAssessment assess)
+        {
+            var mock = new Mock<MockATTOMService>();
+            mock.CallBase = true;
+            mock.Setup(api => api.GetAssessmentFor(It.IsAny<Home>())).Returns(assess);
+
+            return mock.Object;
+        }
 
         [SetUp]
-        public void Setup()
-        {
-            //add state crime and population
-            //crimeAPI.SetPopulation(state, 20000);
-            //crimeAPI.AddStateCrime(year, state, dummyCrimeData);
-
-            //add hypothetical price to housing API (mirrored in Home struct [may remove that field])
-            //housingAPI.AddAssessedValue(address, year, 500_000);
-
-        }
+        public void Setup() {}
 
         [TearDown]
-        public void TearDown()
-        {
-            //crimeAPI.Clear();
-            //housingAPI.Clear();
-        }
+        public void TearDown() {}
 
         [Test]
         public void HousePriceCalcService_Calculate_HouseIsNeverWorthZero()
         {
             // Arrange
-            // add a bunch of crime that will no doubt crash the home's price
-            //crimeAPI.AddCrimes(year, zip, new { { "murder", Int32.MaxValue } });
+            var crime = MockCrimeAPI(
+                stateCrimes: Int32.MaxValue,
+                cityCrimes: Int16.MaxValue,
+                cityCount: 2);
+
+            var prices = new HomeAssessment
+            {
+                AssessedValue = 200_000,
+                MarketValue = 300_000,
+                TaxYear = 2021
+            };
+
+            var housing = MockHousingAPI(prices);
+
+            var calc = new HousePriceCalcService(crime, housing);
 
             // Act
-            //double estimate = priceCalc.Calculate(home, year);
+            var wghtAssess = calc.CalcCrimeWeightAssessment(address);
 
             // Assert
-            //Assert.That(estimate > 0);
+            Assert.That(wghtAssess.CalcAssessment > new DisplayPrice(0));
+
         }
 
         [Test]
@@ -59,81 +76,114 @@ namespace Test
         {
             // Arrange
             // add NO CRIME, which should bring the home value up.
+            var crime = MockCrimeAPI(
+                stateCrimes: 255,
+                cityCrimes: 0,
+                cityCount: 2);
+
+            var prices = new HomeAssessment
+            {
+                AssessedValue = 200_000,
+                MarketValue = 300_000,
+                TaxYear = 2021
+            };
+
+            var housing = MockHousingAPI(prices);
+
+            var calc = new HousePriceCalcService(crime, housing);
 
             // Act
-            //double estimate = priceCalc.Calculate(home, year);
+            var wghtAssess = calc.CalcCrimeWeightAssessment(address);
 
             // Assert
-            //Assert.That(estimate < (home.Price * 5));
+            Assert.That(wghtAssess.CalcAssessment < new DisplayPrice(prices.MarketValue * 5));
+
         }
 
         [Test]
         public void HousePriceCalcService_Calculate_BelowAvgCrimeBringsUpPrice()
         {
             // Arrange
-            // add below-average crime (TBD)
-            //crimeAPI.AddCrimes(year, zip, new { { "murder", 1 } });
+            // add below-average crime
+            var crime = MockCrimeAPI(
+                stateCrimes: 256,
+                cityCrimes: 64,
+                cityCount: 2);
+
+            var prices = new HomeAssessment
+            {
+                AssessedValue = 200_000,
+                MarketValue = 300_000,
+                TaxYear = 2021
+            };
+
+            var housing = MockHousingAPI(prices);
+
+            var calc = new HousePriceCalcService(crime, housing);
 
             // Act
-            //double estimate = priceCalc.Calculate(home, year);
+            var wghtAssess = calc.CalcCrimeWeightAssessment(address);
 
             // Assert
-            //Assert.That(estimate > home.Price);
+            Assert.That(wghtAssess.CalcAssessment > new DisplayPrice(prices.MarketValue));
+
         }
 
         [Test]
         public void HousePriceCalcService_Calculate_AverageCrimeKeepsPriceSteady()
         {
-            //Arrange
-            //add average crimes to current zip
-            //crimeAPI.AddCrimes(year, zip, dummyCrimeData);
+            // Arrange
+            // add average crime
+            var crime = MockCrimeAPI(
+                stateCrimes: 256,
+                cityCrimes: 128,
+                cityCount: 2);
 
-            //Act
+            var prices = new HomeAssessment
+            {
+                AssessedValue = 200_000,
+                MarketValue = 300_000,
+                TaxYear = 2021
+            };
 
-            //double estimate = priceCalc.Calculate(home, year);
+            var housing = MockHousingAPI(prices);
 
-            // Assert
-            //Assert.That(estimate == home.Price);
-        }
+            var calc = new HousePriceCalcService(crime, housing);
 
-        [Test]
-        public void HousePriceCalcService_Calculate_CrimesAreWeighted()
-        {
-            //Arrange
-            //add average crimes to current zip
-            //crimeAPI.AddCrimes(year, zip, dummyCrimeData);
-
-            //Act
-            //double murderEst = priceCalc.Calculate(home, year);
-
-            // add different, lesser crime than dummy data says
-            // BUT keep the amount the same
-            //crimeAPI.Clear();
-            //crimeAPI.AddCrimes(year, zip, new { { "burglary", 4 } });
-
-            //double burglaryEst = priceCalc.Calculate(home, year);
+            // Act
+            var wghtAssess = calc.CalcCrimeWeightAssessment(address);
 
             // Assert
-            //Assert.That(burglaryEst > murderEst);
+            Assert.That(wghtAssess.CalcAssessment == new DisplayPrice(prices.MarketValue));
+
         }
 
         [Test]
         public void HousePriceCalcService_Calculate_InflationIsIncluded()
         {
-            string oldYear = "2021";
+            // Arrange
+            var crime = MockCrimeAPI(
+                stateCrimes: 256,
+                cityCrimes: 128,
+                cityCount: 2);
 
-            //Arrange
-            //add average crimes for both zip and state, last year and current
-            //crimeAPI.AddStateCrime(oldYear, state, dummyCrimeData);
-            //crimeAPI.AddCrimes(oldYear, zip, dummyCrimeData);
-            //crimeAPI.AddCrimes(year, zip, dummyCrimeData);
+            var prices = new HomeAssessment
+            {
+                AssessedValue = 200_000,
+                MarketValue = 300_000,
+                TaxYear = 2018
+            };
 
-            //Act
-            //double oldEst = priceCalc.Calculate(home, oldYear);
-            //double estimate = priceCalc.Calculate(home, year);
+            var housing = MockHousingAPI(prices);
+
+            var calc = new HousePriceCalcService(crime, housing);
+
+            // Act
+            var wghtAssess = calc.CalcCrimeWeightAssessment(address);
 
             // Assert
-            //Assert.That(estimate > oldEst);
+            Assert.That(wghtAssess.CalcAssessment > new DisplayPrice(prices.MarketValue));
+
         }
 
     }
