@@ -47,9 +47,11 @@ namespace Test
         public void HousePriceCalcService_Calculate_HouseIsNeverWorthZero()
         {
             // Arrange
+            //cityCrimes should be higher than stateCrimes / cityCount
+            //the point is, no matter how stupidly high the crime rate is, a property won't be valuated at 0
             var crime = MockCrimeAPI(
-                stateCrimes: Int32.MaxValue,
-                cityCrimes: Int16.MaxValue,
+                stateCrimes: Int16.MaxValue,
+                cityCrimes: Int32.MaxValue,
                 cityCount: 2);
 
             var prices = new HomeAssessment
@@ -68,14 +70,13 @@ namespace Test
 
             // Assert
             Assert.That(wghtAssess.CalcAssessment > new DisplayPrice(0));
-
         }
 
         [Test]
         public void HousePriceCalcService_Calculate_HousePriceIsCapped()
         {
             // Arrange
-            // add NO CRIME, which should bring the home value up.
+            // add NO CITY CRIME, which should bring the home value up.
             var crime = MockCrimeAPI(
                 stateCrimes: 255,
                 cityCrimes: 0,
@@ -96,7 +97,7 @@ namespace Test
             var wghtAssess = calc.CalcCrimeWeightAssessment(address);
 
             // Assert
-            Assert.That(wghtAssess.CalcAssessment < new DisplayPrice(prices.MarketValue * 5));
+            Assert.That(wghtAssess.CalcAssessment < new DisplayPrice(prices.MarketValue * 2));
 
         }
 
@@ -105,6 +106,7 @@ namespace Test
         {
             // Arrange
             // add below-average crime
+            // in this case, 256 / 2 = 128, which is less than 64. hence, lower than average
             var crime = MockCrimeAPI(
                 stateCrimes: 256,
                 cityCrimes: 64,
@@ -171,6 +173,7 @@ namespace Test
             {
                 AssessedValue = 200_000,
                 MarketValue = 300_000,
+                //Note the old tax year
                 TaxYear = 2018
             };
 
