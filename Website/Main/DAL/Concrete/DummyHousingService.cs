@@ -14,16 +14,16 @@
 
 //        }
 
-        public Task<List<HouseAssessment>> GetPriceHistory(Home address)
-        {
-            return new Task<List<HouseAssessment>>(() => { return _assessments; });
-        }
-        */
-        public int GetAssessmentFor(Home address)
-        {
-            throw new NotImplementedException();
-        }
+    //    public Task<List<HouseAssessment>> GetPriceHistory(Home address)
+    //    {
+    //        return new Task<List<HouseAssessment>>(() => { return _assessments; });
+    //    }
+    //    */
+    //    public int GetAssessmentFor(Home address)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-    }
+    //}
 
 //}

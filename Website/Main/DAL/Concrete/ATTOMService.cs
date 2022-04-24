@@ -1,6 +1,7 @@
 ﻿using Main.DAL.Abstract;
 using Main.Models;
 using Main.Models.Listings;
+using Main.Models.ATTOM;
 //using Newtonsoft.Json;
 //using Newtonsoft.Json.Linq;
 //using System.Diagnostics;
@@ -68,7 +69,7 @@ namespace Main.DAL.Concrete
             string endpoint = "assessment/detail?postalcode=" + zipcode + "&minAssdTtlValue=" + minPrice + "&maxAssdTtlValue=" + maxPrice + "&pagesize=" + pages;
 
             var x = ATTOMUrl + endpoint;
-            var info = _client.FetchJObject(x);
+            var info = _web.FetchJObject(x);
             string? response = info.ToString();
 
             return response;
@@ -95,7 +96,7 @@ namespace Main.DAL.Concrete
 
             var x = ATTOMUrl + endpoint;
 
-            var info = _client.FetchJObject(x);
+            var info = _web.FetchJObject(x);
 
             if (info == null)
             {

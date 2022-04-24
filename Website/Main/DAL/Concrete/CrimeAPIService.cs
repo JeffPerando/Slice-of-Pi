@@ -43,6 +43,10 @@ namespace Main.DAL.Concrete
 
         }
 
+        public CrimeAPIService()
+        {
+        }
+
         private string AddAPIKey(string url)
         {
             return $"{url}?API_KEY={keyFBI}";
