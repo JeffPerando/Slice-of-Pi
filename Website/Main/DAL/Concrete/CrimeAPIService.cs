@@ -16,7 +16,7 @@ namespace Main.DAL.Concrete
         private readonly IWebService _web;
 
         //public readonly string state_json = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_titlecase.json";
-        
+
         public readonly string crime_api_state_info = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
         public readonly string crime_statistics_api_url = "https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr/";
         public readonly string crime_url_agency_reported_crime = "https://api.usa.gov/crime/fbi/sapi/api/summarized/agencies/";
@@ -41,11 +41,7 @@ namespace Main.DAL.Concrete
 
         }
 
-        public CrimeAPIService()
-        {
-        }
-
-        private string AddAPIKey(string url)
+        private JObject? FetchFBIObj(string url)
         {
             if (url.Contains(crime_url_agency_reported_crime))
             {
@@ -108,7 +104,7 @@ namespace Main.DAL.Concrete
 
             return null;
         }
-        
+
         private JObject? FetchCityData(string city, string state, string? year = null)
         {
             if (year == null)
@@ -236,7 +232,7 @@ namespace Main.DAL.Concrete
             {
                 fetches.Add(GetCityStatsAsync(city, cityName));
             }
-            
+
             foreach (var fetch in fetches)
             {
                 var city_information = fetch.GetAwaiter().GetResult();
@@ -247,7 +243,7 @@ namespace Main.DAL.Concrete
                     {
                         city_crime_stats.Add(item);
                     }
-                } 
+                }
             }
 
             return city_crime_stats.OrderBy(c => c.TotalOffenses).ToList();
@@ -265,7 +261,7 @@ namespace Main.DAL.Concrete
             if (searchedCity == cityJTokenName)
             {
                 var city_stats = FetchFBIObj(crime_url_agency_reported_crime + city["ori"] + "/offenses/" + year.setYearForJSON(0));
-                
+
                 foreach (var crime in city_stats["results"])
                 {
                     var offense = crime["offense"]?.ToString() ?? "UNKNOWN";
@@ -313,9 +309,9 @@ namespace Main.DAL.Concrete
         {
             JSONYearVariable year = new JSONYearVariable();
             List<Crime> city_crime_trends = new List<Crime>();
-            
+
             var ori = GetCityORI(cityName, stateAbbrev);
-            
+
             if (ori == null)
             {
                 return null;
@@ -389,7 +385,7 @@ namespace Main.DAL.Concrete
                 return city_crime_trends;
             }
             var counter = -1;
-            
+
             //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
             foreach (var crime in city_stats["results"])
             {

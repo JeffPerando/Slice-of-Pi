@@ -77,6 +77,8 @@ namespace Main.DAL.Concrete
                 AssessedValue = assess.Assessed.AssdTtlValue,
                 TaxYear = assess.Tax.TaxYear ?? DateTime.Now.Year
             };
+
+        }
         public string SetNullResponse()
         {
             string zipcode  = "97304";
@@ -105,30 +107,30 @@ namespace Main.DAL.Concrete
 
         public AttomJson GetListing(string zipcode, string pages, string minPrice, string maxPrice, string? orderBy)
         {
-            var query = new Dictionary<string, string?>()
-            {
-                ["postalcode"] = zipcode,
-                ["minAssdTtlValue"] = minPrice,
-                ["maxAssdTtlValue"] = maxPrice,
-                ["pagesize"] = pages
-            };
+            string endpoint = "assessment/detail?postalcode=" + zipcode + "&minAssdTtlValue=" + minPrice + "&maxAssdTtlValue=" + maxPrice + "&pagesize=" + pages;
 
-            if (orderBy != null && orderBy != "None")
-            {
-                query.Add("orderBy", $"AssdTtlValue+{orderBy}");
-            }
+            //if (orderBy != null)
+            //{
+            //    endpoint = OrderBy(orderBy, endpoint);
+            //}
 
-            var info = FetchATTOM<AttomJson>("assessment/detail", query);
             var x = ATTOMUrl + endpoint;
 
             var info = _web.FetchJObject(x);
 
             if (info == null)
             {
-                return FetchNullResponse();
+                string? nullResponse = SetNullResponse();
+                AttomJson nullResponseResult = new JavaScriptSerializer().Deserialize<AttomJson>(nullResponse);
+                return nullResponseResult;
             }
 
-            return info;
+            string response = info.ToString();
+
+
+            AttomJson data = new JavaScriptSerializer().Deserialize<AttomJson>(response);
+
+            return data;
         }
 
     }
