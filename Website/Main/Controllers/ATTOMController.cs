@@ -11,16 +11,14 @@ namespace Main.Controllers;
 public class ATTOMController : Controller
 {
     private readonly ILogger<ATTOMController> _logger;
-    private readonly ICrimeAPIService _CrimeService;
     private readonly IConfiguration _config;
-    private readonly IHousingAPI _ATTOMService;
+    private readonly IHousingAPI _housing;
 
-    public ATTOMController(ILogger<ATTOMController> logger, ICrimeAPIService cs, IConfiguration config, IHousingAPI attom)
+    public ATTOMController(ILogger<ATTOMController> logger, IConfiguration config, IHousingAPI attom)
     {
         _logger = logger;
-        _CrimeService = cs;
         _config = config;
-        _ATTOMService = attom;
+        _housing = attom;
     }
 
     public IActionResult Listings()
@@ -31,10 +29,10 @@ public class ATTOMController : Controller
     [HttpGet]
     public IActionResult Listings(string zipcode, string pages, string minPrice, string maxPrice, string orderBy)
     {
-        AttomJson data = new AttomJson();
-        //data = _ATTOMService.GetListing(zipcode, pages, minPrice, maxPrice, orderBy);
+        //AttomJson data = new AttomJson();
+        var data = _housing.GetListing(zipcode, pages, minPrice, maxPrice, orderBy);
 
-        return View();// View(data);
+        return View(data);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -42,4 +40,5 @@ public class ATTOMController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
 }

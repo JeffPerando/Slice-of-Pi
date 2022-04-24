@@ -23,16 +23,12 @@ namespace Main.DAL.Concrete
          * BUT, our APIs are singletons. Therefore, we don't bother.
          * Note: Refactor services with better dependency injection and their own config handling
          */
-        private readonly HttpClient _client = new();
+        private readonly HttpClient _client;
 
-        public WebService() {}
-        
-        /*
-        public WebService(HttpClient client)
+        public WebService(IHttpClientFactory factory)
         {
-            _client = client;
+            _client = factory.CreateClient();
         }
-        */
 
         public void AddHeader(string key, string? value)
         {
@@ -47,10 +43,10 @@ namespace Main.DAL.Concrete
             if (query != null)
             {
                 url = QueryHelpers.AddQueryString(url, query);
+                //*sigh*
+                url = url.Replace(",", "%2C");
                 
             }
-
-            //Debug.WriteLine($"Fetching {url}");
 
             try
             {
@@ -101,7 +97,8 @@ namespace Main.DAL.Concrete
 
         public T? FetchInto<T>(string url, Dictionary<string, string?>? query = null)
         {
-            return JsonConvert.DeserializeObject<T>(FetchStr(url, query) ?? "{}");
+            var data = FetchStr(url, query);
+            return JsonConvert.DeserializeObject<T>(data ?? "{}");
         }
 
         public async Task<HttpResponseMessage> FetchRawAsync(string url, Dictionary<string, string?>? query = null)

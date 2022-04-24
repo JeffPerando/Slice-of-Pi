@@ -93,6 +93,7 @@
                 <canvas id="crimeTrendPercentage" width="100" height="100"></canvas>
                 <br>
                 <br>
+                <hr>
                 <table id="cityCrimeStats" class="table">
                     <thead class="table-dark">
                         <tr>
@@ -107,6 +108,19 @@
                 <h2 id="cityCrimeNoCrimeheader"></h2>
                 <ul id="cityCrimeStatsNoCrime">
                 </ul>
+                <hr>
+                <h2>State information (@ViewBag.stateAbbrev)</h2>
+                <table id="stateCrimeTable" class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Population</th>
+                            <th>Total Crimes Reported</th>
+                            <th>Crime Per Capita</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
             </div>
         </div>        
@@ -116,14 +130,18 @@
 <input hidden id="cityName" value="@ViewBag.cityName" type="text">
 <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
 
+
 @section Scripts
 {
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
 
+
 <script>
+
     $('#yearSelector').on('change', function (e) {
     var optionValue = $("option:selected", this);
     var selectedValue = this.value;
@@ -132,14 +150,15 @@
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/apiv3/FBI/UpdateCityStats",
-        data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(),year:selectedValue},
+        url: "/api/UpdateCityStats",
+        data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
         success: function(data){
-            showCityStats(data), showChartPercentage(data);
+            showCityStats(data), showChartPercentage(data), fetchStateCrimeStats(selectedValue);
         },
         error: function(){
             console.log("Updater Issue.")
         }
+        
     });
 });
 </script>

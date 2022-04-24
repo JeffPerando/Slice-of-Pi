@@ -1,18 +1,19 @@
 ﻿
-//using Main.DAL.Abstract;
-//using Main.Models;
+using Main.DAL.Abstract;
+using Main.Models;
+using Main.Models.Listings;
 
-//namespace Main.DAL.Concrete
-//{
-//    public class DummyHousingService : IHousingAPI
-//    {
-//        /*
-//        private readonly List<HouseAssessment> _assessments;
-//        public DummyHousingService(List<HouseAssessment> assessments)
-//        {
-//            _assessments = assessments;
+namespace Main.DAL.Concrete
+{
+    public class DummyHousingService : IHousingAPI
+    {
+        private readonly Dictionary<Tuple<string, string>, HomeAssessment?> _assessments;
 
-//        }
+        public DummyHousingService(Dictionary<Tuple<string, string>, HomeAssessment?> assessments)
+        {
+            _assessments = assessments;
+
+        }
 
     //    public Task<List<HouseAssessment>> GetPriceHistory(Home address)
     //    {
@@ -26,4 +27,4 @@
 
     //}
 
-//}
+}
