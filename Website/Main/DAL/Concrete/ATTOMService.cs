@@ -3,10 +3,8 @@ using Main.DAL.Abstract;
 using Main.Models;
 using Main.Models.ATTOM;
 using Main.Models.Listings;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using Nancy.Json;
 
 namespace Main.DAL.Concrete
 {
@@ -16,8 +14,6 @@ namespace Main.DAL.Concrete
 
         private readonly string _apiKey;
         private readonly IWebService _web;
-
-        private ATTOMKeyVerification _keyVerification = new ATTOMKeyVerification();
 
         public ATTOMService(IConfiguration config, IWebService web) : this(config["ATTOMKey"], web) { }
 

@@ -137,8 +137,8 @@ function toggleCrimePerCapita(e) {
             let result = "";
 
             if (perCapIn) {
-                //This ensures the resulting fraction is to 4 decimal places
-                result = Math.round((cell / pop) * 1000000000) / 10000;
+                //This ensures the resulting fraction is to 2 decimal places
+                result = Math.round((cell / pop) * 10000000) / 100;
             } else {
                 result = Math.round((cell * pop) / 100000);
             }
