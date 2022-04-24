@@ -29,5 +29,25 @@ namespace TestBDD.StepDefinitions
             var message = _HomePage.GetWelcomeText;
             message.Should().BeTrue();
         }
+
+        [When(@"I click searches")]
+        public void CheckSearchBar()
+        {
+            var navbarDropdownMenuLink = _HomePage.GetDropDownText;
+            navbarDropdownMenuLink.Should().BeTrue();
+        }
+
+        [Then(@"I will see a drop downlist")]
+        public void CheckForItemInDropDown()
+        {
+            var navbarDropdownMenuLink = _HomePage.GetDropDownText;
+            navbarDropdownMenuLink.Should().BeTrue();
+        }
+
+        [When(@"I click home listings search")]
+        public void NavigateToANewPage()
+        {
+            _HomePage.ClickHomeListingButton();
+        }
     }
 }

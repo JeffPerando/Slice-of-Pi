@@ -96,6 +96,15 @@ testRunner.Given("I am on the homepage", ((string)(null)), ((TechTalk.SpecFlow.T
 #line 5
 testRunner.Then("I will see a welcome message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
+#line 6
+testRunner.When("I click searches", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 7
+testRunner.Then("I will see a drop downlist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 8
+testRunner.When("I click home listings search", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
             }
             this.ScenarioCleanup();
         }
