@@ -18,7 +18,7 @@ namespace TestBDD.PageObjects
         // Goto this page.  Preferred way for derived classes
         public virtual void Goto()
         {
-            _browserInteractions.GoToUrl("https://localhost:44355/home");
+            _browserInteractions.GoToUrl("https://localhost:7241/home");
         }
 
         // If you need to just go to a named page
