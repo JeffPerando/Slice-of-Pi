@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+
 
 namespace Main.Models
 {
@@ -97,8 +97,6 @@ namespace Main.Models
                 entity.ToTable("User");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Address).HasMaxLength(100);
 
                 entity.Property(e => e.EmailAddress).HasMaxLength(100);
 

@@ -3,7 +3,7 @@ $(function() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/apiv3/FBI/GetCityStats",
+        url: "/api/GetCityStats",
         data: { cityName: $("#cityName").val(), stateAbbrev: $("#stateAbbrev").val() },
         success: showCityStats,
         error: errorOnAjax
@@ -18,12 +18,14 @@ function errorOnAjax() {
 
 function showCityStats(data) {
     if (data.length == 0) {
-        window.alert("Information was not found for this city. We either do not currently have information on this city, or it does not exist.\n\nReturning to homepage.");
-        window.location.href = window.location.origin;
+        window.alert("Information was not found for this city. We either do not currently have information on this city, or it does not exist.\n\nReturning to Search.");
+        window.history.go(-1);
     }
-
+    internationalNumberFormat = new Intl.NumberFormat('en-US')
     var noOffenses = [];
     var currentYearSelected = data[0]["year"];
+    data = data.reverse();
+
 
     $("#cityCrimeStats>tbody").empty();
     for (let i = 0; i < data.length; ++i) {
@@ -36,8 +38,8 @@ function showCityStats(data) {
         let repoTR = $(
             `<tr>
                 <td>${capitalize(data[i]["offenseType"].replaceAll("-", " "))}</td>
-                <td>${data[i]["totalOffenses"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
+                <td>${internationalNumberFormat.format(data[i]["totalOffenses"])}</td>
+                <td>${internationalNumberFormat.format(data[i]["actualConvictions"])}</td>
             </tr>`
         )
         
@@ -163,22 +165,6 @@ function populateDropDown(data) {
         element.textContent = option;
         element.value = option;
         select.appendChild(element);
-    }
-}
-
-function showStateStats(data) {
-    $("#stateCrimeTable>tbody").empty();
-    for (let i = 0; i < data.length; ++i) {
-        let repoTR = $(
-            `<tr>
-                <td>${data[i]["offenseType"]}</td>
-                <td>${data[i]["totalOffenses"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
-                <td>${data[i]["year"]}</td>
-            </tr>`
-        )
-        $("#stateCrimeTable>tbody").append(repoTR);
-        $("#stateCrimeTable").show();
     }
 }
 

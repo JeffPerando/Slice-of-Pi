@@ -5,7 +5,7 @@ $(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "apiv3/FBI/StateStats",
+        url: "/api/GetSafestStates",
         success: displayStateInformation,
         error: errorOnAjax
 
@@ -14,7 +14,7 @@ $(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/apiv3/FBI/StateList",
+        url: "/api/States",
         success: populateDropDown,
         error: errorOnAjax
 
@@ -22,25 +22,26 @@ $(function () {
 
 })
 
-function errorOnAjax() {
-    console.log("ERROR in ajax request");
+function errorOnAjax(xhr, status, error) {
+    console.log(xhr);
+    console.log(`ERROR in ajax request: Status code ${xhr.status}, error: ${error}`);
 }
 
 function displayStateInformation(data) {
-    console.log(data);
 
     $("#safestStatesTable>tbody").empty();
     for (let i = 0; i < data.length; ++i) {
         let repoTR = $(
             `<tr>
                 <td style="color:white; font-weight:bold;">${data[i]["state"]}</td>
-                <td style="color:white; font-weight:bold;">${data[i]["population"]}</td>
+                <td style="color:white; font-weight:bold;">${data[i]["population"].toLocaleString("en-US")}</td>
                 <td style="color:white; font-weight:bold;">${data[i]["crimePerCapita"]}</td>
             </tr>`
         )
         $("#safestStatesTable>tbody").append(repoTR);
         $("#safestStatesTable").show();
     }
+    document.getElementById("loadingIcon").textContent = "";
 }
 
 function populateDropDown(data) {

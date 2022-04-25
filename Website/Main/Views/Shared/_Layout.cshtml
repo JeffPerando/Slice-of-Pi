@@ -12,8 +12,14 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 
-        <!-- Site-wide CSS -->
-    <link rel="stylesheet" href="~/site.css" />
+    <!-- Site-wide CSS -->
+    <!--p.s. this is busted, do not use. it broke SP-189's formatting horrifically-->
+    <!--<link rel="stylesheet" href="~/css/site.css" />-->
+
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles")
+    }
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="~/assets/css/fontawesome.css" />
@@ -52,32 +58,7 @@
             <div class="row">
                 <div class="col-12">
                     <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a class="logo" asp-area="" asp-controller="Home" asp-action="Index">
-                            Slice of Pi
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-
-                        <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                            <li><a asp-area="" asp-controller="StateCrime" asp-action="StateCrimeStats">State Crime Statistics</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Workcited">Workcited</a></li>
-
-                            <!--<li class="has-sub">
-                                <a href="javascript:void(0)">Pages</a>
-                                <ul class="sub-menu">
-                                    <li><a href="meetings.html">Upcoming Meetings</a></li>
-                                    <li><a href="meeting-details.html">Meeting Details</a></li>
-                                </ul>
-                            </li>-->
-                            <partial name="_LoginPartial" />
-                        </ul>
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
+                        <partial name="_NavBarPartial" />
                     </nav>
                 </div>
             </div>
@@ -109,7 +90,7 @@
         @if (IsSectionDefined("UpcomingMeetings"))
         { 
         <section class="upcoming-meetings" id="meetings">
-            <div class="container">
+            <div class="container text-light">
                 @RenderSection("UpcomingMeetings")
             </div>
         </section>

@@ -2,7 +2,7 @@
 $(function () {
     $.ajax({
         type: "GET",
-        url: "/apiv3/FBI/StateList",
+        url: "/api/States",
         success: addStatesToForm,
         error: ajaxErr
 

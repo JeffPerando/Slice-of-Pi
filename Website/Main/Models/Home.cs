@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//using System;
+//using System.Collections.Generic;
 
 namespace Main.Models
 {
@@ -7,6 +7,7 @@ namespace Main.Models
     {
         public int Id { get; set; }
         public string StreetAddress { get; set; } = null!;
+        public string StreetAddress2 { get { return $"{County}, {State} {ZipCode}"; } }
         public string ZipCode { get; set; } = null!;
         public string State { get; set; } = null!;
         public string County { get; set; } = null!;
@@ -16,5 +17,7 @@ namespace Main.Models
 
         public virtual AgencyInformation? Agency { get; set; }
         public virtual User User { get; set; } = null!;
+
     }
+
 }

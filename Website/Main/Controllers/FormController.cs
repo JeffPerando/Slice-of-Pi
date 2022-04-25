@@ -1,5 +1,6 @@
 ﻿
 using Main.DAL.Abstract;
+using Main.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
@@ -7,16 +8,9 @@ namespace Main.Controllers
 {
     public class FormController : Controller
     {
-        private readonly string root;
-        public FormController()
-        {
-            root = Path.GetFullPath(Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"wwwroot\"));
-            
-        }
-
         public string ReadForm(string name)
         {
-            return System.IO.File.ReadAllText(root + $@"\forms\{name.ToLower()}.html");
+            return FileHelper.ReadStr($@"\forms\{name.ToLower()}.html");
         }
 
         public IActionResult GetForm(string id)

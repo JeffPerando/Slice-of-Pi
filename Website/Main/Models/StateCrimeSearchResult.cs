@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
+
 using System.Text.Json.Serialization;
 
 namespace Main.Models
@@ -30,8 +29,18 @@ namespace Main.Models
         [JsonIgnore]
         public virtual User User { get; set; } = null!;
 
-        public StateCrimeSearchResult PresentJSONRespone(JObject info)
+        public StateCrimeSearchResult? PresentJSONRespone(JObject info)
         {
+            if (info == null)
+            {
+                return null;
+            }
+
+            if (info["results"]?.Count() == 0)
+            {
+                return null;
+            }
+
             foreach (var item in info["results"])
             {
                 try

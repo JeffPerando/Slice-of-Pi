@@ -3,7 +3,7 @@
 }
 
 @section Banner {
-<p>This is life of Pi bringing you a centralized research application. Be informed about the kind of community you may end up belonging to.</p>
+<p id="message">This is life of Pi bringing you a centralized research application. Be informed about the kind of community you may end up belonging to.</p>
 }
 
 <section class="services">
@@ -16,7 +16,7 @@
                             <img src="assets/images/service-icon-01.png" alt="">
                         </div>
                         <div class="down-content">
-                            <h4>Get Crime Rates by State</h4>
+                            <h4 >Get Crime Rates by State</h4>
                             <p>Find out what kind of crime the state you may live in experiences.</p>
                         </div>
                     </div>
@@ -43,23 +43,6 @@
         </div>
     </div>
 </section>
-
-<section class="upcoming-meetings" id="meetings">
-    <div class="container">
-        <div class="row">
-            <div class="col text-center my-5">
-                <partial name="_CityLookupForm" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col text-center my-5">
-                <partial name="_SafestStates" />
-            </div>
-        </div>
-    </div>
-</section>
-
-
 <section class="our-courses" id="courses">
   <div class="container">
     <div class="row">
@@ -289,10 +272,7 @@
     </div>
 </div>
 }
-@section Scripts
-{
-<script type="text/javascript" src="~/js/index.js" asp-append-version="true"></script>
-}
+
 <!--
 <section class="contact-us" id="contact">
   <div class="container">

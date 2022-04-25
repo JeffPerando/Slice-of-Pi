@@ -1,89 +1,179 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
+
 using Main.Models;
 using Main.DAL.Abstract;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections;
 using Newtonsoft.Json;
+using Main.Helpers;
+using System.Diagnostics;
 
 namespace Main.DAL.Concrete
 {
     public class CrimeAPIService : ICrimeAPIService
     {
+        private readonly string keyFBI = "";
+        private readonly IWebService _web;
 
-        public string keyFBI = "";
+        //public readonly string state_json = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_titlecase.json";
 
-        public string state_json { get; }
-        public string crime_api_state_info { get; }
-        public string crime_statistics_api_url { get; }
-        public string crime_url_agency_reported_crime { get; }
+        public readonly string crime_api_state_info = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
+        public readonly string crime_statistics_api_url = "https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr/";
+        public readonly string crime_url_agency_reported_crime = "https://api.usa.gov/crime/fbi/sapi/api/summarized/agencies/";
 
-        public string crime_state_api_url { get; }
+        private List<State> states;
 
-        public void SetCredentials(string token)
+        // public string crime_state_api_url { get; }
+
+        //old unit tests don't like this, please don't use
+        //and turns out it breaks the app entirely. commenting out...
+        //[Obsolete("Please clean this up. Unit tests that use this class are actually integration tests. Move things that don't need to contact the FBI somewhere else, like a service or the API controller")]
+        //public CrimeAPIService() : this("INVALID_KEY", new WebService()) {}
+
+        public CrimeAPIService(IConfiguration config, IWebService web) : this(config["apiFBIKey"], web) { }
+
+        public CrimeAPIService(string token, IWebService web)
         {
-            keyFBI = token;
+            keyFBI = token.Split("=").Last();
+            _web = web;
+
+            states = FileHelper.ReadInto<List<State>>("states.json") ?? new();
 
         }
 
-        public CrimeAPIService()
+        private JObject? FetchFBIObj(string url)
         {
-            state_json = "https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_titlecase.json";
-            crime_api_state_info = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states/";
-            crime_statistics_api_url = "https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr/";
-            crime_url_agency_reported_crime = "https://api.usa.gov/crime/fbi/sapi/api/summarized/agencies/";
+            if (url.Contains(crime_url_agency_reported_crime))
+            {
+                Debug.WriteLine(url);
+            }
 
+            return _web.FetchJObject(url, new()
+            {
+                ["API_KEY"] = keyFBI
+            });
+        }
+
+        private Task<JObject?> FetchFBIObjAsync(string url)
+        {
+            return _web.FetchJObjectAsync(url, new()
+            {
+                ["API_KEY"] = keyFBI
+            });
+        }
+
+        private JArray? FetchFBIArray(string url)
+        {
+            return _web.FetchJArray(url, new()
+            {
+                ["API_KEY"] = keyFBI
+            });
+        }
+
+        private JObject? FetchStateAgencies(string state)
+        {
+            string url = $"https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr/{state}";
+
+            return FetchFBIObj(url);
+        }
+
+        private string? GetCityORI(string city, string state)
+        {
+            var info = FetchStateAgencies(state);
+
+            if (info == null)
+            {
+                return null;
+            }
+
+            var results = info["results"];
+
+            if (results == null || !results.Any())
+            {
+                return null;
+            }
+
+            foreach (var item in results)
+            {
+                if ((item["agency_name"] ?? "").ToString().Contains(city))
+                {
+                    return item["ori"]?.ToString();
+                }
+
+            }
+
+            return null;
+        }
+
+        private JObject? FetchCityData(string city, string state, string? year = null)
+        {
+            if (year == null)
+            {
+                year = "" + new JSONYearVariable().getYearTwoYearsAgo();
+            }
+
+            var ori = GetCityORI(city, state);
+
+            var url = $"{crime_url_agency_reported_crime}{ori}/offenses/{year}/{year}";
+            return FetchFBIObj(url);
         }
 
         public List<string> GetStates()
         {
-            var jsonResponse = new WebClient().DownloadString(state_json);
-
-            List<string> state_abbrevs = new List<string>();
-            JArray info = JArray.Parse(jsonResponse);
-
-            for (int i = 0; i < info.Count; i++)
-            {
-                string abbreviation = (string)info[i]["abbreviation"];
-                state_abbrevs.Add(abbreviation);
-            }
-            return state_abbrevs;
+            return states.Select(s => s.Abbrev).ToList();
         }
 
         public List<Crime> ReturnStateCrimeList(List<string> states)
         {
-            JSONYearVariable year = new JSONYearVariable();
-            List<Crime> states_crime = new List<Crime>();
+            var fetches = new List<Task<Crime?>>();
+            var states_crime = new List<Crime>();
 
-            for (int i = 0; i < states.Count; i++)
+            foreach (var state in states)
             {
-                try
+                fetches.Add(GetOverallStateCrimeAsync(state));
+
+            }
+
+            foreach (var fetch in fetches)
+            {
+                var crimes = fetch.GetAwaiter().GetResult();
+
+                if (crimes != null)
                 {
-                    var jsonResponse = new WebClient().DownloadString(crime_api_state_info + states[i] + year.setYearForJSON(0) + keyFBI);
-                    JObject info = JObject.Parse(jsonResponse);
-
-                    float population = (int)info["results"][0]["population"];
-                    float total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
-                    string state_abbrevs = (string)info["results"][0]["state_abbr"] ?? "CA";
-
-                    float crimes_per_capita = (float)Math.Round((total_crime / population) * 100000, 2);
-                    string formatted_population = String.Format("{0:n0}", population);
-
-                    states_crime.Add(new Crime { State = state_abbrevs, Population = formatted_population, CrimePerCapita = crimes_per_capita });
-
-
+                    states_crime.Add(crimes);
                 }
-                catch
-                {
-                    continue;
-                }
+
             }
 
             return states_crime;
+        }
+
+        public async Task<Crime?> GetOverallStateCrimeAsync(string state)
+        {
+            //idk why this is here
+            JSONYearVariable year = new JSONYearVariable();
+
+            try
+            {
+                var url = crime_api_state_info + state + '/' + year.setYearForJSON(0);
+
+                var info = await FetchFBIObjAsync(url);
+
+                if (info == null)
+                {
+                    return null;
+                }
+
+                int population = (int)info["results"][0]["population"];
+                int total_crime = (int)info["results"][0]["violent_crime"] + (int)info["results"][0]["property_crime"];
+
+                return new Crime { State = state, Population = population, TotalOffenses = total_crime };
+            }
+            catch
+            {
+                return null;
+            }
+
         }
 
         public List<Crime> GetSafestStates(List<Crime> crimeList)
@@ -97,120 +187,120 @@ namespace Main.DAL.Concrete
         {
             List<Crime> city_crime_stats = new List<Crime>();
 
-            var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
-            JObject info = JObject.Parse(jsonResponse);
+            var city_stats = FetchCityData(cityName, stateAbbrev, year);
 
-            foreach (var item in info["results"])
+            if (city_stats == null)
             {
-                var text = (string)item["agency_name"];
-                var result = text.Contains(cityName + " " + "Police Department");
-
-                //Checks to see if the city exists in the API.
-                if (result)
-                {
-
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses/" + year + "/" + year + "/" + keyFBI);
-                    JObject city_stats = JObject.Parse(newjsonResponse);
-
-                    foreach (var crime in city_stats["results"])
-                    {
-                        if ((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson")
-
-                        {
-                            continue;
-                        }
-                        // Will get stuff like "data_year", "ori", "actual" meaning real crimes, "offense" meaning the type, and "cleared" for reported and dealt with.
-                        int crime_year = (int)crime["data_year"];
-                        string ori = (string)crime["ori"];
-                        string state_abbr = (string)crime["state_abbr"];
-                        string agency_name = text;
-                        string offense_type = (string)crime["offense"];
-                        int actual_convictions = (int)crime["actual"];
-                        int total_offenses = (int)crime["actual"] + (int)crime["cleared"];
-
-                        city_crime_stats.Add(new Crime
-                        {
-                            Year = crime_year,
-                            OffenseType = offense_type,
-                            TotalOffenses = total_offenses,
-                            ActualConvictions = actual_convictions,
-                            State = state_abbr
-                        });
-                    }
-                    //Stops after it finds what it needs.
-                    break;
-                }
+                return city_crime_stats;
             }
-            return city_crime_stats;
+
+            foreach (var crime in city_stats["results"])
+            {
+                var offense = (crime["offense"] ?? "UNKNOWN").ToString();
+
+                if (offense == "property-crime" || offense == "violent-crime" || offense == "arson")
+                {
+                    //Why???
+                    continue;
+                }
+
+                // Will get stuff like "data_year", "ori", "actual" meaning real crimes, "offense" meaning the type, and "cleared" for reported and dealt with.
+
+                //string ori = (string)crime["ori"];
+
+                city_crime_stats.Add(new Crime
+                {
+                    Year = (int)crime["data_year"],
+                    OffenseType = offense,
+                    TotalOffenses = (int)crime["actual"] + (int)crime["cleared"],
+                    ActualConvictions = (int)crime["actual"],
+                    State = stateAbbrev
+                });
+            }
+
+            return city_crime_stats.OrderBy(c => c.TotalOffenses).ToList();
         }
 
         public List<Crime> GetCityStats(string cityName, string stateAbbrev)
         {
+            var info = FetchFBIObj(crime_statistics_api_url + stateAbbrev);
 
-            JSONYearVariable year = new JSONYearVariable();
-            List<Crime> city_crime_stats = new List<Crime>();
+            var city_crime_stats = new List<Crime>();
+            var fetches = new List<Task<List<Crime?>>>();
 
-            var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
-            JObject info = JObject.Parse(jsonResponse);
-
-            foreach (var item in info["results"])
+            foreach (var city in info["results"])
             {
-                var text = (string)item["agency_name"];
-                var result = text.Contains(cityName + " " + "Police Department");
+                fetches.Add(GetCityStatsAsync(city, cityName));
+            }
 
-                //Checks to see if the city exists in the API.
-                if (result)
+            foreach (var fetch in fetches)
+            {
+                var city_information = fetch.GetAwaiter().GetResult();
+
+                if (city_information != null)
                 {
-
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + year.setYearForJSON(0) + keyFBI);
-
-                    JObject city_stats = JObject.Parse(newjsonResponse);
-
-                    foreach (var crime in city_stats["results"])
+                    foreach (var item in city_information)
                     {
-                        if ((string)crime["offense"] == "property-crime" || (string)crime["offense"] == "violent-crime" || (string)crime["offense"] == "arson" || (string)crime["offense"] == "rape-legacy")
-
-                        {
-                            continue;
-                        }
-                        // Will get stuff like "data_year", "ori", "actual" meaning real crimes, "offense" meaning the type, and "cleared" for reported and dealt with.
-                        int crime_year = (int)crime["data_year"];
-                        string ori = (string)crime["ori"];
-                        string state_abbr = (string)crime["state_abbr"];
-                        string agency_name = text;
-                        string offense_type = (string)crime["offense"];
-                        int actual_convictions = (int)crime["actual"];
-                        int total_offenses = (int)crime["actual"] + (int)crime["cleared"];
-
-                        city_crime_stats.Add(new Crime
-                        {
-                            Year = crime_year,
-                            OffenseType = offense_type,
-                            TotalOffenses = total_offenses,
-                            ActualConvictions = actual_convictions,
-                            State = state_abbr
-                        });
+                        city_crime_stats.Add(item);
                     }
-                    //Stops after it finds what it needs.
-                    break;
                 }
             }
+
+            return city_crime_stats.OrderBy(c => c.TotalOffenses).ToList();
+        }
+
+        public async Task<List<Crime?>> GetCityStatsAsync(JToken city, string cityName)
+        {
+            var searchedCity = cityName + " " + "Police Department";
+            var cityJTokenName = (string)(city["agency_name"]);
+
+            JSONYearVariable year = new JSONYearVariable();
+            List<Crime> crime_city = new List<Crime>();
+            List<Crime> city_crime_stats = new List<Crime>();
+
+            if (searchedCity == cityJTokenName)
+            {
+                var city_stats = FetchFBIObj(crime_url_agency_reported_crime + city["ori"] + "/offenses/" + year.setYearForJSON(0));
+
+                foreach (var crime in city_stats["results"])
+                {
+                    var offense = crime["offense"]?.ToString() ?? "UNKNOWN";
+                    if (offense == "property-crime" || offense == "violent-crime" || offense == "arson" || offense == "rape-legacy")
+                    {
+                        continue;
+                    }
+                    // Will get stuff like "data_year", "ori", "actual" meaning real crimes, "offense" meaning the type, and "cleared" for reported and dealt with.
+                    city_crime_stats.Add(new Crime
+                    {
+                        Year = (int)crime["data_year"],
+                        OffenseType = offense,
+                        TotalOffenses = (int)crime["actual"] + (int)crime["cleared"],
+                        ActualConvictions = (int)crime["actual"],
+                        State = (string)crime["state_abbr"]
+                    });
+                }
+
+            }
+
             return city_crime_stats;
         }
-
-        public List<Crime> ReturnCityStats(List<Crime> city_stats)
+        public StateCrimeSearchResult? GetState(string stateAbbrev, int? aYear)
         {
-            return city_stats.OrderByDescending(t => t.TotalOffenses).ToList();
-        }
+            if (aYear == null)
+            {
+                aYear = 2020;
+            }
 
-        public StateCrimeSearchResult GetState(string stateAbbrev, int? aYear)
-        {
-            JSONYearVariable year = new JSONYearVariable();
+            var year = $"/{aYear}/{aYear}";
             var state_crime_stats = new StateCrimeSearchResult();
-            var jsonResponse = new WebClient().DownloadString(crime_api_state_info + stateAbbrev + year.setYearForJSON(aYear) + keyFBI);
-            JObject info = JObject.Parse(jsonResponse);
+            var info = FetchFBIObj(crime_api_state_info + stateAbbrev + year);
+
+            if (info == null)
+            {
+                return null;
+            }
+
             state_crime_stats = state_crime_stats.PresentJSONRespone(info);
-            //var deserializedProduct = JsonConvert.DeserializeObject<IEnumerable<StateCrimeViewModel>>(jsonResponse);
 
             return state_crime_stats;
         }
@@ -219,40 +309,29 @@ namespace Main.DAL.Concrete
         {
             JSONYearVariable year = new JSONYearVariable();
             List<Crime> city_crime_trends = new List<Crime>();
-            var jsonResponse = new WebClient().DownloadString(crime_statistics_api_url + stateAbbrev + keyFBI);
-            JObject info = JObject.Parse(jsonResponse);
 
-            foreach (var item in info["results"])
+            var ori = GetCityORI(cityName, stateAbbrev);
+
+            if (ori == null)
             {
-                var text = (string)item["agency_name"];
-                var result = text.Contains(cityName + " " + "Police Department");
-
-                //Checks to see if the city exists in the API.
-                if (result)
-                {
-                    var newjsonResponse = new WebClient().DownloadString(crime_url_agency_reported_crime + item["ori"] + "/offenses" + "/" + (year.getYearTwoYearsAgo() - 35) + "/" + year.getYearTwoYearsAgo() + keyFBI);
-
-                    JObject city_stats = JObject.Parse(newjsonResponse);
-
-                    return city_stats;
-
-                }
-
+                return null;
             }
-            return null;
+
+            var city_stats = FetchFBIObj($"{crime_url_agency_reported_crime}{ori}/offenses/{(year.getYearTwoYearsAgo() - 35)}/{year.getYearTwoYearsAgo()}");
+
+            return city_stats;
         }
 
         //FORMATS THE DATA INTO CRIME OBJECT LIST FOR GRAPH DISPLAYING
         public List<Crime> ReturnTotalCityTrends(JObject city_stats)
         {
+            var counter = -1;
+            List<Crime> city_crime_trends = new List<Crime>();
 
             if (city_stats == null)
             {
-                return null;
+                return city_crime_trends;
             }
-
-            var counter = -1;
-            List<Crime> city_crime_trends = new List<Crime>();
 
             //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
             foreach (var crime in city_stats["results"])
@@ -270,6 +349,7 @@ namespace Main.DAL.Concrete
             }
             return city_crime_trends;
         }
+
         public List<Crime> ReturnPropertyCityTrends(JObject city_stats)
         {
             if (city_stats == null)
@@ -294,16 +374,17 @@ namespace Main.DAL.Concrete
                 }
             }
             return city_crime_trends;
-
         }
+
         public List<Crime> ReturnViolentCityTrends(JObject city_stats)
         {
+            var city_crime_trends = new List<Crime>();
+
             if (city_stats == null)
             {
-                return null;
+                return city_crime_trends;
             }
             var counter = -1;
-            List<Crime> city_crime_trends = new List<Crime>();
 
             //This allows for us to only get the amount of property crimes and violent crimes combined since all subcategories of crime fall under both prop crime and violent crime.
             foreach (var crime in city_stats["results"])
@@ -320,7 +401,37 @@ namespace Main.DAL.Concrete
                 }
             }
             return city_crime_trends;
-
         }
+
+        public int GetCityCount(string state)
+        {
+            var agencies = FetchStateAgencies(state);
+            var results = agencies["results"];
+
+            if (results == null)
+            {
+                return 0;
+            }
+
+            return results.Where(agency => agency["agency-type"]?.ToString().ToLower() == "city").Count();
+        }
+
+        public int? GetTotalCityCrime(string city, string state)
+        {
+            var data = FetchCityData(city, state);
+
+            if (data == null)
+            {
+                return null;
+            }
+
+            return data?["results"]?
+                .Where(r => {
+                    var type = r?["offense-type"]?.ToString();
+                    return (type == "violent-crime" || type == "property-crime");
+                }).Sum(r => (int)r["actual"]);
+        }
+
     }
+
 }

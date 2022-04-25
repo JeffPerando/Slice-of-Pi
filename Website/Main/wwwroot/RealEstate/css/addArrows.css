@@ -1,0 +1,19 @@
+﻿table.tablesorter thead tr .header {
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+
+th.header {
+    background-image: url(../updown.png);
+}
+
+th.headerSortUp {
+    background-image: url(../up.png);
+    background-color: crimson;
+}
+
+th.headerSortDown {
+    background-image: url(../down.png);
+    background-color: crimson;
+}

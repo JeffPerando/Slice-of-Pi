@@ -14,7 +14,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using Newtonsoft.Json;
-
+/*
 namespace Test
 {
     public class StateCrimeTests
@@ -31,7 +31,6 @@ namespace Test
         public void VerifyViewModelIsProperlyPopulated()
         {
             //Arrange
-            ICrimeAPIService crimeRepo = new CrimeAPIService();
 
             string text = System.IO.File.ReadAllText(@"StateCrimeJobject.txt");
 
@@ -45,8 +44,8 @@ namespace Test
 
 
 
-    //Assert that the text is parsed correctly by checking if view model variables are correct and prove we can use JSON data
-    //note the json in the file was pulled from the API
+            //Assert that the text is parsed correctly by checking if view model variables are correct and prove we can use JSON data
+            //note the json in the file was pulled from the API
             Assert.AreEqual(stateCrime.Year, 2020);
             Assert.AreEqual(stateCrime.State_abbr, "AL");
             Assert.AreEqual(stateCrime.Population, 4921532);
@@ -65,4 +64,4 @@ namespace Test
         }
     }
 }
-
+*/

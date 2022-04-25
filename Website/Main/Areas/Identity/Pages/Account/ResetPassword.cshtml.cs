@@ -99,7 +99,7 @@ namespace Main.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            if (!await _captcha.Passes(Input.CaptchaResponse))
+            if (!_captcha.Passes(Input.CaptchaResponse))
             {
                 // confuse the bot
                 return RedirectToPage("./ResetPasswordConfirmation");

@@ -1,0 +1,28 @@
+﻿<!-- ***** Logo Start ***** -->
+<a class="logo" asp-area="" asp-controller="Home" asp-action="Index">
+    Slice of Pi
+</a>
+<!-- ***** Logo End ***** -->
+
+<!-- ***** Menu Start ***** -->
+<ul class="nav">
+    <li class="scroll-to-section"><a href="#top" class="active">Go to Top</a></li>
+    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="nav-item dropdown">
+        <a class="nav-item dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Searches
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+            <li><a id="CityCrimeLookUpLink" class="dropdown-item" href="/Crime/CityCrimeLookUp">City Crime Search</a></li>
+            <li><a id="NationalCrimeLink" class="dropdown-item" asp-area="" asp-controller="Crime" asp-action="National">National Crime Stats</a></li>
+            <li><a id="HomeListingLink" class="dropdown-item" asp-area="" asp-controller="ATTOM" asp-action="Listings">Home Listings</a></li>
+        </ul>
+    </li>
+    <li><a asp-area="" asp-controller="Home" asp-action="Workcited">Workcited</a></li>
+
+    <partial name="_LoginPartial" />
+</ul>
+<a class='menu-trigger'>
+    <span>Menu</span>
+</a>
+<!-- ***** Menu End ***** -->

@@ -12,7 +12,6 @@ namespace Main.Models
             Map(m => m.Id).Ignore();
             Map(m => m.User).Ignore();
             Map(m => m.User.Id).Ignore();
-            Map(m => m.User.Address).Ignore();
             Map(m => m.User.Name).Ignore();
             Map(m => m.User.EmailAddress).Ignore();
             Map(m => m.UserId).Ignore();

@@ -1,0 +1,39 @@
+﻿<style>
+    div.backgroundLookUp {
+                
+                background: rgb(25, 28, 38, 0.5);
+                border-radius: 25px;
+            }
+</style>
+
+<section class="heading-page header-text" id="top" >
+    <div class="container">
+        <div class="row">
+            <div class = "backgroundLookUp">
+                <br>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <partial name="_CityLookupForm" />
+                            <br>
+                        </div>
+                        <div class="col-sm-4">
+                            <partial name="_SafestStates" />
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section UpcomingMeetings {
+
+}
+
+
+@section Scripts {
+<script type="text/javascript" src="~/js/index.js" asp-append-version="true"></script>
+}
