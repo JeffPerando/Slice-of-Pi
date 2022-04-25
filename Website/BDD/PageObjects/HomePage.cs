@@ -8,10 +8,14 @@ namespace TestBDD.PageObjects
     {
         private IWebElement Title => _browserInteractions.WaitAndReturnElement(By.Id("displayMessage"));
         private IWebElement WelcomeText => _browserInteractions.WaitAndReturnElement(By.Id("message"));
+        private IWebElement DropDownText => _browserInteractions.WaitAndReturnElement(By.Id("navbarDropdownMenuLink"));
         private IEnumerable<IWebElement> AppleButtons => _browserInteractions.WaitAndReturnElements(By.CssSelector("#listOfApples button"));
+        private IEnumerable<IWebElement> NavBar => _browserInteractions.WaitAndReturnElements(By.CssSelector("#navbarDropdownMenuLink a"));
         private IWebElement ServerNav => _browserInteractions.WaitAndReturnElement(By.Id("serversNav"));
         private IWebElement DropDownList => _browserInteractions.WaitAndReturnElement(By.Id("navbarDropdownMenuLink"));
         private IWebElement DropDown_CityLookUp => _browserInteractions.WaitAndReturnElement(By.Id("CityCrimeLookUpLink"));
+        private IWebElement DropDownTextHomeListing => _browserInteractions.WaitAndReturnElement(By.Id("HomeListingsLink"));
+
         public HomePage(IBrowserInteractions browserInteractions)
             : base(browserInteractions)
         {
@@ -23,11 +27,11 @@ namespace TestBDD.PageObjects
         public bool GetWelcomeText => WelcomeText.Displayed;
         
         public bool GetCityLookUp => DropDown_CityLookUp.Displayed;
-        public string GetDropDownText => DropDownList.Text;
+        public string GetDropDownTextA => DropDownList.Text;
 
+        public bool GetDropDownText => DropDownText.Displayed;
+        public bool GetDropDownTextHomeListingItem => DropDownTextHomeListing.Displayed;
         public string GetAppleButtonText(int index) => AppleButtons.ElementAt(index).Text;
-
-
         public IEnumerable<string> GetAppleButtonTexts() => AppleButtons.Select(x => x.Text);
 
         public void ClickSearchesButton()
@@ -43,7 +47,10 @@ namespace TestBDD.PageObjects
         {
             AppleButtons.ElementAt(index).Click();
         }
-
-
+        public void ClickHomeListingButton()
+        {
+            var x = DropDownTextHomeListing.FindElement(By.LinkText("HomeListingsLink"));
+            var navigation = x.GetAttribute("href");
+        }
     }
 }
