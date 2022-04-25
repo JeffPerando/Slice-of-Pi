@@ -27,7 +27,7 @@ namespace TestBDD.PageObjects
         public bool GetWelcomeText => WelcomeText.Displayed;
         
         public bool GetCityLookUp => DropDown_CityLookUp.Displayed;
-        public string GetDropDownText => DropDownList.Text;
+        public string GetDropDownTextA => DropDownList.Text;
 
         public bool GetDropDownText => DropDownText.Displayed;
         public bool GetDropDownTextHomeListingItem => DropDownTextHomeListing.Displayed;
