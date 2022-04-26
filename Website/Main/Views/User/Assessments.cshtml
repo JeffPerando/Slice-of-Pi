@@ -5,9 +5,10 @@
     ViewData["Title"] = "Your Crime-Weighted Assessments";
 }
 
-@section Banner{}
+@section Banner {}
 
-@section UpcomingMeetings {
+@section UpcomingMeetings
+{
     @if (Model != null && Model.Count > 0)
     {
     <table class="table table-dark table-condensed">
@@ -40,8 +41,13 @@
     {
         <h3>No addresses found!</h3>
     }
-    
+
     <form method="post">
         @Html.RenderAddressFields()
     </form>
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/addressform.js" asp-append-version="true"></script>
 }
