@@ -101,21 +101,11 @@ namespace Main.Controllers
                 return Content("[]", "application/json");
             }
 
-            //Commented out paging code since I don't want to implement it atm
-            //var itemsPerPage = 10;
-
-            var userID = _users.ID(User);
-            //var pageIndex = page - 1;
-
-            var allResults = _db.StateCrimeSearchResults.Where(sr => sr.UserId == userID).OrderByDescending(scsr => scsr.DateSearched);
-            var totalResultCount = allResults.Count();
-            //var results = allResults.Skip(pageIndex * itemsPerPage).Take(itemsPerPage);
-
             return Json(new
             {
                 //page = page,
                 //totalPages = totalResultCount / itemsPerPage,
-                results = allResults.Take(10)
+                results = _users.StateCrimeSearchResults(User, 10)
             });
         }
 
