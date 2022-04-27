@@ -46,14 +46,15 @@ namespace Main.DAL.Concrete
             {
                 var identity = _userManager.GetUserAsync(user).GetAwaiter().GetResult();
 
-                data = new User();
-
-                data.Id = id;
-                data.Name = "J. Doe";
-                data.EmailAddress = identity.Email;
+                data = new User
+                {
+                    Id = id,
+                    Name = "J. Doe",
+                    EmailAddress = identity.Email
+                };
 
                 _db.Users.Add(data);
-                _db.SaveChangesAsync();
+                _db.SaveChanges();
 
             }
 

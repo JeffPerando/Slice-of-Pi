@@ -6,7 +6,7 @@ namespace Main.Models
         public int Id { get; set; }
         public int Year { get; set; }
         public string State { get; set; } = null!;
-        public string OffenseType { get; set; }
+        public string OffenseType { get; set; } = null!;
         public int TotalOffenses { get; set; }
         public int ActualConvictions { get; set; }
         public int? AgencyId { get; set; }

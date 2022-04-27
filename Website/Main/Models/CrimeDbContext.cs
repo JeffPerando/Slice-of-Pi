@@ -32,6 +32,7 @@ namespace Main.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
             modelBuilder.Entity<AgencyInformation>(entity =>
             {
                 entity.ToTable("AgencyInformation");
@@ -62,14 +63,14 @@ namespace Main.Models
                     .HasForeignKey(d => d.AgencyId)
                     .HasConstraintName("Home_Fk_Crime");
             });
-
+            */
             modelBuilder.Entity<Home>(entity =>
             {
                 entity.ToTable("Home");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.AgencyId).HasColumnName("AgencyID");
+                //entity.Property(e => e.AgencyId).HasColumnName("AgencyID");
 
                 entity.Property(e => e.County).HasMaxLength(100);
 

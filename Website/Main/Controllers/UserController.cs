@@ -92,8 +92,6 @@ namespace Main.Controllers
 
             _users.AddAddress(User, new Home { StreetAddress = street, County = city, State = state, ZipCode = zip });
 
-            var id = _users.ID(User);
-
             ViewData["Message"] = "Address added successfully!";
 
             return View(_users.Addresses(User));
