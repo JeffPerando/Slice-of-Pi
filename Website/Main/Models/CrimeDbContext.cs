@@ -16,8 +16,8 @@ namespace Main.Models
         {
         }
 
-        public virtual DbSet<AgencyInformation> AgencyInformations { get; set; } = null!;
-        public virtual DbSet<Crime> Crimes { get; set; } = null!;
+        //public virtual DbSet<AgencyInformation> AgencyInformations { get; set; } = null!;
+        //public virtual DbSet<Crime> Crimes { get; set; } = null!;
         public virtual DbSet<Home> Homes { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<StateCrimeSearchResult> StateCrimeSearchResults { get; set; } = null!;
@@ -81,12 +81,12 @@ namespace Main.Models
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.ZipCode).HasMaxLength(10);
-
+                /*
                 entity.HasOne(d => d.Agency)
                     .WithMany(p => p.Homes)
                     .HasForeignKey(d => d.AgencyId)
                     .HasConstraintName("Home_Fk_AgencyInformation");
-
+                */
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Homes)
                     .HasForeignKey(d => d.UserId)

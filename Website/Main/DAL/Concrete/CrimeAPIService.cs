@@ -12,6 +12,9 @@ namespace Main.DAL.Concrete
 {
     public class CrimeAPIService : ICrimeAPIService
     {
+        public static readonly int LatestYear = 2020;
+        public static readonly int OldestYear = 1985;
+
         private readonly string keyFBI = "";
         private readonly IWebService _web;
 
