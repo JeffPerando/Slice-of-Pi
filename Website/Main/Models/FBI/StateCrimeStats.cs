@@ -20,7 +20,7 @@ namespace Main.Models.FBI
 
         public StateCrimeStats() {}
 
-        public StateCrimeStats(State state, JObject data)
+        public StateCrimeStats(State state, JToken data)
         {
             State = state;
             Stats = new CrimeStats(data);

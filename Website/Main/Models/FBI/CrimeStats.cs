@@ -25,7 +25,7 @@ namespace Main.Models.FBI
 
         public CrimeStats() {}
 
-        public CrimeStats(JObject data)
+        public CrimeStats(JToken data)
         {
             Year = (int?)data["year"] ?? FBIService.LatestYear;
 

@@ -13,7 +13,7 @@ namespace Main.Models.FBI
 
         public CityCrimeStats() {}
 
-        public CityCrimeStats(string city, State state, int year, JArray data)
+        public CityCrimeStats(string city, State state, int year, JToken data)
         {
             City = city;
             State = state;

@@ -76,6 +76,11 @@ namespace Main.DAL.Concrete
 
             foreach (var item in agencies)
             {
+                if (item["agency_type_name"]?.ToString().ToLower() != "city")
+                {
+                    continue;
+                }
+                
                 if ((item["agency_name"] ?? "").ToString().Contains(city))
                 {
                     return item["ori"]?.ToString();
@@ -109,6 +114,11 @@ namespace Main.DAL.Concrete
 
             foreach (var item in agencies)
             {
+                if (item["agency_type_name"]?.ToString().ToLower() != "city")
+                {
+                    continue;
+                }
+
                 foreach (var city in cities)
                 {
                     if ((item["agency_name"] ?? "").ToString().Contains(city))
@@ -142,7 +152,7 @@ namespace Main.DAL.Concrete
             if (!results.Any())
                 return null;
 
-            return new StateCrimeStats(state, (JObject)results[0]);
+            return new StateCrimeStats(state, results[0]);
         }
 
         public List<StateCrimeStats?> StateCrimeMulti(List<State> states, int? year = null)
@@ -170,7 +180,7 @@ namespace Main.DAL.Concrete
             if (!results.Any())
                 return null;
 
-            return results.Select(t => new StateCrimeStats(state, (JObject)t)).ToList();
+            return results.Select(t => new StateCrimeStats(state, t)).ToList();
         }
 
         public List<BasicCrimeStats>? StateCrimeRangeBasic(State state, int fromYear, int toYear)
@@ -189,7 +199,7 @@ namespace Main.DAL.Concrete
             if (!results.Any())
                 return null;
 
-            return results.Select(t => new BasicCrimeStats((JObject)t)).ToList();
+            return results.Select(t => new BasicCrimeStats(t)).ToList();
         }
 
 
@@ -219,7 +229,7 @@ namespace Main.DAL.Concrete
 
             for (int year = fromYear; year <= toYear; year++)
             {
-                crimes.Add(new CityCrimeStats(city, state, year, (JArray)results));
+                crimes.Add(new CityCrimeStats(city, state, year, results));
 
             }
 
@@ -248,7 +258,7 @@ namespace Main.DAL.Concrete
 
             for (int year = fromYear; year <= toYear; year++)
             {
-                crimes.Add(new BasicCrimeStats(year, (JArray)results));
+                crimes.Add(new BasicCrimeStats(year, results));
 
             }
 
@@ -271,7 +281,7 @@ namespace Main.DAL.Concrete
             if (results == null)
                 return null;
 
-            return results.Select(t => new NationalCrimeStats((JObject)t)).ToList();
+            return results.Select(t => new NationalCrimeStats(t)).ToList();
         }
 
         public List<BasicCrimeStats>? NationalCrimeRangeBasic(int fromYear, int toYear)
@@ -287,7 +297,7 @@ namespace Main.DAL.Concrete
             if (results == null)
                 return null;
 
-            return results.Select(t => new BasicCrimeStats((JObject)t)).ToList();
+            return results.Select(t => new BasicCrimeStats(t)).ToList();
         }
 
 

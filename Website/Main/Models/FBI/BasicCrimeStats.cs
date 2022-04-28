@@ -13,7 +13,7 @@ namespace Main.Models.FBI
 
         public BasicCrimeStats() {}
 
-        public BasicCrimeStats(JObject data)
+        public BasicCrimeStats(JToken data)
         {
             Year = (int?)data["year"] ?? FBIService.LatestYear;
             ViolentCrimes = (int?)data["violent_crime"] ?? 0;
@@ -21,7 +21,7 @@ namespace Main.Models.FBI
 
         }
 
-        public BasicCrimeStats(int year, JArray data)
+        public BasicCrimeStats(int year, JToken data)
         {
             Year = year;
 
