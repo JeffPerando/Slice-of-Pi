@@ -1,19 +1,19 @@
 ﻿[
   {
-    "name": "Alabama",
-    "abbreviation": "AL"
-  },
-  {
     "name": "Alaska",
     "abbreviation": "AK"
   },
   {
-    "name": "Arizona",
-    "abbreviation": "AZ"
+    "name": "Alabama",
+    "abbreviation": "AL"
   },
   {
     "name": "Arkansas",
     "abbreviation": "AR"
+  },
+  {
+    "name": "Arizona",
+    "abbreviation": "AZ"
   },
   {
     "name": "California",
