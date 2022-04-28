@@ -17,6 +17,13 @@ using Main.Services.Abstract;
 using Main.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("MainIdentityDbContextConnection");;
+
+builder.Services.AddDbContext<MainIdentityDbContext>(options =>
+    options.UseSqlServer(connectionString));;
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<MainIdentityDbContext>();;
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
 builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
