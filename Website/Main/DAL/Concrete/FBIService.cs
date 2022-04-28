@@ -71,9 +71,7 @@ namespace Main.DAL.Concrete
             var agencies = FetchStateAgencies(state);
 
             if (agencies == null)
-            {
                 return null;
-            }
 
             foreach (var item in agencies)
             {
@@ -92,9 +90,7 @@ namespace Main.DAL.Concrete
             var agencies = FetchStateAgencies(state);
 
             if (agencies == null)
-            {
                 return null;
-            }
 
             var cityList = agencies.Where(a => a["agency_type_name"]?.ToString() == "City").ToList();
 
@@ -116,7 +112,13 @@ namespace Main.DAL.Concrete
                 {
                     if ((item["agency_name"] ?? "").ToString() == $"{city} Police Department")
                     {
-                        cityORIs.Add(item["ori"]?.ToString());
+                        var ori = item["ori"]?.ToString();
+                        if (ori != null)
+                        {
+                            cityORIs.Add(ori);
+                            break;
+                        }
+
                     }
 
                 }
@@ -131,20 +133,15 @@ namespace Main.DAL.Concrete
 
         public async Task<StateCrimeStats?> StateCrimeSingleAsync(string state, int? year = null)
         {
-            var data = await FetchFBIObjAsync($"{state_crime_url}/{state}/{year ?? LatestYear}/{year ?? LatestYear}");
+            var results = (await FetchFBIObjAsync($"{state_crime_url}/{state}/{year ?? LatestYear}/{year ?? LatestYear}"))?["results"];
             
-            if (data == null)
-                return null;
-
-            var results = data["results"];
-
             if (results == null)
                 return null;
 
             if (!results.Any())
                 return null;
 
-            return new StateCrimeStats((JObject)results);
+            return new StateCrimeStats((JObject)results[0]);
         }
 
         public List<StateCrimeStats?> StateCrimeMulti(List<string> states, int? year = null)
@@ -164,14 +161,15 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var data = FetchFBIObj($"{state_crime_url}/{state}/{fromYear}/{toYear}");
+            var results = FetchFBIObj($"{state_crime_url}/{state}/{fromYear}/{toYear}")?["results"];
 
-            if (data == null || data["results"] == null || !(data?["results"]?.Any() ?? false))
-            {
+            if (results == null)
                 return null;
-            }
 
-            return data["results"]?.Select(t => new StateCrimeStats((JObject)t)).ToList();
+            if (!results.Any())
+                return null;
+
+            return results.Select(t => new StateCrimeStats((JObject)t)).ToList();
         }
 
         public List<BasicCrimeStats>? StateCrimeRangeBasic(string state, int fromYear, int toYear)
@@ -182,14 +180,15 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var data = FetchFBIObj($"{state_crime_url}/{state}/{fromYear}/{toYear}");
+            var results = FetchFBIObj($"{state_crime_url}/{state}/{fromYear}/{toYear}")?["results"];
 
-            if (data == null || data["results"] == null || !(data?["results"]?.Any() ?? false))
-            {
+            if (results == null)
                 return null;
-            }
 
-            return data["results"]?.Select(t => new BasicCrimeStats((JObject)t)).ToList();
+            if (!results.Any())
+                return null;
+
+            return results.Select(t => new BasicCrimeStats((JObject)t)).ToList();
         }
 
 
@@ -208,18 +207,12 @@ namespace Main.DAL.Concrete
             var ori = FetchCityORI(city, state);
 
             if (ori == null)
-            {
                 return null;
-            }
 
-            var data = FetchFBIObj($"{city_crime_url}/{ori}/{fromYear}/{toYear}");
-
-            var results = data?["results"];
-
+            var results = FetchFBIObj($"{city_crime_url}/{ori}/{fromYear}/{toYear}")?["results"];
+            
             if (results == null)
-            {
                 return null;
-            }
 
             var crimes = new List<CityCrimeStats>();
 
@@ -243,18 +236,12 @@ namespace Main.DAL.Concrete
             var ori = FetchCityORI(city, state);
 
             if (ori == null)
-            {
                 return null;
-            }
 
-            var data = FetchFBIObj($"{city_crime_url}/{ori}/{fromYear}/{toYear}");
-
-            var results = data?["results"];
+            var results = FetchFBIObj($"{city_crime_url}/{ori}/{fromYear}/{toYear}")?["results"];
 
             if (results == null)
-            {
                 return null;
-            }
 
             var crimes = new List<BasicCrimeStats>();
 
@@ -278,14 +265,12 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var data = FetchFBIObj($"{national_crime_url}/{fromYear}/{toYear}");
+            var results = FetchFBIObj($"{national_crime_url}/{fromYear}/{toYear}")?["results"];
 
-            if (data?["results"] != null)
-            {
-                return data["results"]?.Select(t => new NationalCrimeStats((JObject)t)).ToList();
-            }
-            
-            return null;
+            if (results == null)
+                return null;
+
+            return results.Select(t => new NationalCrimeStats((JObject)t)).ToList();
         }
 
         public List<BasicCrimeStats>? NationalCrimeRangeBasic(int fromYear, int toYear)
@@ -296,14 +281,12 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var data = FetchFBIObj($"{national_crime_url}/{fromYear}/{toYear}");
+            var results = FetchFBIObj($"{national_crime_url}/{fromYear}/{toYear}")?["results"];
 
-            if (data?["results"] != null)
-            {
-                return data["results"]?.Select(t => new BasicCrimeStats((JObject)t)).ToList();
-            }
+            if (results == null)
+                return null;
 
-            return null;
+            return results.Select(t => new BasicCrimeStats((JObject)t)).ToList();
         }
 
 
@@ -315,9 +298,7 @@ namespace Main.DAL.Concrete
             var agencies = FetchStateAgencies(state);
 
             if (agencies == null)
-            {
                 return null;
-            }
 
             return agencies.Where(a => a["agency_type_name"]?.ToString() == "City").Select(a =>
             {
