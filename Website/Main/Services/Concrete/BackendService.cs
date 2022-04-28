@@ -10,6 +10,8 @@ namespace Main.Services.Concrete
 {
     public class BackendService : IBackendService
     {
+        private static readonly int CaliforniaID = 4;
+
         private readonly ICrimeAPIv2 _crime;
 
         private readonly List<State> states;
@@ -27,6 +29,11 @@ namespace Main.Services.Concrete
             return states;
         }
 
+        public List<City> GetCitiesIn(int? stateID)
+        {
+            return _crime.CitiesIn(states[stateID ?? CaliforniaID]) ?? new();
+        }
+
         public List<StateCrimeStats?> CalcSafestStates()
         {
             var nationalStats = _crime.StateCrimeMulti(GetAllStates());
@@ -39,8 +46,7 @@ namespace Main.Services.Concrete
             if (city == null || stateID == null)
             {
                 city = "Riverside";
-                // 4 is CA
-                stateID = 4;
+                stateID = CaliforniaID;
             }
 
             State state = states[(int)stateID];

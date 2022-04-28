@@ -1,5 +1,5 @@
 ﻿
-$(document).ready(function ()
+$(document).ready(function()
 {
     $("#yearSelect").change(fetchCrimeStats);
     $("#perCapita").change(toggleCrimePerCapita);

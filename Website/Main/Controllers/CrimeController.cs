@@ -4,96 +4,90 @@ using Microsoft.AspNetCore.Mvc;
 using Main.Models;
 using Main.DAL.Abstract;
 using Newtonsoft.Json.Linq;
+using Main.Services.Abstract;
 
-namespace Main.Controllers;
-
-public class CrimeController : Controller
+namespace Main.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-    private readonly ICrimeAPIService _crime;
-    private readonly IConfiguration _config;
-
-    public CrimeController(ILogger<HomeController> logger, ICrimeAPIService cs, IConfiguration config)
+    public class CrimeController : Controller
     {
-        _logger = logger;
-        _crime = cs;
-        _config = config;
+        private static readonly int CaliforniaID = 4;
 
-    }
+        private readonly IBackendService _backend;
+        private readonly ICrimeAPIService _crime;
+        private readonly IConfiguration _config;
 
-    public IActionResult National()
-    {
-        return View();
-    }
-
-    public IActionResult CrimeStats(string cityName, string stateAbbrev)
-    {
-        if (cityName == null || stateAbbrev == null)
+        public CrimeController(IBackendService backend, ICrimeAPIService cs, IConfiguration config)
         {
-            cityName = "Riverside";
-            stateAbbrev = "CA";
-        }
-        ViewBag.cityName = cityName;
-        ViewBag.stateAbbrev = stateAbbrev;
+            _backend = backend;
+            _crime = cs;
+            _config = config;
 
-        return View();
-    }
-    
-    public IActionResult CityCrimeLookUp(string? stateAbbrev)
-    {
-        return View();
-    }
-
-    public IActionResult StateCrimeStats(string? stateAbbrev)
-    {
-        return View();
-    }
-
-    public IActionResult SingleStateStats(string? stateAbbrev)
-    {
-        ViewBag.stateAbbrev = stateAbbrev ?? "CA";
-
-        return View();
-    }
-
-    [HttpGet]
-    public IActionResult GetSingleStateStats(string? stateAbbrev, int? aYear)
-    {
-        if (stateAbbrev == null)
-        {
-            stateAbbrev = "CA";
         }
 
-        if (aYear == null)
+        public IActionResult CityCrimeLookUp()
         {
-            aYear = 0;
+            return View();
         }
 
-        var state = _crime.GetState(stateAbbrev, aYear);
-        return Json(state);
-    }
-
-    public IActionResult CheckAnotherYear([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
-    {
-        ViewBag.stateAbbrev = model.stateAbbrev;
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult FillCheckAnotherYear([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
-    {
-        if (model.stateAbbrev == null)
+        public IActionResult National()
         {
-            model.stateAbbrev = "CA";
+            return View();
         }
 
-        if (model.aYear == null)
+        public IActionResult CrimeStats(string? cityName, int? stateID)
         {
-            model.aYear = 0;
+            if (cityName == null || stateID == null)
+            {
+                cityName = "Riverside";
+                stateID = CaliforniaID;
+            }
+
+            ViewBag.cityName = cityName;
+            ViewBag.stateAbbrev = _backend.GetAllStates()[stateID ?? CaliforniaID].Abbrev;
+
+            return View();
         }
 
-        var crime = _crime.GetState(model.stateAbbrev, model.aYear);
-        return Json(crime);
+        [HttpGet]
+        public IActionResult GetSingleStateStats(string? stateAbbrev, int? aYear)
+        {
+            if (stateAbbrev == null)
+            {
+                stateAbbrev = "CA";
+            }
+
+            if (aYear == null)
+            {
+                aYear = 0;
+            }
+
+            var state = _crime.GetState(stateAbbrev, aYear);
+            return Json(state);
+        }
+
+        public IActionResult CheckAnotherYear([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
+        {
+            ViewBag.stateAbbrev = model.stateAbbrev;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult FillCheckAnotherYear([Bind("stateAbbrev", "aYear")] StateCrimeViewModel model)
+        {
+            if (model.stateAbbrev == null)
+            {
+                model.stateAbbrev = "CA";
+            }
+
+            if (model.aYear == null)
+            {
+                model.aYear = 0;
+            }
+
+            var crime = _crime.GetState(model.stateAbbrev, model.aYear);
+            return Json(crime);
+        }
+
     }
 
 }

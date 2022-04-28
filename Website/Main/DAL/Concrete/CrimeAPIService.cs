@@ -247,7 +247,7 @@ namespace Main.DAL.Concrete
 
             if (searchedCity == cityJTokenName)
             {
-                var city_stats = await FetchFBIObjAsync(crime_url_agency_reported_crime + city["ori"] + "/offenses/" + year.setYearForJSON(0));
+                var city_stats = await FetchFBIObjAsync(crime_url_agency_reported_crime + '/' + city["ori"] + "/offenses/" + year.setYearForJSON(0));
 
                 foreach (var crime in city_stats["results"])
                 {

@@ -1,5 +1,5 @@
 ﻿
-$(function () {
+$(document).ready(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -17,8 +17,7 @@ $(function () {
         error: errorOnAjax
 
     });
-
-})
+});
 
 function errorOnAjax(xhr, status, error) {
     console.log(xhr);
@@ -26,7 +25,6 @@ function errorOnAjax(xhr, status, error) {
 }
 
 function displayStateInformation(data) {
-
     $("#safestStatesTable>tbody").empty();
     for (let i = 0; i < data.length; ++i) {
         let repoTR = $(
@@ -43,7 +41,6 @@ function displayStateInformation(data) {
 }
 
 function populateDropDown(data) {
-    console.log(data);
     var select = $("#stateAbbrev");
     for (var i = 0; i < data.length; i++) {
         select.append(`<option value=${i}>${data[i]["name"]}</option>`);

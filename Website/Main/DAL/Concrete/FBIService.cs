@@ -3,6 +3,7 @@ using Main.DAL.Abstract;
 using Main.Models;
 using Main.Models.FBI;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace Main.DAL.Concrete
 {
@@ -75,7 +76,7 @@ namespace Main.DAL.Concrete
 
             foreach (var item in agencies)
             {
-                if ((item["agency_name"] ?? "").ToString() == $"{city} Police Department")
+                if ((item["agency_name"] ?? "").ToString().Contains(city))
                 {
                     return item["ori"]?.ToString();
                 }
@@ -110,7 +111,7 @@ namespace Main.DAL.Concrete
             {
                 foreach (var city in cities)
                 {
-                    if ((item["agency_name"] ?? "").ToString() == $"{city} Police Department")
+                    if ((item["agency_name"] ?? "").ToString().Contains(city))
                     {
                         var ori = item["ori"]?.ToString();
                         if (ori != null)
@@ -293,7 +294,7 @@ namespace Main.DAL.Concrete
         //Misc.
 
         //Find all cities in a state
-        public List<string>? CitiesIn(State state)
+        public List<City>? CitiesIn(State state)
         {
             var agencies = FetchStateAgencies(state.Abbrev);
 
@@ -302,9 +303,16 @@ namespace Main.DAL.Concrete
 
             return agencies.Where(a => a["agency_type_name"]?.ToString() == "City").Select(a =>
             {
-                var name = a["agency-name"]?.ToString() ?? "";
+                var name = a["agency_name"]?.ToString() ?? "";
+                var index = name.LastIndexOf(" Police Department");
 
-                return name.Substring(0, Math.Abs(name.LastIndexOf(" Police Department")));
+                if (index != -1)
+                    name = name.Substring(0, index);
+
+                return new City {
+                    Name = name,
+                    ORI = a["ori"].ToString()
+                };
             }).ToList();
         }
 

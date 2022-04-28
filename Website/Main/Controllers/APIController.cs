@@ -3,6 +3,7 @@ using Main.DAL.Abstract;
 using Main.Models;
 using Main.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Main.Controllers
 {
@@ -30,6 +31,12 @@ namespace Main.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetCitiesIn(int stateID)
+        {
+            return Json(_backend.GetCitiesIn(stateID).Select(city => city.Name).OrderBy(c => c));
+        }
+
+        [HttpGet]
         public IActionResult GetSafestStates()
         {
             /*
@@ -39,7 +46,12 @@ namespace Main.Controllers
 
             return Json(top_five_states);
             */
-            return Json(_backend.CalcSafestStates());
+            return Json(_backend.CalcSafestStates().Select(s => new
+            {
+                State = s.State,
+                Population = s.Population,
+                CrimePerCapita = s.CrimePerCapita
+            }));
         }
 
         [HttpGet]
