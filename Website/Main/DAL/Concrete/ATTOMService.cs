@@ -86,7 +86,7 @@ namespace Main.DAL.Concrete
 
             var x = ATTOMUrl + endpoint;
             var info = _web.FetchJObject(x);
-            string? response = info.ToString();
+            string response = info.ToString();
 
             return response;
         }
@@ -117,7 +117,7 @@ namespace Main.DAL.Concrete
 
             if (info == null)
             {
-                string? nullResponse = SetNullResponse();
+                string nullResponse = SetNullResponse();
                 AttomJson nullResponseResult = new JavaScriptSerializer().Deserialize<AttomJson>(nullResponse);
                 return nullResponseResult;
             }
