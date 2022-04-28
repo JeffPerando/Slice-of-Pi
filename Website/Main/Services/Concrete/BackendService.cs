@@ -2,17 +2,18 @@
 using Main.DAL.Abstract;
 using Main.Helpers;
 using Main.Models;
+using Main.Models.FBI;
 using Main.Services.Abstract;
 
 namespace Main.Services.Concrete
 {
     public class BackendService : IBackendService
     {
-        private readonly ICrimeAPIService _crime;
+        private readonly ICrimeAPIv2 _crime;
 
         private readonly List<State> states;
 
-        public BackendService(ICrimeAPIService crime)
+        public BackendService(ICrimeAPIv2 crime)
         {
             _crime = crime;
 
@@ -25,13 +26,11 @@ namespace Main.Services.Concrete
             return states.Select(s => s.Abbrev).ToList();
         }
 
-        public List<Crime> CalcSafestStates()
+        public List<StateCrimeStats?> CalcSafestStates()
         {
-            var state_list = GetAllStates();
-            var get_national_stats = _crime.ReturnStateCrimeList(state_list);
-            var top_five_states = _crime.GetSafestStates(get_national_stats);
-
-            return top_five_states;
+            var nationalStats = _crime.StateCrimeMulti(GetAllStates());
+            
+            return nationalStats.OrderBy(c => c?.CrimePerCapita ?? 0).Take(5).ToList();
         }
 
     }

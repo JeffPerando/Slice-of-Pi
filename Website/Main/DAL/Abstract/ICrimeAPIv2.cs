@@ -24,7 +24,7 @@ namespace Main.DAL.Abstract
 
         public StateCrimeStats? StateCrimeSingle(string state, int? year = null) => StateCrimeRange(state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?[0];
         public Task<StateCrimeStats?> StateCrimeSingleAsync(string state, int? year = null);
-        public List<StateCrimeStats?> StateCrimeMulti(List<string> states, int? year = null) => states.Select(state => StateCrimeSingle(state, year)).ToList();
+        public List<StateCrimeStats?> StateCrimeMulti(List<string> states, int? year = null);
         public List<StateCrimeStats>? StateCrimeRange(string state, int fromYear, int toYear);
 
         public BasicCrimeStats? StateCrimeBasic(string state, int? year = null) => StateCrimeRangeBasic(state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?[0];

@@ -141,6 +141,15 @@ namespace Main.DAL.Concrete
             return new StateCrimeStats(data);
         }
 
+        public List<StateCrimeStats?> StateCrimeMulti(List<string> states, int? year = null)
+        {
+            var fetches = states.Select(state => StateCrimeSingleAsync(state, year)).ToArray();
+
+            Task.WaitAll(fetches);
+
+            return fetches.Select(t => t.GetAwaiter().GetResult()).ToList();
+        }
+
         public List<StateCrimeStats>? StateCrimeRange(string state, int fromYear, int toYear)
         {
             if (fromYear > toYear)

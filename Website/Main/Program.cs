@@ -73,6 +73,7 @@ builder.Services.AddHttpClient<IWebService, WebService>();
 builder.Services.AddScoped<IWebService, WebService>();
 builder.Services.AddScoped<ISiteUserService, SiteUserService>();
 builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
+builder.Services.AddScoped<ICrimeAPIv2, FBIService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IUserVerifierService, UserVerifierService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();

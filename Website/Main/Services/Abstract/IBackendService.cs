@@ -1,5 +1,6 @@
 ﻿
 using Main.Models;
+using Main.Models.FBI;
 
 namespace Main.Services.Abstract
 {
@@ -7,7 +8,7 @@ namespace Main.Services.Abstract
     {
         public List<string> GetAllStates();
 
-        public List<Crime> CalcSafestStates();
+        public List<StateCrimeStats?> CalcSafestStates();
 
     }
 
