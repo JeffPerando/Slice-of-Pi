@@ -17,13 +17,6 @@ using Main.Services.Abstract;
 using Main.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("MainIdentityDbContextConnection");;
-
-builder.Services.AddDbContext<MainIdentityDbContext>(options =>
-    options.UseSqlServer(connectionString));;
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<MainIdentityDbContext>();;
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
 builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
@@ -43,7 +36,8 @@ builder.Services.AddDbContext<CrimeDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<MainIdentityDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<MainIdentityDbContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
