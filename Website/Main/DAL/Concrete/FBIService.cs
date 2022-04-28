@@ -131,9 +131,9 @@ namespace Main.DAL.Concrete
 
         //State crime stats
 
-        public async Task<StateCrimeStats?> StateCrimeSingleAsync(string state, int? year = null)
+        public async Task<StateCrimeStats?> StateCrimeSingleAsync(State state, int? year = null)
         {
-            var results = (await FetchFBIObjAsync($"{state_crime_url}/{state}/{year ?? LatestYear}/{year ?? LatestYear}"))?["results"];
+            var results = (await FetchFBIObjAsync($"{state_crime_url}/{state.Abbrev}/{year ?? LatestYear}/{year ?? LatestYear}"))?["results"];
             
             if (results == null)
                 return null;
@@ -141,10 +141,10 @@ namespace Main.DAL.Concrete
             if (!results.Any())
                 return null;
 
-            return new StateCrimeStats((JObject)results[0]);
+            return new StateCrimeStats(state, (JObject)results[0]);
         }
 
-        public List<StateCrimeStats?> StateCrimeMulti(List<string> states, int? year = null)
+        public List<StateCrimeStats?> StateCrimeMulti(List<State> states, int? year = null)
         {
             var fetches = states.Select(state => StateCrimeSingleAsync(state, year)).ToArray();
 
@@ -153,7 +153,7 @@ namespace Main.DAL.Concrete
             return fetches.Select(t => t.GetAwaiter().GetResult()).ToList();
         }
 
-        public List<StateCrimeStats>? StateCrimeRange(string state, int fromYear, int toYear)
+        public List<StateCrimeStats>? StateCrimeRange(State state, int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -161,7 +161,7 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var results = FetchFBIObj($"{state_crime_url}/{state}/{fromYear}/{toYear}")?["results"];
+            var results = FetchFBIObj($"{state_crime_url}/{state.Abbrev}/{fromYear}/{toYear}")?["results"];
 
             if (results == null)
                 return null;
@@ -169,10 +169,10 @@ namespace Main.DAL.Concrete
             if (!results.Any())
                 return null;
 
-            return results.Select(t => new StateCrimeStats((JObject)t)).ToList();
+            return results.Select(t => new StateCrimeStats(state, (JObject)t)).ToList();
         }
 
-        public List<BasicCrimeStats>? StateCrimeRangeBasic(string state, int fromYear, int toYear)
+        public List<BasicCrimeStats>? StateCrimeRangeBasic(State state, int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -180,7 +180,7 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var results = FetchFBIObj($"{state_crime_url}/{state}/{fromYear}/{toYear}")?["results"];
+            var results = FetchFBIObj($"{state_crime_url}/{state.Abbrev}/{fromYear}/{toYear}")?["results"];
 
             if (results == null)
                 return null;
@@ -196,7 +196,7 @@ namespace Main.DAL.Concrete
 
         //Let it be known that I will have nightmares about how the FBI reports its city crime stats
         //And the subtle differences between this API and the state one
-        public List<CityCrimeStats>? CityCrimeRange(string city, string state, int fromYear, int toYear)
+        public List<CityCrimeStats>? CityCrimeRange(string city, State state, int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -204,7 +204,7 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var ori = FetchCityORI(city, state);
+            var ori = FetchCityORI(city, state.Abbrev);
 
             if (ori == null)
                 return null;
@@ -225,7 +225,7 @@ namespace Main.DAL.Concrete
             return crimes;
         }
 
-        public List<BasicCrimeStats>? CityCrimeRangeBasic(string city, string state, int fromYear, int toYear)
+        public List<BasicCrimeStats>? CityCrimeRangeBasic(string city, State state, int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -233,7 +233,7 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var ori = FetchCityORI(city, state);
+            var ori = FetchCityORI(city, state.Abbrev);
 
             if (ori == null)
                 return null;
@@ -293,9 +293,9 @@ namespace Main.DAL.Concrete
         //Misc.
 
         //Find all cities in a state
-        public List<string>? CitiesIn(string state)
+        public List<string>? CitiesIn(State state)
         {
-            var agencies = FetchStateAgencies(state);
+            var agencies = FetchStateAgencies(state.Abbrev);
 
             if (agencies == null)
                 return null;

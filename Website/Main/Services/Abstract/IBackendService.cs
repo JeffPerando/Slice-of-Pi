@@ -6,9 +6,11 @@ namespace Main.Services.Abstract
 {
     public interface IBackendService
     {
-        public List<string> GetAllStates();
+        public List<State> GetAllStates();
 
         public List<StateCrimeStats?> CalcSafestStates();
+
+        public object? GetCityTrends(string? city, int? state);
 
     }
 

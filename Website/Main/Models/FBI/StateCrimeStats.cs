@@ -5,7 +5,7 @@ namespace Main.Models.FBI
 {
     public class StateCrimeStats
     {
-        public string State { get; set; } = null!;
+        public State State { get; set; } = null!;
         public CrimeStats Stats { get; set; } = null!;
         public int Population { get; set; }
         public double CrimePerCapita
@@ -20,9 +20,9 @@ namespace Main.Models.FBI
 
         public StateCrimeStats() {}
 
-        public StateCrimeStats(JObject data)
+        public StateCrimeStats(State state, JObject data)
         {
-            State = (string?)data["state_abbr"] ?? "N/A";
+            State = state;
             Stats = new CrimeStats(data);
             Population = (int?)data["population"] ?? 0;
 

@@ -6,14 +6,14 @@ namespace Main.Models.FBI
     public class CityCrimeStats
     {
         public string City { get; set; } = null!;
-        public string State { get; set; } = null!;
+        public State State { get; set; } = null!;
         public CrimeStats? Stats { get; set; }
         public int TotalOffenses { get; set; }
         public int ActualConvictions { get; set; }
 
         public CityCrimeStats() {}
 
-        public CityCrimeStats(string city, string state, int year, JArray data)
+        public CityCrimeStats(string city, State state, int year, JArray data)
         {
             City = city;
             State = state;
