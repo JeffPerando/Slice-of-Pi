@@ -27,7 +27,7 @@
             </div>
             <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
             <div>
-                <button class="w-100 btn btn-lg btn-success" id="login-submit" type="submit">Log In</button>
+                <button class="w-100 btn btn-lg btn-danger" id="login-submit" type="submit">Log In</button>
             </div>
             <div class="">
                 <p>
@@ -47,7 +47,7 @@
             <li>Keep track of and download your searches</li>
             <li>Get free crime-weighted assessments on all your properties</li>
         </ul>
-        <a class="btn btn-primary my-2" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register for free</a>
+        <a class="btn btn-danger my-2" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register for free</a>
     </div>
 </div>
 }
