@@ -29,6 +29,16 @@ namespace Main.Services.Concrete
             return states;
         }
 
+        public State? StateFromAbbrev(string abbrev)
+        {
+            if (abbrev.Length != 2)
+            {
+                return null;
+            }
+
+            return states.Find(s => s.Abbrev == abbrev);
+        }
+
         public List<City> GetCitiesIn(int? stateID)
         {
             return _crime.CitiesIn(states[stateID ?? CaliforniaID]) ?? new();

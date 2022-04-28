@@ -8,6 +8,8 @@ namespace Main.Services.Abstract
     {
         public List<State> GetAllStates();
 
+        public State? StateFromAbbrev(string abbrev);
+
         public List<City> GetCitiesIn(int? stateID);
 
         public List<StateCrimeStats?> CalcSafestStates();
