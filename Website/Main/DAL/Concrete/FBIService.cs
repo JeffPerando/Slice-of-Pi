@@ -255,7 +255,7 @@ namespace Main.DAL.Concrete
 
         //National crime stats
 
-        public List<CrimeStats>? NationalCrimeRange(int fromYear, int toYear)
+        public List<NationalCrimeStats>? NationalCrimeRange(int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -267,7 +267,7 @@ namespace Main.DAL.Concrete
 
             if (data?["results"] != null)
             {
-                return data["results"]?.Select(t => new CrimeStats((JObject)t)).ToList();
+                return data["results"]?.Select(t => new NationalCrimeStats((JObject)t)).ToList();
             }
             
             return null;

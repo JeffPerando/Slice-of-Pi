@@ -45,8 +45,8 @@ namespace Main.DAL.Abstract
 
         //National crime stats
 
-        public CrimeStats? NationalCrimeSingle(int? year = null) => NationalCrimeRange(year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?[0];
-        public List<CrimeStats>? NationalCrimeRange(int fromYear, int toYear);
+        public NationalCrimeStats? NationalCrimeSingle(int? year = null) => NationalCrimeRange(year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?[0];
+        public List<NationalCrimeStats>? NationalCrimeRange(int fromYear, int toYear);
 
         public BasicCrimeStats? NationalCrimeSingleBasic(int? year = null) => NationalCrimeRangeBasic(year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?[0];
         public List<BasicCrimeStats>? NationalCrimeRangeBasic(int fromYear, int toYear);
