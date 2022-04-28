@@ -41,8 +41,4 @@
     <None Include="wwwroot\forms\emailconfirm.html" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\FBI\" />
-  </ItemGroup>
-
 </Project>
