@@ -134,11 +134,17 @@ namespace Main.DAL.Concrete
             var data = await FetchFBIObjAsync($"{state_crime_url}/{state}/{year ?? LatestYear}/{year ?? LatestYear}");
             
             if (data == null)
-            {
                 return null;
-            }
 
-            return new StateCrimeStats(data);
+            var results = data["results"];
+
+            if (results == null)
+                return null;
+
+            if (!results.Any())
+                return null;
+
+            return new StateCrimeStats((JObject)results);
         }
 
         public List<StateCrimeStats?> StateCrimeMulti(List<string> states, int? year = null)
