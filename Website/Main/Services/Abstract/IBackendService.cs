@@ -3,7 +3,7 @@ using Main.Models;
 
 namespace Main.Services.Abstract
 {
-    public interface IBackendServices
+    public interface IBackendService
     {
         public List<string> GetAllStates();
 
