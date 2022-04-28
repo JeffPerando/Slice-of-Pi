@@ -54,17 +54,10 @@ namespace Main.DAL.Concrete
                 ["address2"] = addr.StreetAddress2,
             });
 
-            if (result?.Property == null)
-            {
-                Debug.WriteLine("Property not found");
-                return null;
-            }
-
-            var assess = result.Property.First().Assessment;
+            var assess = result?.Property?.FirstOrDefault()?.Assessment;
 
             if (assess == null)
             {
-                Debug.WriteLine("Assessment not found");
                 return null;
             }
 
@@ -76,6 +69,7 @@ namespace Main.DAL.Concrete
             };
 
         }
+
         public string SetNullResponse()
         {
             string zipcode  = "97304";
