@@ -79,6 +79,7 @@ builder.Services.AddSingleton<IUserVerifierService, UserVerifierService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();
 builder.Services.AddScoped<IHousingAPI, ATTOMService>();
 builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
+builder.Services.AddScoped<IBackendService, BackendService>();
 
 
 //BUILD. THE. APP.

@@ -1,18 +1,21 @@
 ﻿
 using Main.DAL.Abstract;
 using Main.Models;
+using Main.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Main.Controllers
 {
     public class APIController : Controller
     {
+        private readonly IBackendService _backend;
         private readonly ISiteUserService _users;
         private readonly ICrimeAPIService _crime;
         private readonly CrimeDbContext _db;
 
-        public APIController(ISiteUserService users, ICrimeAPIService crime, CrimeDbContext db)
+        public APIController(IBackendService backend, ISiteUserService users, ICrimeAPIService crime, CrimeDbContext db)
         {
+            _backend = backend;
             _users = users;
             _crime = crime;
             _db = db;
@@ -22,18 +25,21 @@ namespace Main.Controllers
         [HttpGet]
         public IActionResult States()
         {
-            var state_list = _crime.GetStates();
-            return Json(state_list);
+            //return Json(_crime.GetStates());
+            return Json(_backend.GetAllStates());
         }
 
         [HttpGet]
         public IActionResult GetSafestStates()
         {
+            /*
             var state_list = _crime.GetStates();
             var get_national_stats = _crime.ReturnStateCrimeList(state_list);
             var top_five_states = _crime.GetSafestStates(get_national_stats);
 
             return Json(top_five_states);
+            */
+            return Json(_backend.CalcSafestStates());
         }
 
         [HttpGet]
