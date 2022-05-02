@@ -24,7 +24,7 @@ namespace Main.DAL.Abstract
 
         public StateCrimeStats? StateCrimeSingle(State state, int? year = null) => StateCrimeSingleAsync(state, year).GetAwaiter().GetResult();
         public Task<StateCrimeStats?> StateCrimeSingleAsync(State state, int? year = null);
-        public List<StateCrimeStats?> StateCrimeMulti(List<State> states, int? year = null);
+        public List<StateCrimeStats> StateCrimeMulti(List<State> states, int? year = null);
         public List<StateCrimeStats> StateCrimeRange(State state, int fromYear, int toYear);
         public List<StateCrimeStats> StateCrimePlot(List<State> states, int fromYear, int toYear) =>
             states.Select(state => StateCrimeRange(state, fromYear, toYear)).Where(x => x != null).SelectMany(x => x).ToList();

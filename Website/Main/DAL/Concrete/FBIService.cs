@@ -151,13 +151,25 @@ namespace Main.DAL.Concrete
             return new StateCrimeStats(state, results[0]);
         }
 
-        public List<StateCrimeStats?> StateCrimeMulti(List<State> states, int? year = null)
+        public List<StateCrimeStats> StateCrimeMulti(List<State> states, int? year = null)
         {
             var fetches = states.Select(state => StateCrimeSingleAsync(state, year)).ToArray();
 
             Task.WaitAll(fetches);
 
-            return fetches.Select(t => t.GetAwaiter().GetResult()).ToList();
+            var stats = new List<StateCrimeStats>();
+
+            foreach (var fetch in fetches)
+            {
+                var stat = fetch.GetAwaiter().GetResult();
+                
+                if (stat == null)
+                    continue;
+
+                stats.Add(stat);
+            }
+
+            return stats;
         }
 
         public List<StateCrimeStats> StateCrimeRange(State state, int fromYear, int toYear)
