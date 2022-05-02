@@ -4,6 +4,7 @@ using Main.Models;
 using Main.Models.FBI;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Main.DAL.Concrete
 {
@@ -67,7 +68,7 @@ namespace Main.DAL.Concrete
             return (JArray)results;
         }
 
-        private string? FetchCityORI(string city, string state)
+        private string? FetchORI(string city, string state)
         {
             var agencies = FetchStateAgencies(state);
 
@@ -91,7 +92,7 @@ namespace Main.DAL.Concrete
             return null;
         }
 
-        private List<string>? FetchCitiesORI(List<string> cities, string state)
+        private List<(string, string?)>? FetchORIs(List<string> cities, string state)
         {
             var agencies = FetchStateAgencies(state);
 
@@ -105,12 +106,7 @@ namespace Main.DAL.Concrete
                 throw new Exception($"More cities are being sought after than exist: {cities.Count} vs. {cityList.Count}");
             }
 
-            if (cityList.Count == cities.Count)
-            {
-                return cityList.Where(city => city["ori"] != null).Select(city => city["ori"].ToString()).ToList();
-            }
-
-            var cityORIs = new List<string>();
+            var cityORIs = new List<(string, string?)>();
 
             foreach (var item in agencies)
             {
@@ -126,7 +122,7 @@ namespace Main.DAL.Concrete
                         var ori = item["ori"]?.ToString();
                         if (ori != null)
                         {
-                            cityORIs.Add(ori);
+                            cityORIs.Add((city, ori));
                             break;
                         }
 
@@ -136,7 +132,7 @@ namespace Main.DAL.Concrete
 
             }
 
-            return null;
+            return cityORIs;
         }
 
 
@@ -164,7 +160,7 @@ namespace Main.DAL.Concrete
             return fetches.Select(t => t.GetAwaiter().GetResult()).ToList();
         }
 
-        public List<StateCrimeStats>? StateCrimeRange(State state, int fromYear, int toYear)
+        public List<StateCrimeStats> StateCrimeRange(State state, int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -174,16 +170,13 @@ namespace Main.DAL.Concrete
 
             var results = FetchFBIObj($"{state_crime_url}/{state.Abbrev}/{fromYear}/{toYear}")?["results"];
 
-            if (results == null)
-                return null;
-
-            if (!results.Any())
-                return null;
+            if (!(results?.Any() ?? false))
+                return new();
 
             return results.Select(t => new StateCrimeStats(state, t)).ToList();
         }
 
-        public List<BasicCrimeStats>? StateCrimeRangeBasic(State state, int fromYear, int toYear)
+        public List<BasicCrimeStats> StateCrimeRangeBasic(State state, int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -193,11 +186,8 @@ namespace Main.DAL.Concrete
 
             var results = FetchFBIObj($"{state_crime_url}/{state.Abbrev}/{fromYear}/{toYear}")?["results"];
 
-            if (results == null)
-                return null;
-
-            if (!results.Any())
-                return null;
+            if (!(results?.Any() ?? false))
+                return new();
 
             return results.Select(t => new BasicCrimeStats(t)).ToList();
         }
@@ -207,36 +197,15 @@ namespace Main.DAL.Concrete
 
         //Let it be known that I will have nightmares about how the FBI reports its city crime stats
         //And the subtle differences between this API and the state one
-        public List<CityCrimeStats>? CityCrimeRange(string city, State state, int fromYear, int toYear)
+        private JToken? FetchCityData(string? ori, int fromYear, int toYear)
         {
-            if (fromYear > toYear)
-            {
-                //swap them
-                (fromYear, toYear) = (toYear, fromYear);
-            }
-
-            var ori = FetchCityORI(city, state.Abbrev);
-
             if (ori == null)
                 return null;
 
-            var results = FetchFBIObj($"{city_crime_url}/{ori}/{fromYear}/{toYear}")?["results"];
-            
-            if (results == null)
-                return null;
-
-            var crimes = new List<CityCrimeStats>();
-
-            for (int year = fromYear; year <= toYear; year++)
-            {
-                crimes.Add(new CityCrimeStats(city, state, year, results));
-
-            }
-
-            return crimes;
+            return FetchFBIObj($"{city_crime_url}/{ori}/{fromYear}/{toYear}")?["results"];
         }
 
-        public List<BasicCrimeStats>? CityCrimeRangeBasic(string city, State state, int fromYear, int toYear)
+        public List<CityCrimeStats> CityCrimeRange(string city, State state, int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -244,31 +213,68 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var ori = FetchCityORI(city, state.Abbrev);
-
-            if (ori == null)
-                return null;
-
-            var results = FetchFBIObj($"{city_crime_url}/{ori}/{fromYear}/{toYear}")?["results"];
-
+            var results = FetchCityData(FetchORI(city, state.Abbrev), fromYear, toYear);
             if (results == null)
-                return null;
+                return new();
 
-            var crimes = new List<BasicCrimeStats>();
+            return Enumerable.Range(fromYear, toYear - fromYear)
+                .Select(year => new CityCrimeStats(city, state, year, results)).ToList();
+        }
 
-            for (int year = fromYear; year <= toYear; year++)
+        public List<BasicCrimeStats> CityCrimeRangeBasic(string city, State state, int fromYear, int toYear)
+        {
+            if (fromYear > toYear)
             {
-                crimes.Add(new BasicCrimeStats(year, results));
+                //swap them
+                (fromYear, toYear) = (toYear, fromYear);
+            }
+
+            var results = FetchCityData(FetchORI(city, state.Abbrev), fromYear, toYear);
+            if (results == null)
+                return new();
+
+            return Enumerable.Range(fromYear, toYear - fromYear)
+                .Select(year => new BasicCrimeStats(year, results)).ToList();
+        }
+
+        public List<CityCrimeStats> CityCrimeMulti(List<string> cities, State state, int? year = null)
+        {
+            var crimeYear = year ?? LatestYear;
+            var oris = FetchORIs(cities, state.Abbrev);
+            var results = new List<CityCrimeStats>();
+
+            if (oris == null)
+                return results;
+            /*
+            //this is LINQ that does the same thing. I personally think this is overkill
+            var dumb = oris?.Select(ori => (ori.Item1, FetchCityData(ori.Item2, crimeYear, crimeYear)))
+                .Where(data => data.Item2 != null)
+                .Select(data => new CityCrimeStats(data.Item1, state, crimeYear, data.Item2));
+            */
+            foreach (var ori in oris)
+            {
+                var cityName = ori.Item1;
+                var cityORI = ori.Item2;
+
+                if (cityORI == null)
+                    continue;
+
+                var data = FetchCityData(cityORI, crimeYear, crimeYear);
+
+                if (data == null)
+                    continue;
+
+                results.Add(new CityCrimeStats(cityName, state, crimeYear, data));
 
             }
 
-            return crimes;
+            return results;
         }
 
 
         //National crime stats
 
-        public List<NationalCrimeStats>? NationalCrimeRange(int fromYear, int toYear)
+        public List<NationalCrimeStats> NationalCrimeRange(int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -279,12 +285,12 @@ namespace Main.DAL.Concrete
             var results = FetchFBIObj($"{national_crime_url}/{fromYear}/{toYear}")?["results"];
 
             if (results == null)
-                return null;
+                return new();
 
             return results.Select(t => new NationalCrimeStats(t)).ToList();
         }
 
-        public List<BasicCrimeStats>? NationalCrimeRangeBasic(int fromYear, int toYear)
+        public List<BasicCrimeStats> NationalCrimeRangeBasic(int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -295,7 +301,7 @@ namespace Main.DAL.Concrete
             var results = FetchFBIObj($"{national_crime_url}/{fromYear}/{toYear}")?["results"];
 
             if (results == null)
-                return null;
+                return new();
 
             return results.Select(t => new BasicCrimeStats(t)).ToList();
         }
@@ -321,7 +327,7 @@ namespace Main.DAL.Concrete
 
                 return new City {
                     Name = name,
-                    ORI = a["ori"].ToString()
+                    ORI = a["ori"]?.ToString() ?? "NOTFOUND"
                 };
             }).ToList();
         }
