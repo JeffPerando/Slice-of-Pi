@@ -9,7 +9,7 @@ namespace TestBDD
 {
     public class SiteData
     {
-        public const string BaseUrl = "https://localhost:7241";
+        public const string BaseUrl = "https://localhost:44355";
         // Page names that everyone should use
         public const string HomePageName = "Home";
         public const string LoginPageName = "Login";
