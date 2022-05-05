@@ -1,6 +1,5 @@
-﻿using Main.Models.FBI;
-using Newtonsoft.Json.Linq;
-
+﻿
+using Main.Models.FBI;
 using System.Text.Json.Serialization;
 
 namespace Main.Models
@@ -30,26 +29,29 @@ namespace Main.Models
         [JsonIgnore]
         public virtual User User { get; set; } = null!;
 
+        public StateCrimeSearchResult() {}
+
         public StateCrimeSearchResult(string UID, StateCrimeStats stats)
         {
             UserId = UID;
             DateSearched = DateTime.Now;
             Population = stats.Population;
 
-            Year = stats.Stats.Year;
-            ViolentCrimes = stats.Stats.ViolentCrimes;
-            Homicide = stats.Stats.Homicide;
-            RapeLegacy = stats.Stats.RapeLegacy;
-            RapeRevised = stats.Stats.RapeRevised;
-            Robbery = stats.Stats.Robbery;
-            Assault = stats.Stats.Assault;
-            PropertyCrimes = stats.Stats.PropertyCrimes;
-            Burglary = stats.Stats.Burglary;
-            Larceny = stats.Stats.Larceny;
-            MotorVehicleTheft = stats.Stats.MotorVehicleTheft;
-            Arson = stats.Stats.Arson;
+            Year = stats.Year;
+            ViolentCrimes = stats.ViolentCrimes;
+            Homicide = stats.Homicide;
+            RapeLegacy = stats.RapeLegacy;
+            RapeRevised = stats.RapeRevised;
+            Robbery = stats.Robbery;
+            Assault = stats.Assault;
+            PropertyCrimes = stats.PropertyCrimes;
+            Burglary = stats.Burglary;
+            Larceny = stats.Larceny;
+            MotorVehicleTheft = stats.MotorVehicleTheft;
+            Arson = stats.Arson;
 
         }
 
     }
+
 }

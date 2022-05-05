@@ -69,7 +69,7 @@ function showCrimeStats(data, year) {
 
     for (let state of data.stateCrimes) {
         tbl.append(`<tr>
-            ${toTD(state["state"])}
+            ${toTD(state["state"]["name"])}
             ${toTD(state["population"])}
             ${toTD(state["violentCrimes"])}
             ${toTD(state["homicide"])}

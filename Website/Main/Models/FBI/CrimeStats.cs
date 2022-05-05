@@ -4,14 +4,8 @@ using Newtonsoft.Json.Linq;
 
 namespace Main.Models.FBI
 {
-    public class CrimeStats
+    public class CrimeStats : BasicCrimeStats
     {
-        public int Year { get; set; } = FBIService.LatestYear;
-
-        public int TotalOffenses { get { return ViolentCrimes + PropertyCrimes; } }
-        public int ViolentCrimes { get; set; }
-        public int PropertyCrimes { get; set; }
-
         public int Assault { get; set; }
         public int Arson { get; set; }
         public int Burglary { get; set; }
@@ -25,13 +19,8 @@ namespace Main.Models.FBI
 
         public CrimeStats() {}
 
-        public CrimeStats(JToken? data)
+        public CrimeStats(JToken? data) : base(data)
         {
-            Year = (int?)data?["year"] ?? FBIService.LatestYear;
-
-            ViolentCrimes = (int?)data?["violent_crime"] ?? 0;
-            PropertyCrimes = (int?)data?["property_crime"] ?? 0;
-
             Arson = (int?)data?["arson"] ?? 0;
             Assault = (int?)data?["aggravated_assault"] ?? 0;
             Burglary = (int?)data?["burglary"] ?? 0;
@@ -41,6 +30,21 @@ namespace Main.Models.FBI
             RapeLegacy = (int?)data?["rape_legacy"] ?? 0;
             RapeRevised = (int?)data?["rape_revised"] ?? 0;
             Robbery = (int?)data?["robbery"] ?? 0;
+
+        }
+
+        public CrimeStats(CrimeStats stats) : base(stats)
+        {
+            Arson = stats.Arson;
+            Assault = stats.Assault;
+            Burglary = stats.Burglary;
+            Homicide = stats.Homicide;
+            HumanTrafficking = stats.HumanTrafficking;
+            Larceny = stats.Larceny;
+            MotorVehicleTheft = stats.MotorVehicleTheft;
+            RapeLegacy = stats.RapeLegacy;
+            RapeRevised = stats.RapeRevised;
+            Robbery = stats.Robbery;
 
         }
 

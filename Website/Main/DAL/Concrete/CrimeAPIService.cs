@@ -279,7 +279,7 @@ namespace Main.DAL.Concrete
                 aYear = 2020;
             }
 
-            var state_crime_stats = new StateCrimeSearchResult();
+            //var state_crime_stats = new StateCrimeSearchResult();
             var info = FetchFBIObj($"{crime_api_state_info}/{stateAbbrev}/{aYear}/{aYear}");
 
             if (info == null)
@@ -289,7 +289,7 @@ namespace Main.DAL.Concrete
 
             //state_crime_stats = state_crime_stats.PresentJSONRespone(info);
 
-            return state_crime_stats;
+            return null;
         }
 
         public JObject GetCityTrends(string cityName, string stateAbbrev)

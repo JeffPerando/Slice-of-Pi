@@ -44,10 +44,10 @@ namespace Main.DAL.Abstract
         public List<CityCrimeStats> CityCrimePlot(List<string> cities, State state, int fromYear, int toYear) =>
             cities.Select(city => CityCrimeRange(city, state, fromYear, toYear)).Where(x => x != null).SelectMany(x => x).ToList();
 
-        public BasicCrimeStats? CityCrimeSingleBasic(string city, State state, int? year = null) => CityCrimeRangeBasic(city, state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?[0];
-        public List<BasicCrimeStats?> CityCrimeMultiBasic(List<string> cities, State state, int? year = null) => cities.Select(city => CityCrimeSingleBasic(city, state, year)).ToList();
-        public List<BasicCrimeStats> CityCrimeRangeBasic(string city, State state, int fromYear, int toYear);
-        public List<BasicCrimeStats> CityCrimePlotBasic(List<string> cities, State state, int fromYear, int toYear) =>
+        public BasicCityStats? CityCrimeSingleBasic(string city, State state, int? year = null) => CityCrimeRangeBasic(city, state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?[0];
+        public List<BasicCityStats?> CityCrimeMultiBasic(List<string> cities, State state, int? year = null) => cities.Select(city => CityCrimeSingleBasic(city, state, year)).ToList();
+        public List<BasicCityStats> CityCrimeRangeBasic(string city, State state, int fromYear, int toYear);
+        public List<BasicCityStats> CityCrimePlotBasic(List<string> cities, State state, int fromYear, int toYear) =>
             cities.Select(city => CityCrimeRangeBasic(city, state, fromYear, toYear)).Where(x => x != null).SelectMany(x => x).ToList();
 
 

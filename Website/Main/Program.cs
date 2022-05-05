@@ -19,7 +19,7 @@ using Main.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
+//builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
 
 //MainIdentityDbContextConnection
 // Add services to the container.

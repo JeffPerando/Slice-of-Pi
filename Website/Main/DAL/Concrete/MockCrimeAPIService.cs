@@ -1,79 +1,64 @@
 ﻿
 using Main.DAL.Abstract;
 using Main.Models;
+using Main.Models.FBI;
 using Newtonsoft.Json.Linq;
 
 namespace Main.DAL.Concrete
 {
-    public class MockCrimeAPIService : ICrimeAPIService
+    public class MockCrimeAPIService : ICrimeAPIv2
     {
         public MockCrimeAPIService() {}
 
-        public virtual int GetCityCount(string state)
+        public List<City>? CitiesIn(State state)
         {
             throw new NotImplementedException();
         }
 
-        public virtual List<Crime> GetCityStats(string cityName, string stateAbbrev)
+        public List<CityCrimeStats> CityCrimeMulti(List<string> cities, State state, int? year = null)
         {
             throw new NotImplementedException();
         }
 
-        public virtual List<Crime> GetCityStatsByYear(string cityName, string stateAbbrev, string year)
+        public List<CityCrimeStats> CityCrimeRange(string city, State state, int fromYear, int toYear)
         {
             throw new NotImplementedException();
         }
 
-        public virtual JObject GetCityTrends(string cityName, string stateAbbrev)
+        public List<BasicCityStats> CityCrimeRangeBasic(string city, State state, int fromYear, int toYear)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<Crime?> GetOverallStateCrimeAsync(string abbrev)
+        public List<NationalCrimeStats> NationalCrimeRange(int fromYear, int toYear)
         {
             throw new NotImplementedException();
         }
 
-        public virtual List<Crime> GetSafestStates(List<Crime> states)
+        public List<BasicCrimeStats> NationalCrimeRangeBasic(int fromYear, int toYear)
         {
             throw new NotImplementedException();
         }
 
-        public virtual StateCrimeSearchResult GetState(string stateAbbrev, int? aYear)
+        public List<StateCrimeStats> StateCrimeMulti(List<State> states, int? year = null)
         {
             throw new NotImplementedException();
         }
 
-        public virtual List<string> GetStates()
+        public List<StateCrimeStats> StateCrimeRange(State state, int fromYear, int toYear)
         {
             throw new NotImplementedException();
         }
 
-        public virtual int? GetTotalCityCrime(string city, string state)
+        public List<BasicCrimeStats> StateCrimeRangeBasic(State state, int fromYear, int toYear)
         {
             throw new NotImplementedException();
         }
 
-        public virtual List<Crime> ReturnPropertyCityTrends(JObject city_stats)
+        public Task<StateCrimeStats?> StateCrimeSingleAsync(State state, int? year = null)
         {
             throw new NotImplementedException();
         }
-
-        public virtual List<Crime> ReturnStateCrimeList(List<string> states)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual List<Crime> ReturnTotalCityTrends(JObject city_stats)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual List<Crime> ReturnViolentCityTrends(JObject city_stats)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 
 }

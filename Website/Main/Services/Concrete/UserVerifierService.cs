@@ -66,7 +66,7 @@ namespace Main.Services.Concrete
 
     public class UserVerifierService : IUserVerifierService
     {
-        private Dictionary<string, UserCodes> codes = new();
+        private Dictionary<string, UserCodes?> codes = new();
         private IEmailService _emails;
         private readonly string emailContent;
         private readonly TimeSpan _expiry;

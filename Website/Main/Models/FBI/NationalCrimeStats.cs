@@ -3,9 +3,8 @@ using Newtonsoft.Json.Linq;
 
 namespace Main.Models.FBI
 {
-    public class NationalCrimeStats
+    public class NationalCrimeStats : CrimeStats
     {
-        public CrimeStats Stats { get; set; } = new();
         public int Population { get; set; }
         public double CrimePerCapita
         {
@@ -13,15 +12,14 @@ namespace Main.Models.FBI
             {
                 if (Population == 0)
                     return 0;
-                return Math.Round(((double)Stats.TotalOffenses / Population) * 100_000, 2);
+                return Math.Round(((double)TotalOffenses / Population) * 100_000, 2);
             }
         }
 
         public NationalCrimeStats() {}
 
-        public NationalCrimeStats(JToken? data)
+        public NationalCrimeStats(JToken? data) : base(data)
         {
-            Stats = new CrimeStats(data);
             Population = (int?)data?["populatuion"] ?? 0;
 
         }
