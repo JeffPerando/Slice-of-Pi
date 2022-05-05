@@ -38,9 +38,17 @@ namespace Main.DAL.Concrete
 
         //Helpers
 
-        private JObject? FetchFBIObj(string endpoint)
+        private JObject? FetchFBIObj(string endpoint, bool cached = true)
         {
-            return _web.FetchJObject(endpoint, new()
+            if (cached)
+            {
+                return _cache.FetchJObject(endpoint, new()
+                {
+                    ["API_KEY"] = _key
+                }, false);
+            }
+
+            return _web.FetchJObject(base_url + endpoint, new()
             {
                 ["API_KEY"] = _key
             });
