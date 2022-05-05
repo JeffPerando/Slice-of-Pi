@@ -6,7 +6,7 @@ namespace Main.Models
     {
         [JsonProperty("name")]
         public string Name { get; set; }
-        [JsonProperty("abbreviation")]
+        [JsonProperty("abbrev")]
         public string Abbrev { get; set; }
 
     }
