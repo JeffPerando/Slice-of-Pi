@@ -7,6 +7,8 @@ namespace Main.DAL.Abstract
 {
     public interface IAPICacheService<T> where T : APICache
     {
+        IWebService Web();
+
         IAPICacheService<T> SetBaseURL(string url);
 
         IAPICacheService<T> AddHeader(string key, string? value);

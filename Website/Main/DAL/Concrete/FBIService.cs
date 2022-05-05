@@ -25,13 +25,13 @@ namespace Main.DAL.Concrete
         private readonly IWebService _web;
         private readonly IAPICacheService<FBICache> _cache;
 
-        public FBIService(IConfiguration config, IWebService web, IAPICacheService<FBICache> cache) : this(config["apiFBIKey"], web, cache) { }
+        public FBIService(IConfiguration config, IAPICacheService<FBICache> cache) : this(config["apiFBIKey"], web, cache) { }
 
-        public FBIService(string key, IWebService web, IAPICacheService<FBICache> cache)
+        public FBIService(string key, IAPICacheService<FBICache> cache)
         {
             _key = key.Split("=").Last();
-            _web = web;
             _cache = cache.SetBaseURL(base_url);
+            _web = _cache.Web();
             
         }
 

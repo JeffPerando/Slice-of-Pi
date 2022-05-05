@@ -11,7 +11,7 @@ namespace Main.DAL.Concrete
 {
     public class ATTOMService : IHousingAPI
     {
-        public readonly string ATTOMUrl = "https://api.gateway.attomdata.com/propertyapi/v1.0.0/";
+        public readonly string ATTOMUrl = "https://api.gateway.attomdata.com/propertyapi/v1.0.0";
 
         private readonly string _apiKey;
         private readonly IAPICacheService<ATTOMCache> _cache;

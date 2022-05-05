@@ -4,6 +4,7 @@ using Main.Models;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace Main.DAL.Concrete
 {
@@ -25,6 +26,8 @@ namespace Main.DAL.Concrete
             _expiryOffset = expiryOffset ?? new TimeSpan(30, 0, 0, 0, 0);
 
         }
+
+        public IWebService Web() => _web;
 
         public IAPICacheService<T> SetBaseURL(string url)
         {
