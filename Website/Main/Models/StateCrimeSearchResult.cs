@@ -29,6 +29,8 @@ namespace Main.Models
         [JsonIgnore]
         public virtual User User { get; set; } = null!;
 
+        public StateCrimeSearchResult() {}
+
         public StateCrimeSearchResult(string UID, StateCrimeStats stats)
         {
             UserId = UID;
