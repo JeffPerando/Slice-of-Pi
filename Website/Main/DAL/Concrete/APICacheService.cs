@@ -38,7 +38,7 @@ namespace Main.DAL.Concrete
             return this;
         }
 
-        IAPICacheService<T> AddHeader(string key, string? value)
+        public IAPICacheService<T> AddHeader(string key, string? value)
         {
             _web.AddHeader(key, value);
             return this;
