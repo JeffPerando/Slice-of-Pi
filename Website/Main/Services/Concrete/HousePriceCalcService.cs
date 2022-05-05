@@ -8,10 +8,10 @@ namespace Main.Services.Concrete
 {
     public class HousePriceCalcService : IHousePriceCalcService
     {
-        private readonly ICrimeAPIService _crime;
+        private readonly ICrimeAPIv2 _crime;
         private readonly IHousingAPI _housing;
 
-        public HousePriceCalcService(ICrimeAPIService crime, IHousingAPI housing)
+        public HousePriceCalcService(ICrimeAPIv2 crime, IHousingAPI housing)
         {
             _crime = crime;
             _housing = housing;
@@ -41,11 +41,13 @@ namespace Main.Services.Concrete
 
             asm.InitAssessment = new DisplayPrice(homePrice);
 
-            var stateCrime = _crime.GetOverallStateCrimeAsync(addr.State).GetAwaiter().GetResult();
-            var cityCrimes = _crime.GetTotalCityCrime(addr.County, addr.State) ?? 0;
-            var cityCount = _crime.GetCityCount(addr.State);
+            var state = new State { Abbrev = addr.State };
 
-            var stateCrimePerAgency = (stateCrime?.TotalOffenses ?? 0) / (float)cityCount;
+            var stateCrimes = _crime.StateCrimeSingleBasic(state)?.TotalOffenses ?? 0;
+            var cityCrimes = _crime.CityCrimeSingleBasic(addr.County, state)?.TotalOffenses ?? 0;
+            var cityCount = _crime.CitiesIn(state)?.Count ?? 0;
+
+            var stateCrimePerAgency = stateCrimes / (float)cityCount;
 
             //the more city crimes, the lower this percentage. which translates to a lower home price
             var cityCrimePercentage = stateCrimePerAgency / cityCrimes;
