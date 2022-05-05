@@ -234,7 +234,7 @@ namespace Main.DAL.Concrete
                 .Select(year => new CityCrimeStats(city, state, year, results)).ToList();
         }
 
-        public List<BasicCrimeStats> CityCrimeRangeBasic(string city, State state, int fromYear, int toYear)
+        public List<BasicCityStats> CityCrimeRangeBasic(string city, State state, int fromYear, int toYear)
         {
             if (fromYear > toYear)
             {
@@ -247,7 +247,7 @@ namespace Main.DAL.Concrete
                 return new();
 
             return Enumerable.Range(fromYear, toYear - fromYear)
-                .Select(year => new BasicCrimeStats(year, results)).ToList();
+                .Select(year => new BasicCityStats(year, results)).ToList();
         }
 
         public List<CityCrimeStats> CityCrimeMulti(List<string> cities, State state, int? year = null)

@@ -6,7 +6,7 @@ namespace Main.Models.FBI
 {
     public class BasicCrimeStats
     {
-        public int Year { get; set; }
+        public int Year { get; set; } = FBIService.LatestYear;
         public int ViolentCrimes { get; set; }
         public int PropertyCrimes { get; set; }
         public int TotalOffenses { get { return ViolentCrimes + PropertyCrimes; } }
@@ -21,27 +21,11 @@ namespace Main.Models.FBI
 
         }
 
-        public BasicCrimeStats(int year, JToken? data)
+        public BasicCrimeStats(BasicCrimeStats stats)
         {
-            Year = year;
-
-            if (data == null)
-                return;
-
-            var crimes = data.Where(data => (int?)data["year"] == year);
-
-            foreach (var crime in crimes)
-            {
-                int amount = (int?)crime["actual"] ?? 0;
-                var offense = crime["offense"]?.ToString();
-
-                switch (offense)
-                {
-                    case "violent-crime":   ViolentCrimes += amount; break;
-                    case "property-crime":  PropertyCrimes += amount; break;
-                }
-
-            }
+            Year = stats.Year;
+            ViolentCrimes = stats.ViolentCrimes;
+            PropertyCrimes = stats.PropertyCrimes;
 
         }
 
