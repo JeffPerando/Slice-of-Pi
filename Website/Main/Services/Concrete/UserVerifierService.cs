@@ -120,10 +120,10 @@ namespace Main.Services.Concrete
 
             }
 
-            foreach (UserCodes ucs in codes.Values)
+            foreach (var ucs in codes.Values)
             {
                 //TODO replace this with a system that does internal checking on occasion
-                ucs.Cleanup();
+                ucs?.Cleanup();
 
             }
 

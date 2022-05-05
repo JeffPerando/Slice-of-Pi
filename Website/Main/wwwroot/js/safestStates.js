@@ -8,15 +8,6 @@ $(document).ready(function () {
         error: errorOnAjax
 
     });
-
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/api/States",
-        success: populateDropDown,
-        error: errorOnAjax
-
-    });
 });
 
 function errorOnAjax(xhr, status, error) {
@@ -38,11 +29,4 @@ function displayStateInformation(data) {
         $("#safestStatesTable").show();
     }
     document.getElementById("loadingIcon").textContent = "";
-}
-
-function populateDropDown(data) {
-    var select = $("#stateAbbrev");
-    for (var i = 0; i < data.length; i++) {
-        select.append(`<option value=${i}>${data[i]["name"]}</option>`);
-    }
 }

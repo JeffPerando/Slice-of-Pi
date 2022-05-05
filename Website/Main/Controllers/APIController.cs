@@ -13,13 +13,15 @@ namespace Main.Controllers
         private readonly IBackendService _backend;
         private readonly ISiteUserService _users;
         private readonly ICrimeAPIv2 _crime;
+        private readonly ICrimeAPIService _crimeOld;
         private readonly CrimeDbContext _db;
 
-        public APIController(IBackendService backend, ISiteUserService users, ICrimeAPIv2 crime, CrimeDbContext db)
+        public APIController(IBackendService backend, ISiteUserService users, ICrimeAPIv2 crime, ICrimeAPIService crimeOld, CrimeDbContext db)
         {
             _backend = backend;
             _users = users;
             _crime = crime;
+            _crimeOld = crimeOld;
             _db = db;
 
         }
@@ -64,8 +66,8 @@ namespace Main.Controllers
                 stateAbbrev = "CA";
             }
 
-            //return Json(_crime.GetCityStats(cityName, stateAbbrev));
-            return Json(_crime.CityCrimeSingle(cityName, new State { Abbrev = stateAbbrev }));
+            return Json(_crimeOld.GetCityStats(cityName, stateAbbrev));
+            //return Json(_crime.CityCrimeSingle(cityName, new State { Abbrev = stateAbbrev }));
         }
 
         [HttpGet]
@@ -103,16 +105,16 @@ namespace Main.Controllers
                 cityName = "Riverside";
                 stateAbbrev = "CA";
             }
-            /*
-            var getCitytrends = _crime.GetCityTrends(cityName, stateAbbrev);
-            var returnTotalCityTrends = _crime.ReturnTotalCityTrends(getCitytrends);
-            var returnPropertyCityTrends = _crime.ReturnPropertyCityTrends(getCitytrends);
-            var returnViolentCityTrends = _crime.ReturnViolentCityTrends(getCitytrends);
+            
+            var getCitytrends = _crimeOld.GetCityTrends(cityName, stateAbbrev);
+            var returnTotalCityTrends = _crimeOld.ReturnTotalCityTrends(getCitytrends);
+            var returnPropertyCityTrends = _crimeOld.ReturnPropertyCityTrends(getCitytrends);
+            var returnViolentCityTrends = _crimeOld.ReturnViolentCityTrends(getCitytrends);
 
 
             return Json(new { totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends });
-            */
-            return Json(_backend.GetCityTrends(cityName, new State { Abbrev = stateAbbrev }));
+            
+            //return Json(_backend.GetCityTrends(cityName, new State { Abbrev = stateAbbrev }));
         }
 
         [HttpGet]

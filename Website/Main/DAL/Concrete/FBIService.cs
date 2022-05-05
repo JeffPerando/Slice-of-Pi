@@ -38,7 +38,7 @@ namespace Main.DAL.Concrete
 
         //Helpers
 
-        private JObject? FetchFBIObj(string endpoint, bool cached = true)
+        private JObject? FetchFBIObj(string endpoint, bool cached = false)
         {
             if (cached)
             {
@@ -222,7 +222,11 @@ namespace Main.DAL.Concrete
             if (ori == null)
                 return null;
 
-            return FetchFBIObj($"{city_crime_endpoint}/{ori}/{fromYear}/{toYear}")?["results"];
+            var endpoint = $"{city_crime_endpoint}/{ori}/offenses/{fromYear}/{toYear}";
+
+            var raw = FetchFBIObj(endpoint);
+
+            return raw?["results"];
         }
 
         public List<CityCrimeStats> CityCrimeRange(string city, State state, int fromYear, int toYear)
@@ -236,9 +240,11 @@ namespace Main.DAL.Concrete
             var results = FetchCityData(FetchORI(city, state.Abbrev), fromYear, toYear);
 
             if (results == null)
+            {
                 return new();
+            }
 
-            return Enumerable.Range(fromYear, toYear - fromYear)
+            return Enumerable.Range(fromYear, toYear - fromYear + 1)
                 .Select(year => new CityCrimeStats(city, state, year, results)).ToList();
         }
 
@@ -254,7 +260,7 @@ namespace Main.DAL.Concrete
             if (results == null)
                 return new();
 
-            return Enumerable.Range(fromYear, toYear - fromYear)
+            return Enumerable.Range(fromYear, toYear - fromYear + 1)
                 .Select(year => new BasicCityStats(year, results)).ToList();
         }
 

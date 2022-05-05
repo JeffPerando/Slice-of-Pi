@@ -1,21 +1,12 @@
+<h1 style="color:white">Enter a city you want to look up:</h1>
+<form action="CrimeStats" method="get">
+    <label for="cityName" style="color:white">Enter a city name: </label>
+    <input type="text" id="cityName" name="cityName" required><br><br>
 
-<h1 class="text-white">City Crime Lookup</h1>
-<form action="CrimeStats" method="get" class="align-content-center">
-    <div class="row">
-        <div class="col-4 mx-auto">
-            <div class="form-floating m-2">
-                <select name="stateID" id="states" class="form-control" required>
-                    <option value="">Choose a state</option>
-                </select>
-                <label for="stateID">State</label>
-            </div>
-            <div class="form-floating m-2">
-                <select name="cityName" id="cities" class="form-control" required></select>
-                <label for="cityName">City</label>
-            </div>
-        </div>
-    </div>
-    <!--<input type="text" id="cityName" name="cityName" required>-->
+    <label for="stateAbbrev" style="color:white">Select a state: </label>
+    <select name="stateAbbrev" id="states" required>
+        <option value="" disabled>Choose a state</option>
+    </select>
     <br><br>
     <input id="submit_button" type="submit" value="Submit">
 </form>
