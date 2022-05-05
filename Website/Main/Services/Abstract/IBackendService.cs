@@ -12,9 +12,9 @@ namespace Main.Services.Abstract
 
         public List<City> GetCitiesIn(int? stateID);
 
-        public List<StateCrimeStats?> CalcSafestStates();
+        public List<StateCrimeStats> CalcSafestStates();
 
-        public object? GetCityTrends(string? city, int? state);
+        public object? GetCityTrends(string? city, State state);
 
     }
 

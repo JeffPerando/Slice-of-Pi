@@ -10,10 +10,9 @@ namespace Main.Services.Concrete
 {
     public class BackendService : IBackendService
     {
-        private static readonly int CaliforniaID = 4;
+        private const int CaliforniaID = 4;
 
         private readonly ICrimeAPIv2 _crime;
-
         private readonly List<State> states;
 
         public BackendService(ICrimeAPIv2 crime)
@@ -44,22 +43,19 @@ namespace Main.Services.Concrete
             return _crime.CitiesIn(states[stateID ?? CaliforniaID]) ?? new();
         }
 
-        public List<StateCrimeStats?> CalcSafestStates()
+        public List<StateCrimeStats> CalcSafestStates()
         {
             var nationalStats = _crime.StateCrimeMulti(GetAllStates());
             
-            return nationalStats.OrderBy(c => c?.CrimePerCapita ?? 0).Take(5).ToList();
+            return nationalStats.OrderBy(c => c.CrimePerCapita).Take(5).ToList();
         }
 
-        public object? GetCityTrends(string? city, int? stateID)
+        public object? GetCityTrends(string? city, State state)
         {
-            if (city == null || stateID == null)
+            if (city == null)
             {
                 city = "Riverside";
-                stateID = CaliforniaID;
             }
-
-            State state = states[(int)stateID];
 
             var stats = _crime.CityCrimeRangeBasic(city, state, FBIService.OldestYear, FBIService.LatestYear);
 
