@@ -66,7 +66,7 @@ CREATE TABLE [StateCrimeSearchResult]
 --the hashtag indicates a temporary local table
 CREATE TABLE [#APICache]
 (
-    [URL]               NVARCHAR PRIMARY KEY NOT NULL,
+    [Endpoint]          NVARCHAR(256) PRIMARY KEY NOT NULL,
     [Expiry]            DATETIME NOT NULL,
     [Data]              NVARCHAR(MAX)
 );

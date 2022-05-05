@@ -17,8 +17,6 @@ namespace Main.Models.FBI
             }
         }
 
-        public NationalCrimeStats() {}
-
         public NationalCrimeStats(JToken data)
         {
             Stats = new CrimeStats(data);

@@ -5,13 +5,11 @@ namespace Main.Models.FBI
 {
     public class CityCrimeStats
     {
-        public string City { get; set; } = null!;
-        public State State { get; set; } = null!;
+        public string City { get; set; }
+        public State State { get; set; }
         public CrimeStats? Stats { get; set; }
         public int TotalOffenses { get; set; }
         public int ActualConvictions { get; set; }
-
-        public CityCrimeStats() {}
 
         public CityCrimeStats(string city, State state, int year, JToken data)
         {
@@ -28,6 +26,7 @@ namespace Main.Models.FBI
 
                 switch (offense)
                 {
+                    case null: continue;
                     case "aggravated-assault":  Stats.Assault += amount; break;
                     case "arson":               Stats.Arson += amount; break;
                     case "burglary":            Stats.Burglary += amount; break;

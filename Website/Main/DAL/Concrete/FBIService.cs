@@ -13,50 +13,48 @@ namespace Main.DAL.Concrete
         public static readonly int LatestYear = 2020;
         public static readonly int OldestYear = 1985;
 
-        //private static readonly string fbiBaseURL = "https://api.usa.gov/crime/fbi/sapi/api/";
-        private static readonly string agency_list_url = "https://api.usa.gov/crime/fbi/sapi/api/agencies/byStateAbbr";
-        private static readonly string state_crime_url = "https://api.usa.gov/crime/fbi/sapi/api/estimates/states";
-        private static readonly string city_crime_url = "https://api.usa.gov/crime/fbi/sapi/api/summarized/agencies";
-        private static readonly string national_crime_url = "https://api.usa.gov/crime/fbi/sapi/api/estimates/national";
+        private const string base_url = "https://api.usa.gov/crime/fbi/sapi/api";
+        private const string agency_endpoint = "/agencies/byStateAbbr";
+        private const string state_crime_endpoint = "/estimates/states";
+        private const string city_crime_endpoint = "/summarized/agencies";
+        private const string national_crime_endpoint = "/estimates/national";
 
         //Members beyond this point
 
         private readonly string _key;
-        private readonly IWebService _web;
+        private readonly IAPICacheService<FBICache> _cache;
 
-        public FBIService(IConfiguration config, IWebService web) : this(config["apiFBIKey"], web) { }
+        public FBIService(IConfiguration config, IWebService web, CrimeDbContext db) : this(config["apiFBIKey"], web, db) { }
 
-        public FBIService(string key, IWebService web)
+        public FBIService(string key, IWebService web, CrimeDbContext db)
         {
             _key = key.Split("=").Last();
-            _web = web;
+            _cache = new APICacheService<FBICache>(base_url, web, db);
 
         }
 
 
         //Helpers
 
-        private JObject? FetchFBIObj(string url)
+        private JObject? FetchFBIObj(string endpoint)
         {
-            return _web.FetchJObject(url, new()
+            return _cache.FetchJObject(endpoint, new()
             {
                 ["API_KEY"] = _key
-            });
+            }, false);
         }
 
-        private Task<JObject?> FetchFBIObjAsync(string url)
+        private Task<JObject?> FetchFBIObjAsync(string endpoint)
         {
-            return _web.FetchJObjectAsync(url, new()
+            return _cache.FetchJObjectAsync(endpoint, new()
             {
                 ["API_KEY"] = _key
-            });
+            }, false);
         }
 
         private JArray? FetchStateAgencies(string state)
         {
-            string url = $"{agency_list_url}/{state}";
-
-            var data = FetchFBIObj(url);
+            var data = FetchFBIObj($"{agency_endpoint}/{state}");
 
             var results = data?["results"];
 
@@ -140,7 +138,7 @@ namespace Main.DAL.Concrete
 
         public async Task<StateCrimeStats?> StateCrimeSingleAsync(State state, int? year = null)
         {
-            var results = (await FetchFBIObjAsync($"{state_crime_url}/{state.Abbrev}/{year ?? LatestYear}/{year ?? LatestYear}"))?["results"];
+            var results = (await FetchFBIObjAsync($"{state_crime_endpoint}/{state.Abbrev}/{year ?? LatestYear}/{year ?? LatestYear}"))?["results"];
             
             if (results == null)
                 return null;
@@ -180,7 +178,7 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var results = FetchFBIObj($"{state_crime_url}/{state.Abbrev}/{fromYear}/{toYear}")?["results"];
+            var results = FetchFBIObj($"{state_crime_endpoint}/{state.Abbrev}/{fromYear}/{toYear}")?["results"];
 
             if (!(results?.Any() ?? false))
                 return new();
@@ -196,7 +194,7 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var results = FetchFBIObj($"{state_crime_url}/{state.Abbrev}/{fromYear}/{toYear}")?["results"];
+            var results = FetchFBIObj($"{state_crime_endpoint}/{state.Abbrev}/{fromYear}/{toYear}")?["results"];
 
             if (!(results?.Any() ?? false))
                 return new();
@@ -214,7 +212,7 @@ namespace Main.DAL.Concrete
             if (ori == null)
                 return null;
 
-            return FetchFBIObj($"{city_crime_url}/{ori}/{fromYear}/{toYear}")?["results"];
+            return FetchFBIObj($"{city_crime_endpoint}/{ori}/{fromYear}/{toYear}")?["results"];
         }
 
         public List<CityCrimeStats> CityCrimeRange(string city, State state, int fromYear, int toYear)
@@ -226,6 +224,7 @@ namespace Main.DAL.Concrete
             }
 
             var results = FetchCityData(FetchORI(city, state.Abbrev), fromYear, toYear);
+
             if (results == null)
                 return new();
 
@@ -294,7 +293,7 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var results = FetchFBIObj($"{national_crime_url}/{fromYear}/{toYear}")?["results"];
+            var results = FetchFBIObj($"{national_crime_endpoint}/{fromYear}/{toYear}")?["results"];
 
             if (results == null)
                 return new();
@@ -310,7 +309,7 @@ namespace Main.DAL.Concrete
                 (fromYear, toYear) = (toYear, fromYear);
             }
 
-            var results = FetchFBIObj($"{national_crime_url}/{fromYear}/{toYear}")?["results"];
+            var results = FetchFBIObj($"{national_crime_endpoint}/{fromYear}/{toYear}")?["results"];
 
             if (results == null)
                 return new();
