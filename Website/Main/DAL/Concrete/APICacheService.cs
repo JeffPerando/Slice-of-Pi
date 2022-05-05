@@ -38,6 +38,12 @@ namespace Main.DAL.Concrete
             return this;
         }
 
+        IAPICacheService<T> AddHeader(string key, string? value)
+        {
+            _web.AddHeader(key, value);
+            return this;
+        }
+
         public string? FetchStr(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true)
         {
             //all endpoints should start with /. this is to increase readability inside the actual database
