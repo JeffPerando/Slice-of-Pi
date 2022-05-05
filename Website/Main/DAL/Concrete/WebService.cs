@@ -95,12 +95,6 @@ namespace Main.DAL.Concrete
             return JArray.Parse(result);
         }
 
-        public T? FetchInto<T>(string url, Dictionary<string, string?>? query = null)
-        {
-            var data = FetchStr(url, query);
-            return JsonConvert.DeserializeObject<T>(data ?? "{}");
-        }
-
         public async Task<HttpResponseMessage> FetchRawAsync(string url, Dictionary<string, string?>? query = null)
         {
             if (query != null)
@@ -141,12 +135,6 @@ namespace Main.DAL.Concrete
             }
 
             return JArray.Parse(result);
-        }
-
-        public async Task<T?> FetchIntoAsync<T>(string url, Dictionary<string, string?>? query = null)
-        {
-            var result = await FetchStrAsync(url, query);
-            return JsonConvert.DeserializeObject<T>(result ?? "{}");
         }
 
     }

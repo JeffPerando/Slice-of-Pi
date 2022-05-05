@@ -16,11 +16,13 @@ namespace Main.Models
         {
         }
 
-        public virtual DbSet<AgencyInformation> AgencyInformations { get; set; } = null!;
-        public virtual DbSet<Crime> Crimes { get; set; } = null!;
+        //public virtual DbSet<AgencyInformation> AgencyInformations { get; set; } = null!;
+        //public virtual DbSet<Crime> Crimes { get; set; } = null!;
         public virtual DbSet<Home> Homes { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<StateCrimeSearchResult> StateCrimeSearchResults { get; set; } = null!;
+        public virtual DbSet<FBICache> FBICache { get; set; } = null!;
+        public virtual DbSet<ATTOMCache> ATTOMCache { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +34,7 @@ namespace Main.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
             modelBuilder.Entity<AgencyInformation>(entity =>
             {
                 entity.ToTable("AgencyInformation");
@@ -62,14 +65,14 @@ namespace Main.Models
                     .HasForeignKey(d => d.AgencyId)
                     .HasConstraintName("Home_Fk_Crime");
             });
-
+            */
             modelBuilder.Entity<Home>(entity =>
             {
                 entity.ToTable("Home");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.AgencyId).HasColumnName("AgencyID");
+                //entity.Property(e => e.AgencyId).HasColumnName("AgencyID");
 
                 entity.Property(e => e.County).HasMaxLength(100);
 
@@ -80,12 +83,12 @@ namespace Main.Models
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.Property(e => e.ZipCode).HasMaxLength(10);
-
+                /*
                 entity.HasOne(d => d.Agency)
                     .WithMany(p => p.Homes)
                     .HasForeignKey(d => d.AgencyId)
                     .HasConstraintName("Home_Fk_AgencyInformation");
-
+                */
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Homes)
                     .HasForeignKey(d => d.UserId)
@@ -111,7 +114,7 @@ namespace Main.Models
 
                 entity.Property(e => e.DateSearched).HasColumnType("datetime");
 
-                entity.Property(e => e.State).HasMaxLength(100);
+                //entity.Property(e => e.State).HasMaxLength(100);
 
                 entity.Property(e => e.UserId)
                     .HasMaxLength(450)
@@ -122,6 +125,42 @@ namespace Main.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("SCSR_Fk_User");
+            });
+
+            modelBuilder.Entity<FBICache>(entity =>
+            {
+                entity.ToTable("FBICache");
+
+                entity.HasKey(e => e.Endpoint);
+
+                entity.Property(e => e.Endpoint)
+                    .HasMaxLength(256)
+                    .HasColumnName("Endpoint");
+
+                entity.Property(e => e.Expiry)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Expiry");
+
+                entity.Property(e => e.Data).HasColumnName("Data");
+
+            });
+
+            modelBuilder.Entity<ATTOMCache>(entity =>
+            {
+                entity.ToTable("ATTOMCache");
+
+                entity.HasKey(e => e.Endpoint);
+
+                entity.Property(e => e.Endpoint)
+                    .HasMaxLength(256)
+                    .HasColumnName("Endpoint");
+
+                entity.Property(e => e.Expiry)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Expiry");
+
+                entity.Property(e => e.Data).HasColumnName("Data");
+
             });
 
             OnModelCreatingPartial(modelBuilder);

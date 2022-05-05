@@ -53,7 +53,7 @@ function showCityStats(data) {
         for (let i = 0; i < noOffenses.length; ++i)
         {
             document.getElementById("cityCrimeNoCrimeheader").textContent="Crimes not committed: ";
-            var offense = noOffenses[i]["offenseType"]
+            var offense = noOffenses[i]["offenseType"].replaceAll("-", " ");
             var ul = document.getElementById("cityCrimeStatsNoCrime");
             var li = document.createElement("li")
             
@@ -75,7 +75,6 @@ function showCityStats(data) {
 
 let myChart = null;
 function showChartPercentage(data){
-  
     let crimes = data;
     let crimeTypes = [];
     let amountCrimes = [];
@@ -180,6 +179,6 @@ function populateYear(data) {
 }
 
 function capitalize(offense) {
-    const lower = offense.toLowerCase()
-    return offense.charAt(0).toUpperCase() + lower.slice(1)
+    const lower = offense.toLowerCase();
+    return offense.charAt(0).toUpperCase() + lower.slice(1);
 }

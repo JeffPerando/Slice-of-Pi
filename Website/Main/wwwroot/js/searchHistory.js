@@ -59,7 +59,7 @@ function showStateSearchHistory(data) {
                     </tr>`;
     }
 
-    scsrTbl += "</tbody></table>";
+    scsrTbl += `</tbody></table><a href="/Download/StateCrimeSearchHistory" class="btn btn-success">Download</a>`;
 
     $("#scsr").html(scsrTbl);
 

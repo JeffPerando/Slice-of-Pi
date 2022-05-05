@@ -17,6 +17,6 @@ function ajaxErr(xhr, options, err) {
 
 function addStatesToForm(data) {
     data.forEach(state => {
-        $("#addrStates").append(`<option>${state}</option>`);
+        $("#addrStates").append(`<option>${state["abbrev"]}</option>`);
     })
 }

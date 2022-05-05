@@ -31,8 +31,8 @@ public class ATTOMController : Controller
     [HttpGet]
     public IActionResult Listings(string zipcode, string pages, string minPrice, string maxPrice, string orderBy)
     {
-        AttomJson data = new AttomJson();
-        data = _housing.GetListing(zipcode, pages, minPrice, maxPrice, orderBy);
+        //AttomJson data = new AttomJson();
+        var data = _housing.GetListing(zipcode, pages, minPrice, maxPrice, orderBy);
 
         return View(data);
     }

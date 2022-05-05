@@ -2,6 +2,7 @@
 using Main.DAL.Abstract;
 using Main.Models;
 using Main.Services.Abstract;
+using System.Diagnostics;
 
 namespace Main.Services.Concrete
 {
@@ -32,7 +33,12 @@ namespace Main.Services.Concrete
 
             var homePrice = price.MarketValue;
             
-            //var homePrice = 120_000;
+            if (homePrice == 0)
+            {
+                Debug.WriteLine($"Oh look, free housing: {addr.StreetAddress}, {addr.StreetAddress2}");
+                return asm;
+            }
+
             asm.InitAssessment = new DisplayPrice(homePrice);
 
             var stateCrime = _crime.GetOverallStateCrimeAsync(addr.State).GetAwaiter().GetResult();
