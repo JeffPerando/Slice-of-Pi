@@ -40,10 +40,10 @@ namespace Main.DAL.Concrete
 
         private JObject? FetchFBIObj(string endpoint)
         {
-            return _cache.FetchJObject(endpoint, new()
+            return _web.FetchJObject(endpoint, new()
             {
                 ["API_KEY"] = _key
-            }, false);
+            });
         }
 
         private Task<JObject?> FetchFBIObjAsync(string endpoint)
