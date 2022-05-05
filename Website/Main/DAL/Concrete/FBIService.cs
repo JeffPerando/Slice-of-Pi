@@ -22,15 +22,17 @@ namespace Main.DAL.Concrete
         //Members beyond this point
 
         private readonly string _key;
+        private readonly IWebService _web;
         private readonly IAPICacheService<FBICache> _cache;
 
-        public FBIService(IConfiguration config, IWebService web, CrimeDbContext db) : this(config["apiFBIKey"], web, db) { }
+        public FBIService(IConfiguration config, IWebService web, IAPICacheService<FBICache> cache) : this(config["apiFBIKey"], web, cache) { }
 
-        public FBIService(string key, IWebService web, CrimeDbContext db)
+        public FBIService(string key, IWebService web, IAPICacheService<FBICache> cache)
         {
             _key = key.Split("=").Last();
-            _cache = new APICacheService<FBICache>(base_url, web, db);
-
+            _web = web;
+            _cache = cache.SetBaseURL(base_url);
+            
         }
 
 
@@ -46,10 +48,10 @@ namespace Main.DAL.Concrete
 
         private Task<JObject?> FetchFBIObjAsync(string endpoint)
         {
-            return _cache.FetchJObjectAsync(endpoint, new()
+            return _web.FetchJObjectAsync(base_url + endpoint, new()
             {
                 ["API_KEY"] = _key
-            }, false);
+            });
         }
 
         private JArray? FetchStateAgencies(string state)

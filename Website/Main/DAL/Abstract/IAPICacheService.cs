@@ -6,13 +6,11 @@ namespace Main.DAL.Abstract
 {
     public interface IAPICacheService<T> where T : APICache
     {
-        Task<string?> FetchStrAsync(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true);
-        string? FetchStr(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true) =>
-            FetchStrAsync(endpoint, query, cacheQuery).GetAwaiter().GetResult();
+        IAPICacheService<T> SetBaseURL(string url);
 
-        Task<JObject?> FetchJObjectAsync(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true);
-        JObject? FetchJObject(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true) =>
-            FetchJObjectAsync(endpoint, query, cacheQuery).GetAwaiter().GetResult();
+        string? FetchStr(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true);
+
+        JObject? FetchJObject(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true);
 
     }
 

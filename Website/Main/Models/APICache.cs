@@ -3,7 +3,7 @@ namespace Main.Models
 {
     public class APICache
     {
-        public string Endpoint { get; set; }
+        public string Endpoint { get; set; } = null!;
         public DateTime Expiry { get; set; }
         public string? Data { get; set; }
 

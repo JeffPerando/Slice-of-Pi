@@ -131,11 +131,15 @@ namespace Main.Models
             {
                 entity.ToTable("FBICache");
 
+                entity.HasKey(e => e.Endpoint);
+
                 entity.Property(e => e.Endpoint)
                     .HasMaxLength(256)
                     .HasColumnName("Endpoint");
 
-                entity.Property(e => e.Expiry).HasColumnName("Expiry");
+                entity.Property(e => e.Expiry)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Expiry");
 
                 entity.Property(e => e.Data).HasColumnName("Data");
 
@@ -145,11 +149,15 @@ namespace Main.Models
             {
                 entity.ToTable("ATTOMCache");
 
+                entity.HasKey(e => e.Endpoint);
+
                 entity.Property(e => e.Endpoint)
                     .HasMaxLength(256)
                     .HasColumnName("Endpoint");
 
-                entity.Property(e => e.Expiry).HasColumnName("Expiry");
+                entity.Property(e => e.Expiry)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Expiry");
 
                 entity.Property(e => e.Data).HasColumnName("Data");
 

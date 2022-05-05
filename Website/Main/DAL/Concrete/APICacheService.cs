@@ -9,29 +9,36 @@ namespace Main.DAL.Concrete
 {
     public class APICacheService<T> : IAPICacheService<T> where T : APICache, new()
     {
-        private readonly string _baseURL;
+        private string _baseURL = "";
+
         private readonly IWebService _web;
         private readonly CrimeDbContext _db;
         private readonly DbSet<T> _set;
         private readonly TimeSpan _expiryOffset;
 
-        public APICacheService(string url, IWebService web, CrimeDbContext db, TimeSpan? expiryOffset = null)
+        public APICacheService(IWebService web, CrimeDbContext db, TimeSpan? expiryOffset = null)
         {
-            _baseURL = url;
             _web = web;
             _db = db;
             _set = db.Set<T>();
             //Default expiry time is 30 days
             _expiryOffset = expiryOffset ?? new TimeSpan(30, 0, 0, 0, 0);
 
+        }
+
+        public IAPICacheService<T> SetBaseURL(string url)
+        {
+            _baseURL = url;
+
             if (url.EndsWith('/'))
             {
                 _baseURL = url[0..^1];
             }
 
+            return this;
         }
 
-        public async Task<string?> FetchStrAsync(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true)
+        public string? FetchStr(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true)
         {
             //all endpoints should start with /. this is to increase readability inside the actual database
             if (!endpoint.StartsWith('/'))
@@ -55,7 +62,7 @@ namespace Main.DAL.Concrete
                 return result.Data;
             }
 
-            var data = await _web.FetchStrAsync(_baseURL + endpointQ);
+            var data = _web.FetchStr(_baseURL + endpointQ);
 
             var entry = new T
             {
@@ -70,9 +77,9 @@ namespace Main.DAL.Concrete
             return data;
         }
 
-        public async Task<JObject?> FetchJObjectAsync(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true)
+        public JObject? FetchJObject(string endpoint, Dictionary<string, string?>? query = null, bool cacheQuery = true)
         {
-            var result = await FetchStrAsync(endpoint, query, cacheQuery);
+            var result = FetchStr(endpoint, query, cacheQuery);
 
             if (result == null)
                 return null;
