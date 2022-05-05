@@ -14,36 +14,27 @@ namespace Main.DAL.Concrete
         public readonly string ATTOMUrl = "https://api.gateway.attomdata.com/propertyapi/v1.0.0/";
 
         private readonly string _apiKey;
-        private readonly IWebService _web;
+        private readonly IAPICacheService<ATTOMCache> _cache;
 
-        public ATTOMService(IConfiguration config, IWebService web) : this(config["ATTOMKey"], web) { }
+        public ATTOMService(IConfiguration config, IAPICacheService<ATTOMCache> cache) : this(config["ATTOMKey"], cache) { }
 
-        public ATTOMService(string apiKey, IWebService web)
+        public ATTOMService(string apiKey, IAPICacheService<ATTOMCache> cache)
         {
             _apiKey = apiKey;
-            _web = web;
-            _web.AddHeader("apikey", _apiKey);
+            _cache = cache
+                .SetBaseURL(ATTOMUrl)
+                .AddHeader("apikey", _apiKey);
 
         }
 
         private JObject? FetchATTOMObj(string endpoint, Dictionary<string, string?>? query = null)
         {
-            if (endpoint.StartsWith('/'))
-            {
-                endpoint = endpoint[1..];
-            }
-
-            return _web.FetchJObject(ATTOMUrl + endpoint, query);
+            return _cache.FetchJObject(endpoint, query);
         }
 
         private T? FetchATTOM<T>(string endpoint, Dictionary<string, string?>? query = null)
         {
-            if (endpoint.StartsWith('/'))
-            {
-                endpoint = endpoint[1..];
-            }
-
-            return _web.FetchInto<T>(ATTOMUrl + endpoint, query);
+            return _cache.FetchInto<T>(endpoint, query);
         }
 
         public HomeAssessment? GetAssessmentFor(Home addr)
@@ -78,11 +69,10 @@ namespace Main.DAL.Concrete
             string pages    = "50";
             string endpoint = "assessment/detail?postalcode=" + zipcode + "&minAssdTtlValue=" + minPrice + "&maxAssdTtlValue=" + maxPrice + "&pagesize=" + pages;
 
-            var x = ATTOMUrl + endpoint;
-            var info = _web.FetchJObject(x);
-            string? response = info.ToString();
+            var info = _cache.FetchJObject(endpoint);
+            string? response = info?.ToString();
 
-            return response;
+            return response ?? "";
         }
 
         private AttomJson? FetchNullResponse()
@@ -105,9 +95,7 @@ namespace Main.DAL.Concrete
             //    endpoint = OrderBy(orderBy, endpoint);
             //}
 
-            var x = ATTOMUrl + endpoint;
-
-            var info = _web.FetchJObject(x);
+            var info = _cache.FetchJObject(endpoint);
 
             if (info == null)
             {
