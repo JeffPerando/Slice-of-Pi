@@ -25,7 +25,7 @@ namespace Main.DAL.Concrete
         private readonly IWebService _web;
         private readonly IAPICacheService<FBICache> _cache;
 
-        public FBIService(IConfiguration config, IAPICacheService<FBICache> cache) : this(config["apiFBIKey"], web, cache) { }
+        public FBIService(IConfiguration config, IAPICacheService<FBICache> cache) : this(config["apiFBIKey"], cache) { }
 
         public FBIService(string key, IAPICacheService<FBICache> cache)
         {
