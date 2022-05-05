@@ -51,7 +51,7 @@ namespace Main.DAL.Concrete
             //we add the query string manually since it can influence what we get out of the fetch
             if (query != null)
             {
-                endpointQ = QueryHelpers.AddQueryString(endpoint, query);
+                endpointQ = QueryHelpers.AddQueryString(endpoint, query).Replace(",", "%2C");
             }
 
             var result = _set.Find(cacheQuery ? endpointQ : endpoint);
