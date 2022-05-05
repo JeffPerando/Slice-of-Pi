@@ -81,6 +81,7 @@ builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();
 builder.Services.AddScoped<IHousingAPI, ATTOMService>();
 builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
 builder.Services.AddScoped<IBackendService, BackendService>();
+builder.Services.AddScoped<IGoogleStreetViewAPIService, GoogleStreetViewAPIService>();
 
 
 //BUILD. THE. APP.
@@ -124,6 +125,12 @@ app.MapControllerRoute(
     name: "API List States",
     pattern: "/apiv/FBI/Listings",
     defaults: new { controller = "ATTOM", action = "Listings" });
+
+
+app.MapControllerRoute(
+    name: "API List States",
+    pattern: "/apiv/ATTOM/StreewView",
+    defaults: new { controller = "ATTOM", action = "StreetView" });
 
 app.MapControllerRoute(
     name: "default",

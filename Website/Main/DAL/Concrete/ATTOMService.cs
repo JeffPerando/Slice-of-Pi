@@ -99,7 +99,7 @@ namespace Main.DAL.Concrete
 
             if (info == null)
             {
-                string? nullResponse = SetNullResponse();
+                string nullResponse = SetNullResponse();
                 AttomJson nullResponseResult = new JavaScriptSerializer().Deserialize<AttomJson>(nullResponse);
                 return nullResponseResult;
             }
