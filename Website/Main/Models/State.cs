@@ -5,9 +5,9 @@ namespace Main.Models
     public class State
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         [JsonProperty("abbrev")]
-        public string Abbrev { get; set; }
+        public string Abbrev { get; set; } = "";
 
     }
 

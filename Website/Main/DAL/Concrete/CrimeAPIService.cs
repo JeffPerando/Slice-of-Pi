@@ -287,7 +287,7 @@ namespace Main.DAL.Concrete
                 return null;
             }
 
-            state_crime_stats = state_crime_stats.PresentJSONRespone(info);
+            //state_crime_stats = state_crime_stats.PresentJSONRespone(info);
 
             return state_crime_stats;
         }

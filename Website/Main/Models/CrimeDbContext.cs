@@ -114,7 +114,7 @@ namespace Main.Models
 
                 entity.Property(e => e.DateSearched).HasColumnType("datetime");
 
-                entity.Property(e => e.State).HasMaxLength(100);
+                //entity.Property(e => e.State).HasMaxLength(100);
 
                 entity.Property(e => e.UserId)
                     .HasMaxLength(450)

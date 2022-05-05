@@ -5,8 +5,8 @@ namespace Main.Models.FBI
 {
     public class StateCrimeStats
     {
-        public State State { get; set; }
-        public CrimeStats Stats { get; set; }
+        public State State { get; set; } = new();
+        public CrimeStats Stats { get; set; } = new();
         public int Population { get; set; }
         public double CrimePerCapita
         {
@@ -17,6 +17,8 @@ namespace Main.Models.FBI
                 return Math.Round(((double)Stats.TotalOffenses / Population) * 100_000, 2);
             }
         }
+
+        public StateCrimeStats() {}
 
         public StateCrimeStats(State state, JToken? data)
         {

@@ -5,11 +5,13 @@ namespace Main.Models.FBI
 {
     public class CityCrimeStats
     {
-        public string City { get; set; }
-        public State State { get; set; }
-        public CrimeStats? Stats { get; set; }
+        public string City { get; set; } = "";
+        public State State { get; set; } = new();
+        public CrimeStats? Stats { get; set; } = new();
         public int TotalOffenses { get; set; }
         public int ActualConvictions { get; set; }
+
+        public CityCrimeStats() {}
 
         public CityCrimeStats(string city, State state, int year, JToken? data)
         {
