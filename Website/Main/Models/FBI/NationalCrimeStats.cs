@@ -17,10 +17,10 @@ namespace Main.Models.FBI
             }
         }
 
-        public NationalCrimeStats(JToken data)
+        public NationalCrimeStats(JToken? data)
         {
             Stats = new CrimeStats(data);
-            Population = (int?)data["populatuion"] ?? 0;
+            Population = (int?)data?["populatuion"] ?? 0;
 
         }
 

@@ -13,17 +13,20 @@ namespace Main.Models.FBI
 
         public BasicCrimeStats() {}
 
-        public BasicCrimeStats(JToken data)
+        public BasicCrimeStats(JToken? data)
         {
-            Year = (int?)data["year"] ?? FBIService.LatestYear;
-            ViolentCrimes = (int?)data["violent_crime"] ?? 0;
-            PropertyCrimes = (int?)data["property_crime"] ?? 0;
+            Year = (int?)data?["year"] ?? FBIService.LatestYear;
+            ViolentCrimes = (int?)data?["violent_crime"] ?? 0;
+            PropertyCrimes = (int?)data?["property_crime"] ?? 0;
 
         }
 
-        public BasicCrimeStats(int year, JToken data)
+        public BasicCrimeStats(int year, JToken? data)
         {
             Year = year;
+
+            if (data == null)
+                return;
 
             var crimes = data.Where(data => (int?)data["year"] == year);
 

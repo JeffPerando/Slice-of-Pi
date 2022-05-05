@@ -11,10 +11,14 @@ namespace Main.Models.FBI
         public int TotalOffenses { get; set; }
         public int ActualConvictions { get; set; }
 
-        public CityCrimeStats(string city, State state, int year, JToken data)
+        public CityCrimeStats(string city, State state, int year, JToken? data)
         {
             City = city;
             State = state;
+
+            if (data == null)
+                return;
+
             Stats = new CrimeStats();
 
             var crimes = data.Where(a => (int?)a["year"] == year);

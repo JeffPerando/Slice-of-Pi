@@ -18,11 +18,11 @@ namespace Main.Models.FBI
             }
         }
 
-        public StateCrimeStats(State state, JToken data)
+        public StateCrimeStats(State state, JToken? data)
         {
             State = state;
             Stats = new CrimeStats(data);
-            Population = (int?)data["population"] ?? 0;
+            Population = (int?)data?["population"] ?? 0;
 
         }
 
