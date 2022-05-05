@@ -33,7 +33,21 @@ namespace Main.Controllers
         {
             return View();
         }
+        public IActionResult CrimeStats(string? cityName, string? stateAbbrev)
+        {
+            if (cityName == null || stateAbbrev == null)
+            {
+                cityName = "Riverside";
+                stateAbbrev = "CA";
+            }
 
+            ViewBag.cityName = cityName;
+            ViewBag.stateAbbrev = stateAbbrev;
+
+            return View();
+        }
+
+        /*
         public IActionResult CrimeStats(string? cityName, int? stateID)
         {
             if (cityName == null || stateID == null)
@@ -47,7 +61,7 @@ namespace Main.Controllers
 
             return View();
         }
-
+        */
     }
 
 }

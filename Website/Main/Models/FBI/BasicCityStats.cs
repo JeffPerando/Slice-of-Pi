@@ -5,6 +5,7 @@ namespace Main.Models.FBI
 {
     public class BasicCityStats : BasicCrimeStats
     {
+        public BasicCityStats() {}
         public BasicCityStats(int year, JToken? data)
         {
             Year = year;

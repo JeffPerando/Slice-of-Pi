@@ -15,7 +15,7 @@ function disableForms(off) {
 }
 
 function fetchCities() {
-    let state = $("#states")[0].value;
+    let state = $("#states")[0].val();
 
     if (state == "") {
         return;
@@ -39,16 +39,16 @@ function fetchCities() {
 function populateStateDropdown(data) {
     let select = $("#states");
     for (var i = 0; i < data.length; i++) {
-        let state = data[i]["name"];
-        select.append(`<option value=${i}>${state}</option>`);
+        let state = data[i]["abbrev"];
+        select.append(`<option value="${state}">${state}</option>`);
     }
-    select.change(fetchCities);
+    //select.change(fetchCities);
 }
 
 function populateCityDropdown(data) {
     //$("#spinnyBoi").hide();
     let select = $("#cities");
-
+    console.log(data);
     //clear the HTML (most other ways don't seem to work)
     select.html(`<option value="">Choose a city</option>`);
     for (var i = 0; i < data.length; i++) {

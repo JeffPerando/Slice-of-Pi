@@ -65,8 +65,8 @@ namespace Main.Services.Concrete
             return new
             {
                 totalTrends = stats,
-                propertyTrends = stats.Select(s => new { year = s.Year, propertyCrimes = s.PropertyCrimes }),
-                violentTrends = stats.Select(s => new { year = s.Year, violentCrimes = s.ViolentCrimes })
+                propertyTrends = stats.Select(s => new { Year = s.Year, PropertyCrimes = s.PropertyCrimes, OffenseType = "property-crimes" }),
+                violentTrends = stats.Select(s => new { Year = s.Year, ViolentCrimes = s.ViolentCrimes, OffenseType = "violent-crimes" })
             };
         }
 
