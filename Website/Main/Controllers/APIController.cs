@@ -30,7 +30,7 @@ namespace Main.Controllers
         public IActionResult States()
         {
             //return Json(_crime.GetStates());
-            return Json(_backend.GetAllStates());
+            return Json(State.AllStates);
         }
 
         [HttpGet]
@@ -136,12 +136,10 @@ namespace Main.Controllers
         [HttpGet]
         public IActionResult NationalCrime(int? year)
         {
-            year ??= FBIService.LatestYear;
-
             return Json(new
             {
                 year = year,
-                stateCrimes = _crime.StateCrimeMulti(_backend.GetAllStates(), year)
+                stateCrimes = _crime.StateCrimeMulti(State.AllStates, year)
             });
         }
 
