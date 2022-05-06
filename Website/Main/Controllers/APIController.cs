@@ -105,7 +105,7 @@ namespace Main.Controllers
                 cityName = "Riverside";
                 stateAbbrev = "CA";
             }
-            
+            /*
             var getCitytrends = _crimeOld.GetCityTrends(cityName, stateAbbrev);
             var returnTotalCityTrends = _crimeOld.ReturnTotalCityTrends(getCitytrends);
             var returnPropertyCityTrends = _crimeOld.ReturnPropertyCityTrends(getCitytrends);
@@ -113,8 +113,8 @@ namespace Main.Controllers
 
 
             return Json(new { totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends });
-            
-            //return Json(_backend.GetCityTrends(cityName, new State { Abbrev = stateAbbrev }));
+            */
+            return Json(_backend.GetCityTrends(cityName, new State { Abbrev = stateAbbrev }));
         }
 
         [HttpGet]

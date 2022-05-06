@@ -1,5 +1,6 @@
 ﻿
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace Main.Models.FBI
 {
@@ -13,7 +14,7 @@ namespace Main.Models.FBI
             if (data == null)
                 return;
 
-            var crimes = data.Where(data => (int?)data["year"] == year);
+            var crimes = data.Where(data => (int?)data["data_year"] == year);
 
             foreach (var crime in crimes)
             {
