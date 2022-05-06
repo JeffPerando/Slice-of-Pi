@@ -114,7 +114,7 @@ namespace Main.Controllers
 
             return Json(new { totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends });
             */
-            return Json(_backend.GetCityTrends(cityName, new State { Abbrev = stateAbbrev }));
+            return Json(_crime.CityCrimeRangeBasic(cityName, new State { Abbrev = stateAbbrev }, FBIService.OldestYear, FBIService.LatestYear).OrderBy(c => c.Year));
         }
 
         [HttpGet]

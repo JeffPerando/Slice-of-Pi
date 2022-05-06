@@ -50,26 +50,6 @@ namespace Main.Services.Concrete
             return nationalStats.OrderBy(c => c.CrimePerCapita).Take(5).ToList();
         }
 
-        public object? GetCityTrends(string? city, State state)
-        {
-            if (city == null)
-            {
-                city = "Riverside";
-            }
-
-            var stats = _crime.CityCrimeRangeBasic(city, state, FBIService.OldestYear, FBIService.LatestYear);
-
-            if (stats == null)
-                return null;
-
-            return new
-            {
-                totalTrends = stats,
-                propertyTrends = stats.Select(s => new { Year = s.Year, TotalOffenses = s.PropertyCrimes, OffenseType = "property-crimes" }),
-                violentTrends = stats.Select(s => new { Year = s.Year, TotalOffenses = s.ViolentCrimes, OffenseType = "violent-crimes" })
-            };
-        }
-
     }
 
 }

@@ -14,8 +14,6 @@ namespace Main.Services.Abstract
 
         public List<StateCrimeStats> CalcSafestStates();
 
-        public object? GetCityTrends(string? city, State state);
-
     }
 
 }

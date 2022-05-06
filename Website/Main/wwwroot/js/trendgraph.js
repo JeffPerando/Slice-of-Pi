@@ -24,13 +24,13 @@ function showChartTrend(data){
     const years_list = [];
 
 
-    for(let i = 0; i < data.totalTrends.length; i++)
+    for(let i = 0; i < data.length; i++)
     {
-        years.push(data.totalTrends[i]["year"]);
-        crimes.push(data.totalTrends[i]["totalOffenses"]);
-        propertyCrimes.push(data.propertyTrends[i]["totalOffenses"]);
-        violentCrimes.push(data.violentTrends[i]["totalOffenses"]);
-        years_list.push(data.totalTrends[i]["year"]);
+        years.push(data[i].year);
+        crimes.push(data[i].totalOffenses);
+        propertyCrimes.push(data[i].propertyCrimes);
+        violentCrimes.push(data[i].violentCrimes);
+        years_list.push(data[i].year);
     }
     years_list.reverse();
     var select = document.getElementById("yearSelector");
