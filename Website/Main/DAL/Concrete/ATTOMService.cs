@@ -45,7 +45,7 @@ namespace Main.DAL.Concrete
                 ["address2"] = addr.StreetAddress2,
             });
 
-            var assess = result?.Property?.FirstOrDefault()?.Assessment;
+            var assess = result?.Property.FirstOrDefault()?.Assessment;
 
             if (assess == null)
             {

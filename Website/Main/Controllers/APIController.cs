@@ -71,7 +71,7 @@ namespace Main.Controllers
         }
 
         [HttpGet]
-        public IActionResult UpdateCityStats(string? cityName, string? stateAbbrev, int? year)
+        public IActionResult UpdateCityStats(string? cityName, string? stateAbbrev, string? year)
         {
             return Json(_crimeOld.GetCityStatsByYear(cityName, stateAbbrev, year));
             // Json(_crime.CityCrimeSingle(cityName ?? "Riverside", new State { Abbrev = stateAbbrev ?? "CA" }, year));
