@@ -11,6 +11,11 @@
                 <div style="text-align: center;">
                     <canvas id="crimeTrendChart" width="50" height="37"></canvas>
                 </div>
+                <label for="trendGraphYearSelector">Display trends since:  </label>
+                        <select name="trendGraphYearSelector" id="trendGraphYearSelector" required>
+                            <option value="" disabled>Select year</option>
+                        </select>
+                        <p style="color:black; display:inline;" id="loadingIconGraph"><img src="https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif" style="width: 30px;"></p>
                 <hr>
 
                 <div class="accordions is-first-expanded">
@@ -162,6 +167,25 @@
 
         });
     });
+
+        $('#trendGraphYearSelector').on('change', function (e) {
+            var optionValue = $("option:selected", this);
+            var selectedValue = this.value;
+            document.getElementById("loadingIconGraph").innerHTML = "<img src=\"https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif\" style=\"width: 30px;\">.";
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/api/CityTrends",
+                data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val()},
+                success: function(data){
+                    showChartTrend(data, selectedValue);
+                },
+                error: function(){
+                    console.log("Updater Issue.")
+                }
+            })
+        })
 </script>
 
 }

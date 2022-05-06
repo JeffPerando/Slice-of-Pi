@@ -83,7 +83,6 @@ builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
 builder.Services.AddScoped<IBackendService, BackendService>();
 builder.Services.AddScoped<IGoogleStreetViewAPIService, GoogleStreetViewAPIService>();
 
-
 //BUILD. THE. APP.
 var app = builder.Build();
 
