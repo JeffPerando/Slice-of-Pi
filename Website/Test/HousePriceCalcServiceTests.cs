@@ -24,7 +24,7 @@ namespace Test
             mock.CallBase = true;
 
             mock.Setup(e => e.CitiesIn(It.IsAny<State>()))
-                .Returns(Enumerable.Range(0, cityCount).Select(i => new City { Name = "" + i }).ToList());
+                .Returns(Enumerable.Range(0, cityCount).Select(i => i.ToString()).ToList());
 
             mock.Setup(e => e.StateCrimeRangeBasic(It.IsAny<State>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(new List<BasicCrimeStats>()
@@ -37,11 +37,7 @@ namespace Test
                 {
                     new BasicCityStats { PropertyCrimes = cityCrimes }
                 });
-
-            //mock.Setup(api => api.GetOverallStateCrimeAsync(It.IsAny<string>())).ReturnsAsync(new Crime { TotalOffenses = stateCrimes });
-            //mock.Setup(api => api.GetTotalCityCrime(It.IsAny<string>(), It.IsAny<string>())).Returns(cityCrimes);
-            //mock.Setup(api => api.GetCityCount(It.IsAny<string>())).Returns(cityCount);
-
+            
             return mock.Object;
         }
 

@@ -90,7 +90,7 @@ namespace Main.Controllers
                 var result = new StateCrimeSearchResult(_users.ID(User), data);
                 
                 _db.StateCrimeSearchResults.Add(result);
-                _db.SaveChangesAsync();
+                _db.SaveChanges();
 
             }
 
