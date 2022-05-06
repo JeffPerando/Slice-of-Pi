@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Moq;
 using Main.DAL.Concrete;
 using Main.Services.Concrete;
+using Main.Models.FBI;
 
 namespace Test
 {
@@ -17,13 +18,29 @@ namespace Test
     {
         private static readonly Home address = new() { StreetAddress = "1313 Mockingbird Ln.", County = "Hollywood", State = "CA", ZipCode = "90210" };
 
-        private static ICrimeAPIService MockCrimeAPI(int stateCrimes, int cityCrimes, int cityCount)
+        private static ICrimeAPIv2 MockCrimeAPI(int stateCrimes, int cityCrimes, int cityCount)
         {
-            var mock = new Mock<MockCrimeAPIService>();
+            var mock = new Mock<MockFBIService>();
             mock.CallBase = true;
-            mock.Setup(api => api.GetOverallStateCrimeAsync(It.IsAny<string>())).ReturnsAsync(new Crime { TotalOffenses = stateCrimes });
-            mock.Setup(api => api.GetTotalCityCrime(It.IsAny<string>(), It.IsAny<string>())).Returns(cityCrimes);
-            mock.Setup(api => api.GetCityCount(It.IsAny<string>())).Returns(cityCount);
+
+            mock.Setup(e => e.CitiesIn(It.IsAny<State>()))
+                .Returns(Enumerable.Range(0, cityCount).Select(i => new City { Name = "" + i }).ToList());
+
+            mock.Setup(e => e.StateCrimeRangeBasic(It.IsAny<State>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new List<BasicCrimeStats>()
+                {
+                    new BasicCrimeStats { PropertyCrimes = stateCrimes }
+                });
+
+            mock.Setup(e => e.CityCrimeRangeBasic(It.IsAny<string>(), It.IsAny<State>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(new List<BasicCityStats>()
+                {
+                    new BasicCityStats { PropertyCrimes = cityCrimes }
+                });
+
+            //mock.Setup(api => api.GetOverallStateCrimeAsync(It.IsAny<string>())).ReturnsAsync(new Crime { TotalOffenses = stateCrimes });
+            //mock.Setup(api => api.GetTotalCityCrime(It.IsAny<string>(), It.IsAny<string>())).Returns(cityCrimes);
+            //mock.Setup(api => api.GetCityCount(It.IsAny<string>())).Returns(cityCount);
 
             return mock.Object;
         }

@@ -10,8 +10,8 @@ namespace Main.DAL.Concrete
 {
     public class FBIService : ICrimeAPIv2
     {
-        public static readonly int LatestYear = 2020;
-        public static readonly int OldestYear = 1985;
+        public const int LatestYear = 2020;
+        public const int OldestYear = 1985;
 
         private const string base_url = "https://api.usa.gov/crime/fbi/sapi/api";
         private const string agency_endpoint = "/agencies/byStateAbbr";

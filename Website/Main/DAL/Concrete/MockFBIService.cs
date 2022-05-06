@@ -6,9 +6,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Main.DAL.Concrete
 {
-    public class MockCrimeAPIService : ICrimeAPIv2
+    public class MockFBIService : ICrimeAPIv2
     {
-        public MockCrimeAPIService() {}
+        public MockFBIService() {}
 
         public List<City>? CitiesIn(State state)
         {
