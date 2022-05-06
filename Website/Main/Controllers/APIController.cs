@@ -34,9 +34,14 @@ namespace Main.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCitiesIn(int stateID)
+        public IActionResult GetCitiesIn(string? stateAbbrev)
         {
-            return Json(_backend.GetCitiesIn(stateID).Select(city => city.Name).OrderBy(c => c));
+            var state = _backend.StateFromAbbrev(stateAbbrev ?? "CA");
+#pragma warning disable CS8604 // Possible null reference argument.
+            var cities = _crime.CitiesIn(state);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+            return Json(cities?.Select(city => city.Name).OrderBy(c => c));
         }
 
         [HttpGet]

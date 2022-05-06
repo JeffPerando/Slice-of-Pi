@@ -8,9 +8,7 @@ namespace Main.Services.Abstract
     {
         public List<State> GetAllStates();
 
-        public State? StateFromAbbrev(string abbrev);
-
-        public List<City> GetCitiesIn(int? stateID);
+        public State? StateFromAbbrev(string abbrev) => GetAllStates().Find(s => s.Abbrev == abbrev);
 
         public List<StateCrimeStats> CalcSafestStates();
 

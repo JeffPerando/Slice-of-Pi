@@ -10,37 +10,20 @@ namespace Main.Services.Concrete
 {
     public class BackendService : IBackendService
     {
-        private const int CaliforniaID = 4;
-
         private readonly ICrimeAPIv2 _crime;
-        private readonly List<State> states;
+        private readonly List<State> _states;
 
         public BackendService(ICrimeAPIv2 crime)
         {
             _crime = crime;
 
-            states = FileHelper.ReadInto<List<State>>("states.json") ?? new();
+            _states = FileHelper.ReadInto<List<State>>("states.json") ?? new();
 
         }
 
         public List<State> GetAllStates()
         {
-            return states;
-        }
-
-        public State? StateFromAbbrev(string abbrev)
-        {
-            if (abbrev.Length != 2)
-            {
-                return null;
-            }
-
-            return states.Find(s => s.Abbrev == abbrev);
-        }
-
-        public List<City> GetCitiesIn(int? stateID)
-        {
-            return _crime.CitiesIn(states[stateID ?? CaliforniaID]) ?? new();
+            return _states;
         }
 
         public List<StateCrimeStats> CalcSafestStates()
