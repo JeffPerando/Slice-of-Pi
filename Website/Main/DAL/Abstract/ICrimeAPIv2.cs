@@ -61,7 +61,7 @@ namespace Main.DAL.Abstract
 
 
         //Lists the cities in a state
-        public List<City>? CitiesIn(State state);
+        public List<string>? CitiesIn(State state);
 
     }
 
