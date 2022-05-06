@@ -168,6 +168,7 @@ function populateDropDown(data) {
 }
 
 function populateYear(data) {
+    console.log(data);
     var select = document.getElementById("yearSelector");
     for (var i = 0; i < data.length; i++) {
         var option = data[i];
