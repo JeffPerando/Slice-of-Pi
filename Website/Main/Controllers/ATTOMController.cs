@@ -28,6 +28,11 @@ public class ATTOMController : Controller
         return View();
     }
 
+    public IActionResult StreetViewLookUp()
+    {
+        return View();
+    }
+
     [HttpGet]
     public IActionResult Listings(string zipcode, string pages, string minPrice, string maxPrice, string orderBy)
     {
@@ -42,8 +47,6 @@ public class ATTOMController : Controller
     {//in the html and display it that way
 
         StreetViewViewModel model = new StreetViewViewModel();
-
-        address = "1986 wallace rd nw, salem or";
 
         var x = _googleStreetViewAPIService.GetStreetView(address);
 
