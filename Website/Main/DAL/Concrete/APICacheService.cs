@@ -73,15 +73,19 @@ namespace Main.DAL.Concrete
 
             var data = _web.FetchStr(_baseURL + endpointQ);
 
-            var entry = new T
+            if (data != null)
             {
-                Endpoint = cacheQuery ? endpointQ : endpoint,
-                Expiry = DateTime.Now + _expiryOffset,
-                Data = data
-            };
+                var entry = new T
+                {
+                    Endpoint = cacheQuery ? endpointQ : endpoint,
+                    Expiry = DateTime.Now + _expiryOffset,
+                    Data = data
+                };
 
-            _set.Add(entry);
-            _db.SaveChanges();
+                _set.Add(entry);
+                _db.SaveChanges();
+
+            }
 
             return data;
         }
