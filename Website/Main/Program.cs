@@ -132,6 +132,11 @@ app.MapControllerRoute(
     defaults: new { controller = "ATTOM", action = "StreetView" });
 
 app.MapControllerRoute(
+    name: "API List States",
+    pattern: "/apiv/ATTOM/StreewViewLookUp",
+    defaults: new { controller = "ATTOM", action = "StreetViewLookUp" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 

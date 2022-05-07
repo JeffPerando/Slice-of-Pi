@@ -1,0 +1,10 @@
+﻿<h1 style="color:white">Enter an address you want to look up:</h1>
+<br>
+@using (Html.BeginForm("StreetView", "ATTOM", FormMethod.Get))
+{
+    <label for="address" style="color:white">Address: </label>
+    <input type="text" id="address" name="address" required><br><br>
+
+    <br><br>
+    <input id="submit_button" type="submit" value="Submit">
+}
