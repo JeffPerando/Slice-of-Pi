@@ -42,6 +42,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>()
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedEmail = true;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);

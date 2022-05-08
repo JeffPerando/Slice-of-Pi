@@ -5,6 +5,7 @@ window.addEventListener("load", () => {
         {
             text: uri,
             width: 150,
-            height: 150
+            height: 150,
+            correctLevel: QRCode.CorrectLevel.H
         });
 });
