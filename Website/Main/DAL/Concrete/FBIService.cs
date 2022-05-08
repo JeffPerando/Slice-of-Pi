@@ -4,14 +4,13 @@ using Main.Models;
 using Main.Models.FBI;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Main.DAL.Concrete
 {
     public class FBIService : ICrimeAPIv2
     {
-        public static readonly int LatestYear = 2020;
-        public static readonly int OldestYear = 1985;
+        public const int LatestYear = 2020;
+        public const int OldestYear = 1985;
 
         private const string base_url = "https://api.usa.gov/crime/fbi/sapi/api";
         private const string agency_endpoint = "/agencies/byStateAbbr";
@@ -100,7 +99,7 @@ namespace Main.DAL.Concrete
             return null;
         }
 
-        private List<(string, string?)>? FetchORIs(List<string> cities, string state)
+        private List<City>? FetchORIs(List<string> cities, string state)
         {
             var agencies = FetchStateAgencies(state);
 
@@ -114,7 +113,7 @@ namespace Main.DAL.Concrete
                 throw new Exception($"More cities are being sought after than exist: {cities.Count} vs. {cityList.Count}");
             }
 
-            var cityORIs = new List<(string, string?)>();
+            var cityORIs = new List<City>();
 
             foreach (var item in agencies)
             {
@@ -130,7 +129,11 @@ namespace Main.DAL.Concrete
                         var ori = item["ori"]?.ToString();
                         if (ori != null)
                         {
-                            cityORIs.Add((city, ori));
+                            cityORIs.Add(new City
+                            {
+                                Name = city,
+                                ORI = ori
+                            });
                             break;
                         }
 
@@ -278,20 +281,17 @@ namespace Main.DAL.Concrete
                 .Where(data => data.Item2 != null)
                 .Select(data => new CityCrimeStats(data.Item1, state, crimeYear, data.Item2));
             */
-            foreach (var ori in oris)
+            foreach (var city in oris)
             {
-                var cityName = ori.Item1;
-                var cityORI = ori.Item2;
-
-                if (cityORI == null)
+                if (city.ORI == null)
                     continue;
 
-                var data = FetchCityData(cityORI, crimeYear, crimeYear);
+                var data = FetchCityData(city.ORI, crimeYear, crimeYear);
 
                 if (data == null)
                     continue;
 
-                results.Add(new CityCrimeStats(cityName, state, crimeYear, data));
+                results.Add(new CityCrimeStats(city.Name, state, crimeYear, data));
 
             }
 
@@ -337,26 +337,26 @@ namespace Main.DAL.Concrete
         //Misc.
 
         //Find all cities in a state
-        public List<City>? CitiesIn(State state)
+        public List<string>? CitiesIn(State state)
         {
             var agencies = FetchStateAgencies(state.Abbrev);
 
             if (agencies == null)
                 return null;
 
-            return agencies.Where(a => a["agency_type_name"]?.ToString() == "City").Select(a =>
-            {
-                var name = a["agency_name"]?.ToString() ?? "";
-                var index = name.LastIndexOf(" Police Department");
+            return agencies
+                .Where(a => a["agency_type_name"]?.ToString() == "City")
+                .Select(a => {
+                    var name = a["agency_name"]?.ToString() ?? "";
+                    var index = name.LastIndexOf(" Police Department");
 
-                if (index != -1)
-                    name = name.Substring(0, index);
+                    if (index != -1)
+                        name = name.Substring(0, index);
 
-                return new City {
-                    Name = name,
-                    ORI = a["ori"]?.ToString() ?? "NOTFOUND"
-                };
-            }).ToList();
+                    return name;
+                })
+                .OrderBy(c => c)
+                .ToList();
         }
 
     }

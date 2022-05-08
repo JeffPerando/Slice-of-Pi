@@ -27,41 +27,41 @@ namespace Main.DAL.Abstract
         public List<StateCrimeStats> StateCrimeMulti(List<State> states, int? year = null);
         public List<StateCrimeStats> StateCrimeRange(State state, int fromYear, int toYear);
         public List<StateCrimeStats> StateCrimePlot(List<State> states, int fromYear, int toYear) =>
-            states.Select(state => StateCrimeRange(state, fromYear, toYear)).Where(x => x != null).SelectMany(x => x).ToList();
+            states.Select(state => StateCrimeRange(state, fromYear, toYear)).SelectMany(x => x).ToList();
 
-        public BasicCrimeStats? StateCrimeSingleBasic(State state, int? year = null) => StateCrimeRangeBasic(state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?.FirstOrDefault();
+        public BasicCrimeStats? StateCrimeSingleBasic(State state, int? year = null) => StateCrimeRangeBasic(state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear).FirstOrDefault();
         public List<BasicCrimeStats?> StateCrimeMultiBasic(List<State> states, int? year = null) => states.Select(state => StateCrimeSingleBasic(state, year)).ToList();
         public List<BasicCrimeStats> StateCrimeRangeBasic(State state, int fromYear, int toYear);
         public List<BasicCrimeStats> StateCrimePlotBasic(List<State> states, int fromYear, int toYear) =>
-            states.Select(state => StateCrimeRangeBasic(state, fromYear, toYear)).Where(x => x != null).SelectMany(x => x).ToList();
+            states.Select(state => StateCrimeRangeBasic(state, fromYear, toYear)).SelectMany(x => x).ToList();
 
 
         //City crime stats
 
-        public CityCrimeStats? CityCrimeSingle(string city, State state, int? year = null) => CityCrimeRange(city, state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?.FirstOrDefault();
+        public CityCrimeStats? CityCrimeSingle(string city, State state, int? year = null) => CityCrimeRange(city, state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear).FirstOrDefault();
         public List<CityCrimeStats> CityCrimeMulti(List<string> cities, State state, int? year = null);
         public List<CityCrimeStats> CityCrimeRange(string city, State state, int fromYear, int toYear);
         public List<CityCrimeStats> CityCrimePlot(List<string> cities, State state, int fromYear, int toYear) =>
-            cities.Select(city => CityCrimeRange(city, state, fromYear, toYear)).Where(x => x != null).SelectMany(x => x).ToList();
+            cities.Select(city => CityCrimeRange(city, state, fromYear, toYear)).SelectMany(x => x).ToList();
 
-        public BasicCityStats? CityCrimeSingleBasic(string city, State state, int? year = null) => CityCrimeRangeBasic(city, state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?.FirstOrDefault();
+        public BasicCityStats? CityCrimeSingleBasic(string city, State state, int? year = null) => CityCrimeRangeBasic(city, state, year ?? FBIService.LatestYear, year ?? FBIService.LatestYear).FirstOrDefault();
         public List<BasicCityStats?> CityCrimeMultiBasic(List<string> cities, State state, int? year = null) => cities.Select(city => CityCrimeSingleBasic(city, state, year)).ToList();
         public List<BasicCityStats> CityCrimeRangeBasic(string city, State state, int fromYear, int toYear);
         public List<BasicCityStats> CityCrimePlotBasic(List<string> cities, State state, int fromYear, int toYear) =>
-            cities.Select(city => CityCrimeRangeBasic(city, state, fromYear, toYear)).Where(x => x != null).SelectMany(x => x).ToList();
+            cities.Select(city => CityCrimeRangeBasic(city, state, fromYear, toYear)).SelectMany(x => x).ToList();
 
 
         //National crime stats
 
-        public NationalCrimeStats? NationalCrimeSingle(int? year = null) => NationalCrimeRange(year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?.FirstOrDefault();
+        public NationalCrimeStats? NationalCrimeSingle(int? year = null) => NationalCrimeRange(year ?? FBIService.LatestYear, year ?? FBIService.LatestYear).FirstOrDefault();
         public List<NationalCrimeStats> NationalCrimeRange(int fromYear, int toYear);
 
-        public BasicCrimeStats? NationalCrimeSingleBasic(int? year = null) => NationalCrimeRangeBasic(year ?? FBIService.LatestYear, year ?? FBIService.LatestYear)?.FirstOrDefault();
+        public BasicCrimeStats? NationalCrimeSingleBasic(int? year = null) => NationalCrimeRangeBasic(year ?? FBIService.LatestYear, year ?? FBIService.LatestYear).FirstOrDefault();
         public List<BasicCrimeStats> NationalCrimeRangeBasic(int fromYear, int toYear);
 
 
         //Lists the cities in a state
-        public List<City>? CitiesIn(State state);
+        public List<string>? CitiesIn(State state);
 
     }
 

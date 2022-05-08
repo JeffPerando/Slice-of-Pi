@@ -1,17 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Main.Data;
 using Main.Areas.Identity.Data;
 using Main.DAL.Abstract;
 using Main.DAL.Concrete;
-//using System.Data.SqlClient;
-//using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Identity.UI;
-//using Microsoft.AspNetCore.HttpsPolicy;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.Extensions.DependencyInjection;
-//using Microsoft.Extensions.Hosting;
 using Main.Services.Concrete;
 using Main.Services.Abstract;
 using Main.Models;
@@ -36,11 +27,13 @@ builder.Services.AddDbContext<CrimeDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<MainIdentityDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<MainIdentityDbContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedEmail = true;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
@@ -80,8 +73,9 @@ builder.Services.AddSingleton<IUserVerifierService, UserVerifierService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();
 builder.Services.AddScoped<IHousingAPI, ATTOMService>();
 builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
-builder.Services.AddScoped<IBackendService, BackendService>();
 builder.Services.AddScoped<IGoogleStreetViewAPIService, GoogleStreetViewAPIService>();
+builder.Services.AddScoped<IBackendService, BackendService>();
+
 
 //BUILD. THE. APP.
 var app = builder.Build();

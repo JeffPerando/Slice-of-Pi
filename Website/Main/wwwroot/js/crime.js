@@ -1,5 +1,5 @@
 
-$(function() {
+$(function () {
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -42,25 +42,23 @@ function showCityStats(data) {
                 <td>${internationalNumberFormat.format(data[i]["actualConvictions"])}</td>
             </tr>`
         )
-        
+
         $("#cityCrimeStats>tbody").append(repoTR);
         $("#cityCrimeStats").show();
     }
 
-    if (noOffenses.length > 0)
-    {
+    if (noOffenses.length > 0) {
         $("#cityCrimeStatsNoCrime").empty();
-        for (let i = 0; i < noOffenses.length; ++i)
-        {
-            document.getElementById("cityCrimeNoCrimeheader").textContent="Crimes not committed: ";
+        for (let i = 0; i < noOffenses.length; ++i) {
+            document.getElementById("cityCrimeNoCrimeheader").textContent = "Crimes not committed: ";
             var offense = noOffenses[i]["offenseType"].replaceAll("-", " ");
             var ul = document.getElementById("cityCrimeStatsNoCrime");
             var li = document.createElement("li")
-            
+
             li.appendChild(document.createTextNode("> " + (capitalize(offense))));
             ul.appendChild(li);
         }
-        
+
     }
 
 
@@ -68,39 +66,35 @@ function showCityStats(data) {
 
     // Creates the Pi Graph
     showChartPercentage(data);
-    
+
     document.getElementById("loadingIcon").textContent = "";
 }
 
 
 let myChart = null;
-function showChartPercentage(data){
+function showChartPercentage(data) {
     let crimes = data;
     let crimeTypes = [];
     let amountCrimes = [];
     let percentagesCrimes = []
     //Sorts the list by offense type kinda like a Linq 
-    crimes.sort((a,b) => a.offenseType.localeCompare(b.offenseType));
+    crimes.sort((a, b) => a.offenseType.localeCompare(b.offenseType));
 
-    for (let i = 0; i < crimes.length; i++)
-    {
-        if (crimes[i]["totalOffenses"] <= 0)
-        {
+    for (let i = 0; i < crimes.length; i++) {
+        if (crimes[i]["totalOffenses"] <= 0) {
             continue;
-        }   
+        }
         crimeTypes.push(capitalize(crimes[i]["offenseType"]));
         amountCrimes.push(crimes[i]["totalOffenses"]);
     }
-    
+
     //Gets sum of amountCrimes
-    var sum = amountCrimes.reduce(function(a, b){
+    var sum = amountCrimes.reduce(function (a, b) {
         return a + b;
     }, 0);
 
-    for (let i = 0; i < crimes.length; i++)
-    {
-        if (((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1) <= 0)
-        {
+    for (let i = 0; i < crimes.length; i++) {
+        if (((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1) <= 0) {
             continue
         }
         percentagesCrimes.push(((crimes[i]["totalOffenses"] / sum) * 100).toFixed(1));
@@ -112,30 +106,29 @@ function showChartPercentage(data){
         data: {
             labels: crimeTypes,
             datasets: [{
-              label: 'Crimes percentages in this area.',
-              data: percentagesCrimes,
-              backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(56, 32, 86)',
-                'rgb(29, 205, 125)',
-                'rgb(32, 194, 39)',
-                'rgb(220, 205, 100)',
-                'rgb(212, 20, 136)',
-                'rgb(239, 130, 93)',
-                'rgb(93, 130, 86)',
-                'rgb(159, 205, 86)',
-                'rgb(0, 205, 143)',
-              ],
-              hoverOffset: 4
+                label: 'Crimes percentages in this area.',
+                data: percentagesCrimes,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(56, 32, 86)',
+                    'rgb(29, 205, 125)',
+                    'rgb(32, 194, 39)',
+                    'rgb(220, 205, 100)',
+                    'rgb(212, 20, 136)',
+                    'rgb(239, 130, 93)',
+                    'rgb(93, 130, 86)',
+                    'rgb(159, 205, 86)',
+                    'rgb(0, 205, 143)',
+                ],
+                hoverOffset: 4
             }]
-          },
+        },
     }
 
     const ctx = document.getElementById('crimeTrendPercentage').getContext('2d');
 
-    if (myChart != null)
-    {
+    if (myChart != null) {
         myChart.destroy();
     }
     myChart = new Chart(ctx, config);
