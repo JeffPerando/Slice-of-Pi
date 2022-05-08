@@ -18,7 +18,7 @@ function errorOnAjax() {
 
 function showCityStats(data) {
     if (data.length == 0) {
-        window.alert("Information was not found for this city. We either do not currently have information on this city, or it does not exist.\n\nReturning to Search.");
+        window.alert("Information was not found for this location. We either do not currently have information on this location, or it does not exist.\n\nReturning to Search.");
         window.history.go(-1);
     }
     internationalNumberFormat = new Intl.NumberFormat('en-US')

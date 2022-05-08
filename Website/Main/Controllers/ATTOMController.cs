@@ -43,15 +43,20 @@ public class ATTOMController : Controller
     }
 
     [HttpGet]
-    public IActionResult StreetView(string address)//Need more research as to how I can display the picture. Might be able to just place the url
+    public IActionResult StreetView(string streetAddress, string cityName, string stateAbbrev)//Need more research as to how I can display the picture. Might be able to just place the url
     {//in the html and display it that way
 
         StreetViewViewModel model = new StreetViewViewModel();
+        var x = _googleStreetViewAPIService.GetStreetView(streetAddress);
+        ViewBag.streetAddress = streetAddress;
+        ViewBag.stateAbbrev = stateAbbrev;
+        ViewBag.cityName = cityName;
 
-        var x = _googleStreetViewAPIService.GetStreetView(address);
+        var address2 = cityName + ", " + stateAbbrev;
+        var house_info = _housing.GetHouseInformation(streetAddress, address2);
 
         model.Address = x;
-        return View(model);
+        return View(Tuple.Create(model, house_info));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
