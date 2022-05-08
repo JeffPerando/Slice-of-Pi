@@ -4,8 +4,8 @@ window.addEventListener("load", () => {
     new QRCode($("#qrCode")[0],
         {
             text: uri,
-            width: 150,
-            height: 150,
+            width: 128,
+            height: 128,
             correctLevel: QRCode.CorrectLevel.H
         });
 });
