@@ -1,0 +1,79 @@
+﻿@page
+@using Main.Areas.Identity.Pages.Account.Manage
+@model EnableAuthenticatorModel
+@{
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/qr.css" />
+}
+
+@section Banner
+{
+<div class="bg-dark p-4 m-4">
+    <div class="row">
+        <div class="col">
+            <h2>Configure authenticator</h2>
+            <partial name="_StatusMessage" for="StatusMessage" />
+            <p>To enable 2FA, follow these steps:</p>
+        </div>
+        <div class="col">
+            <h1>1.</h1>
+            Download a two-factor authenticator app, such as:
+            <ol>
+                <li>
+                    Microsoft Authenticator
+                    <ul>
+                        <li><a href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</a></li>
+                        <li><a href="https://go.microsoft.com/fwlink/?Linkid=825073">iOS</a></li>
+                    </ul>
+                </li>
+                <li>
+                    Google Authenticator
+                    <ul>
+                        <li><a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Android</a></li>
+                        <li><a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iOS</a></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        <div class="col">
+            <h1>2.</h1>
+            <p>Scan the QR Code or enter this key <kbd>@Model.SharedKey</kbd> into your two factor authenticator app. Spaces and casing do not matter.</p>
+            <div id="qrCode" class="m-2"></div>
+            <div id="qrCodeData" data-url="@Model.AuthenticatorUri"></div>
+        </div>
+        <div class="col">
+            <h1>3.</h1>
+            <p>
+                Once you have scanned the QR code or input the key above, your two factor authentication app will provide you
+                with a unique code. Enter the code in the confirmation box below.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <form id="send-code" method="post">
+                        <div class="form-floating">
+                            <input asp-for="Input.Code" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Input.Code" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="my-2 w-100 btn btn-lg btn-danger">Verify</button>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript" src="~/lib/davidshimjs-qrcodejs/qrcode.js"></script>
+    <script type="text/javascript" src="~/js/qrgen.js"></script>
+
+}
+

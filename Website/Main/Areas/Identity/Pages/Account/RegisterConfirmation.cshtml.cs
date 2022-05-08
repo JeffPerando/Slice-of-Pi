@@ -47,6 +47,7 @@ namespace Main.Areas.Identity.Pages.Account
             {
                 return NotFound($"Unable to load user with email '{email}'.");
             }
+
             _verifier.GenerateVerificationCode(email);
 
             return RedirectToPage("ConfirmEmail", new { userId = user.Id });

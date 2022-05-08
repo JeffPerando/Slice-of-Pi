@@ -18,11 +18,13 @@ namespace Main.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IUserVerifierService _verifier;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager, IUserVerifierService verifier)
+        public ConfirmEmailModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IUserVerifierService verifier)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _verifier = verifier;
 
         }
@@ -47,7 +49,7 @@ namespace Main.Areas.Identity.Pages.Account
 
             Email = user.Email;
             Confirmed = false;
-            ResendEmailLink = Url.Page("/Account/SendEmailConfirmation",
+            ResendEmailLink = Url.Page("./SendEmailConfirmation",
                 pageHandler: null,
                 values: new { userId = userId },
                 protocol: Request.Scheme);
@@ -76,7 +78,7 @@ namespace Main.Areas.Identity.Pages.Account
             Int32.TryParse(code, out parsedCode);
             Email = email;
             Confirmed = _verifier.Verify(email, parsedCode);
-            ResendEmailLink = Url.Page("Account/ResendEmailConfirmation",
+            ResendEmailLink = Url.Page("./ResendEmailConfirmation",
                 pageHandler: null,
                 values: new { userId = user.Id },
                 protocol: Request.Scheme);
@@ -85,7 +87,13 @@ namespace Main.Areas.Identity.Pages.Account
             {
                 //workaround for not being able to set the confirmed flag manually
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                await _userManager.ConfirmEmailAsync(user, token);
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                }
+
             }
             else
             {
@@ -96,4 +104,5 @@ namespace Main.Areas.Identity.Pages.Account
         }
 
     }
+
 }

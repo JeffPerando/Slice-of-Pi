@@ -1,9 +1,13 @@
 @{
-    ViewData["Title"] = "Welcome to Slice of Pi Real Estate";
 }
 
 @section Banner {
-<p id="message">This is life of Pi bringing you a centralized research application. Be informed about the kind of community you may end up belonging to.</p>
+<div class="row">
+    <div class="col bg-semi px-4 py-2 m-4">
+        <h2>Welcome to Slice of Pi Real Estate</h2>
+        <p id="message">This is life of Pi bringing you a centralized research application. Be informed about the kind of community you may end up belonging to.</p>
+    </div>
+</div>
 }
 
 <section class="services">
@@ -16,7 +20,7 @@
                             <img src="assets/images/service-icon-01.png" alt="">
                         </div>
                         <div class="down-content">
-                            <h4 >Get Crime Rates by State</h4>
+                            <h4>Get Crime Rates by State</h4>
                             <p>Find out what kind of crime the state you may live in experiences.</p>
                         </div>
                     </div>
@@ -44,155 +48,155 @@
     </div>
 </section>
 <section class="our-courses" id="courses">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="section-heading">
-          <h2>Our Top Community Picks</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-heading">
+                    <h2>Our Top Community Picks</h2>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="owl-courses-item owl-carousel">
+                    <!--change from recommended to higlighted-->
+                    <!--cache data and make it load randomly-->
+                    <!--make an admin page to change highlights with out bring the site down-->
+                    <!--hyrbid ticketing service for managing user submissions-->
+                    <form action="Crime/CrimeStats" method="get">
+                        <input hidden type="text" id="cityName" name="cityName" value="Lake Oswego" required>
+                        <select hidden name="stateAbbrev" id="stateAbbrev" value="OR">
+                            <option value="OR"></option>
+                        </select>
+                        <div class="item">
+                            <img src="assets/images/course-01.jpg" alt="Course One" width="400" height="200">
+                            <div class="down-content">
+                                <input id="Lake Oswego, OR" class="IvansText" type="submit" value="Lake Oswego, OR">
+                            </div>
+                        </div>
+                    </form>
+
+                    <form action="Crime/CrimeStats" method="get">
+                        <input hidden type="text" id="cityName" name="cityName" value="Sedona" required>
+                        <select hidden name="stateAbbrev" id="stateAbbrev" value="AZ">
+                            <option value="AZ"></option>
+                        </select>
+                        <div class="item">
+                            <img src="assets/images/course-02.jpg" alt="Course Two" width="400" height="200">
+                            <div class="down-content">
+                                <input id="Sedona, AZ" class="IvansText" type="submit" value="Sedona, AZ">
+                            </div>
+                        </div>
+                    </form>
+
+                    <form action="Crime/CrimeStats" method="get">
+                        <input hidden type="text" id="cityName" name="cityName" value="Shaker Heights" required>
+                        <select hidden name="stateAbbrev" id="stateAbbrev" value="OH">
+                            <option value="OH"></option>
+                        </select>
+                        <div class="item">
+                            <img src="assets/images/course-03.jpg" alt="" width="400" height="200">
+                            <div class="down-content">
+                                <input id="Shaker Heights, OH" class="IvansText" type="submit" value="Shaker Heights, OH">
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <form action="Crime/CrimeStats" method="get">
+                        <input hidden type="text" id="cityName" name="cityName" value="Greenwood Village" required>
+                        <select hidden name="stateAbbrev" id="stateAbbrev" value="OR">
+                            <option value="CO"></option>
+                        </select>
+                        <div class="item">
+                            <img src="assets/images/GreenWood.jpg" alt="" width="400" height="200">
+                            <div class="down-content">
+                                <input id="Greenwood Village, CO" class="IvansText" type="submit" value="Greenwood Village, CO">
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <form action="Crime/CrimeStats" method="get">
+                        <input hidden type="text" id="cityName" name="cityName" value="Evanston" required>
+                        <select hidden name="stateAbbrev" id="stateAbbrev" value="IL">
+                            <option value="IL"></option>
+                        </select>
+                        <div class="item">
+                            <img src="assets/images/Evanston.jpg" alt="" width="400" height="200">
+                            <div class="down-content">
+                                <input id="tests" class="IvansText" type="submit" value="Evanston, IL">
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <form action="Crime/CrimeStats" method="get">
+                        <input hidden type="text" id="cityName" name="cityName" value="Amherst" required>
+                        <select hidden name="stateAbbrev" id="stateAbbrev" value="NH">
+                            <option value="NH"></option>
+                        </select>
+                        <div class="item">
+                            <img src="assets/images/Amherst.jpg" alt="" width="400" height="200">
+                            <div class="down-content">
+                                <input id="tests" class="IvansText" type="submit" value="Amherst, NH">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-lg-12">
-        <div class="owl-courses-item owl-carousel">
-<!--change from recommended to higlighted-->
-<!--cache data and make it load randomly-->
-<!--make an admin page to change highlights with out bring the site down-->
-<!--hyrbid ticketing service for managing user submissions-->
-<form action="Crime/CrimeStats" method="get">
-    <input hidden type="text" id="cityName" name="cityName" value= "Lake Oswego" required>
-    <select hidden  name= "stateAbbrev" id="stateAbbrev" value = "OR">
-        <option value="OR"></option>
-    </select>
-          <div class="item">
-            <img src="assets/images/course-01.jpg" alt="Course One" width="400" height="200" >
-            <div class="down-content">
-                    <input id = "Lake Oswego, OR" class = "IvansText" type="submit" value="Lake Oswego, OR">
-            </div>
-          </div>
-</form>
-
-<form action="Crime/CrimeStats" method="get">
-    <input hidden type="text" id="cityName" name="cityName" value= "Sedona" required>
-    <select hidden  name= "stateAbbrev" id="stateAbbrev" value = "AZ">
-        <option value="AZ"></option>
-    </select>
-          <div class="item">
-            <img src="assets/images/course-02.jpg" alt="Course Two" width="400" height="200">
-            <div class="down-content">
-                    <input id = "Sedona, AZ" class = "IvansText" type="submit" value="Sedona, AZ">
-            </div>
-          </div>
-</form>
-
-<form action="Crime/CrimeStats" method="get">
-    <input hidden type="text" id="cityName" name="cityName" value= "Shaker Heights" required>
-    <select hidden  name= "stateAbbrev" id="stateAbbrev" value = "OH">
-        <option value="OH"></option>
-    </select>
-          <div class="item">
-            <img src="assets/images/course-03.jpg" alt="" width="400" height="200">
-            <div class="down-content">
-                    <input id = "Shaker Heights, OH" class = "IvansText" type="submit" value="Shaker Heights, OH">
-            </div>
-          </div>
-</form>
-
-
-<form action="Crime/CrimeStats" method="get">
-    <input hidden type="text" id="cityName" name="cityName" value= "Greenwood Village" required>
-    <select hidden  name= "stateAbbrev" id="stateAbbrev" value = "OR">
-        <option value="CO"></option>
-    </select>
-          <div class="item">
-            <img src="assets/images/GreenWood.jpg" alt="" width="400" height="200">
-            <div class="down-content">
-                    <input id = "Greenwood Village, CO" class = "IvansText" type="submit" value="Greenwood Village, CO">
-            </div>
-          </div>
-</form>
-
-
-<form action="Crime/CrimeStats" method="get">
-    <input hidden type="text" id="cityName" name="cityName" value= "Evanston" required>
-    <select hidden  name= "stateAbbrev" id="stateAbbrev" value = "IL">
-        <option value="IL"></option>
-    </select>
-          <div class="item">
-            <img src="assets/images/Evanston.jpg" alt="" width="400" height="200">
-            <div class="down-content">
-                    <input id = "tests" class = "IvansText" type="submit" value="Evanston, IL">
-            </div>
-            </div>
-</form>
-
-
-<form action="Crime/CrimeStats" method="get">
-    <input hidden type="text" id="cityName" name="cityName" value= "Amherst" required>
-    <select hidden  name= "stateAbbrev" id="stateAbbrev" value = "NH">
-        <option value="NH"></option>
-    </select>
-          <div class="item">
-            <img src="assets/images/Amherst.jpg" alt="" width="400" height="200">
-            <div class="down-content">
-                    <input id = "tests" class = "IvansText" type="submit" value="Amherst, NH">
-            </div>
-          </div>
-</form>
-
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <section class="our-facts">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6">
+    <div class="container">
         <div class="row">
-          <div class="col-lg-12">
-            <h2>A Few Facts About Our Company</h2>
-          </div>
-          <div class="col-lg-6">
-            <div class="row">
-              <div class="col-12">
-                <div class="count-area-content new-students">
-                  <div class="words">Mission Statement</div>
-                  <div class="count-title">To give all people, whom are born to be free, a tool to seek peace and security in both financial investments and home searching.</div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2>A Few Facts About Our Company</h2>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="count-area-content new-students">
+                                    <div class="words">Mission Statement</div>
+                                    <div class="count-title">To give all people, whom are born to be free, a tool to seek peace and security in both financial investments and home searching.</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="count-area-content percentage">
+                                    <div class="count-digit">100</div>
+                                    <div class="count-title">Our diversity brings us a broader view of the people we serve.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="count-area-content">
+                                    <div class="count-digit">3</div>
+                                    <div class="count-title">Three individuals looking to bring knowledge to the world.</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="count-area-content">
+                                    <div class="words">Founded</div>
+                                    <div class="count-title">2022</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="col-12">
-                <div class="count-area-content percentage">
-                  <div class="count-digit">100</div>
-                  <div class="count-title">Our diversity brings us a broader view of the people we serve.</div>
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="row">
-            <div class="col-12">
-                <div class="count-area-content">
-                  <div class="count-digit">3</div>
-                  <div class="count-title">Three individuals looking to bring knowledge to the world.</div>
+            <div class="col-lg-6 align-self-center">
+                <div class="video">
+                    <a href="https://www.youtube.com/watch?v=b1TuS31G_dg" target="_blank"><img src="assets/images/play-icon.png" alt=""></a>
                 </div>
-              </div>
-              <div class="col-12">
-                <div class="count-area-content">
-                  <div class="words">Founded</div>
-                  <div class="count-title">2022</div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="col-lg-6 align-self-center">
-        <div class="video">
-          <a href="https://www.youtube.com/watch?v=b1TuS31G_dg" target="_blank"><img src="assets/images/play-icon.png" alt=""></a>
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
 @section ApplyNow {
@@ -250,7 +254,7 @@
                     </div>
                     <div class="accordion-body">
                         <div class="content">
-                            <p>We implore you to tell your friends and family! Give them the opportunity to make an informed decison.<br><br/></p>
+                            <p>We implore you to tell your friends and family! Give them the opportunity to make an informed decison.<br><br /></p>
                         </div>
                     </div>
                 </article>
