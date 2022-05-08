@@ -29,24 +29,24 @@ namespace Main.Areas.Identity.Pages.Account
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IReCaptchaService _captcha;
         private readonly IEmailService _emailService;
+        private readonly IReCaptchaService _captcha;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
+            IEmailService emailService,
             IReCaptchaService captcha)
-            IEmailService emailService)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _captcha = captcha;
             _emailService = emailService;
+            _captcha = captcha;
         }
 
         /// <summary>
@@ -105,7 +105,6 @@ namespace Main.Areas.Identity.Pages.Account
             [Required]
             public string CaptchaResponse { get; set; }
         }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {

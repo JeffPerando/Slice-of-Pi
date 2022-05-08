@@ -74,12 +74,11 @@ builder.Services.AddHttpClient<IWebService, WebService>();
 builder.Services.AddScoped<IWebService, WebService>();
 builder.Services.AddScoped<ISiteUserService, SiteUserService>();
 builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddScoped<IUserVerifierService, UserVerifierService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
+builder.Services.AddSingleton<IUserVerifierService, UserVerifierService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();
 builder.Services.AddScoped<IHousingAPI, ATTOMService>();
 builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
-
 
 //BUILD. THE. APP.
 var app = builder.Build();
