@@ -18,7 +18,10 @@ namespace Main.DAL.Concrete
         {
             throw new NotImplementedException();
         }
-
+        public virtual Home GetHouseInformation(string address1, string address2)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

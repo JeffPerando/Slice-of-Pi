@@ -9,6 +9,6 @@ namespace Main.DAL.Abstract
     {
         public HomeAssessment? GetAssessmentFor(Home address);
         public AttomJson GetListing(string zipcode, string pages, string minPrice, string maxPrice, string? orderBy);
-
+        public Home GetHouseInformation(string address1, string address2);
     }
 }

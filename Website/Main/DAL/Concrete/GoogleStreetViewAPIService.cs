@@ -77,6 +77,8 @@ namespace Main.DAL.Concrete
             StreetViewViewModel viewModel = new StreetViewViewModel();
 
             address = ParseAddress(address);
+            Debug.WriteLine(_privateAuthKey);
+            Debug.WriteLine(_apiKey);
 
             string apiCall = GoogleStreetViewURL + address + "&key=" + _apiKey;
 

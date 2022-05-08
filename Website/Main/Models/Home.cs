@@ -11,7 +11,8 @@ namespace Main.Models
         public string ZipCode { get; set; } = null!;
         public string State { get; set; } = null!;
         public string County { get; set; } = null!;
-        public double Price { get; set; }
+        public string City {get; set;} = null!;
+        public double Price { get; set; } 
         public string UserId { get; set; } = null!;
         //public int? AgencyId { get; set; }
 

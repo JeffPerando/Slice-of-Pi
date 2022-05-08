@@ -72,8 +72,10 @@ function showChartTrend(data, trendSelectorYear){
         crimes.push(data.totalTrends[i]["totalOffenses"]);
         propertyCrimes.push(data.propertyTrends[i]["totalOffenses"]);
         violentCrimes.push(data.violentTrends[i]["totalOffenses"]);
+        
     }
 
+    console.log(crimes);
 
     years_list.reverse();
     var select = document.getElementById("yearSelector");

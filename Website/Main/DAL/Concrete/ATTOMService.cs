@@ -37,6 +37,36 @@ namespace Main.DAL.Concrete
             return _cache.FetchInto<T>(endpoint, query);
         }
 
+        public Home GetHouseInformation(string address1, string address2)
+        {
+            Home model = new Home();
+
+            //model.StreetAddress = ("1665 185th Ave NE");
+            //model.City = ("Bellevue");
+            //model.County = ("King");
+            //model.Price = (1143000);
+
+            var result = FetchATTOMObj("/property/basicprofile", new()
+            {
+                ["address1"] = address1,
+                ["address2"] = address2,
+            });
+
+            if (result == null)
+            {
+                return model;
+            }
+
+            model.StreetAddress = (string)(result["property"][0]["address"]["line1"]);
+            model.City = (string)(result["property"][0]["address"]["locality"]);
+            model.County = (string)(result["property"][0]["area"]["countrySecSubd"]);
+            model.Price = (int)(result["property"][0]["assessment"]["assessed"]["assdTtlValue"]);
+            model.ZipCode = (string)(result["property"][0]["address"]["postal1"]);
+
+            return model;
+            
+        }
+
         public HomeAssessment? GetAssessmentFor(Home addr)
         {
             var result = FetchATTOM<ATTOMAssessment>("/assessment/detail", new()
