@@ -4,17 +4,20 @@
 
 @section ApplyNow {
 <div class="container" style="background:white">
-
-
     <div class="item">
-        <div class = "row">
+        <div class="row">
             <div class="col-sm-8">
-            <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span> @Html.Tooltip("This information includes both violent crime and property crime for that year. Further: <ul><li>Violent crime is classified as: Assault, robbery, rape, and homicide.</li><li>Property crime is classified as: Larceny, vehicle theft, and burglary.</li></ul>")</h3>
-            <div style="text-align: center;">
-                <canvas id="crimeTrendChart" width="50" height="37"></canvas>
-            </div>
-            <hr>
-                
+                <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span> @Html.Tooltip("This information includes both violent crime and property crime for that year. Further: <ul><li>Violent crime is classified as: Assault, robbery, rape, and homicide.</li><li>Property crime is classified as: Larceny, vehicle theft, and burglary.</li></ul>")</h3>
+                <div style="text-align: center;">
+                    <canvas id="crimeTrendChart" width="50" height="37"></canvas>
+                </div>
+                <label for="trendGraphYearSelector">Display trends since:  </label>
+                        <select name="trendGraphYearSelector" id="trendGraphYearSelector" required>
+                            <option value="" disabled>Select year</option>
+                        </select>
+                        <p style="color:black; display:inline;" id="loadingIconGraph"><img src="https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif" style="width: 30px;"></p>
+                <hr>
+
                 <div class="accordions is-first-expanded">
                     <article class="accordion">
                         <div class="accordion-head">
@@ -73,57 +76,58 @@
                         </div>
                     </article>
 
-                
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="text-left">
+                    <h1 style="text-decoration: underline; color:black;">Crime Amount for: </h1>
+                    <br>
+                    <h3 style="color:black;"><span id="cityNameDisplayed">@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
+                    <div>
+                        <label for="yearSelector">Select a year:  </label>
+                        <select name="yearSelector" id="yearSelector" required>
+                            <option value="" disabled>Select year</option>
+                        </select>
+                        <p style="color:black; display:inline;" id="loadingIcon"><img src="https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif" style="width: 30px;"></p>
+                    </div>
+                    <hr>
+                    <h3 class="text-center" style="color:black">Crime by Percentage @Html.Tooltip("Calculation information:<br>These calculations are done by taking the total amount of crimes and getting the percentage by dividing it by the crime in question, and then multiplying by 100.<br><br>Information displaying: <br>If a specific label is present, however you are not seeing it present in the pie graph, then please click on other labels to allow for the label to expand, it might be that there is so little of the crime in the area.")</h3>
+                    <canvas id="crimeTrendPercentage" width="100" height="100"></canvas>
+                    <br>
+                    <br>
+                    <hr>
+                    <table id="cityCrimeStats" class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Offense Type @Html.Tooltip("Most of these are self-explanatory; However, rape-legacy refers to the legal definition of rape prior to 2014 depending on the state and county.")</th>
+                                <th>Total Offenses</th>
+                                <th>Convictions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <h2 id="cityCrimeNoCrimeheader"></h2>
+                    <ul id="cityCrimeStatsNoCrime">
+                    </ul>
+                    <hr>
+                    <h2>State information (@ViewBag.stateAbbrev)</h2>
+                    <table id="stateCrimeTable" class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Population</th>
+                                <th>Total Crimes Reported</th>
+                                <th>Crime Per Capita</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="text-left">
-                <h1 style="text-decoration: underline; color:black;">Crime Amount for: </h1>
-                <br>
-                <h3 style="color:black;"><span id="cityNameDisplayed">@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
-                <div>
-                    <label for="yearSelector">Select a year:  </label>
-                    <select name="yearSelector" id="yearSelector" required>
-                    <option value="" disabled>Select year</option>
-                    </select>
-                    <p style="color:black; display:inline;" id="loadingIcon"><img src="https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif" style="width: 30px;"></p>
-                </div>
-                <hr>
-                <h3 class="text-center" style="color:black">Crime by Percentage @Html.Tooltip("Calculation information:<br>These calculations are done by taking the total amount of crimes and getting the percentage by dividing it by the crime in question, and then multiplying by 100.<br><br>Information displaying: <br>If a specific label is present, however you are not seeing it present in the pie graph, then please click on other labels to allow for the label to expand, it might be that there is so little of the crime in the area.")</h3>
-                <canvas id="crimeTrendPercentage" width="100" height="100"></canvas>
-                <br>
-                <br>
-                <hr>
-                <table id="cityCrimeStats" class="table">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Offense Type @Html.Tooltip("Most of these are self-explanatory; However, rape-legacy refers to the legal definition of rape prior to 2014 depending on the state and county.")</th>
-                            <th>Total Offenses</th>
-                            <th>Convictions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <h2 id="cityCrimeNoCrimeheader"></h2>
-                <ul id="cityCrimeStatsNoCrime">
-                </ul>
-                <hr>
-                <h2>State information (@ViewBag.stateAbbrev)</h2>
-                <table id="stateCrimeTable" class="table">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Population</th>
-                            <th>Total Crimes Reported</th>
-                            <th>Crime Per Capita</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            </div>
-        </div>        
+    </div>
 </div>
 }
 
@@ -142,25 +146,46 @@
 
 <script>
 
-    $('#yearSelector').on('change', function (e) {
-    var optionValue = $("option:selected", this);
-    var selectedValue = this.value;
-    document.getElementById("loadingIcon").innerHTML = "<img src=\"https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif\" style=\"width: 30px;\">.";
-    
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/api/UpdateCityStats",
-        data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
-        success: function(data){
-            showCityStats(data), showChartPercentage(data), fetchStateCrimeStats(selectedValue);
-        },
-        error: function(){
-            console.log("Updater Issue.")
-        }
-        
+        $('#yearSelector').on('change', function (e) {
+        var optionValue = $("option:selected", this);
+        var selectedValue = this.value;
+        document.getElementById("loadingIcon").innerHTML = "<img src=\"https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif\" style=\"width: 30px;\">.";
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/api/UpdateCityStats",
+            data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
+            success: function(data){
+                showCityStats(data);
+                showChartPercentage(data);
+                fetchStateCrimeStats(selectedValue);
+            },
+            error: function(){
+                console.log("Updater Issue.")
+            }
+
+        });
     });
-});
+
+        $('#trendGraphYearSelector').on('change', function (e) {
+            var optionValue = $("option:selected", this);
+            var selectedValue = this.value;
+            document.getElementById("loadingIconGraph").innerHTML = "<img src=\"https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif\" style=\"width: 30px;\">.";
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/api/CityTrends",
+                data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val()},
+                success: function(data){
+                    showChartTrend(data, selectedValue);
+                },
+                error: function(){
+                    console.log("Updater Issue.")
+                }
+            })
+        })
 </script>
 
 }

@@ -20,6 +20,8 @@ namespace Main.DAL.Abstract
 
         bool AddAddress(ClaimsPrincipal user, Home addr);
 
+        public List<StateCrimeSearchResult>? StateCrimeSearchResults(ClaimsPrincipal user, int? limit = null);
+
     }
 
 }

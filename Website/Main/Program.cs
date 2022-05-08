@@ -1,17 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Main.Data;
 using Main.Areas.Identity.Data;
 using Main.DAL.Abstract;
 using Main.DAL.Concrete;
-//using System.Data.SqlClient;
-//using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Identity.UI;
-//using Microsoft.AspNetCore.HttpsPolicy;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.Extensions.DependencyInjection;
-//using Microsoft.Extensions.Hosting;
 using Main.Services.Concrete;
 using Main.Services.Abstract;
 using Main.Models;
@@ -19,7 +10,7 @@ using Main.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
+//builder.Configuration.AddUserSecrets<CrimeUserSecrets>();
 
 //MainIdentityDbContextConnection
 // Add services to the container.
@@ -29,10 +20,10 @@ var connectionStringApp = builder.Configuration.GetConnectionString("Application
 //DB stuff
 
 builder.Services.AddDbContext<MainIdentityDbContext>(options =>
-    options.UseSqlServer(connectionStringID));
+    options.UseSqlServer(connectionStringID), ServiceLifetime.Transient);
 
 builder.Services.AddDbContext<CrimeDbContext>(options =>
-    options.UseSqlServer(connectionStringApp));
+    options.UseSqlServer(connectionStringApp), ServiceLifetime.Transient);
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -71,15 +62,20 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddHttpClient<IWebService, WebService>();
-//No, this is not redundant.
-builder.Services.AddScoped<IWebService, WebService>();
+builder.Services.AddScoped<IWebService, WebService>(); //No, this is not redundant.
 builder.Services.AddScoped<ISiteUserService, SiteUserService>();
+builder.Services.AddScoped<IAPICacheService<FBICache>, APICacheService<FBICache>>();
+builder.Services.AddScoped<IAPICacheService<ATTOMCache>, APICacheService<ATTOMCache>>();
 builder.Services.AddScoped<ICrimeAPIService, CrimeAPIService>();
+builder.Services.AddScoped<ICrimeAPIv2, FBIService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IUserVerifierService, UserVerifierService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();
 builder.Services.AddScoped<IHousingAPI, ATTOMService>();
 builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
+builder.Services.AddScoped<IGoogleStreetViewAPIService, GoogleStreetViewAPIService>();
+builder.Services.AddScoped<IBackendService, BackendService>();
+
 
 //BUILD. THE. APP.
 var app = builder.Build();
@@ -122,6 +118,17 @@ app.MapControllerRoute(
     name: "API List States",
     pattern: "/apiv/FBI/Listings",
     defaults: new { controller = "ATTOM", action = "Listings" });
+
+
+app.MapControllerRoute(
+    name: "API List States",
+    pattern: "/apiv/ATTOM/StreewView",
+    defaults: new { controller = "ATTOM", action = "StreetView" });
+
+app.MapControllerRoute(
+    name: "API List States",
+    pattern: "/apiv/ATTOM/StreewViewLookUp",
+    defaults: new { controller = "ATTOM", action = "StreetViewLookUp" });
 
 app.MapControllerRoute(
     name: "default",

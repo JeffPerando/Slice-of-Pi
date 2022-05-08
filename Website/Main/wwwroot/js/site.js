@@ -4,15 +4,19 @@
 //please don't touch this import, ty
 import '../lib/bootstrap/dist/js/bootstrap.bundle.js';
 
-$(function () {
-    //don't touch this either
-    //I MEAN IT, it took me way too long to get this code working
-    var popovers = [];
-    $(".sp-popover").each(function (i) {
-        popovers.push(new bootstrap.Popover(this, {
-            trigger: 'hover focus',
-            html: true
-        }));
-    });
+console.log("Initializing popovers");
 
-})
+var popoverCount = 0;
+//don't touch this either
+//I MEAN IT, it took me way too long to get this code working
+var popovers = [];
+$(".sp-popover").each(function (i) {
+    popoverCount++;
+    popovers.push(new bootstrap.Popover(this, {
+        trigger: 'hover focus',
+        html: true
+    }));
+});
+
+console.log(`Found ${popoverCount} popovers`);
+

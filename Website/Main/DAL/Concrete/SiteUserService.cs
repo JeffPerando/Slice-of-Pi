@@ -2,6 +2,7 @@
 using Main.DAL.Abstract;
 using Main.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Linq;
 using System.Security.Claims;
 
 namespace Main.DAL.Concrete
@@ -52,14 +53,15 @@ namespace Main.DAL.Concrete
             {
                 var identity = _userManager.GetUserAsync(user).GetAwaiter().GetResult();
 
-                data = new User();
-
-                data.Id = id;
-                data.Name = "J. Doe";
-                data.EmailAddress = identity.Email;
+                data = new User
+                {
+                    Id = id,
+                    Name = "J. Doe",
+                    EmailAddress = identity.Email
+                };
 
                 _db.Users.Add(data);
-                _db.SaveChangesAsync();
+                _db.SaveChanges();
 
             }
 
@@ -104,6 +106,27 @@ namespace Main.DAL.Concrete
             _db.SaveChanges();
 
             return true;
+        }
+
+        public List<StateCrimeSearchResult>? StateCrimeSearchResults(ClaimsPrincipal user, int? limit = null)
+        {
+            var id = ID(user);
+
+            IQueryable<StateCrimeSearchResult> results = _db.StateCrimeSearchResults.Where(scsr => scsr.UserId == id).OrderByDescending(scsr => scsr.DateSearched);
+
+            //Commented out paging code since I don't want to implement it atm
+            //var itemsPerPage = 10;
+            //var pageIndex = page - 1;
+            //var results = allResults.Skip(pageIndex * itemsPerPage).Take(itemsPerPage);
+
+            if (limit != null)
+            {
+                //good grief, this compiler eats glue
+                //remove the null coalescing op. I dare you.
+                results = results.Take(limit ?? int.MaxValue);
+            }
+
+            return results.ToList();
         }
 
     }

@@ -13,7 +13,7 @@ namespace Main.Models
         public string County { get; set; } = null!;
         public double Price { get; set; }
         public string UserId { get; set; } = null!;
-
+      
         public virtual User User { get; set; } = null!;
 
     }

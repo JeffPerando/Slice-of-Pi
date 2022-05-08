@@ -19,6 +19,8 @@ namespace Main.Models
         public virtual DbSet<Home> Homes { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<StateCrimeSearchResult> StateCrimeSearchResults { get; set; } = null!;
+        public virtual DbSet<FBICache> FBICache { get; set; } = null!;
+        public virtual DbSet<ATTOMCache> ATTOMCache { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -71,7 +73,7 @@ namespace Main.Models
 
                 entity.Property(e => e.DateSearched).HasColumnType("datetime");
 
-                entity.Property(e => e.State).HasMaxLength(100);
+                //entity.Property(e => e.State).HasMaxLength(100);
 
                 entity.Property(e => e.UserId)
                     .HasMaxLength(450)
@@ -82,6 +84,42 @@ namespace Main.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("SCSR_Fk_User");
+            });
+
+            modelBuilder.Entity<FBICache>(entity =>
+            {
+                entity.ToTable("FBICache");
+
+                entity.HasKey(e => e.Endpoint);
+
+                entity.Property(e => e.Endpoint)
+                    .HasMaxLength(256)
+                    .HasColumnName("Endpoint");
+
+                entity.Property(e => e.Expiry)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Expiry");
+
+                entity.Property(e => e.Data).HasColumnName("Data");
+
+            });
+
+            modelBuilder.Entity<ATTOMCache>(entity =>
+            {
+                entity.ToTable("ATTOMCache");
+
+                entity.HasKey(e => e.Endpoint);
+
+                entity.Property(e => e.Endpoint)
+                    .HasMaxLength(256)
+                    .HasColumnName("Endpoint");
+
+                entity.Property(e => e.Expiry)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Expiry");
+
+                entity.Property(e => e.Data).HasColumnName("Data");
+
             });
 
             OnModelCreatingPartial(modelBuilder);

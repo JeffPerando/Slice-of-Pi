@@ -15,8 +15,6 @@ namespace Test
             new StateCrimeSearchResult { DateSearched = new DateTime(2020, 9, 2), State = "OR", Year = 2019, Population = 300000, Arson = 14, Assault = 9, Burglary = 33, Homicide = 6, Larceny = 13, MotorVehicleTheft = 40, PropertyCrimes = 6, RapeLegacy = 0, RapeRevised = 21, Robbery = 109, ViolentCrimes = 12 }
         };
 
-
-
     }
 
 }
