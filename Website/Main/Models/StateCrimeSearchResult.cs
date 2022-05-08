@@ -38,6 +38,7 @@ namespace Main.Models
             Population = stats.Population;
 
             Year = stats.Year;
+            State = stats.State.Abbrev;
             ViolentCrimes = stats.ViolentCrimes;
             Homicide = stats.Homicide;
             RapeLegacy = stats.RapeLegacy;

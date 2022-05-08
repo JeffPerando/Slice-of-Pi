@@ -1,17 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Main.Data;
 using Main.Areas.Identity.Data;
 using Main.DAL.Abstract;
 using Main.DAL.Concrete;
-//using System.Data.SqlClient;
-//using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Identity.UI;
-//using Microsoft.AspNetCore.HttpsPolicy;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.Extensions.DependencyInjection;
-//using Microsoft.Extensions.Hosting;
 using Main.Services.Concrete;
 using Main.Services.Abstract;
 using Main.Models;

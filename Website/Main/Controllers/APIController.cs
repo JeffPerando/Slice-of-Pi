@@ -30,13 +30,13 @@ namespace Main.Controllers
         public IActionResult States()
         {
             //return Json(_crime.GetStates());
-            return Json(_backend.GetAllStates());
+            return Json(State.AllStates);
         }
 
         [HttpGet]
-        public IActionResult GetCitiesIn(int stateID)
+        public IActionResult GetCitiesIn(string? stateAbbrev)
         {
-            return Json(_backend.GetCitiesIn(stateID).Select(city => city.Name).OrderBy(c => c));
+            return Json(_crime.CitiesIn(new State { Abbrev = stateAbbrev ?? "CA" }));
         }
 
         [HttpGet]
@@ -90,7 +90,7 @@ namespace Main.Controllers
                 var result = new StateCrimeSearchResult(_users.ID(User), data);
                 
                 _db.StateCrimeSearchResults.Add(result);
-                _db.SaveChangesAsync();
+                _db.SaveChanges();
 
             }
 
@@ -105,7 +105,7 @@ namespace Main.Controllers
                 cityName = "Riverside";
                 stateAbbrev = "CA";
             }
-            
+            /*
             var getCitytrends = _crimeOld.GetCityTrends(cityName, stateAbbrev);
             var returnTotalCityTrends = _crimeOld.ReturnTotalCityTrends(getCitytrends);
             var returnPropertyCityTrends = _crimeOld.ReturnPropertyCityTrends(getCitytrends);
@@ -113,8 +113,8 @@ namespace Main.Controllers
 
 
             return Json(new { totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends });
-            
-            //return Json(_backend.GetCityTrends(cityName, new State { Abbrev = stateAbbrev }));
+            */
+            return Json(_crime.CityCrimeRangeBasic(cityName, new State { Abbrev = stateAbbrev }, FBIService.OldestYear, FBIService.LatestYear).OrderBy(c => c.Year));
         }
 
         [HttpGet]
@@ -136,12 +136,10 @@ namespace Main.Controllers
         [HttpGet]
         public IActionResult NationalCrime(int? year)
         {
-            year ??= FBIService.LatestYear;
-
             return Json(new
             {
                 year = year,
-                stateCrimes = _crime.StateCrimeMulti(_backend.GetAllStates(), year)
+                stateCrimes = _crime.StateCrimeMulti(State.AllStates, year)
             });
         }
 

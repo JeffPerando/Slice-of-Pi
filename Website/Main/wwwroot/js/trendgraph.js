@@ -55,23 +55,23 @@ function showChartTrend(data, trendSelectorYear){
     const violentCrimes = [];
     const years_list = [];
     const year_removed = (trendSelectorYear - 1985);
-    console.log(year_removed);
 
     for(let i = 0; i < data.totalTrends.length; i++)
     {
-        years_list.push(data.totalTrends[i]["year"]);
+        years_list.push(data[i].year);
     }
 
     data.totalTrends.splice(0, year_removed);
     data.propertyTrends.splice(0, year_removed);
     data.violentTrends.splice(0, year_removed);
 
-    for(let i = 0; i < data.totalTrends.length; i++)
+    for(let i = 0; i < data.length; i++)
     {
-        years.push(data.totalTrends[i]["year"]);
-        crimes.push(data.totalTrends[i]["totalOffenses"]);
-        propertyCrimes.push(data.propertyTrends[i]["totalOffenses"]);
-        violentCrimes.push(data.violentTrends[i]["totalOffenses"]);
+        years.push(data[i].year);
+        crimes.push(data[i].totalOffenses);
+        propertyCrimes.push(data[i].propertyCrimes);
+        violentCrimes.push(data[i].violentCrimes);
+
     }
 
 
