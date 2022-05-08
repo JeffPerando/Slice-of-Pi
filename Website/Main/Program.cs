@@ -74,7 +74,6 @@ builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
 builder.Services.AddScoped<IBackendService, BackendService>();
 builder.Services.AddScoped<IGoogleStreetViewAPIService, GoogleStreetViewAPIService>();
 
-
 //BUILD. THE. APP.
 var app = builder.Build();
 
@@ -122,6 +121,11 @@ app.MapControllerRoute(
     name: "API List States",
     pattern: "/apiv/ATTOM/StreewView",
     defaults: new { controller = "ATTOM", action = "StreetView" });
+
+app.MapControllerRoute(
+    name: "API List States",
+    pattern: "/apiv/ATTOM/StreewViewLookUp",
+    defaults: new { controller = "ATTOM", action = "StreetViewLookUp" });
 
 app.MapControllerRoute(
     name: "default",

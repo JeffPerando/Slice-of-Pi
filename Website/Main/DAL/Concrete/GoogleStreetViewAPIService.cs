@@ -74,18 +74,13 @@ namespace Main.DAL.Concrete
 
         public string GetStreetView(string address)
         {
-           
-
             StreetViewViewModel viewModel = new StreetViewViewModel();
 
             address = ParseAddress(address);
 
-
-
             string apiCall = GoogleStreetViewURL + address + "&key=" + _apiKey;
 
             apiCall = Sign(apiCall, _privateAuthKey);
-           // var x =_web.FetchJObject(ApiCall);
 
             return apiCall;
         }
