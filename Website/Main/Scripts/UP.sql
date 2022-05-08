@@ -7,7 +7,6 @@ CREATE TABLE [Home]
     [County]            NVARCHAR(100)   NOT NULL,
     [Price]             FLOAT           NOT NULL,
     [UserID]            NVARCHAR (450)  NOT NULL
---    [AgencyID]          INT
 );
 
 CREATE TABLE [User]
@@ -40,6 +39,7 @@ CREATE TABLE [Crime]
 
 );
 */
+
 CREATE TABLE [StateCrimeSearchResult]
 (
     [ID]                INT             PRIMARY KEY IDENTITY(1,1),

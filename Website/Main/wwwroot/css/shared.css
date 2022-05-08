@@ -1,0 +1,9 @@
+﻿
+.bg-semi {
+    background: rgb(25, 28, 38, 0.5);
+    border-radius: 25px;
+}
+
+.list>li {
+    list-style: square !important;
+}

@@ -26,6 +26,13 @@ namespace Main.DAL.Concrete
             return _signInManager.IsSignedIn(user);
         }
 
+        public bool HasMFAEnabled(ClaimsPrincipal user)
+        {
+            var idUser = _userManager.GetUserAsync(user).GetAwaiter().GetResult();
+
+            return idUser.TwoFactorEnabled;
+        }
+
         public string ID(ClaimsPrincipal user)
         {
             return _userManager.GetUserId(user);

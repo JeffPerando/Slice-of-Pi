@@ -1,50 +1,55 @@
 ﻿@page
 @model LoginModel
-@{
-    ViewData["Title"] = "Welcome, Log in Below";
-}
 
 @section Banner {
 <div class="row">
-    <div class="col">
+    <div class="col bg-semi p-4 m-4">
+        <h2>Welcome, Log in Below</h2>
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating my-2">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Username" />
+                <label asp-for="Input.Email" class="form-label text-dark"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating my-2">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
+                <label asp-for="Input.Password" class="form-label text-dark"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div>
+                <div class="checkbox">
+                    <label asp-for="Input.RememberMe" class="form-label" style="color:white;">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+            </div>
+            <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
+            <div>
+                <button class="w-100 btn btn-lg btn-danger" id="login-submit" type="submit">Log In</button>
+            </div>
+            <div class="">
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                </p>
+                <p>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                </p>
+            </div>
+        </form>
+    </div>
+    <div class="col bg-semi p-4 m-4">
+        <h2>New User? <br /> Sign Up Today!</h2>
+        <p>Use more features with an account! By signing up for a free account, you can:</p>
+        <ul class="list">
+            <li>Receive email alerts</li>
+            <li>Keep track of and download your searches</li>
+            <li>Get free crime-weighted assessments on all your properties</li>
+        </ul>
+        <a class="btn btn-danger my-2" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register for free</a>
     </div>
 </div>
-<form id="account" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-floating">
-        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Username" />
-        <label asp-for="Input.Email" class="form-label text-dark"></label>
-        <span asp-validation-for="Input.Email" class="text-danger"></span>
-    </div>
-    <div class="form-floating">
-        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
-        <label asp-for="Input.Password" class="form-label text-dark"></label>
-        <span asp-validation-for="Input.Password" class="text-danger"></span>
-    </div>
-    <div>
-        <div class="checkbox">
-            <label asp-for="Input.RememberMe" class="form-label" style="color:white;">
-                <input class="form-check-input" asp-for="Input.RememberMe" />
-                @Html.DisplayNameFor(m => m.Input.RememberMe)
-            </label>
-        </div>
-    </div>
-    <input asp-for="Input.CaptchaResponse" class="g-recaptcha" type="hidden" id="cappy" aria-required="true" />
-    <div>
-        <button style="background-color:crimson;border-color:crimson" id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-    </div>
-    <div class="">
-        <p>
-            <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-        </p>
-        <p>
-            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-        </p>
-        <p>
-            <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-        </p>
-    </div>
-</form>
 }
 
 @section Scripts {
@@ -55,6 +60,5 @@
             $("#cappy").val(token);
         });
     });
-
 </script>
 }

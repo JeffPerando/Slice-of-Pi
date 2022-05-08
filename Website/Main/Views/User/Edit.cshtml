@@ -1,61 +1,81 @@
 ﻿@model User
-@{
-    ViewData["Title"] = "Edit User Info";
-}
+@inject ISiteUserService UserService
 
 @section Banner {
-<form method="post">
-    @Html.AntiForgeryToken()
-    @if (ViewData.ContainsKey("Messages"))
-    {
-    <div class="row mt-2 mb-2 justify-content-center">
-        <div class="col-6">
-            <ul>
-                @foreach (var msg in ViewData["Messages"]?.ToString().Split('\n'))
-                {
-                <li>@(msg)</li>
+<div class="bg-semi p-4 m-4">
+    <h2>Edit User Info</h2>
+    <form method="post" class="justify-content-center">
+        @Html.AntiForgeryToken()
+        @if (ViewData.ContainsKey("Messages"))
+        {
+        <div class="row mt-2 mb-2">
+            <div class="col-6">
+                <ul>
+                    @foreach (var msg in ViewData["Messages"]?.ToString().Split('\n'))
+                    {
+                    <li>@(msg)</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        }
+        <div class="row mt-2 mb-2">
+            <div class="col">
+                <b>@Html.LabelFor(u => u.Name)</b> @Html.Tooltip("Your preferred name; Used in emails sent to you.")
+            </div>
+            <div class="col">
+                @Html.TextBoxFor(u => u.Name, htmlAttributes: new { @class="form-control", pattern=".+" })
+            </div>
+        </div>
+        <div class="row mt-2 mb-2">
+            <div class="col">
+                <b>@Html.LabelFor(u => u.EmailAddress)</b> @Html.Tooltip("Your communications email. Separate from your login email")
+            </div>
+            <div class="col">
+                @Html.TextBoxFor(u => u.EmailAddress, htmlAttributes: new { @class="form-control", pattern="[+-\\.\\w]+@(\\w+\\.)+\\w+" })
+            </div>
+        </div>
+        <div class="row mt-2 mb-2">
+            <div class="col">
+                <b>Password</b>
+            </div>
+            <div class="col">
+                <a href="/Identity/Account/ForgotPassword" class="btn btn-danger">Request Password Reset</a>
+            </div>
+        </div>
+        <div class="row mt-2 mb-2">
+            <div class="col">
+                <b>Two-Factor Authentication</b>
+            </div>
+            <div class="col">
+                @if (UserService.HasMFAEnabled(User)) {
+                <span>Enabled</span>
+                <br />
+                <a href="/Identity/Account/Disable2fa" class="mx-2 my-1 btn btn-danger">Disable 2FA</a>
+                <a href="/Identity/Account/TwoFactorAuthentication" class="mx-2 my-1 btn btn-danger">My Authenticator</a>
                 }
-            </ul>
+                else
+                {
+                <span>Disabled</span>
+                <br />
+                <a href="/Identity/Account/EnableAuthenticator" class="btn btn-danger">Enable 2FA</a>
+                }
+            </div>
         </div>
-    </div>
-    }
-    <div class="row mt-2 mb-2 justify-content-center">
-        <div class="col">
-            <b>@Html.LabelFor(u => u.Name)</b> @Html.Tooltip("Your preferred name; Used in emails sent to you.")
+        <div class="row mb-2 mt-2">
+            <div class="col">
+                <b>Addresses</b> @Html.Tooltip("This keeps track of multiple properties you own")
+            </div>
+            <div class="col">
+                <a href="/User/Addresses" class="btn btn-danger" role="button">Edit Address Book</a>
+            </div>
         </div>
-        <div class="col">
-            @Html.TextBoxFor(u => u.Name, htmlAttributes: new { @class="form-control", pattern=".+" })
+        <div class="row mt-4">
+            <div class="col">
+                <button type="submit" class="btn btn-primary btn-lg">Submit Changes</button>
+                <a href="/User/Edit" class="btn btn-danger btn-lg">Cancel</a>
+            </div>
         </div>
-    </div>
-    <div class="row mt-2 mb-2 justify-content-center">
-        <div class="col">
-            <b>@Html.LabelFor(u => u.EmailAddress)</b> @Html.Tooltip("Your communications email. Separate from your login email")
-        </div>
-        <div class="col">
-            @Html.TextBoxFor(u => u.EmailAddress, htmlAttributes: new { @class="form-control", pattern="[+-\\.\\w]+@(\\w+\\.)+\\w+" })
-        </div>
-    </div>
-    <div class="row mt-2 mb-2 justify-content-center">
-        <div class="col">
-            <b>Password</b>
-        </div>
-        <div class="col">
-            <a href="/Identity/Account/ForgotPassword" class="btn btn-danger">Request Password Reset</a>
-        </div>
-    </div>
-    <div class="row mb-2 mt-2 justify-content-center">
-        <div class="col">
-            <b>Addresses</b> @Html.Tooltip("Your address book. Useful for keeping track of multiple properties you own")
-        </div>
-        <div class="col">
-            <a href="/User/Addresses" class="btn btn-success" role="button">Edit Address Book</a>
-        </div>
-    </div>
-    <div class="row mt-4 justify-content-center">
-        <div class="col">
-            <button type="submit" class="btn btn-primary btn-lg">Submit Changes</button>
-            <a href="/User/Edit" class="btn btn-danger btn-lg">Cancel</a>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 }

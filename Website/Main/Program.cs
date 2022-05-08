@@ -27,11 +27,13 @@ builder.Services.AddDbContext<CrimeDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<MainIdentityDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<MainIdentityDbContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedEmail = true;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
@@ -71,8 +73,9 @@ builder.Services.AddSingleton<IUserVerifierService, UserVerifierService>();
 builder.Services.AddScoped<IReCaptchaService, ReCaptchaV3Service>();
 builder.Services.AddScoped<IHousingAPI, ATTOMService>();
 builder.Services.AddScoped<IHousePriceCalcService, HousePriceCalcService>();
-builder.Services.AddScoped<IBackendService, BackendService>();
 builder.Services.AddScoped<IGoogleStreetViewAPIService, GoogleStreetViewAPIService>();
+builder.Services.AddScoped<IBackendService, BackendService>();
+
 
 //BUILD. THE. APP.
 var app = builder.Build();

@@ -1,5 +1,5 @@
 ﻿@using Main.Models.Listings
-@model StreetViewViewModel
+@model Tuple<StreetViewViewModel, Home>
 
 @{
     ViewData["Title"] = "Home Listings";
@@ -12,118 +12,55 @@
     <div class="item">
         <div class = "row">
             <div class="col-sm-8">
-            <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Trends of overall crime for: <span>@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev.</span> <ul><li>Violent crime is classified as: Assault, robbery, rape, and homicide.</li><li>Property crime is classified as: Larceny, vehicle theft, and burglary.</li></ul>")</h3>
+            <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Street view of: @ViewBag.streetAddress @ViewBag.cityName, @ViewBag.stateAbbrev</h3>
             <div style="text-align: center;">
-                <img src=@Model.Address />
+                <img src=@Model.Item1.Address />
             </div>
             <hr>
-                
-                <div class="accordions is-first-expanded">
-                    <article class="accordion">
-                        <div class="accordion-head">
-                            <span>Understand the community</span>
-                            <span class="icon">
-                                <i class="icon fa fa-chevron-right"></i>
-                            </span>
-                        </div>
-                        <div class="accordion-body">
-                            <div class="content">
-                                <p style="color:black">
-                                    These statistics will give you a better understanding about what types of crimes are committed in this community.
-                                    This type of information should be compared and contrasted with other searches you have made, in order to gauge the risk between both communities.
-                                </p><br><br>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="accordion">
-                        <div class="accordion-head">
-                            <span>Types of Offenses</span>
-                            <span class="icon">
-                                <i class="icon fa fa-chevron-right"></i>
-                            </span>
-                        </div>
-                        <div class="accordion-body">
-                            <div class="content">
-                                <p style="color:black">
-                                    Offenses such as homicide, arson, and aggravated assault are generally easy to understand. However, we understand that there is possible confusion
-                                    when it comes to property-crime or violent-crime, and burglary compared to robbery. Here are some definitions to keep in mind when viewing these statistics offense types.
-                                    <br><br>
-                                    Burglary: Entry into a home/business with the intent to commit a crime (such as theft).
-                                    <br><br>
-                                    Robbery: Forcing an individual to hand over personal property under violence or threat of violence (may fall under category of violent-crime).
-                                    <br><br>
-                                    Property-Crime: A blanket term used to describe all crimes involving personal property, such a burglary, or larceny.
-                                    <br><br>
-                                    Violent-Crime: A blanket term used to describle all crimes involving threats of violence or violence. Situations that fall under the definition violent crime are things such as robbery,
-                                    rape, homicide, human-trafficking, and assault.<br><br>
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="accordion">
-                        <div class="accordion-head">
-                            <span>State Definition Differencesy</span>
-                            <span class="icon">
-                                <i class="icon fa fa-chevron-right"></i>
-                            </span>
-                        </div>
-                        <div class="accordion-body">
-                            <div class="content">
-                                <p style="color:black">
-                                    Be sure to look up exact definitons for crimes in your areas to be able to get a full understanding of the community beyond the amount of crimes that occur.
-                                    Definitions will vary from state to state, so be sure to look up your states definition of things such as larceny, or assaul<br><br>
-                            </div>
-                        </div>
-                    </article>
-
-                
-            </div>
         </div>
         <div class="col-sm-4">
             <div class="text-left">
-                <h1 style="text-decoration: underline; color:black;">Crime Amount for: </h1>
+                <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Address info:</h3>
                 <br>
-                <h3 style="color:black;"><span id="cityNameDisplayed">@ViewBag.cityName</span>, <span>@ViewBag.stateAbbrev</span><span id="year"></span></h3>
-                <div>
-                    <label for="yearSelector">Select a year:  </label>
-                    <select name="yearSelector" id="yearSelector" required>
-                    <option value="" disabled>Select year</option>
-                    </select>
-                    <p style="color:black; display:inline;" id="loadingIcon"><img src="https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif" style="width: 30px;"></p>
-                </div>
-                <hr>
-                <h3 class="text-center" style="color:black">Crime by Percentage <br><br>Information displaying: <br>If a specific label is present, however you are not seeing it present in the pie graph, then please click on other labels to allow for the label to expand, it might be that there is so little of the crime in the area.")</h3>
-                <canvas id="crimeTrendPercentage" width="100" height="100"></canvas>
-                <br>
-                <br>
-                <hr>
-                <table id="cityCrimeStats" class="table">
+                <table id="housingInfo" class="table">
                     <thead class="table-dark">
                         <tr>
-                            <th>Offense Type </th>
-                            <th>Total Offenses</th>
-                            <th>Convictions</th>
+                            <th scope="row">House Value </th>
+                            <td id= "price" style="background-color: white; color: black;"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">City</th>
+                            <td style="background-color: white; color: black;">@Model.Item2.City</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">County</th>
+                            <td style="background-color: white; color: black;">@Model.Item2.County</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Zipcode</th>
+                            <td style="background-color: white; color: black;">@Model.Item2.ZipCode</td>
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
+                </table>
+                <hr>
+                <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Crime Stats for <span id="yearCrimeStats"></span></h3>
+                <table id="cityCrimeStats" class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Offense Type @Html.Tooltip("Most of these are self-explanatory; However, rape-legacy refers to the legal definition of rape prior to 2014 depending on the state and county.")</th>
+                                <th>Total Offenses</th>
+                                <th>Convictions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
                 </table>
                 <h2 id="cityCrimeNoCrimeheader"></h2>
                 <ul id="cityCrimeStatsNoCrime">
                 </ul>
                 <hr>
-                <h2>State information (@ViewBag.stateAbbrev)</h2>
-                <table id="stateCrimeTable" class="table">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Population</th>
-                            <th>Total Crimes Reported</th>
-                            <th>Crime Per Capita</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
             </div>
             </div>
         </div>        
@@ -145,6 +82,8 @@
 
 
 <script>
+    document.getElementById("yearCrimeStats").innerHTML = new Date().getFullYear() - 2;
+    document.getElementById("price").innerHTML = "$" + parseInt(@Model.Item2.Price).toLocaleString('en');
 
     $('#yearSelector').on('change', function (e) {
     var optionValue = $("option:selected", this);
