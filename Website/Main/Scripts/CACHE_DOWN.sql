@@ -1,0 +1,2 @@
+DROP TABLE [FBICache];
+DROP TABLE [ATTOMCache];
