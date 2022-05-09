@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-
+﻿
+using Main.Models.FBI;
 using System.Text.Json.Serialization;
 
 namespace Main.Models
@@ -29,47 +29,30 @@ namespace Main.Models
         [JsonIgnore]
         public virtual User User { get; set; } = null!;
 
-        public StateCrimeSearchResult? PresentJSONRespone(JObject info)
+        public StateCrimeSearchResult() {}
+
+        public StateCrimeSearchResult(string UID, StateCrimeStats stats)
         {
-            if (info == null)
-            {
-                return null;
-            }
+            UserId = UID;
+            DateSearched = DateTime.Now;
+            Population = stats.Population;
 
-            if (info["results"]?.Count() == 0)
-            {
-                return null;
-            }
+            Year = stats.Year;
+            State = stats.State.Abbrev;
+            ViolentCrimes = stats.ViolentCrimes;
+            Homicide = stats.Homicide;
+            RapeLegacy = stats.RapeLegacy;
+            RapeRevised = stats.RapeRevised;
+            Robbery = stats.Robbery;
+            Assault = stats.Assault;
+            PropertyCrimes = stats.PropertyCrimes;
+            Burglary = stats.Burglary;
+            Larceny = stats.Larceny;
+            MotorVehicleTheft = stats.MotorVehicleTheft;
+            Arson = stats.Arson;
 
-            foreach (var item in info["results"])
-            {
-                try
-                {
-                    State = (string?)item["state_abbr"] ?? "N/A";
-                    Year = (int?)item["year"] ?? 0;
-                    Population = (int?)item["population"] ?? 0;
-
-                    ViolentCrimes = (int?)item["violent_crime"] ?? 0;
-                    Homicide = (int?)item["homicide"] ?? 0;
-                    RapeLegacy = (int?)item["rape_legacy"] ?? 0;
-                    RapeRevised = (int?)item["rape_revised"] ?? 0;
-                    Robbery = (int?)item["robbery"] ?? 0;
-                    Assault = (int?)item["aggravated_assault"] ?? 0;
-                    PropertyCrimes = (int?)item["property_crime"] ?? 0;
-                    Burglary = (int?)item["burglary"] ?? 0;
-                    Larceny = (int?)item["larceny"] ?? 0;
-                    MotorVehicleTheft = (int?)item["motor_vehicle_theft"] ?? 0;
-                    Arson = (int?)item["arson"] ?? 0;
-
-                }
-                catch
-                {
-                    continue;
-                }
-            }
-
-            return this;
         }
 
     }
+
 }

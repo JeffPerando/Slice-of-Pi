@@ -11,39 +11,60 @@ namespace Main.DAL.Concrete
 {
     public class ATTOMService : IHousingAPI
     {
-        public readonly string ATTOMUrl = "https://api.gateway.attomdata.com/propertyapi/v1.0.0/";
+        public readonly string ATTOMUrl = "https://api.gateway.attomdata.com/propertyapi/v1.0.0";
 
         private readonly string _apiKey;
-        private readonly IWebService _web;
+        private readonly IAPICacheService<ATTOMCache> _cache;
 
-        public ATTOMService(IConfiguration config, IWebService web) : this(config["ATTOMKey"], web) { }
+        public ATTOMService(IConfiguration config, IAPICacheService<ATTOMCache> cache) : this(config["ATTOMKey"], cache) { }
 
-        public ATTOMService(string apiKey, IWebService web)
+        public ATTOMService(string apiKey, IAPICacheService<ATTOMCache> cache)
         {
             _apiKey = apiKey;
-            _web = web;
-            _web.AddHeader("apikey", _apiKey);
+            _cache = cache
+                .SetBaseURL(ATTOMUrl)
+                .AddHeader("apikey", _apiKey);
 
         }
 
         private JObject? FetchATTOMObj(string endpoint, Dictionary<string, string?>? query = null)
         {
-            if (endpoint.StartsWith('/'))
-            {
-                endpoint = endpoint[1..];
-            }
-
-            return _web.FetchJObject(ATTOMUrl + endpoint, query);
+            return _cache.FetchJObject(endpoint, query);
         }
 
         private T? FetchATTOM<T>(string endpoint, Dictionary<string, string?>? query = null)
         {
-            if (endpoint.StartsWith('/'))
+            return _cache.FetchInto<T>(endpoint, query);
+        }
+
+        public Home GetHouseInformation(string address1, string address2)
+        {
+            Home model = new Home();
+
+            //model.StreetAddress = ("1665 185th Ave NE");
+            //model.City = ("Bellevue");
+            //model.County = ("King");
+            //model.Price = (1143000);
+
+            var result = FetchATTOMObj("/property/basicprofile", new()
             {
-                endpoint = endpoint[1..];
+                ["address1"] = address1,
+                ["address2"] = address2,
+            });
+
+            if (result == null)
+            {
+                return model;
             }
 
-            return _web.FetchInto<T>(ATTOMUrl + endpoint, query);
+            model.StreetAddress = (string)(result["property"][0]["address"]["line1"]);
+            model.City = (string)(result["property"][0]["address"]["locality"]);
+            model.County = (string)(result["property"][0]["area"]["countrySecSubd"]);
+            model.Price = (int)(result["property"][0]["assessment"]["assessed"]["assdTtlValue"]);
+            model.ZipCode = (string)(result["property"][0]["address"]["postal1"]);
+
+            return model;
+            
         }
 
         public HomeAssessment? GetAssessmentFor(Home addr)
@@ -54,17 +75,10 @@ namespace Main.DAL.Concrete
                 ["address2"] = addr.StreetAddress2,
             });
 
-            if (result?.Property == null)
-            {
-                Debug.WriteLine("Property not found");
-                return null;
-            }
-
-            var assess = result.Property.First().Assessment;
+            var assess = result?.Property.FirstOrDefault()?.Assessment;
 
             if (assess == null)
             {
-                Debug.WriteLine("Assessment not found");
                 return null;
             }
 
@@ -76,6 +90,7 @@ namespace Main.DAL.Concrete
             };
 
         }
+
         public string SetNullResponse()
         {
             string zipcode  = "97304";
@@ -84,11 +99,10 @@ namespace Main.DAL.Concrete
             string pages    = "50";
             string endpoint = "assessment/detail?postalcode=" + zipcode + "&minAssdTtlValue=" + minPrice + "&maxAssdTtlValue=" + maxPrice + "&pagesize=" + pages;
 
-            var x = ATTOMUrl + endpoint;
-            var info = _web.FetchJObject(x);
-            string? response = info.ToString();
+            var info = _cache.FetchJObject(endpoint);
+            string? response = info?.ToString();
 
-            return response;
+            return response ?? "";
         }
 
         private AttomJson? FetchNullResponse()
@@ -111,13 +125,11 @@ namespace Main.DAL.Concrete
             //    endpoint = OrderBy(orderBy, endpoint);
             //}
 
-            var x = ATTOMUrl + endpoint;
-
-            var info = _web.FetchJObject(x);
+            var info = _cache.FetchJObject(endpoint);
 
             if (info == null)
             {
-                string? nullResponse = SetNullResponse();
+                string nullResponse = SetNullResponse();
                 AttomJson nullResponseResult = new JavaScriptSerializer().Deserialize<AttomJson>(nullResponse);
                 return nullResponseResult;
             }

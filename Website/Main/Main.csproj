@@ -34,7 +34,9 @@
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="100.0.4896.6000" />
     <PackageReference Include="SpecFlow.NUnit" Version="3.9.69" />
     <PackageReference Include="SpecFlow.Plus.LivingdocPlugin" Version="3.9.57" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
     <PackageReference Include="Tablesorter" Version="2.25.4" />
+    <PackageReference Include="Twilio" Version="5.74.0" />
   </ItemGroup>
 
   <ItemGroup>

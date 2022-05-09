@@ -1,0 +1,110 @@
+﻿@using Main.Models.Listings
+@model Tuple<StreetViewViewModel, Home>
+
+@{
+    ViewData["Title"] = "Home Listings";
+}
+
+@section ApplyNow {
+<div class="container" style="background:white">
+
+
+    <div class="item">
+        <div class = "row">
+            <div class="col-sm-8">
+            <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Street view of: @ViewBag.streetAddress @ViewBag.cityName, @ViewBag.stateAbbrev</h3>
+            <div style="text-align: center;">
+                <img src=@Model.Item1.Address />
+            </div>
+            <hr>
+        </div>
+        <div class="col-sm-4">
+            <div class="text-left">
+                <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Address info:</h3>
+                <br>
+                <table id="housingInfo" class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="row">House Value </th>
+                            <td id= "price" style="background-color: white; color: black;"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">City</th>
+                            <td style="background-color: white; color: black;">@Model.Item2.City</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">County</th>
+                            <td style="background-color: white; color: black;">@Model.Item2.County</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Zipcode</th>
+                            <td style="background-color: white; color: black;">@Model.Item2.ZipCode</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <hr>
+                <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Crime Stats for <span id="yearCrimeStats"></span></h3>
+                <table id="cityCrimeStats" class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Offense Type @Html.Tooltip("Most of these are self-explanatory; However, rape-legacy refers to the legal definition of rape prior to 2014 depending on the state and county.")</th>
+                                <th>Total Offenses</th>
+                                <th>Convictions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                </table>
+                <h2 id="cityCrimeNoCrimeheader"></h2>
+                <ul id="cityCrimeStatsNoCrime">
+                </ul>
+                <hr>
+            </div>
+            </div>
+        </div>        
+</div>
+</div>
+}
+
+<input hidden id="cityName" value="@ViewBag.cityName" type="text">
+<input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
+
+
+@section Scripts
+{
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
+
+
+<script>
+    document.getElementById("yearCrimeStats").innerHTML = new Date().getFullYear() - 2;
+    document.getElementById("price").innerHTML = "$" + parseInt(@Model.Item2.Price).toLocaleString('en');
+
+    $('#yearSelector').on('change', function (e) {
+    var optionValue = $("option:selected", this);
+    var selectedValue = this.value;
+    document.getElementById("loadingIcon").innerHTML = "<img src=\"https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif\" style=\"width: 30px;\">.";
+    
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/api/UpdateCityStats",
+        data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
+        success: function(data){
+            showCityStats(data), showChartPercentage(data), fetchStateCrimeStats(selectedValue);
+        },
+        error: function(){
+            console.log("Updater Issue.")
+        }
+        
+    });
+});
+</script>
+
+}
+
