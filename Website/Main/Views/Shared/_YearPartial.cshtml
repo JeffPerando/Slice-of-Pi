@@ -1,7 +1,10 @@
-﻿<label for="year"></label>
+﻿
+@using Main.DAL.Concrete
+
+<label for="year"></label>
 <select name="year" id="year" required>
     <option value="0" selected>Select year</option>
-    @for (int i = 2020; i >= 1985; i--)
+    @for (int i = FBIService.LatestYear; i >= FBIService.OldestYear; i--)
     {
     <option value="@i">@i</option>
     }

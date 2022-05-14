@@ -15,20 +15,10 @@ $(function () {
 })
 
 function populateTrendChartYearAmount() {
-    var yearSelectorTotal = [];
-    counter = 30;
-    for (let i = 0; i <= 30; i++) {
-        yearSelectorTotal.push(1985 + counter);
-        counter--;
-    }
-
     var select = document.getElementById("trendGraphYearSelector");
-    for (let i = 0; i < yearSelectorTotal.length; i++) {
-        var option = yearSelectorTotal[i];
-        var element = document.createElement("option");
-        element.textContent = option;
-        element.value = option;
-        select.appendChild(element);
+
+    for (let i = 2020; i >= 1985; --i) {
+        select.append(`<option value=${i}>${i}</option>`);
     }
 
 }
