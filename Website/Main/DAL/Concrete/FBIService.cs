@@ -37,20 +37,34 @@ namespace Main.DAL.Concrete
 
         //Helpers
 
-        private JObject? FetchFBIObj(string endpoint, bool cached = false)
+        private JObject? FetchFBIObj(string endpoint, bool cached = true)
         {
-            if (cached)
-            {
-                return _cache.FetchJObject(endpoint, new()
-                {
-                    ["API_KEY"] = _key
-                }, false);
-            }
-
-            return _web.FetchJObject(base_url + endpoint, new()
+            var query = new Dictionary<string, string?>()
             {
                 ["API_KEY"] = _key
-            });
+            };
+
+            if (cached)
+            {
+                return _cache.FetchJObject(endpoint, query, false);
+            }
+
+            return _web.FetchJObject(base_url + endpoint, query);
+        }
+
+        private List<JObject?> MultifetchFBIObjs(IEnumerable<string> endpoints, bool cached = true)
+        {
+            var query = new Dictionary<string, string?>()
+            {
+                ["API_KEY"] = _key
+            };
+
+            if (cached)
+            {
+                return _cache.MultifetchJObjectsAsync(endpoints, query, false).GetAwaiter().GetResult();
+            }
+
+            return _web.MultifetchJObjectsAsync(endpoints.Select(e => base_url + e).ToList(), query);
         }
 
         private Task<JObject?> FetchFBIObjAsync(string endpoint)
@@ -151,7 +165,9 @@ namespace Main.DAL.Concrete
 
         public async Task<StateCrimeStats?> StateCrimeSingleAsync(State state, int? year = null)
         {
-            var results = (await FetchFBIObjAsync($"{state_crime_endpoint}/{state.Abbrev}/{year ?? LatestYear}/{year ?? LatestYear}"))?["results"];
+            year ??= LatestYear;
+
+            var results = (await FetchFBIObjAsync($"{state_crime_endpoint}/{state.Abbrev}/{year}/{year}"))?["results"];
             
             if (results == null)
                 return null;
@@ -164,20 +180,26 @@ namespace Main.DAL.Concrete
 
         public List<StateCrimeStats> StateCrimeMulti(List<State> states, int? year = null)
         {
-            var fetches = states.Select(state => StateCrimeSingleAsync(state, year)).ToArray();
-
-            Task.WaitAll(fetches);
+            year ??= LatestYear;
+            var statesData = MultifetchFBIObjs(states.Select(s => $"{state_crime_endpoint}/{s.Abbrev}/{year}/{year}"));
 
             var stats = new List<StateCrimeStats>();
 
-            foreach (var fetch in fetches)
+            foreach (var data in statesData)
             {
-                var stat = fetch.GetAwaiter().GetResult();
-                
-                if (stat == null)
+                if (data == null)
                     continue;
 
-                stats.Add(stat);
+                var results = data["results"]?[0];
+
+                if (results == null)
+                    continue;
+
+                var abbr = results["state_abbr"]?.ToString();
+
+                State state = states.Where(s => s.Abbrev == abbr).FirstOrDefault() ?? states[0];
+
+                stats.Add(new StateCrimeStats(state, results));
             }
 
             return stats;
