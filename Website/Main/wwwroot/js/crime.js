@@ -53,6 +53,9 @@ function showCityStats(data) {
             document.getElementById("cityCrimeNoCrimeheader").textContent = "Crimes not committed: ";
             var offense = noOffenses[i]["offenseType"].replaceAll("-", " ");
             var ul = document.getElementById("cityCrimeStatsNoCrime");
+            if (offense == "human trafficing") {
+                offense = "Human Trafficking"
+            }
             var li = document.createElement("li")
 
             li.appendChild(document.createTextNode("> " + (capitalize(offense))));

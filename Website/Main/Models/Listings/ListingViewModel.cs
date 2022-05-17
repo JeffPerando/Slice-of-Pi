@@ -1,4 +1,4 @@
-﻿namespace Main.Models.Listings
+﻿ namespace Main.Models.Listings
 {
     public class ListingViewModel
     {
