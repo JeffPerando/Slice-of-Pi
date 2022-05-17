@@ -102,9 +102,6 @@ testRunner.Then("I will see a drop downlist pop up", ((string)(null)), ((TechTal
 #line 7
 testRunner.When("I click StreetView search", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 8
-testRunner.Then("I will be directed to the StreetView page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
             }
             this.ScenarioCleanup();
         }

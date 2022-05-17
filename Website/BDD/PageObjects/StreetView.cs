@@ -29,7 +29,7 @@ namespace TestBDD.PageObjects
         }
         public void ClickStreetViewButton()
         {
-            var z = DropDownList.FindElement(By.LinkText("StreetViewLink"));
+            var z = DropDownList.FindElement(By.PartialLinkText("StreetViewLink"));
             var nav = z.GetAttribute("href");
 
             //var x = DropDownTextStreetView.Equals("StreetViewLink");

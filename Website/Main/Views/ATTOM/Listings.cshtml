@@ -1,4 +1,5 @@
 ﻿@using Main.Models.Listings
+@using Main.Extensions
 @model AttomJson
 <body style="max-width: 100%; overflow-x: hidden;">
     <section class="heading-page header-text" id="top">
@@ -7,7 +8,8 @@
             <div class="col">
                 <img id="spinnyBoi" src="~/spinner.gif" style="width: 64px; height: 64px; display: none;" />
             </div>
-            <div class="row my-2"><h1 style="color:white;">Enter some parameters</h1></div>
+            <div class="row my-2"><h1 style="color:white;">Enter some parameters 
+                @Html.Tooltip("Enter the information below, zipcode, how many homes you want in your request, minimum price and max price.")</h1></div>
             <div class="limiter">
                 <div class="wrap-table100">
                     <div class="table100 ver3 m-b-110">
@@ -78,7 +80,8 @@
                                             <tr class="row100 head">    
                                                 @using (Html.BeginForm("StreetView", "ATTOM", FormMethod.Get))
                                 {
-                                                <td class="cell100 column1"><input hidden type="text" id="streetAddress" name="streetAddress" style = "color:grey;" value="@item.address.oneLine">
+                                                <td class="cell100 column1"><input hidden type="text" id="streetAddress" name="streetAddress" style = "color:grey;" value="@item.address.oneLine"
+                                                @Html.Tooltip("Click one of the addresses to see its streetview, and an interactive map of the area!")>
                                                     <input type="submit" class ="btn" value="@item.address.oneLine" style = "color:grey; width:420px; text-align:left;"></td>
                                 }
                                                 <td class="cell100 column2">@item.building.size.grosssize</td>

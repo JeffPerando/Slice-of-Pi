@@ -33,6 +33,10 @@ namespace Main.DAL.Concrete
             _privateAuthKey = authKey;
         }
 
+        public GoogleStreetViewAPIService()
+        {
+        }
+
         public static string Sign(string url, string keyString)
         {
             ASCIIEncoding encoding = new ASCIIEncoding();
