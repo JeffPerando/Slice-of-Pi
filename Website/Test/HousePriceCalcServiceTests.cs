@@ -16,7 +16,7 @@ namespace Test
 {
     public class HousePriceCalcServiceTests
     {
-        private static readonly Home address = new() { StreetAddress = "1313 Mockingbird Ln.", County = "Hollywood", State = "CA", ZipCode = "90210" };
+        private static readonly Home address = new() { StreetAddress = "1313 Mockingbird Ln.", City = "Hollywood", State = "CA", ZipCode = "90210" };
 
         private static ICrimeAPIv2 MockCrimeAPI(int stateCrimes, int cityCrimes, int cityCount)
         {

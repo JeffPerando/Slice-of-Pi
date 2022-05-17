@@ -90,7 +90,7 @@ namespace Main.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            _users.AddAddress(User, new Home { StreetAddress = street, County = city, State = state, ZipCode = zip });
+            _users.AddAddress(User, new Home { StreetAddress = street, City = city, State = state, ZipCode = zip });
 
             ViewData["Message"] = "Address added successfully!";
 
@@ -162,7 +162,7 @@ namespace Main.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            _users.AddAddress(User, new Home { StreetAddress = street, County = city, State = state, ZipCode = zip });
+            _users.AddAddress(User, new Home { StreetAddress = street, City = city, State = state, ZipCode = zip });
 
             return Assessments();
         }

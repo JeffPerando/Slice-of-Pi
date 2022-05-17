@@ -40,6 +40,8 @@ namespace Main.Models
 
                 entity.Property(e => e.County).HasMaxLength(100);
 
+                entity.Property(e => e.City).HasMaxLength(100);
+
                 entity.Property(e => e.State).HasMaxLength(2);
 
                 entity.Property(e => e.StreetAddress).HasMaxLength(100);
