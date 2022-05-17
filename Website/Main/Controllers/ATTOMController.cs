@@ -47,7 +47,18 @@ public class ATTOMController : Controller
     {//in the html and display it that way
 
         StreetViewViewModel model = new StreetViewViewModel();
+        StreetViewViewModel temp = new StreetViewViewModel();
         var x = _googleStreetViewAPIService.GetStreetView(streetAddress);
+        model.Akey = _googleStreetViewAPIService.GetEmbededMap(streetAddress+" "+cityName+ " " + stateAbbrev);
+        if (cityName == null && stateAbbrev == null)
+        {
+            temp = _googleStreetViewAPIService.ParseAddressSubmission(streetAddress);
+
+            streetAddress = temp.Address;
+            stateAbbrev = temp.StateName;
+            cityName = temp.CityName;
+        }
+        else
         ViewBag.streetAddress = streetAddress;
         ViewBag.stateAbbrev = stateAbbrev;
         ViewBag.cityName = cityName;
