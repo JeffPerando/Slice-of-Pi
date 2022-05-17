@@ -156,7 +156,3 @@ namespace Main.DAL.Concrete
         } 
     }
 }
-
-//<iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen 
-//    src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJoZM_A7n_v1QRTN2xhZDIQNs&key=AIzaSyC7Mft27ZLeScsH49sJb3Wfe71XR7jwigg">
-//    </iframe>
