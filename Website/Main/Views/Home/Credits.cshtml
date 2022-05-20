@@ -1,21 +1,15 @@
 ﻿
 @using Main.Extensions;
 
-@{
-    ViewData["Title"] = "Credits";
-}
-
 @section Styles {
-<style>
-    .portrait {
-        width: 250px;
-        height: 250px;
-    }
-</style>
+    <link rel="stylesheet" href="~/css/credits.css" />
 }
 
 @section Banner {
+<h2 class="mt-5-xxl">Credits</h2>
 This website is the result of a senior capstone project for CS460-462 at Western Oregon University. The team, Slice of Pi, have spent 3 terms learning and developing on this software stack and more.
+<br />
+The source code for this website can be found on @Html.BrandLink("GitHub", "white", "https://github.com/JeffPerando/Slice-of-Pi")
 <br />
 <br />
 Slice of Pi consists of:
@@ -74,7 +68,7 @@ Slice of Pi consists of:
             <li><a href="https://developers.google.com/maps/documentation/streetview/overview" target="_blank">Street View</a></li>
         </ul>
     </li>
-    <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap 5.0</a></li>
+    <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap 5</a></li>
     <li><a href="https://joshclose.github.io/CsvHelper/" target="_blank">CsvHelper</a></li>
     <li><a href="https://jquery.com/" target="_blank">jQuery</a></li>
     <li><a href="http://www.mimekit.net/" target="_blank">MailKit/MimeKit</a></li>

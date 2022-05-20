@@ -1,0 +1,13 @@
+﻿
+.portrait {
+    width: 250px;
+    height: 250px;
+}
+
+.caption {
+    margin-top: 60px !important;
+}
+
+.video-overlay .header-text {
+    height: 90% !important;
+}
