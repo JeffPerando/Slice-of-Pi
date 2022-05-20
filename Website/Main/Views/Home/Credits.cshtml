@@ -1,0 +1,74 @@
+﻿@section Styles {
+<style>
+    .portrait {
+        width: 275px;
+        height: 250px;
+    }
+</style>
+}
+
+@{
+    ViewData["Title"] = "Credits";
+}
+
+@section Banner {
+This website is the result of 3 terms worth of work at Western Oregon University, as a senior capstone project for CS460, 461, and 462.
+<br />
+<br />
+Important technologies we've used include:
+<ul>
+    <li>The FBI <a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi" target="_blank">Crime Statistics API</a></li>
+    <li>ATTOM's <a href="https://api.developer.attomdata.com/docs" target="_blank">Property API</a></li>
+    <li>
+        Microsoft:
+        <ul>
+            <li><a href="https://azure.microsoft.com/en-us/" target="_blank">Azure</a> cloud hosting platform</li>
+            <li><a href="https://dotnet.microsoft.com/en-us/learn/aspnet/what-is-aspnet-core" target="_blank">ASP.NET Core MVC</a> web framework</li>
+            <li>SQL Server</li>
+        </ul>
+    </li>
+    <li><a href="https://www.mongodb.com/atlas/database" target="_blank">MongoDB Cloud Atlas</a></li>
+</ul>
+}
+
+@section UpcomingMeetings {
+<h2>Meet the Team</h2>
+<div class="d-flex justify-content-around">
+    <div class="bg-semi p-4 m-4 justify-content-center row">
+        <h3>Chris Lopez</h3>
+        <img class="portrait" src="~/Chris.png" />
+        <br />
+        <h4>Lead Concept Designer</h4>
+        <p>
+            <a href="https://github.com/ChrisLopez-code" target="_blank">
+                <img style="vertical-align: middle; display: inline; width: 16px;" src="https://cdn.jsdelivr.net/npm/simple-icons@v6/icons/github.svg" />
+                <span>GitHub</span>
+            </a>
+        </p>
+    </div>
+    <div class="bg-semi p-4 m-4 justify-content-center row">
+        <h3>Ivan Lua-Diaz</h3>
+        <img class="portrait" src="~/Chris.png" />
+        <br />
+        <h4>Head of Deployment</h4>
+        <p>
+            <a href="https://github.com/iluadiaz" target="_blank">
+                <img style="vertical-align: middle; display: inline; width: 16px;" src="https://cdn.jsdelivr.net/npm/simple-icons@v6/icons/github.svg" />
+                <span>GitHub</span>
+            </a>
+        </p>
+    </div>
+    <div class="bg-semi p-4 m-4 justify-content-center row">
+        <h3>Jeff Perando</h3>
+        <img class="portrait" src="~/Jeff.png" />
+        <br />
+        <h4>Head of Git and JIRA</h4>
+        <p>
+            <a href="https://github.com/JeffPerando" target="_blank">
+                <img style="vertical-align: middle; display: inline; width: 16px;" src="https://cdn.jsdelivr.net/npm/simple-icons@v6/icons/github.svg" />
+                <span>GitHub</span>
+            </a>
+        </p>
+    </div>
+</div>
+}
