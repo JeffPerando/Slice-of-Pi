@@ -18,6 +18,7 @@ using Main.Models;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Diagnostics;
+using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -47,6 +48,32 @@ var database = client.GetDatabase("APICache");
 
 services.AddSingleton<IMongoDatabase>(database);
 
+//Rate limiting
+
+services.Configure<IpRateLimitOptions>(options =>
+{
+    options.EnableEndpointRateLimiting = true;
+    options.StackBlockedRequests = false;
+    options.RealIpHeader = "X-Real-IP";
+    options.ClientIdHeader = "X-ClientId";
+    options.GeneralRules = new List<RateLimitRule>
+    {
+        new RateLimitRule
+        {
+            Endpoint = "GET:/api/*",
+            Period = "5s",
+            Limit = 2,
+        },
+        new RateLimitRule
+        {
+            Endpoint = "POST:/api/*",
+            Period = "5s",
+            Limit = 2,
+        }
+    };
+});
+
+services.AddInMemoryRateLimiting();
 
 //Identity
 
@@ -85,6 +112,17 @@ services.Configure<DataProtectionTokenProviderOptions>(options =>
 services.AddControllersWithViews();
 services.AddRazorPages().AddRazorRuntimeCompilation();
 
+
+//These are needed for rate limiting. Yes I'm serious.
+
+services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
+
+//Actual website services
+
 services.AddHttpClient<IWebService, WebService>();
 services.AddScoped<IWebService, WebService>(); //No, this is not redundant.
 services.AddScoped<ISiteUserService, SiteUserService>();
@@ -104,6 +142,10 @@ services.AddScoped<IBackendService, BackendService>();//Keep this one on the bot
 //BUILD. THE. APP.
 var app = builder.Build();
 
+//Comment this out if you want a real stack trace
+//app.UseExceptionHandler("/Home/Error");
+app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");//can add {0}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -111,10 +153,11 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseIpRateLimiting();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -140,18 +183,18 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "API List States",
-    pattern: "/apiv/FBI/Listings",
+    pattern: "/api/FBI/Listings",
     defaults: new { controller = "ATTOM", action = "Listings" });
 
 
 app.MapControllerRoute(
-    name: "API List States",
-    pattern: "/apiv/ATTOM/StreewView",
+    name: "API Street View",
+    pattern: "/api/ATTOM/StreetView",
     defaults: new { controller = "ATTOM", action = "StreetView" });
 
 app.MapControllerRoute(
-    name: "API List States",
-    pattern: "/apiv/ATTOM/StreewViewLookUp",
+    name: "API Street Lookup",
+    pattern: "/api/ATTOM/StreetViewLookUp",
     defaults: new { controller = "ATTOM", action = "StreetViewLookUp" });
 
 app.MapControllerRoute(

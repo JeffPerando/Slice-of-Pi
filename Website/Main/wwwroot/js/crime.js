@@ -35,17 +35,25 @@ function showCityStats(data) {
             continue;
         }
 
-        let repoTR = $(
-            `<tr>
-                <td>${capitalize(data[i]["offenseType"].replaceAll("-", " "))}</td>
-                <td>${internationalNumberFormat.format(data[i]["totalOffenses"])}</td>
-                <td>${internationalNumberFormat.format(data[i]["actualConvictions"])}</td>
-            </tr>`
-        )
+        let repoTR = document.createElement("tr");
+
+        let offenseType = document.createElement("td");
+        let offenses = document.createElement("td");
+        let convictions = document.createElement("td");
+
+        offenseType.textContent = capitalize(data[i]["offenseType"].replaceAll("-", " "));
+        offenses.textContent = internationalNumberFormat.format(data[i]["totalOffenses"]);
+        convictions.textContent = internationalNumberFormat.format(data[i]["actualConvictions"]);
+
+        repoTR.appendChild(offenseType);
+        repoTR.appendChild(offenses);
+        repoTR.appendChild(convictions);
 
         $("#cityCrimeStats>tbody").append(repoTR);
-        $("#cityCrimeStats").show();
+
     }
+
+    $("#cityCrimeStats").show();
 
     if (noOffenses.length > 0) {
         $("#cityCrimeStatsNoCrime").empty();
@@ -58,14 +66,14 @@ function showCityStats(data) {
             }
             var li = document.createElement("li")
 
-            li.appendChild(document.createTextNode("> " + (capitalize(offense))));
-            ul.appendChild(li);
+            li.append(document.createTextNode("> " + (capitalize(offense))));
+            ul.append(li);
         }
 
     }
 
 
-    document.getElementById("year").textContent = " (" + currentYearSelected + ")";
+    document.getElementById("year").textContent = ` (${currentYearSelected})`;
 
     // Creates the Pi Graph
     showChartPercentage(data);
@@ -141,15 +149,23 @@ function showChartPercentage(data) {
 function displayStateInformation(data) {
     $("#stateCrimeTable>tbody").empty();
     for (let i = 0; i < data.length; ++i) {
-        let repoTR = $(
-            `<tr>
-                <td>${data[i]["state"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
-            </tr>`
-        )
+        let repoTR = document.createElement("tr");
+
+        let state = document.createElement("td");
+        let convictions = document.createElement("td");
+
+        state.textContent = data[i]["state"];
+        convictions.textContent = data[i]["actualConvictions"];
+
+        repoTR.appendChild(state);
+        repoTR.appendChild(convictions);
+
         $("#safestStatesTable>tbody").append(repoTR);
-        $("#safestStatesTable").show();
+
     }
+
+    $("#safestStatesTable").show();
+
 }
 
 function populateDropDown(data) {

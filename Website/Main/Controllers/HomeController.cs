@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Main.Models;
+using Microsoft.AspNetCore.Diagnostics;
 
 namespace Main.Controllers
 {
@@ -25,13 +26,20 @@ namespace Main.Controllers
         {
             return View();
         }
-
+        
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
-
+        //Uncomment to rickroll when a bad page is linked to
+        /*
+        [Route("/Home/Error/404")]
+        public IActionResult Error404()
+        {
+            return Redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        }
+        */
         public IActionResult Credits()
         {
             return View();

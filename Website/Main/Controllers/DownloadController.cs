@@ -11,12 +11,10 @@ namespace Main.Controllers
     public class DownloadController : Controller
     {
         private readonly ISiteUserService _users;
-        private readonly CrimeDbContext _db;
-
-        public DownloadController(ISiteUserService users, CrimeDbContext db)
+        
+        public DownloadController(ISiteUserService users)
         {
             _users = users;
-            _db = db;
 
         }
 

@@ -1,4 +1,7 @@
 
+var latestYear = 2015;
+var oldestYear = 1985;
+
 $(function () {
     $.ajax({
         type: "GET",
@@ -15,11 +18,18 @@ $(function () {
 
 })
 
+function toOption(content) {
+    var option = document.createElement("option");
+    option.textContent = content;
+    option.value = content;
+    return option;
+}
+
 function populateTrendChartYearAmount() {
     var select = $("#trendGraphYearSelector");
 
-    for (let i = 2015; i >= 1985; --i) {
-        select.append(`<option value=${i}>${i}</option>`);
+    for (let year = latestYear; year >= oldestYear; --year) {
+        select.appendChild(toOption(year));
     }
 
 }
@@ -33,7 +43,7 @@ function showChartTrend(data, trendSelectorYear) {
 
     document.querySelector('#yearSelector').innerHTML = '';
     if (isNaN(trendSelectorYear)) {
-        trendSelectorYear = 2015;
+        trendSelectorYear = latestYear;
     }
 
     const years = [];
@@ -41,7 +51,7 @@ function showChartTrend(data, trendSelectorYear) {
     const propertyCrimes = [];
     const violentCrimes = [];
     const years_list = [];
-    const year_removed = (trendSelectorYear - 1985);
+    const year_removed = (trendSelectorYear - oldestYear);
 
     for (let i = 0; i < data.length; i++) {
         years_list.push(data[i].year);
@@ -61,12 +71,7 @@ function showChartTrend(data, trendSelectorYear) {
     years_list.reverse();
     var select = document.getElementById("yearSelector");
     for (let i = 0; i < years_list.length; i++) {
-
-        var option = years_list[i];
-        var element = document.createElement("option");
-        element.textContent = option;
-        element.value = option;
-        select.appendChild(element);
+        select.appendChild(toOption(years_list[i]));
     }
 
     const config = {

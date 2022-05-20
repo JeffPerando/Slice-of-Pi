@@ -23,7 +23,10 @@ function populateStateDropdown(data) {
     let select = $("#states");
     for (var i = 0; i < data.length; i++) {
         let state = data[i];
-        select.append(`<option value="${state.abbrev}">${state.name}</option>`);
+        let option = document.createElement("option");
+        option.textContent = state.name;
+        option.value = state.abbrev;
+        select.append(option);
     }
     select.change(fetchCities);
 }
@@ -58,7 +61,10 @@ function populateCityDropdown(data) {
     select.html(`<option value="">Select a city</option>`);
     for (var i = 0; i < data.length; i++) {
         let city = data[i];
-        select.append(`<option value="${city}">${city}</option>`);
+        let option = document.createElement("option");
+        option.textContent = city;
+        option.value = city;
+        select.append(option);
     }
 
     disableForms(false);
