@@ -1,3 +1,4 @@
+
 $(function () {
     $.ajax({
         type: "GET",
@@ -15,9 +16,9 @@ $(function () {
 })
 
 function populateTrendChartYearAmount() {
-    var select = document.getElementById("trendGraphYearSelector");
+    var select = $("#trendGraphYearSelector");
 
-    for (let i = 2020; i >= 1985; --i) {
+    for (let i = 2015; i >= 1985; --i) {
         select.append(`<option value=${i}>${i}</option>`);
     }
 
