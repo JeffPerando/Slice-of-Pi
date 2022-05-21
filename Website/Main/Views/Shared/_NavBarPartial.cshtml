@@ -12,15 +12,15 @@
         <a class="nav-item dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Searches
         </a>
-        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
+        <ul id ="navigation" class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
             <li><a id="CityCrimeLookUpLink" class="dropdown-item" href="/Crime/CityCrimeLookUp">City Crime Search</a></li>
             <li><a id="NationalCrimeLink" class="dropdown-item" asp-area="" asp-controller="Crime" asp-action="National">National Crime Stats</a></li>
             <li><a id="HomeListingLink" class="dropdown-item" asp-area="" asp-controller="ATTOM" asp-action="Listings">Home Listings</a></li>
-            <li><a id="StreetViewLink" class="dropdown-item" asp-area="" asp-controller="ATTOM" asp-action="StreetViewLookUp">Street Views</a></li>
+            <li><a id="StreetViewLink" class="dropdown-item" asp-area="" asp-controller="ATTOM" asp-action="StreetViewLookUp">Street Views</a></li>        
         </ul>
     </li>
-    <li><a asp-area="" asp-controller="Home" asp-action="Workcited">Workcited</a></li>
-
+    <li><a asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+    <li><a asp-area="" asp-controller="Home" asp-action="Credits">Credits</a></li>
     <partial name="_LoginPartial" />
 </ul>
 <a class='menu-trigger'>
