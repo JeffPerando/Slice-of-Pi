@@ -69,13 +69,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                
                                 @{
                                     try
                                     {
                                         foreach (var item in Model.Property)
                                         {
-                                            <tr class="row100 head">
-                                                <td class="cell100 column1">@item.address.oneLine</td>
+                                            <tr class="row100 head">    
+                                                @using (Html.BeginForm("StreetView", "ATTOM", FormMethod.Get))
+                                {
+                                                <td class="cell100 column1"><input hidden type="text" id="streetAddress" name="streetAddress" style = "color:grey;" value="@item.address.oneLine">
+                                                    <input type="submit" class ="btn" value="@item.address.oneLine" style = "color:grey; width:420px; text-align:left;"></td>
+                                }
                                                 <td class="cell100 column2">@item.building.size.grosssize</td>
                                                 <td class="cell100 column2">@item.building.rooms.beds</td>
                                                 <td class="cell100 column2">@item.building.rooms.bathstotal</td>
@@ -88,6 +93,7 @@
 
                                     }
                                 }
+                                
                             </tbody>
                         </table>
                     </div>
@@ -95,7 +101,6 @@
             </div>
         </div>
         </div>
-
 
         <!--</form>-->
     </section>
@@ -130,6 +135,9 @@
 
 
 <script>
+
+
+    
     $('.js-pscroll').each(function(){
         var ps = new PerfectScrollbar(this);
 

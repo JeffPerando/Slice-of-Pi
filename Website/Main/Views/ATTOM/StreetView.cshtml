@@ -1,4 +1,5 @@
 ﻿@using Main.Models.Listings
+@using Main.Models
 @model Tuple<StreetViewViewModel, Home>
 
 @{
@@ -12,12 +13,53 @@
     <div class="item">
         <div class = "row">
             <div class="col-sm-8">
-            <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Street view of: @ViewBag.streetAddress @ViewBag.cityName, @ViewBag.stateAbbrev</h3>
-            <div style="text-align: center;">
-                <img src=@Model.Item1.Address />
-            </div>
+            <h3 id="message" style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Street view of: @ViewBag.streetAddress @ViewBag.cityName, @ViewBag.stateAbbrev
+            @Html.Tooltip("Click the dots just below the image/map to cycle between the image/map!")</h3>
+            <section class="carousel" aria-label="Gallery" style = "width:700px; height:525px;">
+
+  <ol class="carousel__viewport" style = "width:700px; height:525px;">
+
+    <li id="carousel__slide1" style = "width:700px; height:525px;"
+        tabindex="0"
+        class="carousel__slide" >
+
+        <a style = "width:700px; height:525px;"
+           class="carousel__prev">Go to last slide</a>
+        <a href="#carousel__slide2" style = "width:700px; height:525px;"
+           class="carousel__next"><img src=@Model.Item1.Address style = "width:700px; height:525px;"/></a>
+
+    </li>
+
+    <li id="carousel__slide2" style = "width:700px; height:525px;"
+        tabindex="0"
+        class="carousel__slide"> 
+
+      <a href="#carousel__slide1"
+         class="carousel__next" style = "width:700px; height:525px;">
+     <iframe width="700" height="525" loading="lazy" 
+     allowfullscreen src=@Model.Item1.Akey > </iframe>
+     
+     </a>
+    </li>
+
+  </ol>
+
+  <aside class="carousel__navigation">
+    <ol class="carousel__navigation-list">
+      <li class="carousel__navigation-item">
+        <a href="#carousel__slide1"
+           class="carousel__navigation-button">Go to slide 1</a>
+      </li>
+      <li class="carousel__navigation-item">
+        <a href="#carousel__slide2"
+           class="carousel__navigation-button">Go to slide 2</a>
+    </ol>
+  </aside>
+</section>
             <hr>
         </div>
+
+       
         <div class="col-sm-4">
             <div class="text-left">
                 <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Address info:</h3>
@@ -49,7 +91,7 @@
                 <table id="cityCrimeStats" class="table">
                         <thead class="table-dark">
                             <tr>
-                                <th>Offense Type @Html.Tooltip("Most of these are self-explanatory; However, rape-legacy refers to the legal definition of rape prior to 2014 depending on the state and county.")</th>
+                                <th>Offense Type @Html.Tooltip("Here you will see the streetview of the address. You can press the arrow on the right to change it to an interact and vice versa")</th>
                                 <th>Total Offenses</th>
                                 <th>Convictions</th>
                             </tr>
@@ -65,8 +107,15 @@
             </div>
         </div>        
 </div>
+
 </div>
+
+
+ 
 }
+
+
+
 
 <input hidden id="cityName" value="@ViewBag.cityName" type="text">
 <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
@@ -79,7 +128,7 @@
 <script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
-
+<link rel="stylesheet" href="~/css/StreetViewCarousel.css" asp-append-version="true" />
 
 <script>
     document.getElementById("yearCrimeStats").innerHTML = new Date().getFullYear() - 2;

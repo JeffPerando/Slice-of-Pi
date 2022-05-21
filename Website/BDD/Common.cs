@@ -15,6 +15,7 @@
             public const string LoginPageName = "Login";
             public const string CityLookUpPageName = "CityCrimeLookUp";
             public const string CrimeStatsPageName = "CrimeStats";
+            public const string StreetViewPageName = "StreetView";
 
             // A handy way to look these up
             public static readonly Dictionary<string, string> Paths = new()
@@ -22,7 +23,8 @@
                 { HomePageName, "/" },
                 { LoginPageName, "/Identity/Account/Login" },
                 { CityLookUpPageName, "/Crime/CityCrimeLookUp" },
-                { CrimeStatsPageName, "/Crime/CrimeStats"}
+                { CrimeStatsPageName, "/Crime/CrimeStats"},
+                { StreetViewPageName, "/Attom/StreetView" }
             };
 
             public static string PathFor(string pathName) => Paths[pathName];

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Main.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class UserController : Controller
     {
         private readonly ISiteUserService _users;
@@ -33,7 +34,7 @@ namespace Main.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(User form)
+        public IActionResult Edit(User form)
         {
             if (!_users.IsLoggedIn(User))
             {
@@ -62,7 +63,7 @@ namespace Main.Controllers
             else
             {
                 _db.Users.Update(user);
-                _db.SaveChangesAsync();
+                _db.SaveChanges();
             }
 
             ViewData["Messages"] = string.Join("\n", msgs);
@@ -90,7 +91,7 @@ namespace Main.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            _users.AddAddress(User, new Home { StreetAddress = street, County = city, State = state, ZipCode = zip });
+            _users.AddAddress(User, new Home { StreetAddress = street, City = city, State = state, ZipCode = zip });
 
             ViewData["Message"] = "Address added successfully!";
 
@@ -162,7 +163,7 @@ namespace Main.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            _users.AddAddress(User, new Home { StreetAddress = street, County = city, State = state, ZipCode = zip });
+            _users.AddAddress(User, new Home { StreetAddress = street, City = city, State = state, ZipCode = zip });
 
             return Assessments();
         }
