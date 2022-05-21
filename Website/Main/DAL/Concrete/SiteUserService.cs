@@ -99,9 +99,9 @@ namespace Main.DAL.Concrete
             {
                 return false;
             }
-
+            
             addr.UserId = id;
-
+            
             _db.Homes.Add(addr);
             _db.SaveChanges();
 
