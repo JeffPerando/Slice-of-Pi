@@ -93,6 +93,9 @@
                         <p style="color:black; display:inline;" id="loadingIcon"><img src="https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif" style="width: 30px;"></p>
                     </div>
                     <hr>
+                        <h3 class="text-center" style="color:black;">Rating for this city (2020) @Html.Tooltip("When we say the percentage, this is taken from the most recent avaiable year and we get the percentage of crime for a specific city compared to the entire state the city resides in.")</h3>
+                        <h3 class="text-center" style="color:black;" id="ratingLetter"></h3>
+                    <hr>
                     <h3 class="text-center" style="color:black">Crime by Percentage @Html.Tooltip("Calculation information:<br>These calculations are done by taking the total amount of crimes and getting the percentage by dividing it by the crime in question, and then multiplying by 100.<br><br>Information displaying: <br>If a specific label is present, however you are not seeing it present in the pie graph, then please click on other labels to allow for the label to expand, it might be that there is so little of the crime in the area.")</h3>
                     <canvas id="crimeTrendPercentage" width="100" height="100"></canvas>
                     <br>

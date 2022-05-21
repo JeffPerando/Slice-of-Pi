@@ -51,6 +51,10 @@ function showCityStats(data) {
         $("#cityCrimeStatsNoCrime").empty();
         for (let i = 0; i < noOffenses.length; ++i) {
             document.getElementById("cityCrimeNoCrimeheader").textContent = "Crimes not committed: ";
+            if (noOffenses[i]["offenseType"] == "human-trafficing")
+            {
+                noOffenses[i]["offenseType"] = "Human-Trafficking";
+            }
             var offense = noOffenses[i]["offenseType"].replaceAll("-", " ");
             var ul = document.getElementById("cityCrimeStatsNoCrime");
             var li = document.createElement("li")
