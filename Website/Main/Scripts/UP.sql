@@ -6,7 +6,7 @@ CREATE TABLE [Home]
     [State]             NVARCHAR(2)     NOT NULL,
     [City]              NVARCHAR(100)   NOT NULL,
     [County]            NVARCHAR(100),
-    [Price]             FLOAT           NOT NULL,
+    [Price]             FLOAT,
     [UserID]            NVARCHAR (450)  NOT NULL
 );
 

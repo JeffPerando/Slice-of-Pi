@@ -20,6 +20,6 @@ function addStatesToForm(states) {
         var element = document.createElement("option");
         element.textContent = state["abbrev"];
         element.value = state["abbrev"];
-        $("#addrStates").appendChild(element);
+        $("#addrStates").append(element);
     }
 }

@@ -88,42 +88,6 @@ namespace Main.Models
                     .HasConstraintName("SCSR_Fk_User");
             });
 
-            modelBuilder.Entity<FBICache>(entity =>
-            {
-                entity.ToTable("FBICache");
-
-                entity.HasKey(e => e.Endpoint);
-
-                entity.Property(e => e.Endpoint)
-                    .HasMaxLength(256)
-                    .HasColumnName("Endpoint");
-
-                entity.Property(e => e.Expiry)
-                    .HasColumnType("datetime")
-                    .HasColumnName("Expiry");
-
-                entity.Property(e => e.Data).HasColumnName("Data");
-
-            });
-
-            modelBuilder.Entity<ATTOMCache>(entity =>
-            {
-                entity.ToTable("ATTOMCache");
-
-                entity.HasKey(e => e.Endpoint);
-
-                entity.Property(e => e.Endpoint)
-                    .HasMaxLength(256)
-                    .HasColumnName("Endpoint");
-
-                entity.Property(e => e.Expiry)
-                    .HasColumnType("datetime")
-                    .HasColumnName("Expiry");
-
-                entity.Property(e => e.Data).HasColumnName("Data");
-
-            });
-
             OnModelCreatingPartial(modelBuilder);
         }
 
