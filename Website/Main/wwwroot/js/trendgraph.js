@@ -29,7 +29,7 @@ function populateTrendChartYearAmount() {
     var select = $("#trendGraphYearSelector");
 
     for (let year = latestYear; year >= oldestYear; --year) {
-        select.appendChild(toOption(year));
+        select.append(toOption(year));
     }
 
 }
