@@ -12,7 +12,7 @@ namespace Main.Models
         public string State { get; set; } = null!;
         public string? City { get; set; } = null!;
         public string? County { get; set; } = null!;
-        public double Price { get; set; } 
+        public double? Price { get; set; }
         public string UserId { get; set; } = null!;
       
         public virtual User User { get; set; } = null!;
