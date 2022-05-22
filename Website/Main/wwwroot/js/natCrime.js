@@ -50,7 +50,10 @@ function errorOnAjax() {
 }
 
 function toTD(data) {
-    return `<td style="color:white; font-weight:bold;">${data}</td>`;
+    let td = document.createElement("td");
+    td.style = "color: white; font-weight: bold;";
+    td.textContent = data;
+    return td;
 }
 
 function showCrimeStats(data, year) {
@@ -65,24 +68,28 @@ function showCrimeStats(data, year) {
     $("#natCrimeHeader").html(`National Crime Statistics For ${year}`);
 
     let tbl = $("#natCrimeTable>tbody");
+    //this is the ONLY WAY to clear this table reliably
+    //other methods I tried didn't want to work
+    //I blame tablesorter.
     tbl.html("");
 
     for (let state of data.stateCrimes) {
-        tbl.append(`<tr>
-            ${toTD(state["state"]["name"])}
-            ${toTD(state["population"])}
-            ${toTD(state["violentCrimes"])}
-            ${toTD(state["homicide"])}
-            ${toTD(state["rapeLegacy"])}
-            ${toTD(state["rapeRevised"])}
-            ${toTD(state["robbery"])}
-            ${toTD(state["assault"])}
-            ${toTD(state["propertyCrimes"])}
-            ${toTD(state["burglary"])}
-            ${toTD(state["larceny"])}
-            ${toTD(state["motorVehicleTheft"])}
-            ${toTD(state["arson"])}
-        </tr>`);
+        let stateRow = document.createElement("tr");
+
+        let crimes = ["population", "violentCrimes", "homicide",
+            "rapeLegacy", "rapeRevised", "robbery",
+            "assault", "propertyCrimes", "burglary",
+            "larceny", "motorVehicleTheft", "arson"
+        ];
+
+        stateRow.append(toTD(state["state"]["name"]));
+
+        for (const crime of crimes) {
+            stateRow.appendChild(toTD(state[crime]));
+        }
+
+        tbl.append(stateRow);
+
     }
     /*
     $("#natCrimeTable").tablesorter({

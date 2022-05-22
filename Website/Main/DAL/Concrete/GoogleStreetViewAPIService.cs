@@ -58,16 +58,16 @@ namespace Main.DAL.Concrete
             // Add the signature to the existing URI.
             return uri.Scheme + "://" + uri.Host + uri.LocalPath + uri.Query + "&signature=" + signature;
         }
-    
-    public string ParseAddress(string address)
+
+        public string ParseAddress(string address)
         {
             char[] charArray = address.ToCharArray();
 
-            for(int i = 0; i < charArray.Length; i++)
+            for (int i = 0; i < charArray.Length; i++)
             {
-                if(charArray[i] == ' ')
+                if (charArray[i] == ' ')
                 {
-                    charArray[i]= '+';
+                    charArray[i] = '+';
                 }
             }
 
@@ -103,28 +103,28 @@ namespace Main.DAL.Concrete
 
             List<string> list = new List<string>();
 
-           
+
 
             int counter = 0;
 
             for (int i = 0; i < charArray.Length; i++)
             {
-                
+
                 if (charArray[i] == ',' && counter == 0)
                 {
                     viewModel.Address = x;
                     counter++;
                     x = "";
-                    i+=2;
+                    i += 2;
                 }
-                else if(charArray[i] == ',' && counter == 1)
+                else if (charArray[i] == ',' && counter == 1)
                 {
                     viewModel.CityName = x;
                     counter++;
                     x = "";
-                    i+=2;
+                    i += 2;
                 }
-                else if(' ' == charArray[i] && counter == 2)
+                else if (' ' == charArray[i] && counter == 2)
                 {
                     viewModel.StateName = x;
                     break;
@@ -150,9 +150,9 @@ namespace Main.DAL.Concrete
         {
             address = ParseAddressEmbededMap(address);
             //https://www.google.com/maps/embed/v1/MAP_MODE?key=YOUR_API_KEY&PARAMETERS
-            string apiCall = "https://www.google.com/maps/embed/v1/place?q="+ address + "&key=" + _apiKey;
+            string apiCall = "https://www.google.com/maps/embed/v1/place?q=" + address + "&key=" + _apiKey;
 
             return apiCall;
-        } 
+        }
     }
 }

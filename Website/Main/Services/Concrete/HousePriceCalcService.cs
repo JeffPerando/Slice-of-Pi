@@ -44,7 +44,7 @@ namespace Main.Services.Concrete
             var state = new State { Abbrev = addr.State };
 
             var stateCrimes = _crime.StateCrimeSingleBasic(state)?.TotalOffenses ?? 0;
-            var cityCrimes = _crime.CityCrimeSingleBasic(addr.County, state)?.TotalOffenses ?? 0;
+            var cityCrimes = _crime.CityCrimeSingleBasic(addr.City, state)?.TotalOffenses ?? 0;
             var cityCount = _crime.CitiesIn(state)?.Count ?? 0;
 
             var stateCrimePerAgency = stateCrimes / (float)cityCount;

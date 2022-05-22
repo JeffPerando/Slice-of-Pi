@@ -26,21 +26,25 @@ function errorOnAjax() {
     console.log("ERROR in ajax request");
 }
 
+function toTD(content) {
+    let td = document.createElement("td");
+    td.textContent = content;
+    return td;
+}
+
 function showStateStats(data) {
-    internationalNumberFormat = new Intl.NumberFormat('en-US')
-    var total_offenses = (data["violentCrimes"] + data["propertyCrimes"])
-    var crime_per_capita = ((total_offenses / data["population"]) * 100000);
+    let numFmt = new Intl.NumberFormat('en-US')
+    let total_offenses = (data["violentCrimes"] + data["propertyCrimes"])
+    let crime_per_capita = ((total_offenses / data["population"]) * 100000);
 
     $("#stateCrimeTable>tbody").empty();
-    let repoTR = $(
-        `<tr>
-            <td>${internationalNumberFormat.format(data["population"])}</td>
-            <td>${internationalNumberFormat.format(total_offenses)}</td>
-            <td>${internationalNumberFormat.format(crime_per_capita.toFixed(2))}</td>
-        <tr>`
-    )
+    let repoTR = document.createElement("tr");
+
+    repoTR.appendChild(toTD(numFmt.format(data["population"])));
+    repoTR.appendChild(toTD(numFmt.format(total_offenses)));
+    repoTR.appendChild(toTD(numFmt.format(crime_per_capita.toFixed(2))));
+
     $("#stateCrimeTable>tbody").append(repoTR);
     $("#stateCrimeTable").show();
-
 
 }

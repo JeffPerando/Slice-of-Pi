@@ -143,6 +143,12 @@ namespace Main.Controllers
             });
         }
 
+        [HttpGet]
+        public IActionResult Test()
+        {
+            return Content("test");
+        }
+
     }
 
 }
