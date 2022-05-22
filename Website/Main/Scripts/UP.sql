@@ -4,7 +4,7 @@ CREATE TABLE [Home]
     [StreetAddress]     NVARCHAR(100)   NOT NULL,
     [ZipCode]           NVARCHAR(10)    NOT NULL,
     [State]             NVARCHAR(2)     NOT NULL,
-    [City]              NVARCHAR(100)   NOT NULL,
+    [City]              NVARCHAR(100)   NOT NULL,  
     [County]            NVARCHAR(100),
     [Price]             FLOAT,
     [UserID]            NVARCHAR (450)  NOT NULL
