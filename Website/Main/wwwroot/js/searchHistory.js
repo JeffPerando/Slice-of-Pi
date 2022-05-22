@@ -13,54 +13,69 @@ function errorOnAjax() {
     console.log("ERROR in ajax request");
 }
 
+function toElem(type, content) {
+    let th = document.createElement(type);
+    th.textContent = content;
+    return th;
+}
+
 function showStateSearchHistory(data) {
-    console.log(data);
-    
+    //oh boy
+
     if (data.results.length == 0) {
+        //I... I'm not rewriting this. Just... no. It's simple as can be.
         $("#scsr").html("<p><h5>We didn't find any search results</h5></p>");
         return;
     }
 
-    let scsrTbl = '<table class="table table-dark table-condensed" align="center" id="safestStatesTable" border="1">';
+    let scsrTbl = document.createElement("table"); //'<table class="table table-dark table-condensed" align="center" id="safestStatesTable" border="1">';
 
-    scsrTbl += `<thead><th>Date Searched</th>
-                <th>State</th>
-                <th>Year</th>
-                <th>Population</th>
-                <th>Violent Crimes</th>
-                <th>Homicide</th>
-                <th>Rape (Legacy)</th>
-                <th>Rape (Revised)</th>
-                <th>Robbery</th>
-                <th>Aggravated Assault</th>
-                <th>Property Crime</th>
-                <th>Burglary</th>
-                <th>Larceny</th>
-                <th>Motor Vehicle Theft</th>
-                <th>Arson</th></thead><tbody>`;
+    scsrTbl.classList = ["table", "table-dark", "table-condensed"];
+//    scsrTbl.align = "center";//WHY???
+    scsrTbl.id = "stateCrimeSearchResultTable";
 
-    for (const searchEntry of data.results) {
-        scsrTbl += `<tr>
-                        <td>${new Date(searchEntry["dateSearched"]).toLocaleString()}</td>
-                        <td>${searchEntry["state"]}</td>
-                        <td>${searchEntry["year"]}</td>
-                        <td>${searchEntry["population"]}</td>
-                        <td>${searchEntry["violentCrimes"]}</td>
-                        <td>${searchEntry["homicide"]}</td>
-                        <td>${searchEntry["rapeLegacy"]}</td>
-                        <td>${searchEntry["rapeRevised"]}</td>
-                        <td>${searchEntry["robbery"]}</td>
-                        <td>${searchEntry["assault"]}</td>
-                        <td>${searchEntry["propertyCrimes"]}</td>
-                        <td>${searchEntry["burglary"]}</td>
-                        <td>${searchEntry["larceny"]}</td>
-                        <td>${searchEntry["motorVehicleTheft"]}</td>
-                        <td>${searchEntry["arson"]}</td>
-                    </tr>`;
+    let headers = ["Date Searched", "State", "Year", "Population",
+        "Population", "Violent Crimes", "Homicide",
+        "Rape (Legacy)", "Rape (Revised)", "Robbery",
+        "Aggravated Assault", "Property Crime", "Burglary",
+        "Larceny", "Motor Vehicle Theft", "Arson"];
+
+    let head = document.createElement("thead");
+
+    for (const h in headers) {
+        head.appendChild(toElem("th", h));
     }
 
-    scsrTbl += `</tbody></table><a href="/Download/StateCrimeSearchHistory" class="btn btn-success">Download</a>`;
+    let body = document.createElement("tbody");
 
-    $("#scsr").html(scsrTbl);
+    let crimes = ["state", "year",
+        "population", "violentCrimes", "homicide",
+        "rapeLegacy", "rapeRevised", "robbery",
+        "assault", "propertyCrimes", "burglary",
+        "larceny", "motorVehicleTheft", "arson"
+    ];
+
+    for (const searchEntry of data.results) {
+        let row = document.createElement("tr");
+
+        row.appendChild(toElem("td", new Date(searchEntry["dateSearched"]).toLocaleString()));
+
+        for (const crime of crimes) {
+            row.appendChild(toElem("td", searchEntry[crime]));
+        }
+
+        body.appendChild(row);
+
+    }
+
+    scsrTbl.appendChild(head);
+    scsrTbl.appendChild(body);
+
+    let link = document.createElement("a");
+    link.href = "/Download/StateCrimeSearchHistory";
+    link.classList = ["btn", "btn-danger"];
+    link.textContent = "Download";
+
+    $("#scsr").append(scsrTbl).append(link);
 
 }

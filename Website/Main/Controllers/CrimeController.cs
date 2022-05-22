@@ -10,16 +10,12 @@ namespace Main.Controllers
 {
     public class CrimeController : Controller
     {
-        private static readonly int CaliforniaID = 4;
-
-        private readonly IBackendService _backend;
-        private readonly ICrimeAPIService _crime;
+        private readonly ICrimeAPIv2 _crime;
         private readonly IConfiguration _config;
 
-        public CrimeController(IBackendService backend, ICrimeAPIService cs, IConfiguration config)
+        public CrimeController(ICrimeAPIv2 crime, IConfiguration config)
         {
-            _backend = backend;
-            _crime = cs;
+            _crime = crime;
             _config = config;
 
         }
@@ -33,6 +29,7 @@ namespace Main.Controllers
         {
             return View();
         }
+
         public IActionResult CrimeStats(string? cityName, string? stateAbbrev)
         {
             if (cityName == null || stateAbbrev == null)
@@ -47,21 +44,6 @@ namespace Main.Controllers
             return View();
         }
 
-        /*
-        public IActionResult CrimeStats(string? cityName, int? stateID)
-        {
-            if (cityName == null || stateID == null)
-            {
-                cityName = "Riverside";
-                stateID = CaliforniaID;
-            }
-
-            ViewBag.cityName = cityName;
-            ViewBag.stateAbbrev = _backend.GetAllStates()[stateID ?? CaliforniaID].Abbrev;
-
-            return View();
-        }
-        */
     }
 
 }

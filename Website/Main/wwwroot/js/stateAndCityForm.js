@@ -1,4 +1,12 @@
 ﻿
+function errorOnAjax() {
+    console.log("ERROR in ajax request");
+}
+
+function disableForms(off) {
+    $(":input").prop('disabled', off ? 'disabled' : '');
+}
+
 $(document).ready(function () {
     $.ajax({
         type: "GET",
@@ -8,26 +16,36 @@ $(document).ready(function () {
         error: errorOnAjax
 
     });
+
 });
 
-function disableForms(off) {
-    $(":input").prop('disabled', off ? 'disabled' : '');
+function populateStateDropdown(data) {
+    let select = $("#states");
+    for (var i = 0; i < data.length; i++) {
+        let state = data[i];
+        let option = document.createElement("option");
+        option.textContent = state.name;
+        option.value = state.abbrev;
+        select.append(option);
+    }
+    select.change(fetchCities);
 }
 
 function fetchCities() {
-    let state = $("#states")[0].val();
+    let state = $("#states")[0].value;
 
     if (state == "") {
         return;
     }
 
     disableForms(true);
+
     $.ajax({
         type: "GET",
         dataType: "json",
         url: "/api/GetCitiesIn",
         data: {
-            stateID: state
+            stateAbbrev: state
         },
         success: populateCityDropdown,
         error: errorOnAjax
@@ -36,24 +54,17 @@ function fetchCities() {
 
 }
 
-function populateStateDropdown(data) {
-    let select = $("#states");
-    for (var i = 0; i < data.length; i++) {
-        let state = data[i]["abbrev"];
-        select.append(`<option value="${state}">${state}</option>`);
-    }
-    //select.change(fetchCities);
-}
-
 function populateCityDropdown(data) {
     //$("#spinnyBoi").hide();
     let select = $("#cities");
-    console.log(data);
     //clear the HTML (most other ways don't seem to work)
-    select.html(`<option value="">Choose a city</option>`);
+    select.html(`<option value="">Select a city</option>`);
     for (var i = 0; i < data.length; i++) {
         let city = data[i];
-        select.append(`<option value="${city}">${city}</option>`);
+        let option = document.createElement("option");
+        option.textContent = city;
+        option.value = city;
+        select.append(option);
     }
 
     disableForms(false);

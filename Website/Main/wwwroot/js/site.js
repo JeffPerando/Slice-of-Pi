@@ -4,8 +4,6 @@
 //please don't touch this import, ty
 import '../lib/bootstrap/dist/js/bootstrap.bundle.js';
 
-console.log("Initializing popovers");
-
 var popoverCount = 0;
 //don't touch this either
 //I MEAN IT, it took me way too long to get this code working
@@ -17,6 +15,3 @@ $(".sp-popover").each(function (i) {
         html: true
     }));
 });
-
-console.log(`Found ${popoverCount} popovers`);
-

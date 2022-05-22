@@ -1,4 +1,6 @@
 ﻿
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace Main.Models
 {
     public class APICache
@@ -9,7 +11,10 @@ namespace Main.Models
 
     }
 
-    public class FBICache : APICache { }
-    public class ATTOMCache : APICache { }
+    [BsonIgnoreExtraElements]
+    public class FBICache : APICache {}
+
+    [BsonIgnoreExtraElements]
+    public class ATTOMCache : APICache {}
 
 }

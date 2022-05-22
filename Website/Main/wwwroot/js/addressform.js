@@ -15,8 +15,11 @@ function ajaxErr(xhr, options, err) {
     console.log(err);
 }
 
-function addStatesToForm(data) {
-    data.forEach(state => {
-        $("#addrStates").append(`<option>${state["abbrev"]}</option>`);
-    })
+function addStatesToForm(states) {
+    for (const state of states) {
+        var element = document.createElement("option");
+        element.textContent = state["abbrev"];
+        element.value = state["abbrev"];
+        $("#addrStates").append(element);
+    }
 }
