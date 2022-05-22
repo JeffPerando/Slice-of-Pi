@@ -1,4 +1,5 @@
 ﻿@using Main.Models.Listings
+@using Main.Extensions
 @model AttomJson
 <body style="max-width: 100%; overflow-x: hidden;">
     <section class="heading-page header-text" id="top">
@@ -7,7 +8,8 @@
             <div class="col">
                 <img id="spinnyBoi" src="~/spinner.gif" style="width: 64px; height: 64px; display: none;" />
             </div>
-            <div class="row my-2"><h1 style="color:white;">Enter some parameters</h1></div>
+            <div class="row my-2"><h1 style="color:white;">Enter some parameters 
+                @Html.Tooltip("Enter the information below, zipcode, how many homes you want in your request, minimum price and max price.")</h1></div>
             <div class="limiter">
                 <div class="wrap-table100">
                     <div class="table100 ver3 m-b-110">
@@ -60,7 +62,7 @@
                         <table id="sortMe">
                             <thead>
                                 <tr class="row100 head">
-                                    <th class="cell100 column1" style="color:crimson;">Address</th>
+                                    <th class="cell100 column1" style="color:crimson;">Address @Html.Tooltip("Click one of the addresses to see its streetview, and an interactive map of the area!")</th>
                                     <th class="cell100 column2" style="color:crimson;">Size(SQFT)</th>
                                     <th class="cell100 column2" style="color:crimson;">Bedrooms</th>
                                     <th class="cell100 column2" style="color:crimson;">Bathrooms</th>

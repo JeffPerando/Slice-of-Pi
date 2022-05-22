@@ -7,5 +7,6 @@
         public string CityName { get; set; }      
         public string StateName { get; set; }
         public string Akey { get; set; }
+        public string Zipcode { get; set; }
     }
 }
