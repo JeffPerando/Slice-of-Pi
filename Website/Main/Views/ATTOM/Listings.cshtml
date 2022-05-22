@@ -62,7 +62,7 @@
                         <table id="sortMe">
                             <thead>
                                 <tr class="row100 head">
-                                    <th class="cell100 column1" style="color:crimson;">Address</th>
+                                    <th class="cell100 column1" style="color:crimson;">Address @Html.Tooltip("Click one of the addresses to see its streetview, and an interactive map of the area!")</th>
                                     <th class="cell100 column2" style="color:crimson;">Size(SQFT)</th>
                                     <th class="cell100 column2" style="color:crimson;">Bedrooms</th>
                                     <th class="cell100 column2" style="color:crimson;">Bathrooms</th>
@@ -80,8 +80,7 @@
                                             <tr class="row100 head">    
                                                 @using (Html.BeginForm("StreetView", "ATTOM", FormMethod.Get))
                                 {
-                                                <td class="cell100 column1"><input hidden type="text" id="streetAddress" name="streetAddress" style = "color:grey;" value="@item.address.oneLine"
-                                                @Html.Tooltip("Click one of the addresses to see its streetview, and an interactive map of the area!")>
+                                                <td class="cell100 column1"><input hidden type="text" id="streetAddress" name="streetAddress" style = "color:grey;" value="@item.address.oneLine">
                                                     <input type="submit" class ="btn" value="@item.address.oneLine" style = "color:grey; width:420px; text-align:left;"></td>
                                 }
                                                 <td class="cell100 column2">@item.building.size.grosssize</td>
