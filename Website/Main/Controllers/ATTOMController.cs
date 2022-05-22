@@ -49,25 +49,24 @@ namespace Main.Controllers
         public IActionResult StreetView(string streetAddress, string cityName, string stateAbbrev)//Need more research as to how I can display the picture. Might be able to just place the url
         {//in the html and display it that way
 
-            StreetViewViewModel model = new StreetViewViewModel();
-            StreetViewViewModel temp = new StreetViewViewModel();
-            var x = _googleStreetViewAPIService.GetStreetView(streetAddress);
-            model.Akey = _googleStreetViewAPIService.GetEmbededMap(streetAddress + " " + cityName + " " + stateAbbrev);
-            if (cityName == null && stateAbbrev == null)
-            {
-                temp = _googleStreetViewAPIService.ParseAddressSubmission(streetAddress);
-
-                streetAddress = temp.Address;
-                stateAbbrev = temp.StateName;
-                cityName = temp.CityName;
-            }
-            else
-                ViewBag.streetAddress = streetAddress;
-            ViewBag.stateAbbrev = stateAbbrev;
-            ViewBag.cityName = cityName;
-
-            var address2 = cityName + ", " + stateAbbrev;
-            var house_info = _housing.GetHouseInformation(streetAddress, address2);
+        StreetViewViewModel model = new StreetViewViewModel();
+        StreetViewViewModel temp = new StreetViewViewModel();
+        var x = _googleStreetViewAPIService.GetStreetView(streetAddress);
+       
+        if (cityName == null && stateAbbrev == null)
+        {
+            temp = _googleStreetViewAPIService.ParseAddressSubmission(streetAddress);
+            cityName = _googleStreetViewAPIService.ToUpperCase(temp.CityName);
+            streetAddress = temp.Address;
+            stateAbbrev = temp.StateName;
+        }
+        else
+        ViewBag.streetAddress = streetAddress;
+        ViewBag.stateAbbrev = stateAbbrev;
+        ViewBag.cityName = cityName;
+        model.Akey = _googleStreetViewAPIService.GetEmbededMap(streetAddress + " " + cityName + " " + stateAbbrev);
+        var address2 = cityName + ", " + stateAbbrev;
+        var house_info = _housing.GetHouseInformation(streetAddress, address2);
 
             model.Address = x;
             return View(Tuple.Create(model, house_info));

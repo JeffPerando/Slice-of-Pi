@@ -11,7 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-
+using System.Text.RegularExpressions;
 namespace Main.DAL.Concrete
 {
     public class GoogleStreetViewAPIService : IGoogleStreetViewAPIService
@@ -31,6 +31,10 @@ namespace Main.DAL.Concrete
             _apiKey = googleKey;
             _web = web;
             _privateAuthKey = authKey;
+        }
+
+        public GoogleStreetViewAPIService()
+        {
         }
 
         public static string Sign(string url, string keyString)
@@ -129,6 +133,14 @@ namespace Main.DAL.Concrete
             }
 
             return viewModel;
+        }
+
+        public string ToUpperCase(string cityName)
+        {
+            cityName = cityName.ToLower();
+            cityName = Regex.Replace(cityName, @"\b(\w)", m => m.Value.ToUpper());
+
+            return cityName;
         }
 
         public string GetStreetView(string address)
