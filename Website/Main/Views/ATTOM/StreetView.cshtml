@@ -1,7 +1,7 @@
 ﻿@using Main.Models.Listings
 @using Main.Models
 @model Tuple<StreetViewViewModel, Home>
-
+@inject ISiteUserService Users
 @{
     ViewData["Title"] = "Home Listings";
 }
@@ -57,6 +57,59 @@
   </aside>
 </section>
             <hr>
+        <div class="row">
+                <div class="col-sm-6">
+                    <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Crime Stats of: <br> @ViewBag.cityName</h3>
+                    <table id="cityCrimeStats" class="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Offense Type @Html.Tooltip("Here you will see the streetview of the address. You can press the arrow on the right to change it to an interact and vice versa")</th>
+                                    <th>Total Offenses</th>
+                                    <th>Convictions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                    </table>
+                    <h2 id="cityCrimeNoCrimeheader"></h2>
+                    <ul id="cityCrimeStatsNoCrime">
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    @if((Users.Addresses(User).FirstOrDefault()?.City) != null && (Users.Addresses(User).FirstOrDefault()?.City) != @ViewBag.cityName)
+                    {
+                        <h3 style="border: 2px solid black; color: white; background-color: crimson; border-radius: 10px; text-align: center">Compare to: <br> @Users.Addresses(User).FirstOrDefault()?.City</h3>
+                        <table id="cityCrimeStatsDefaultHome" class="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Offense Type @Html.Tooltip("Here you will see the streetview of the address. You can press the arrow on the right to change it to an interact and vice versa")</th>
+                                    <th>Total Offenses</th>
+                                    <th>Convictions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <h2 id="cityCrimeNoCrimeheaderDefaultHome"></h2>
+                        <ul id="cityCrimeStatsNoCrimeDefaultHome">
+                        </ul>
+
+                    }
+                    @if ((Users.Addresses(User).FirstOrDefault()?.City) == null && ((Users.IsLoggedIn(User)) == true))
+                    {
+                        <h2>It looks like you haven't set an address?</h2>
+                        <h3><a href="/User/Addresses">Set one up now!</a></h3>
+                    }
+                    @if ((Users.Addresses(User).FirstOrDefault()?.City) == null && ((Users.IsLoggedIn(User)) == false))
+                    {
+                        <h2>Want to compare your city's crime statistics automatically?</h2>
+                        <h3><a href="/Identity/Account/Register">Sign-Up!</a></h3>
+
+                        <h2>Already have an account with us?</h2>
+                        <h3><a href="/Identity/Account/Login">Login!</a></h3>
+                    }
+                </div>
+            </div>
         </div>
 
        
@@ -87,22 +140,7 @@
                     </tbody>
                 </table>
                 <hr>
-                <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Crime Stats for <span id="yearCrimeStats"></span></h3>
-                <table id="cityCrimeStats" class="table">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Offense Type @Html.Tooltip("Here you will see the streetview of the address. You can press the arrow on the right to change it to an interact and vice versa")</th>
-                                <th>Total Offenses</th>
-                                <th>Convictions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                </table>
-                <h2 id="cityCrimeNoCrimeheader"></h2>
-                <ul id="cityCrimeStatsNoCrime">
-                </ul>
-                <hr>
+
             </div>
             </div>
         </div>        
@@ -119,6 +157,8 @@
 
 <input hidden id="cityName" value="@ViewBag.cityName" type="text">
 <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
+<input hidden id="DefaultHomeCity" value="@Users.Addresses(User).FirstOrDefault()?.City" type="text">
+<input hidden id="DefaultHomeState" value="@Users.Addresses(User).FirstOrDefault()?.State" type="text">
 
 
 @section Scripts
@@ -129,10 +169,30 @@
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
 <link rel="stylesheet" href="~/css/StreetViewCarousel.css" asp-append-version="true" />
-
 <script>
-    document.getElementById("yearCrimeStats").innerHTML = new Date().getFullYear() - 2;
     document.getElementById("price").innerHTML = "$" + parseInt(@Model.Item2.Price).toLocaleString('en');
+</script>
+<script>
+    var defaultCityHome = document.getElementById("DefaultHomeCity").value
+    if (defaultCityHome != null)
+    {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/api/GetCityStats",
+            data: { cityName: $("#DefaultHomeCity").val(), stateAbbrev: $("#DefaultHomeState").val() },
+            success: function(data){
+                showHomeCityStats(data)
+            },
+            error: function(){
+                console.log("Error in Ajax for HomeCityPop")}
+
+            });
+    }
+</script>
+<script>
+    
+    document.getElementById("yearCrimeStats").innerHTML = new Date().getFullYear() - 2;
 
     $('#yearSelector').on('change', function (e) {
     var optionValue = $("option:selected", this);
@@ -145,7 +205,7 @@
         url: "/api/UpdateCityStats",
         data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
         success: function(data){
-            showCityStats(data), showChartPercentage(data), fetchStateCrimeStats(selectedValue);
+            showCityStats(data), fetchStateCrimeStats(selectedValue);
         },
         error: function(){
             console.log("Updater Issue.")
@@ -153,6 +213,10 @@
         
     });
 });
+
+    
+
+    
 </script>
 
 }

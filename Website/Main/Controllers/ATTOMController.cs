@@ -13,14 +13,16 @@ namespace Main.Controllers
         private readonly ILogger<ATTOMController> _logger;
         private readonly IConfiguration _config;
         private readonly IHousingAPI _housing;
+        private readonly ISiteUserService _users;
         private readonly IGoogleStreetViewAPIService _googleStreetViewAPIService;
 
         public ATTOMController(ILogger<ATTOMController> logger, IConfiguration config, IHousingAPI attom,
-            IGoogleStreetViewAPIService googleStreetViewAPIService)
+            IGoogleStreetViewAPIService googleStreetViewAPIService, ISiteUserService users)
         {
             _logger = logger;
             _config = config;
             _housing = attom;
+            _users = users;
             _googleStreetViewAPIService = googleStreetViewAPIService;
         }
 
