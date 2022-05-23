@@ -26,6 +26,7 @@ function populateStateDropdown(data) {
         let option = document.createElement("option");
         option.textContent = state.name;
         option.value = state.abbrev;
+        option.id = state.name;
         select.append(option);
     }
     select.change(fetchCities);
@@ -64,6 +65,7 @@ function populateCityDropdown(data) {
         let option = document.createElement("option");
         option.textContent = city;
         option.value = city;
+        option.id = city;
         select.append(option);
     }
 
