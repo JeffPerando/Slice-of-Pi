@@ -48,6 +48,12 @@ namespace TestBDD.StepDefinitions
         {
             _StreetLookUpPage.EnterCityName(cityName);
         }
+        [Then (@"I select Alabama as the state")]
+        public void EnterState()
+        {
+            _StreetLookUpPage.ClickStateDropdown();
+            _StreetLookUpPage.SelectAlabama();
+        }
         [Then (@"I click the submit button")]
         public void ClickSubmitButton()
         {

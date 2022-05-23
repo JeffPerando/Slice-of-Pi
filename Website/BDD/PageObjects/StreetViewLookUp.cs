@@ -10,6 +10,7 @@ namespace TestBDD.PageObjects
         private IWebElement SearchBoxStreetName => _browserInteractions.WaitAndReturnElement(By.Id("streetAddress"));
         private IWebElement SearchBoxCityName => _browserInteractions.WaitAndReturnElement(By.Id("city"));
         private IWebElement SearchBoxStates => _browserInteractions.WaitAndReturnElement(By.Id("states"));
+        private IWebElement SearchStateList => _browserInteractions.WaitAndReturnElement(By.Id("Alabama"));
         private IWebElement SubmitButton => _browserInteractions.WaitAndReturnElement(By.Id("submit_button"));
         public StreetViewLookUp(IBrowserInteractions browserInteractions)
             : base(browserInteractions)
@@ -28,6 +29,10 @@ namespace TestBDD.PageObjects
         public void ClickStateDropdown()
         {
             SearchBoxStates.ClickWithRetry();
+        }
+        public void SelectAlabama()
+        {
+            SearchStateList.ClickWithRetry();
         }
         public void ClickSubmitButton()
         {

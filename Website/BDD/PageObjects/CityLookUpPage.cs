@@ -10,7 +10,9 @@ namespace TestBDD.PageObjects
         private IWebElement StateSelect => _browserInteractions.WaitAndReturnElement(By.Name("states"));
         private SelectElement CitySelect => (SelectElement)_browserInteractions.WaitAndReturnElement(By.Name("cities"));
         private IWebElement SubmitButton => _browserInteractions.WaitAndReturnElement(By.Id("submit_button"));
-        
+        private IWebElement DropDownMenu => _browserInteractions.WaitAndReturnElement(By.Id("states"));
+        private IWebElement California => _browserInteractions.WaitAndReturnElement(By.Id("California"));
+        private IWebElement MorenoValley => _browserInteractions.WaitAndReturnElement(By.Id("Moreno Valley"));
         public CityLookUpPage(IBrowserInteractions browserInteractions)
             : base(browserInteractions)
         {
@@ -36,10 +38,21 @@ namespace TestBDD.PageObjects
         {
             return CitySelect.Options.Count;
         }
-
+        public void ClickStatesDropdown()
+        {
+            DropDownMenu.ClickWithRetry();
+        }
         public void SubmitButtonClick()
         {
             SubmitButton.ClickWithRetry();
+        }
+        public void ClickCaliforniaDropdown()
+        {
+            California.ClickWithRetry();
+        }
+        public void ClickMorenoValleyDropdown()
+        {
+            MorenoValley.ClickWithRetry();
         }
     }
 }
