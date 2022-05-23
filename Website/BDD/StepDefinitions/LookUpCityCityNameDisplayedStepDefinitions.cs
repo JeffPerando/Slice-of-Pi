@@ -28,7 +28,7 @@ namespace TestBDD.StepDefinitions
         [When(@"I find the search box")]
         public void CheckCitySearchBox()
         {
-            _CityLookUp.GetSearchBox.Should().BeTrue();
+            _CityLookUp.CitySearchBox.Should().BeTrue();
         }
         [When(@"I type (.*) into search box")]
         public void EnterCityNameToSearchBox(string cityName)
