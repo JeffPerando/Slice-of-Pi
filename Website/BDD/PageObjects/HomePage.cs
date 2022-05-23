@@ -15,6 +15,7 @@ namespace TestBDD.PageObjects
         private IWebElement DropDownList => _browserInteractions.WaitAndReturnElement(By.Id("navbarDropdownMenuLink"));
         private IWebElement DropDown_CityLookUp => _browserInteractions.WaitAndReturnElement(By.Id("CityCrimeLookUpLink"));
         private IWebElement DropDownTextHomeListing => _browserInteractions.WaitAndReturnElement(By.Id("HomeListingsLink"));
+        private IWebElement DropDownTextStreetView => _browserInteractions.WaitAndReturnElement(By.Id("StreetViewLink"));
 
         public HomePage(IBrowserInteractions browserInteractions)
             : base(browserInteractions)
@@ -43,6 +44,10 @@ namespace TestBDD.PageObjects
             DropDown_CityLookUp.ClickWithRetry();
         }
 
+        public void ClickStreetViewsButton()
+        {
+            DropDownTextStreetView.ClickWithRetry();
+        }
         public void ClickAppleButton(int index)
         {
             AppleButtons.ElementAt(index).Click();
