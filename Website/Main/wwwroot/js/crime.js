@@ -35,34 +35,49 @@ function showCityStats(data) {
             continue;
         }
 
-        let repoTR = $(
-            `<tr>
-                <td>${capitalize(data[i]["offenseType"].replaceAll("-", " "))}</td>
-                <td>${internationalNumberFormat.format(data[i]["totalOffenses"])}</td>
-                <td>${internationalNumberFormat.format(data[i]["actualConvictions"])}</td>
-            </tr>`
-        )
+        let repoTR = document.createElement("tr");
+
+        let offenseType = document.createElement("td");
+        let offenses = document.createElement("td");
+        let convictions = document.createElement("td");
+
+        offenseType.textContent = capitalize(data[i]["offenseType"].replaceAll("-", " "));
+        offenses.textContent = internationalNumberFormat.format(data[i]["totalOffenses"]);
+        convictions.textContent = internationalNumberFormat.format(data[i]["actualConvictions"]);
+
+        repoTR.appendChild(offenseType);
+        repoTR.appendChild(offenses);
+        repoTR.appendChild(convictions);
 
         $("#cityCrimeStats>tbody").append(repoTR);
-        $("#cityCrimeStats").show();
+
     }
+
+    $("#cityCrimeStats").show();
 
     if (noOffenses.length > 0) {
         $("#cityCrimeStatsNoCrime").empty();
         for (let i = 0; i < noOffenses.length; ++i) {
             document.getElementById("cityCrimeNoCrimeheader").textContent = "Crimes not committed: ";
+            if (noOffenses[i]["offenseType"] == "human-trafficing")
+            {
+                noOffenses[i]["offenseType"] = "Human-Trafficking";
+            }
             var offense = noOffenses[i]["offenseType"].replaceAll("-", " ");
             var ul = document.getElementById("cityCrimeStatsNoCrime");
+            if (offense == "human trafficing") {
+                offense = "Human Trafficking"
+            }
             var li = document.createElement("li")
 
-            li.appendChild(document.createTextNode("> " + (capitalize(offense))));
-            ul.appendChild(li);
+            li.append(document.createTextNode("> " + (capitalize(offense))));
+            ul.append(li);
         }
 
     }
 
 
-    document.getElementById("year").textContent = " (" + currentYearSelected + ")";
+    document.getElementById("year").textContent = ` (${currentYearSelected})`;
 
     // Creates the Pi Graph
     showChartPercentage(data);
@@ -70,6 +85,69 @@ function showCityStats(data) {
     document.getElementById("loadingIcon").textContent = "";
 }
 
+function showHomeCityStats(data) {
+    console.log(data);
+    internationalNumberFormat = new Intl.NumberFormat('en-US')
+    var noOffenses = [];
+    var currentYearSelected = data[0]["year"];
+    data = data.reverse();
+
+
+    $("#cityCrimeStatsDefaultHome>tbody").empty();
+    for (let i = 0; i < data.length; ++i) {
+
+        if (data[i]["totalOffenses"] == 0) {
+            noOffenses.push(data[i]);
+            continue;
+        }
+
+        let repoTR = document.createElement("tr");
+
+        let offenseType = document.createElement("td");
+        let offenses = document.createElement("td");
+        let convictions = document.createElement("td");
+
+        offenseType.textContent = capitalize(data[i]["offenseType"].replaceAll("-", " "));
+        offenses.textContent = internationalNumberFormat.format(data[i]["totalOffenses"]);
+        convictions.textContent = internationalNumberFormat.format(data[i]["actualConvictions"]);
+
+        repoTR.appendChild(offenseType);
+        repoTR.appendChild(offenses);
+        repoTR.appendChild(convictions);
+
+        $("#cityCrimeStatsDefaultHome>tbody").append(repoTR);
+
+    }
+
+    $("#cityCrimeStatsDefaultHome").show();
+
+    if (noOffenses.length > 0) {
+        $("#cityCrimeStatsNoCrimeDefaultHome").empty();
+        for (let i = 0; i < noOffenses.length; ++i) {
+            document.getElementById("cityCrimeNoCrimeheaderDefaultHome").textContent = "Crimes not committed: ";
+            if (noOffenses[i]["offenseType"] == "human-trafficing")
+            {
+                noOffenses[i]["offenseType"] = "Human-Trafficking";
+            }
+            var offense = noOffenses[i]["offenseType"].replaceAll("-", " ");
+            var ul = document.getElementById("cityCrimeStatsNoCrimeDefaultHome");
+            if (offense == "human trafficing") {
+                offense = "Human Trafficking"
+            }
+            var li = document.createElement("li")
+
+            li.append(document.createTextNode("> " + (capitalize(offense))));
+            ul.append(li);
+        }
+
+    }
+
+
+    document.getElementById("year").textContent = ` (${currentYearSelected})`;
+
+
+    document.getElementById("loadingIcon").textContent = "";
+}
 
 let myChart = null;
 function showChartPercentage(data) {
@@ -138,15 +216,23 @@ function showChartPercentage(data) {
 function displayStateInformation(data) {
     $("#stateCrimeTable>tbody").empty();
     for (let i = 0; i < data.length; ++i) {
-        let repoTR = $(
-            `<tr>
-                <td>${data[i]["state"]}</td>
-                <td>${data[i]["actualConvictions"]}</td>
-            </tr>`
-        )
+        let repoTR = document.createElement("tr");
+
+        let state = document.createElement("td");
+        let convictions = document.createElement("td");
+
+        state.textContent = data[i]["state"];
+        convictions.textContent = data[i]["actualConvictions"];
+
+        repoTR.appendChild(state);
+        repoTR.appendChild(convictions);
+
         $("#safestStatesTable>tbody").append(repoTR);
-        $("#safestStatesTable").show();
+
     }
+
+    $("#safestStatesTable").show();
+
 }
 
 function populateDropDown(data) {
@@ -161,7 +247,6 @@ function populateDropDown(data) {
 }
 
 function populateYear(data) {
-    console.log(data);
     var select = document.getElementById("yearSelector");
     for (var i = 0; i < data.length; i++) {
         var option = data[i];

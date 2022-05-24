@@ -11,7 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-
+using System.Text.RegularExpressions;
 namespace Main.DAL.Concrete
 {
     public class GoogleStreetViewAPIService : IGoogleStreetViewAPIService
@@ -31,6 +31,10 @@ namespace Main.DAL.Concrete
             _apiKey = googleKey;
             _web = web;
             _privateAuthKey = authKey;
+        }
+
+        public GoogleStreetViewAPIService()
+        {
         }
 
         public static string Sign(string url, string keyString)
@@ -54,16 +58,16 @@ namespace Main.DAL.Concrete
             // Add the signature to the existing URI.
             return uri.Scheme + "://" + uri.Host + uri.LocalPath + uri.Query + "&signature=" + signature;
         }
-    
-    public string ParseAddress(string address)
+
+        public string ParseAddress(string address)
         {
             char[] charArray = address.ToCharArray();
 
-            for(int i = 0; i < charArray.Length; i++)
+            for (int i = 0; i < charArray.Length; i++)
             {
-                if(charArray[i] == ' ')
+                if (charArray[i] == ' ')
                 {
-                    charArray[i]= '+';
+                    charArray[i] = '+';
                 }
             }
 
@@ -72,15 +76,89 @@ namespace Main.DAL.Concrete
             return address;
         }
 
-        public string GetStreetView(string address)
+        public string ParseAddressEmbededMap(string address)
         {
+            char[] charArray = address.ToCharArray();
+
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                if (charArray[i] == ' ')
+                {
+                    charArray[i] = '%';
+                }
+            }
+
+            address = new string(charArray);
+
+            return address;
+        }
+
+        public StreetViewViewModel ParseAddressSubmission(string address)
+        {
+            char[] charArray = address.ToCharArray();
+
             StreetViewViewModel viewModel = new StreetViewViewModel();
 
+            string x = "";
+
+            List<string> list = new List<string>();
+
+
+
+            int counter = 0;
+
+            for (int i = 0; i < charArray.Length; i++)
+            {
+
+                if (charArray[i] == ',' && counter == 0)
+                {
+                    viewModel.Address = x;
+                    counter++;
+                    x = "";
+                    i += 2;
+                }
+                else if (charArray[i] == ',' && counter == 1)
+                {
+                    viewModel.CityName = x;
+                    counter++;
+                    x = "";
+                    i += 2;
+                }
+                else if (' ' == charArray[i] && counter == 2)
+                {
+                    viewModel.StateName = x;
+                    break;
+                }
+                x = x + charArray[i];
+            }
+
+            return viewModel;
+        }
+
+        public string ToUpperCase(string cityName)
+        {
+            cityName = cityName.ToLower();
+            cityName = Regex.Replace(cityName, @"\b(\w)", m => m.Value.ToUpper());
+
+            return cityName;
+        }
+
+        public string GetStreetView(string address)
+        {
             address = ParseAddress(address);
 
             string apiCall = GoogleStreetViewURL + address + "&key=" + _apiKey;
 
             apiCall = Sign(apiCall, _privateAuthKey);
+
+            return apiCall;
+        }
+
+        public string GetEmbededMap(string address)
+        {
+            address = ParseAddressEmbededMap(address);
+            //https://www.google.com/maps/embed/v1/MAP_MODE?key=YOUR_API_KEY&PARAMETERS
+            string apiCall = "https://www.google.com/maps/embed/v1/place?q=" + address + "&key=" + _apiKey;
 
             return apiCall;
         }

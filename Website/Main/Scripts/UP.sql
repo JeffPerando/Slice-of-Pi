@@ -4,8 +4,9 @@ CREATE TABLE [Home]
     [StreetAddress]     NVARCHAR(100)   NOT NULL,
     [ZipCode]           NVARCHAR(10)    NOT NULL,
     [State]             NVARCHAR(2)     NOT NULL,
-    [County]            NVARCHAR(100)   NOT NULL,
-    [Price]             FLOAT           NOT NULL,
+    [City]              NVARCHAR(100)   NOT NULL,  
+    [County]            NVARCHAR(100),
+    [Price]             FLOAT,
     [UserID]            NVARCHAR (450)  NOT NULL
 );
 
@@ -61,23 +62,6 @@ CREATE TABLE [StateCrimeSearchResult]
     [MotorVehicleTheft] INT,
     [Arson]             INT
 );
-
---Create a generic table called APICache, which is the basis for the next tables...
---the hashtag indicates a temporary local table
-CREATE TABLE [#APICache]
-(
-    [Endpoint]          NVARCHAR(256) PRIMARY KEY NOT NULL,
-    [Expiry]            DATETIME NOT NULL,
-    [Data]              NVARCHAR(MAX)
-);
-
---The falsy expression ensures nothing is copied from the original table. Just in case it gets stored to.
---Otherwise, this just copies the table structure
-SELECT * INTO [FBICache] FROM [#APICache] WHERE 1 <> 1;
-SELECT * INTO [ATTOMCache] FROM [#APICache] WHERE 1 <> 1;
-
---drop the original table since we don't need it anymore
-DROP TABLE [#APICache];
 
 ALTER TABLE [Home]  ADD CONSTRAINT [Home_Fk_User]              FOREIGN KEY  ([UserID])   REFERENCES   [User]              ([ID])  ON DELETE NO ACTION ON UPDATE NO ACTION;
 --ALTER TABLE [Home]  ADD CONSTRAINT [Home_Fk_AgencyInformation] FOREIGN KEY  ([AgencyID]) REFERENCES   [AgencyInformation] ([ID])  ON DELETE NO ACTION ON UPDATE NO ACTION;

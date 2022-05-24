@@ -20,7 +20,7 @@ namespace TestBDD.PageObjects
         public LoginPage(IBrowserInteractions browserInteractions)
             :base(browserInteractions)
         {
-            PageName = SiteData.LoginPageName;
+            PageName = Common.LoginPageName;
         }
 
         public void EnterEmail(string email)

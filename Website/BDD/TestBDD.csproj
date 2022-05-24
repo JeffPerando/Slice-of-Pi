@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Support\**" />
+    <EmbeddedResource Remove="Support\**" />
+    <None Remove="Support\**" />
+    <SpecFlowFeatureFiles Remove="Support\**" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Support\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Nancy" Version="2.0.0" />
     <PackageReference Include="Node.js" Version="5.3.0" />
@@ -24,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Drivers\" />
-    <Folder Include="Support\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,80 @@
+﻿
+@using Main.Extensions;
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/credits.css" />
+}
+
+@section Banner {
+<h2 class="mt-5-xxl">Credits</h2>
+This website is the result of a senior capstone project for CS460-462 at Western Oregon University. The team, Slice of Pi, have spent 3 terms learning and developing on this software stack and more.
+<br />
+The source code for this website can be found on @Html.BrandLink("GitHub", "white", "https://github.com/JeffPerando/Slice-of-Pi")
+<br />
+<br />
+Slice of Pi consists of:
+<div class="d-flex justify-content-center">
+    <div class="bg-semi p-2 m-2 justify-content-center text-center row">
+        <h3 class="m-1">Chris Lopez</h3>
+        <div class="justify-content-center">
+            <img class="portrait" src="~/Chris.png" />
+        </div>
+        <br />
+        <h4>Lead Concept Designer</h4>
+        @Html.BrandLink("GitHub", "white", "https://github.com/ChrisLopez-code")
+        @Html.BrandLink("LinkedIn", "royalblue", "https://www.linkedin.com/in/christopher-lopez-916a26235/")
+    </div>
+    <div class="bg-semi p-2 m-2 justify-content-center text-center row">
+        <h3 class="m-1">Ivan Lua-Diaz</h3>
+        <div class="justify-content-center">
+            <img class="portrait" src="~/Ivan.png" />
+        </div>
+        <br />
+        <h4>Head of Deployment</h4>
+        @Html.BrandLink("GitHub", "white", "https://github.com/iluadiaz")
+        @Html.BrandLink("LinkedIn", "royalblue", "https://www.linkedin.com/in/ivan-lua-diaz-88935ba1/")
+    </div>
+    <div class="bg-semi p-2 m-2 justify-content-center text-center row">
+        <h3 class="m-1">Jeff Perando</h3>
+        <div class="justify-content-center">
+            <img class="portrait" src="~/Jeff.png" />
+        </div>
+        <br />
+        <h4>Head of Git and JIRA</h4>
+        @Html.BrandLink("GitHub", "white", "https://github.com/JeffPerando")
+        @Html.BrandLink("LinkedIn", "royalblue", "https://www.linkedin.com/in/jeff-perando-78b3721b3/")
+    </div>
+</div>
+}
+
+@section UpcomingMeetings {
+<h2>Technologies Used Include:</h2>
+<ul>
+    <li>The FBI <a href="https://crime-data-explorer.fr.cloud.gov/pages/docApi" target="_blank">Crime Statistics API</a></li>
+    <li>ATTOM's <a href="https://api.developer.attomdata.com/docs" target="_blank">Property API</a></li>
+    <li>
+        Microsoft:
+        <ul>
+            <li><a href="https://azure.microsoft.com/en-us/" target="_blank">Azure</a> cloud hosting platform</li>
+            <li><a href="https://dotnet.microsoft.com/en-us/learn/aspnet/what-is-aspnet-core" target="_blank">ASP.NET Core MVC</a> web framework</li>
+            <li>SQL Server</li>
+        </ul>
+    </li>
+    <li>
+        Google:
+        <ul>
+            <li>GMail</li>
+            <li><a href="https://developers.google.com/recaptcha/docs/v3" target="_blank">reCAPTCHA v3</a></li>
+            <li><a href="https://developers.google.com/maps/documentation/streetview/overview" target="_blank">Street View</a></li>
+        </ul>
+    </li>
+    <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap 5</a></li>
+    <li><a href="https://joshclose.github.io/CsvHelper/" target="_blank">CsvHelper</a></li>
+    <li><a href="https://jquery.com/" target="_blank">jQuery</a></li>
+    <li><a href="http://www.mimekit.net/" target="_blank">MailKit/MimeKit</a></li>
+    <li><a href="https://www.mongodb.com/atlas/database" target="_blank">MongoDB Cloud Atlas</a></li>
+    <li><a href="https://www.selenium.dev/" target="_blank">Selenium</a></li>
+    <li><a href="https://specflow.org/" target="_blank">SpecFlow</a></li>
+    <li><a href="https://github.com/Mottie/tablesorter">TableSorter</a></li>
+</ul>
+}

@@ -27,6 +27,7 @@ namespace Main.Models
         }
     }
 
+
     public class JSONYearVariable
     {
         //public string JSONVariableTwoYears = '/' + (DateTime.Now.Year - 2).ToString() + '/' + (DateTime.Now.Year - 2).ToString();

@@ -1,8 +1,9 @@
 
-.sp-content {
-    margin-top: 80px;
-    margin-bottom: 80px;
-    padding: 8px;
+nl {
+    @extend ul;
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
 }
 
 /*table {
@@ -23,24 +24,6 @@ th {
     text-align: right;
 }*/
 
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-
-.sp-mainbar {
-    /*background-color: rgb(178, 0, 255);*/
-}
-
-.sp-sidebar {
-    position: fixed;
-    z-index: 1;
-    height: 100%;
-    width: 0;
-    top: 36px;
-    left: 0;
-    overflow-x: hidden;
-    transition: 0.5s;
-}
 
 .nav {
     font-size: 24px;

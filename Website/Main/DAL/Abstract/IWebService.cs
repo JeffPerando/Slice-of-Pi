@@ -32,6 +32,8 @@ namespace Main.DAL.Abstract
         public async Task<T?> FetchIntoAsync<T>(string url, Dictionary<string, string?>? query = null) =>
             JsonConvert.DeserializeObject<T>(await FetchStrAsync(url, query) ?? "{}");
 
+        public List<JObject?> MultifetchJObjectsAsync(List<string> urls, Dictionary<string, string?>? query = null) =>
+            urls.Select(async u => await FetchJObjectAsync(u, query)).Select(e => e.GetAwaiter().GetResult()).ToList();
 
     }
 

@@ -1,12 +1,7 @@
+
 <h1 style="color:white">Enter a city you want to look up:</h1>
 <form action="CrimeStats" method="get">
-    <label for="cityName" style="color:white">Enter a city name: </label>
-    <input type="text" id="cityName" name="cityName" required><br><br>
-
-    <label for="stateAbbrev" style="color:white">Select a state: </label>
-    <select name="stateAbbrev" id="states" required>
-        <option value="" disabled>Choose a state</option>
-    </select>
+    <partial name="_StateAndCityFields" />
     <br><br>
-    <input id="submit_button" type="submit" value="Submit">
+    <button id="submit_button" type="submit" class="btn btn-danger">Submit</button>
 </form>

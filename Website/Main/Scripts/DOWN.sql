@@ -4,5 +4,3 @@ ALTER TABLE [StateCrimeSearchResult] DROP CONSTRAINT [SCSR_Fk_User];
 DROP TABLE [Home];
 DROP TABLE [User];
 DROP TABLE [StateCrimeSearchResult];
-DROP TABLE [FBICache];
-DROP TABLE [ATTOMCache];

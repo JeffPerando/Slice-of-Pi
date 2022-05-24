@@ -88,7 +88,7 @@ namespace Main.DAL.Concrete
                 return Enumerable.Empty<Home>();
             }
 
-            return _db.Homes.Where(addr => addr.UserId == id);
+            return _db.Homes.Where(addr => addr.UserId == id).ToList();
         }
 
         public bool AddAddress(ClaimsPrincipal user, Home addr)
@@ -99,9 +99,9 @@ namespace Main.DAL.Concrete
             {
                 return false;
             }
-
+            
             addr.UserId = id;
-
+            
             _db.Homes.Add(addr);
             _db.SaveChanges();
 

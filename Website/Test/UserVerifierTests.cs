@@ -5,6 +5,8 @@ using System;
 using Main.Services.Abstract;
 using Main.Services.Concrete;
 using System.Threading;
+using Main.DAL.Mock;
+using Moq;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable IDE0059 // Unnecessary assignment of a value
@@ -13,12 +15,26 @@ namespace Test
     public class UserVerifierTests
     {
         private IUserVerifierService? verifier;
-        private DummyEmailService emailService = new();
         
+        private static MockEmailService MockEmail()
+        {
+            Mock<MockEmailService> moq = new();
+            
+            moq.CallBase = true;
+
+            moq.Setup(es => es.IsLoggedIn()).Returns(true);
+            moq.Setup(es => es.LogOut());
+            moq.Setup(es => es.LogIn());
+            moq.Setup(es => es.SendTextEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(() => { return ""; });
+
+            return moq.Object;
+        }
+
         [SetUp]
         public void Setup()
         {
-            verifier = new UserVerifierService(emailService, "{CODE}", new TimeSpan(0, 0, 0, 0, 500));
+            verifier = new UserVerifierService(MockEmail(), "{CODE}", new TimeSpan(0, 0, 0, 0, 500));
 
         }
 
@@ -33,13 +49,6 @@ namespace Test
         {
             var code = verifier.GenerateVerificationCode("a");
             Assert.That(verifier.Verify("a", code));
-        }
-
-        [Test]
-        public void UserVerifier_EmailContainsCode()
-        {
-            var code = verifier.GenerateVerificationCode("a");
-            Assert.That(emailService.LastEmailSent.Contains(code.ToString()));
         }
 
         [Test]

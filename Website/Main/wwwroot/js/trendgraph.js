@@ -1,3 +1,7 @@
+
+var latestYear = 2015;
+var oldestYear = 1985;
+
 $(function () {
     $.ajax({
         type: "GET",
@@ -14,21 +18,18 @@ $(function () {
 
 })
 
-function populateTrendChartYearAmount() {
-    var yearSelectorTotal = [];
-    counter = 30;
-    for (let i = 0; i <= 30; i++) {
-        yearSelectorTotal.push(1985 + counter);
-        counter--;
-    }
+function toOption(content) {
+    var option = document.createElement("option");
+    option.textContent = content;
+    option.value = content;
+    return option;
+}
 
-    var select = document.getElementById("trendGraphYearSelector");
-    for (let i = 0; i < yearSelectorTotal.length; i++) {
-        var option = yearSelectorTotal[i];
-        var element = document.createElement("option");
-        element.textContent = option;
-        element.value = option;
-        select.appendChild(element);
+function populateTrendChartYearAmount() {
+    var select = $("#trendGraphYearSelector");
+
+    for (let year = latestYear; year >= oldestYear; --year) {
+        select.append(toOption(year));
     }
 
 }
@@ -42,27 +43,27 @@ function showChartTrend(data, trendSelectorYear) {
 
     document.querySelector('#yearSelector').innerHTML = '';
     if (isNaN(trendSelectorYear)) {
-        trendSelectorYear = 2015;
+        trendSelectorYear = latestYear;
     }
-
+    
     const years = [];
     const crimes = [];
     const propertyCrimes = [];
     const violentCrimes = [];
     const years_list = [];
-    const year_removed = (trendSelectorYear - 1985);
+    const year_removed = (trendSelectorYear - oldestYear);
 
-    for (let i = 0; i < data.length; i++) {
-        years_list.push(data[i].year);
+    for (let i = 0; i < data.cityInfo.length; i++) {
+        years_list.push(data.cityInfo[i].year);
     }
 
-    data.splice(0, year_removed);
+    data.cityInfo.splice(0, year_removed);
 
-    for (let i = 0; i < data.length; i++) {
-        years.push(data[i].year);
-        crimes.push(data[i].totalOffenses);
-        propertyCrimes.push(data[i].propertyCrimes);
-        violentCrimes.push(data[i].violentCrimes);
+    for (let i = 0; i < data.cityInfo.length; i++) {
+        years.push(data.cityInfo[i].year);
+        crimes.push(data.cityInfo[i].totalOffenses);
+        propertyCrimes.push(data.cityInfo[i].propertyCrimes);
+        violentCrimes.push(data.cityInfo[i].violentCrimes);
 
     }
 
@@ -70,12 +71,39 @@ function showChartTrend(data, trendSelectorYear) {
     years_list.reverse();
     var select = document.getElementById("yearSelector");
     for (let i = 0; i < years_list.length; i++) {
+        select.appendChild(toOption(years_list[i]));
+    }
+    
+    let stateInfo = data.stateInfo
+    stateInfo.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+    
+    var displayStateInfo = [];
+    for (let i = 0; i < stateInfo.length; i++)
+    {
+        displayStateInfo.push(stateInfo[i].totalOffenses);
+    }
 
-        var option = years_list[i];
-        var element = document.createElement("option");
-        element.textContent = option;
-        element.value = option;
-        select.appendChild(element);
+    var rating_percent = ((crimes[crimes.length - 1] / displayStateInfo[displayStateInfo.length - 1]) * 100).toFixed(2);
+
+    if (rating_percent < 1)
+    {
+        document.getElementById("ratingLetter").textContent = "A ("  + rating_percent + "%)";
+    }
+    else if (0 > rating_percent < 5)
+    {
+        document.getElementById("ratingLetter").textContent = "B ("  + rating_percent + "%)";
+    }
+    else if (5 > rating_percent < 10)
+    {
+        document.getElementById("ratingLetter").textContent = "C ("  + rating_percent + "%)";
+    }
+    else if (10 > rating_percent < 15)
+    {
+        document.getElementById("ratingLetter").textContent = "D ("  + rating_percent + "%)";
+    }
+    else if (rating_percent >= 15)
+    {
+        document.getElementById("ratingLetter").textContent = "F ("  + rating_percent + "%)";
     }
 
     const config = {
@@ -117,6 +145,19 @@ function showChartTrend(data, trendSelectorYear) {
                 fill: true,
                 pointStyle: 'rectRounded',
                 backgroundColor: 'rgb(236, 0, 0, 0.2)'
+
+            },
+            {
+                label: 'State Crime reported',
+                data: displayStateInfo,
+                backgroundColor: 'transparent',
+                borderColor: 'rgb(55, 102, 44)',
+                borderWidth: 4,
+                tension: 0.2,
+                fill: true,
+                pointStyle: 'rectRounded',
+                backgroundColor: 'rgb(55, 102, 44, 0.2)',
+                hidden: true
 
             }
             ]

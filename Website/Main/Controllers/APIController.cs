@@ -5,6 +5,7 @@ using Main.Models;
 using Main.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Main.Controllers
 {
@@ -65,6 +66,9 @@ namespace Main.Controllers
                 cityName = "Riverside";
                 stateAbbrev = "CA";
             }
+            cityName = cityName.ToLower();
+            cityName = Regex.Replace(cityName, @"\b(\w)", m => m.Value.ToUpper());
+            
 
             return Json(_crimeOld.GetCityStats(cityName, stateAbbrev));
             //return Json(_crime.CityCrimeSingle(cityName, new State { Abbrev = stateAbbrev }));
@@ -73,6 +77,8 @@ namespace Main.Controllers
         [HttpGet]
         public IActionResult UpdateCityStats(string? cityName, string? stateAbbrev, string? year)
         {
+            cityName = cityName.ToLower();
+            cityName = Regex.Replace(cityName, @"\b(\w)", m => m.Value.ToUpper());
             return Json(_crimeOld.GetCityStatsByYear(cityName, stateAbbrev, year));
             // Json(_crime.CityCrimeSingle(cityName ?? "Riverside", new State { Abbrev = stateAbbrev ?? "CA" }, year));
         }
@@ -105,16 +111,22 @@ namespace Main.Controllers
                 cityName = "Riverside";
                 stateAbbrev = "CA";
             }
+            cityName = cityName.ToLower();
+            cityName = Regex.Replace(cityName, @"\b(\w)", m => m.Value.ToUpper());
             /*
             var getCitytrends = _crimeOld.GetCityTrends(cityName, stateAbbrev);
             var returnTotalCityTrends = _crimeOld.ReturnTotalCityTrends(getCitytrends);
             var returnPropertyCityTrends = _crimeOld.ReturnPropertyCityTrends(getCitytrends);
             var returnViolentCityTrends = _crimeOld.ReturnViolentCityTrends(getCitytrends);
 
-
-            return Json(new { totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends });
+                  return Json(new { totalTrends = returnTotalCityTrends, propertyTrends = returnPropertyCityTrends, violentTrends = returnViolentCityTrends });
             */
-            return Json(_crime.CityCrimeRangeBasic(cityName, new State { Abbrev = stateAbbrev }, FBIService.OldestYear, FBIService.LatestYear).OrderBy(c => c.Year));
+            State stateSet = new State();
+            stateSet.Abbrev = stateAbbrev;
+
+            var stateInfo = _crime.StateCrimeRangeBasic(stateSet, 1985, 2020);
+            var cityInfo = _crime.CityCrimeRangeBasic(cityName, new State { Abbrev = stateAbbrev }, FBIService.OldestYear, FBIService.LatestYear).OrderBy(c => c.Year);
+            return Json(new {stateInfo , cityInfo});
         }
 
         [HttpGet]
@@ -141,6 +153,12 @@ namespace Main.Controllers
                 year = year,
                 stateCrimes = _crime.StateCrimeMulti(State.AllStates, year)
             });
+        }
+
+        [HttpGet]
+        public IActionResult Test()
+        {
+            return Content("test");
         }
 
     }
