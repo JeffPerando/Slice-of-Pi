@@ -83,10 +83,14 @@ function showChartTrend(data, trendSelectorYear) {
         displayStateInfo.push(stateInfo[i].totalOffenses);
     }
 
-    var rating_percent = ((crimes[crimes.length - 1] / displayStateInfo[displayStateInfo.length - 1]) * 100).toFixed(2);
-    var grade = 'A';
+    let rating_percent = ((crimes[crimes.length - 1] / displayStateInfo[displayStateInfo.length - 1]) * 100).toFixed(2);
+    let grade;
 
-    if (rating_percent < 5)
+    if (rating_percent < 1)
+    {
+        grade = 'A';
+    }
+    else if (rating_percent < 5)
     {
         grade = 'B';
     }
