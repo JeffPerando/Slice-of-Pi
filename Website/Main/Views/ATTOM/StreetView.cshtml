@@ -16,7 +16,6 @@
             <div class="col-sm-8">
                 <h3 id="message" style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">
                     Street view of: @ViewBag.streetAddress @ViewBag.cityName, @ViewBag.stateAbbrev
-                    @Html.Tooltip("Click the dots just below the image/map to cycle between the image/map!")
                 </h3>
                 <section class="carousel" aria-label="Gallery" style="width:700px; height:525px;">
 
@@ -190,12 +189,13 @@
             url: "/api/GetCityStats",
             data: { cityName: $("#DefaultHomeCity").val(), stateAbbrev: $("#DefaultHomeState").val() },
             success: function(data){
-                showHomeCityStats(data)
+                showHomeCityStats(data);
             },
             error: function(){
-                console.log("Error in Ajax for HomeCityPop")}
+                console.log("Error in Ajax for HomeCityPop");
 
-            });
+            }
+        });
     }
 </script>
 <script>
@@ -213,7 +213,8 @@
             url: "/api/UpdateCityStats",
             data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
             success: function(data){
-                showCityStats(data), fetchStateCrimeStats(selectedValue);
+                showCityStats(data);
+                fetchStateCrimeStats(selectedValue);
             },
             error: function(){
                 console.log("Updater Issue.")
