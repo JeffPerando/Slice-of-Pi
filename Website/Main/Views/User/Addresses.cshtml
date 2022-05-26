@@ -1,5 +1,4 @@
-﻿
-@inject ISiteUserService Users
+﻿@inject ISiteUserService Users
 
 @{
     ViewData["Title"] = "Edit Addresses";
@@ -8,6 +7,8 @@
 
 @section Banner
 {
+<div class="bg-semi p-4 m-4">
+
     @if (ViewData.ContainsKey("Message"))
     {
     <div class="row justify-content-center">
@@ -15,12 +16,12 @@
             @ViewData["Message"]
         </div>
     </div>
-        }
+    }
     <div class="row justify-content-center mt-2">
-        <div class="col-2">
+        <div class="col">
             @{
                 var addrs = Users.Addresses(User);
-                
+
                 @if (addrs.Any())
                 {
                 <table class="table text-light">
@@ -33,30 +34,36 @@
                     <tbody>
                         @foreach (var home in addrs)
                         {
-                        <tr>
-                            <td>
-                                @(home.StreetAddress)<br>
-                                @(home.City), @(home.State) @(home.ZipCode)
-                            </td>
-                            <td><a href="/User/DeleteAddress?id=@home.Id" class="btn btn-danger" role="button">x</a></td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    @(home.StreetAddress)<br>
+                                    @(home.City), @(home.State) @(home.ZipCode)
+                                </td>
+                                <td><a href="/User/DeleteAddress?id=@home.Id" class="btn btn-danger" role="button">x</a></td>
+                            </tr>
                         }
                     </tbody>
                 </table>
                 }
                 else
                 {
-                <span>No addresses yet!</span>
+                    <span>No addresses yet!</span>
                 }
             }
         </div>
     </div>
-    <form method="post">
-        @Html.RenderAddressFields()
-    </form>
+</div>
+}
+
+@section UpcomingMeetings
+{
+<h2>Submit an Address</h2>
+<form method="post">
+    @Html.RenderAddressFields()
+</form>
 }
 
 @section Scripts
 {
-    <script type="text/javascript" src="~/js/addressform.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/addressform.js" asp-append-version="true"></script>
 }
