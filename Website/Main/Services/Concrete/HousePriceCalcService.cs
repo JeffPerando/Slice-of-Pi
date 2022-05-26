@@ -51,7 +51,7 @@ namespace Main.Services.Concrete
 
             //the more city crimes, the lower this percentage. which translates to a lower home price
             var cityCrimePercentage = stateCrimePerAgency / cityCrimes;
-            var priceWeight = Math.Clamp(cityCrimePercentage, 0.55f, 1.2f);
+            var priceWeight = Math.Clamp(cityCrimePercentage, 0.85f, 1.2f);
 
             var weightedPrice = 0f + homePrice;
 
