@@ -12,56 +12,63 @@
 
 
     <div class="item">
-        <div class = "row">
-            <div class="col-sm-8">
-            <h3 id="message" style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Street view of: @ViewBag.streetAddress @ViewBag.cityName, @ViewBag.stateAbbrev
-            @Html.Tooltip("Click the dots just below the image/map to cycle between the image/map!")</h3>
-            <section class="carousel" aria-label="Gallery" style = "width:700px; height:525px;">
-
-  <ol class="carousel__viewport" style = "width:700px; height:525px;">
-
-    <li id="carousel__slide1" style = "width:700px; height:525px;"
-        tabindex="0"
-        class="carousel__slide" >
-
-        <a style = "width:700px; height:525px;"
-           class="carousel__prev">Go to last slide</a>
-        <a href="#carousel__slide2" style = "width:700px; height:525px;"
-           class="carousel__next"><img src=@Model.Item1.Address style = "width:700px; height:525px;"/></a>
-
-    </li>
-
-    <li id="carousel__slide2" style = "width:700px; height:525px;"
-        tabindex="0"
-        class="carousel__slide"> 
-
-      <a href="#carousel__slide1"
-         class="carousel__next" style = "width:700px; height:525px;">
-     <iframe width="700" height="525" loading="lazy" 
-     allowfullscreen src=@Model.Item1.Akey > </iframe>
-     
-     </a>
-    </li>
-
-  </ol>
-
-  <aside class="carousel__navigation">
-    <ol class="carousel__navigation-list">
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide1"
-           class="carousel__navigation-button">Go to slide 1</a>
-      </li>
-      <li class="carousel__navigation-item">
-        <a href="#carousel__slide2"
-           class="carousel__navigation-button">Go to slide 2</a>
-    </ol>
-  </aside>
-</section>
-            <hr>
         <div class="row">
-                <div class="col-sm-6">
-                    <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Crime Stats of: <br> @ViewBag.cityName</h3>
-                    <table id="cityCrimeStats" class="table">
+            <div class="col-sm-8">
+                <h3 id="message" style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">
+                    Street view of: @ViewBag.streetAddress @ViewBag.cityName, @ViewBag.stateAbbrev
+                    @Html.Tooltip("Click the dots just below the image/map to cycle between the image/map!")
+                </h3>
+                <section class="carousel" aria-label="Gallery" style="width:700px; height:525px;">
+
+                    <ol class="carousel__viewport" style="width:700px; height:525px;">
+
+                        <li id="carousel__slide1" style="width:700px; height:525px;"
+                            tabindex="0"
+                            class="carousel__slide">
+
+                            <a style="width:700px; height:525px;"
+                               class="carousel__prev">Go to last slide</a>
+                            <a href="#carousel__slide2" style="width:700px; height:525px;"
+                               class="carousel__next"><img src=@Model.Item1.Address style="width:700px; height:525px;" /></a>
+
+                        </li>
+
+                        <li id="carousel__slide2" style="width:700px; height:525px;"
+                            tabindex="0"
+                            class="carousel__slide">
+
+                            <a href="#carousel__slide1"
+                               class="carousel__next" style="width:700px; height:525px;">
+                                <iframe width="700" height="525" loading="lazy"
+                                        allowfullscreen src=@Model.Item1.Akey> </iframe>
+
+                            </a>
+                        </li>
+
+                    </ol>
+
+                    <aside class="carousel__navigation">
+                        <ol class="carousel__navigation-list">
+                            <li class="carousel__navigation-item">
+                                <div class="btn btn-dark">
+
+                                    <a href="#carousel__slide1"
+                                       class="text-light">Street View</a>
+                                </div>
+                            </li>
+                            <li class="carousel__navigation-item">
+                                <div class="btn btn-dark">
+                                    <a href="#carousel__slide2"
+                                       class="text-light">Map View</a>
+                                </div>
+                        </ol>
+                    </aside>
+                </section>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Crime Stats of: <br> @ViewBag.cityName</h3>
+                        <table id="cityCrimeStats" class="table">
                             <thead class="table-dark">
                                 <tr>
                                     <th>Offense Type @Html.Tooltip("Here you will see the streetview of the address. You can press the arrow on the right to change it to an interact and vice versa")</th>
@@ -71,14 +78,14 @@
                             </thead>
                             <tbody>
                             </tbody>
-                    </table>
-                    <h2 id="cityCrimeNoCrimeheader"></h2>
-                    <ul id="cityCrimeStatsNoCrime">
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    @if((Users.Addresses(User).FirstOrDefault()?.City) != null && (Users.Addresses(User).FirstOrDefault()?.City) != @ViewBag.cityName)
-                    {
+                        </table>
+                        <h2 id="cityCrimeNoCrimeheader"></h2>
+                        <ul id="cityCrimeStatsNoCrime">
+                        </ul>
+                    </div>
+                    <div class="col-sm-6">
+                        @if((Users.Addresses(User).FirstOrDefault()?.City) != null && (Users.Addresses(User).FirstOrDefault()?.City) != @ViewBag.cityName)
+                        {
                         <h3 style="border: 2px solid black; color: white; background-color: crimson; border-radius: 10px; text-align: center">Compare to: <br> @Users.Addresses(User).FirstOrDefault()?.City</h3>
                         <table id="cityCrimeStatsDefaultHome" class="table">
                             <thead class="table-dark">
@@ -95,62 +102,62 @@
                         <ul id="cityCrimeStatsNoCrimeDefaultHome">
                         </ul>
 
-                    }
-                    @if ((Users.Addresses(User).FirstOrDefault()?.City) == null && ((Users.IsLoggedIn(User)) == true))
-                    {
+                        }
+                        @if ((Users.Addresses(User).FirstOrDefault()?.City) == null && ((Users.IsLoggedIn(User)) == true))
+                        {
                         <h2>It looks like you haven't set an address?</h2>
                         <h3><a href="/User/Addresses">Set one up now!</a></h3>
-                    }
-                    @if ((Users.Addresses(User).FirstOrDefault()?.City) == null && ((Users.IsLoggedIn(User)) == false))
-                    {
+                        }
+                        @if ((Users.Addresses(User).FirstOrDefault()?.City) == null && ((Users.IsLoggedIn(User)) == false))
+                        {
                         <h2>Want to compare your city's crime statistics automatically?</h2>
                         <h3><a href="/Identity/Account/Register">Sign-Up!</a></h3>
 
                         <h2>Already have an account with us?</h2>
                         <h3><a href="/Identity/Account/Login">Login!</a></h3>
-                    }
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-4">
+                <div class="text-left">
+                    <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Address info:</h3>
+                    <br>
+                    <table id="housingInfo" class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="row">House Value </th>
+                                <td id="price" style="background-color: white; color: black;"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">City</th>
+                                <td style="background-color: white; color: black;">@Model.Item2.City</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">County</th>
+                                <td style="background-color: white; color: black;">@Model.Item2.County</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Zipcode</th>
+                                <td style="background-color: white; color: black;">@Model.Item2.ZipCode</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <hr>
+
                 </div>
             </div>
         </div>
-
-       
-        <div class="col-sm-4">
-            <div class="text-left">
-                <h3 style="border: 2px solid black; color: white; background-color: #181818; border-radius: 10px; text-align: center">Address info:</h3>
-                <br>
-                <table id="housingInfo" class="table">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="row">House Value </th>
-                            <td id= "price" style="background-color: white; color: black;"></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">City</th>
-                            <td style="background-color: white; color: black;">@Model.Item2.City</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">County</th>
-                            <td style="background-color: white; color: black;">@Model.Item2.County</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Zipcode</th>
-                            <td style="background-color: white; color: black;">@Model.Item2.ZipCode</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <hr>
-
-            </div>
-            </div>
-        </div>        
-</div>
+    </div>
 
 </div>
 
 
- 
+
 }
 
 
@@ -192,32 +199,32 @@
     }
 </script>
 <script>
-    
-    document.getElementById("yearCrimeStats").innerHTML = new Date().getFullYear() - 2;
 
-    $('#yearSelector').on('change', function (e) {
-    var optionValue = $("option:selected", this);
-    var selectedValue = this.value;
-    document.getElementById("loadingIcon").innerHTML = "<img src=\"https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif\" style=\"width: 30px;\">.";
-    
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/api/UpdateCityStats",
-        data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
-        success: function(data){
-            showCityStats(data), fetchStateCrimeStats(selectedValue);
-        },
-        error: function(){
-            console.log("Updater Issue.")
-        }
-        
+        document.getElementById("yearCrimeStats").innerHTML = new Date().getFullYear() - 2;
+
+        $('#yearSelector').on('change', function (e) {
+        var optionValue = $("option:selected", this);
+        var selectedValue = this.value;
+        document.getElementById("loadingIcon").innerHTML = "<img src=\"https://c.tenor.com/tji9kUUU7wYAAAAC/loading.gif\" style=\"width: 30px;\">.";
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/api/UpdateCityStats",
+            data: {cityName:$("#cityName").val(),stateAbbrev:$("#stateAbbrev").val(), year:selectedValue},
+            success: function(data){
+                showCityStats(data), fetchStateCrimeStats(selectedValue);
+            },
+            error: function(){
+                console.log("Updater Issue.")
+            }
+
+        });
     });
-});
 
-    
 
-    
+
+
 </script>
 
 }
