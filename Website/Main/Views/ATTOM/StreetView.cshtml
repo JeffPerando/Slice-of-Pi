@@ -7,6 +7,11 @@
     ViewData["Title"] = "Home Listings";
 }
 
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/StreetViewCarousel.css" asp-append-version="true" />
+}
+
 @section ApplyNow {
 <div class="container" style="background:white">
 
@@ -154,13 +159,7 @@
     </div>
 
 </div>
-
-
-
 }
-
-
-
 
 <input hidden id="cityName" value="@ViewBag.cityName" type="text">
 <input hidden id="stateAbbrev" value="@ViewBag.stateAbbrev" type="text">
@@ -171,11 +170,9 @@
 @section Scripts
 {
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script type="text/javascript" src="~/js/stateCrime.js" asp-append-version="true"></script>
 <script type="text/javascript" src="~/js/crime.js" asp-append-version="true"></script>
-<script type="text/javascript" src="~/js/trendgraph.js" asp-append-version="true"></script>
-<link rel="stylesheet" href="~/css/StreetViewCarousel.css" asp-append-version="true" />
 <script>
     document.getElementById("price").innerHTML = "$" + parseInt(@Model.Item2.Price).toLocaleString('en');
 </script>
@@ -222,9 +219,6 @@
 
         });
     });
-
-
-
 
 </script>
 

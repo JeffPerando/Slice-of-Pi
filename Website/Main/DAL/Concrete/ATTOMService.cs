@@ -57,10 +57,13 @@ namespace Main.DAL.Concrete
                 return model;
             }
 
+            var mkt = (int?)(result["property"]?[0]?["assessment"]?["market"]?["mktTtlValue"]) ?? 0;
+            var assess = (int)(result["property"][0]["assessment"]["assessed"]["assdTtlValue"]);
+
             model.StreetAddress = (string)(result["property"][0]["address"]["line1"]);
             model.City = (string)(result["property"][0]["address"]["locality"]);
             model.County = (string)(result["property"][0]["area"]["countrySecSubd"]);
-            model.Price = (int)(result["property"][0]["assessment"]["market"]["mktTtlValue"]);
+            model.Price = Math.Max(mkt, assess);
             model.ZipCode = (string)(result["property"][0]["address"]["postal1"]);
 
             return model;
