@@ -8,8 +8,12 @@
             <div class="col">
                 <img id="spinnyBoi" src="~/spinner.gif" style="width: 64px; height: 64px; display: none;" />
             </div>
-            <div class="row my-2"><h1 style="color:white;">Enter some parameters 
-                @Html.Tooltip("Enter the information below, zipcode, how many homes you want in your request, minimum price and max price.")</h1></div>
+            <div class="row my-2">
+                <h1 style="color:white;">
+                    Enter some parameters
+                    @Html.Tooltip("Enter the information below, zipcode, how many homes you want in your request, minimum price and max price.")
+                </h1>
+            </div>
             <div class="limiter">
                 <div class="wrap-table100">
                     <div class="table100 ver3 m-b-110">
@@ -36,11 +40,11 @@
                                             <td class="cell100 column2"><input min="1" id="minPrice" type="number" name="minPrice" required="required" /></td>
                                             <td class="cell100 column2"><input min="1" id="maxPrice" type="number" name="maxPrice" required="required" /></td>
                                         </tr>
-                                         <tr class="row100 head">
+                                        <tr class="row100 head">
                                             <td class="cell100 column1"></td>
                                             <td class="cell100 column2"></td>
                                             <td class="cell100 column2"></td>
-                                            <td class="cell100 column2"><input type="submit" class ="btn" value="SUBMIT" style = "color:crimson; width:100px;"></td>
+                                            <td class="cell100 column2"><input type="submit" class="btn" value="SUBMIT" style="color:crimson; width:100px;"></td>
                                         </tr>
                                     }
 
@@ -53,55 +57,61 @@
             </div>
         </div>
         <!--<form asp-action="ListingsSubmission" asp-controller = "ATTOM" method = "get" enctype="multipart/form-data">-->
-        <div class="row my-2"><h1 style="color:white;">Listings</h1>
-        <div class="limiter">
-            <div class="wrap-table100">
-                <div class="table100 ver3 m-b-110">
+        <div class="row my-2">
+            <h1 style="color:white;">Listings</h1>
+            <div class="limiter">
+                <div class="wrap-table100">
+                    <div class="table100 ver3 m-b-110">
 
-                    <div class="table100-body js-pscroll">
-                        <table id="sortMe">
-                            <thead>
-                                <tr class="row100 head">
-                                    <th class="cell100 column1" style="color:crimson;">Address @Html.Tooltip("Click one of the addresses to see its streetview, and an interactive map of the area!")</th>
-                                    <th class="cell100 column2" style="color:crimson;">Size(SQFT)</th>
-                                    <th class="cell100 column2" style="color:crimson;">Bedrooms</th>
-                                    <th class="cell100 column2" style="color:crimson;">Bathrooms</th>
+                        <div class="table100-body js-pscroll">
+                            <table id="sortMe">
+                                <thead>
+                                    <tr class="row100 head">
+                                        <th class="cell100 column1" style="color:crimson;">Address @Html.Tooltip("Click one of the addresses to see its streetview, and an interactive map of the area!")</th>
+                                        <th class="cell100 column2" style="color:crimson;">Size(SQFT)</th>
+                                        <th class="cell100 column2" style="color:crimson;">Bedrooms</th>
+                                        <th class="cell100 column2" style="color:crimson;">Bathrooms</th>
 
-                                    <th class="cell100 column2"><button style="color:crimson;" class="table__header">PRICE $  @Html.Tooltip("Click the boxes in the first row to sort!")</button></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                                @{
-                                    try
-                                    {
-                                        foreach (var item in Model.Property)
+                                        <th class="cell100 column2"><button style="color:crimson;" class="table__header">PRICE $  @Html.Tooltip("Click the boxes in the first row to sort!")</button></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{
+                                        try
                                         {
-                                            <tr class="row100 head">    
-                                                @using (Html.BeginForm("StreetView", "ATTOM", FormMethod.Get))
-                                {
-                                                <td class="cell100 column1"><input hidden type="text" id="streetAddress" name="streetAddress" style = "color:grey;" value="@item.address.oneLine">
-                                                    <input type="submit" class ="btn" value="@item.address.oneLine" style = "color:grey; width:420px; text-align:left;"></td>
-                                }
-                                                <td class="cell100 column2">@item.building.size.grosssize</td>
-                                                <td class="cell100 column2">@item.building.rooms.beds</td>
-                                                <td class="cell100 column2">@item.building.rooms.bathstotal</td>
-                                                <td class="cell100 column2">@item.assessment.assessed.assdttlvalue</td>
-                                            </tr>
+                                            if (Model.Property.Any())
+                                            {
+                                                foreach (var item in Model.Property)
+                                                {
+                                                    <tr class="row100 head">
+                                                        @using (Html.BeginForm("StreetView", "ATTOM", FormMethod.Get))
+                                                        {
+                                                            <td class="cell100 column1">
+                                                                <input hidden type="text" id="streetAddress" name="streetAddress" style="color:grey;" value="@item.address.oneLine">
+                                                                <input type="submit" class="btn" value="@item.address.oneLine" style="color:grey; width:420px; text-align:left;">
+                                                            </td>
+                                                        }
+                                                        <td class="cell100 column2">@item.building.size.grosssize</td>
+                                                        <td class="cell100 column2">@item.building.rooms.beds</td>
+                                                        <td class="cell100 column2">@item.building.rooms.bathstotal</td>
+                                                        <td class="cell100 column2">@item.assessment.assessed.assdttlvalue</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                        catch (Exception e)
+                                        {
+
                                         }
                                     }
-                                    catch (Exception e)
-                                    {
 
-                                    }
-                                }
-                                
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
         <!--</form>-->
@@ -139,7 +149,7 @@
 <script>
 
 
-    
+
     $('.js-pscroll').each(function(){
         var ps = new PerfectScrollbar(this);
 

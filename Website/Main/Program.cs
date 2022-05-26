@@ -177,15 +177,6 @@ app.MapControllerRoute(
     pattern: "/api/SearchHistory/StateCrime",
     defaults: new { controller = "API", action = "StateCrimeSearchResults" });
 
-//app.MapControllerRoute(
-//    name: "City Stats",
-//    pattern: "{controller=Crime}/{action=CrimeStats}/{cityName?}/{stateAbbrev?}");
-
-app.MapControllerRoute(
-    name: "API List States",
-    pattern: "/api/FBI/Listings",
-    defaults: new { controller = "ATTOM", action = "Listings" });
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
