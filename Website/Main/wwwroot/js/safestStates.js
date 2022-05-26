@@ -28,9 +28,9 @@ function displayStateInformation(data) {
         let state = data[i];
         let repoTR = document.createElement("tr");
 
-        repoTR.appendChild(toTD(state["state"]["name"]));
-        repoTR.appendChild(toTD(state["population"].toLocaleString("en-US")));
-        repoTR.appendChild(toTD(state["crimePerCapita"]));
+        repoTR.append(toTD(state["state"]["name"]));
+        repoTR.append(toTD(state["population"].toLocaleString("en-US")));
+        repoTR.append(toTD(state["crimePerCapita"]));
 
         $("#safestStatesTable>tbody").append(repoTR);
 

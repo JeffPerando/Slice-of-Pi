@@ -83,28 +83,31 @@ function showChartTrend(data, trendSelectorYear) {
         displayStateInfo.push(stateInfo[i].totalOffenses);
     }
 
-    var rating_percent = ((crimes[crimes.length - 1] / displayStateInfo[displayStateInfo.length - 1]) * 100).toFixed(2);
+    let rating_percent = ((crimes[crimes.length - 1] / displayStateInfo[displayStateInfo.length - 1]) * 100).toFixed(2);
+    let grade;
 
     if (rating_percent < 1)
     {
-        document.getElementById("ratingLetter").textContent = "A ("  + rating_percent + "%)";
+        grade = 'A';
     }
-    else if (0 > rating_percent < 5)
+    else if (rating_percent < 5)
     {
-        document.getElementById("ratingLetter").textContent = "B ("  + rating_percent + "%)";
+        grade = 'B';
     }
-    else if (5 > rating_percent < 10)
+    else if (rating_percent < 10)
     {
-        document.getElementById("ratingLetter").textContent = "C ("  + rating_percent + "%)";
+        grade = 'C';
     }
-    else if (10 > rating_percent < 15)
+    else if (rating_percent < 15)
     {
-        document.getElementById("ratingLetter").textContent = "D ("  + rating_percent + "%)";
+        grade = 'D';
     }
-    else if (rating_percent >= 15)
+    else
     {
-        document.getElementById("ratingLetter").textContent = "F ("  + rating_percent + "%)";
+        grade = 'F';
     }
+
+    document.getElementById("ratingLetter").textContent = `${grade} (${rating_percent}%)`;
 
     const config = {
         type: 'line',
