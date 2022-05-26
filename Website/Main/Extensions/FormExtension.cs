@@ -29,7 +29,7 @@ namespace Main.Extensions
 </div>
 <div class='row justify-content-center'>
     <div class='col-2 mt-4'>
-        <button type='submit' class='btn btn-primary btn-lg'>Submit Address</button>
+        <button type='submit' class='btn btn-danger btn-lg'>Submit Address</button>
     </div>
 </div>";
         }

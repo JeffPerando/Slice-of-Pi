@@ -16,7 +16,6 @@ function ajaxErr(xhr, options, err) {
 }
 
 function addStatesToForm(states) {
-    console.log(states);
     for (const state of states) {
         var element = document.createElement("option");
         element.textContent = state["abbrev"];
