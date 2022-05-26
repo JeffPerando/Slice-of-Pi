@@ -79,7 +79,7 @@ namespace Main.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            return View(_users.Addresses(User));
+            return View();
         }
 
         [HttpPost]
@@ -95,7 +95,7 @@ namespace Main.Controllers
 
             ViewData["Message"] = "Address added successfully!";
 
-            return View(_users.Addresses(User));
+            return View();
         }
 
         [HttpGet]
