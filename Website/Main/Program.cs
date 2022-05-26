@@ -186,17 +186,6 @@ app.MapControllerRoute(
     pattern: "/api/FBI/Listings",
     defaults: new { controller = "ATTOM", action = "Listings" });
 
-
-app.MapControllerRoute(
-    name: "API Street View",
-    pattern: "/api/ATTOM/StreetView",
-    defaults: new { controller = "ATTOM", action = "StreetView" });
-
-app.MapControllerRoute(
-    name: "API Street Lookup",
-    pattern: "/api/ATTOM/StreetViewLookUp",
-    defaults: new { controller = "ATTOM", action = "StreetViewLookUp" });
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

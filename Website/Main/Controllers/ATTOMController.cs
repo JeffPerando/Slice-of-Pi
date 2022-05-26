@@ -60,7 +60,7 @@ namespace Main.Controllers
             streetAddress = temp.Address;
             stateAbbrev = temp.StateName;
         }
-        else
+        
         ViewBag.streetAddress = streetAddress;
         ViewBag.stateAbbrev = stateAbbrev;
         ViewBag.cityName = cityName;
