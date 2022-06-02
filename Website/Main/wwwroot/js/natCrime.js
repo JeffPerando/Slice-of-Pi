@@ -78,9 +78,9 @@ function showCrimeStats(data, year) {
 
         let crimes = ["population", "totalOffenses",
             "violentCrimes", "propertyCrimes", "homicide",
-            "rapeLegacy", "rapeRevised", "robbery",
-            "assault", "burglary",
-            "larceny", "motorVehicleTheft", "arson"
+            "rapeLegacy", "rapeRevised",
+            "arson", "assault", "robbery",
+            "larceny", "motorVehicleTheft", "burglary"
         ];
 
         stateRow.append(toTD(state["state"]["name"]));
@@ -112,7 +112,7 @@ function prettifyTable() {
     let tbl = $("#natCrimeTable")[0];
 
     for (let x = 1; x < tbl.rows.length; x++) {
-        for (let y = 1; y < 13; y++) {
+        for (let y = 1; y < 14; y++) {
             tblSet(tbl, x, y, parseInt(tblGet(tbl, x, y)).toLocaleString("en-US"));
             
         }
@@ -139,7 +139,7 @@ function toggleCrimePerCapita(e) {
     //console.log(`Per capita: ${perCapIn}`)
     
     for (let x = 1; x < tbl.rows.length; x++) {
-        for (let y = 2; y < 13; y++) {
+        for (let y = 2; y < 14; y++) {
             let pop = tblGet(tbl, x, 1);
             let cell = tblGet(tbl, x, y);
             let result = "";
