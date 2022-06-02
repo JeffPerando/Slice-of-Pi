@@ -76,16 +76,17 @@ function showCrimeStats(data, year) {
     for (let state of data.stateCrimes) {
         let stateRow = document.createElement("tr");
 
-        let crimes = ["population", "violentCrimes", "homicide",
+        let crimes = ["population", "totalOffenses",
+            "violentCrimes", "propertyCrimes", "homicide",
             "rapeLegacy", "rapeRevised", "robbery",
-            "assault", "propertyCrimes", "burglary",
+            "assault", "burglary",
             "larceny", "motorVehicleTheft", "arson"
         ];
 
         stateRow.append(toTD(state["state"]["name"]));
 
         for (const crime of crimes) {
-            stateRow.appendChild(toTD(state[crime]));
+            stateRow.append(toTD(state[crime]));
         }
 
         tbl.append(stateRow);
