@@ -3,7 +3,7 @@ using Main.DAL.Abstract;
 using Main.Models;
 using Main.Models.ATTOM;
 using Main.Models.Listings;
-using Nancy.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 
@@ -27,16 +27,6 @@ namespace Main.DAL.Concrete
 
         }
 
-        private JObject? FetchATTOMObj(string endpoint, Dictionary<string, string?>? query = null)
-        {
-            return _cache.FetchJObject(endpoint, query);
-        }
-
-        private T? FetchATTOM<T>(string endpoint, Dictionary<string, string?>? query = null)
-        {
-            return _cache.FetchInto<T>(endpoint, query);
-        }
-
         public Home GetHouseInformation(string address1, string address2)
         {
             Home model = new Home();
@@ -46,7 +36,7 @@ namespace Main.DAL.Concrete
             //model.County = ("King");
             //model.Price = (1143000);
 
-            var result = FetchATTOMObj("/property/basicprofile", new()
+            var result = _cache.FetchJObject("/property/basicprofile", new()
             {
                 ["address1"] = address1,
                 ["address2"] = address2,
@@ -72,7 +62,7 @@ namespace Main.DAL.Concrete
 
         public HomeAssessment? GetAssessmentFor(Home addr)
         {
-            var result = FetchATTOM<ATTOMAssessment>("/assessment/detail", new()
+            var result = _cache.FetchInto<ATTOMAssessment>("/assessment/detail", new()
             {
                 ["address1"] = addr.StreetAddress,
                 ["address2"] = addr.StreetAddress2,
@@ -94,53 +84,33 @@ namespace Main.DAL.Concrete
 
         }
 
-        public string SetNullResponse()
+        private string? FetchNullResponse()
         {
-            string zipcode  = "97304";
-            string minPrice = "100000";
-            string maxPrice = "600000";
-            string pages    = "50";
-            string endpoint = "assessment/detail?postalcode=" + zipcode + "&minAssdTtlValue=" + minPrice + "&maxAssdTtlValue=" + maxPrice + "&pagesize=" + pages;
-
-            var info = _cache.FetchJObject(endpoint);
-            string? response = info?.ToString();
-
-            return response ?? "";
-        }
-
-        private AttomJson? FetchNullResponse()
-        {
-            return FetchATTOM<AttomJson>("assessment/detail", new()
+            return _cache.FetchStr("assessment/detail", new()
             {
                 ["postalcode"] = "97304",
                 ["minAssdTtlValue"] = "100000",
                 ["maxAssdTtlValue"] = "600000",
                 ["pagesize"] = "50"
-            });
+            }) ?? "";
         }
 
         public AttomJson GetListing(string zipcode, string pages, string minPrice, string maxPrice, string? orderBy)
         {
-            string endpoint = "assessment/detail?postalcode=" + zipcode + "&minAssdTtlValue=" + minPrice + "&maxAssdTtlValue=" + maxPrice + "&pagesize=" + pages;
-
             //if (orderBy != null)
             //{
             //    endpoint = OrderBy(orderBy, endpoint);
             //}
 
-            var info = _cache.FetchJObject(endpoint);
-
-            if (info == null)
+            var info = _cache.FetchStr("assessment/detail", new()
             {
-                string nullResponse = SetNullResponse();
-                AttomJson nullResponseResult = new JavaScriptSerializer().Deserialize<AttomJson>(nullResponse);
-                return nullResponseResult;
-            }
+                ["postalcode"] = zipcode,
+                ["minAssdTtlValue"] = minPrice,
+                ["maxAssdTtlValue"] = maxPrice,
+                ["pagesize"] = pages
+            }) ?? FetchNullResponse();
 
-            string response = info.ToString();
-
-
-            AttomJson data = new JavaScriptSerializer().Deserialize<AttomJson>(response);
+            var data = JsonConvert.DeserializeObject<AttomJson>(info);
 
             return data;
         }
