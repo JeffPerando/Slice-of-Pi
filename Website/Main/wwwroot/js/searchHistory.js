@@ -22,6 +22,8 @@ function toElem(type, content) {
 function showStateSearchHistory(data) {
     //oh boy
 
+    $("#scsr").children().remove();
+
     if (data.results.length == 0) {
         //I... I'm not rewriting this. Just... no. It's simple as can be.
         $("#scsr").html("<p><h5>We didn't find any search results</h5></p>");
@@ -34,7 +36,7 @@ function showStateSearchHistory(data) {
 //    scsrTbl.align = "center";//WHY???
     scsrTbl.id = "stateCrimeSearchResultTable";
 
-    let headers = ["Date Searched", "State", "Year", "Population",
+    let headers = ["Date Searched", "State", "Year",
         "Population", "Violent Crimes", "Homicide",
         "Rape (Legacy)", "Rape (Revised)", "Robbery",
         "Aggravated Assault", "Property Crime", "Burglary",
@@ -42,38 +44,40 @@ function showStateSearchHistory(data) {
 
     let head = document.createElement("thead");
 
-    for (const h in headers) {
-        head.appendChild(toElem("th", h));
+    for (const h of headers) {
+        head.append(toElem("th", h));
     }
 
     let body = document.createElement("tbody");
 
-    let crimes = ["state", "year",
+    let crimes = [
         "population", "violentCrimes", "homicide",
         "rapeLegacy", "rapeRevised", "robbery",
         "assault", "propertyCrimes", "burglary",
-        "larceny", "motorVehicleTheft", "arson"
+        "larceny", "motorVehicleTheft", "arson",
     ];
 
     for (const searchEntry of data.results) {
         let row = document.createElement("tr");
 
-        row.appendChild(toElem("td", new Date(searchEntry["dateSearched"]).toLocaleString()));
+        row.append(toElem("td", new Date(searchEntry["dateSearched"]).toLocaleString()));
+        row.append(toElem("td", searchEntry["state"]));
+        row.append(toElem("td", searchEntry["year"]));
 
         for (const crime of crimes) {
-            row.appendChild(toElem("td", searchEntry[crime]));
+            row.append(toElem("td", searchEntry[crime].toLocaleString("en-US")));
         }
 
-        body.appendChild(row);
+        body.append(row);
 
     }
 
-    scsrTbl.appendChild(head);
-    scsrTbl.appendChild(body);
+    scsrTbl.append(head);
+    scsrTbl.append(body);
 
     let link = document.createElement("a");
     link.href = "/Download/StateCrimeSearchHistory";
-    link.classList = ["btn", "btn-danger"];
+    link.className = "btn btn-danger";
     link.textContent = "Download";
 
     $("#scsr").append(scsrTbl).append(link);

@@ -128,7 +128,6 @@ services.AddScoped<IWebService, WebService>(); //No, this is not redundant.
 services.AddScoped<ISiteUserService, SiteUserService>();
 services.AddScoped<IAPICacheService<FBICache>, APICacheService<FBICache>>();
 services.AddScoped<IAPICacheService<ATTOMCache>, APICacheService<ATTOMCache>>();
-services.AddScoped<ICrimeAPIService, CrimeAPIService>();
 services.AddScoped<ICrimeAPIv2, FBIService>();
 services.AddSingleton<IEmailService, EmailService>();
 services.AddSingleton<IUserVerifierService, UserVerifierService>();

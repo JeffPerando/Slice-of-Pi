@@ -4,7 +4,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/natCrime.css" />
+    <link rel="stylesheet" href="~/css/natCrime.css" asp-append-version=true />
 }
 
 @section Banner {
@@ -38,17 +38,18 @@
             <tr>
                 <th>State</th>
                 <th>Population</th>
+                <th>Total Crimes</th>
                 <th>Violent Crimes</th>
+                <th>Property Crimes</th>
                 <th>Homicide</th>
                 <th>Rape (Legacy) @Html.Tooltip("The legal definition of rape in the US was revised in 2015; this stat is for pre-2015 data.")</th>
                 <th>Rape (Revised)</th>
-                <th>Robbery</th>
+                <th>Arson</th>
                 <th>Aggravated Assault</th>
-                <th>Property Crime</th>
-                <th>Burglary</th>
+                <th>Robbery</th>
                 <th>Larceny</th>
                 <th>Motor Vehicle Theft</th>
-                <th>Arson</th>
+                <th>Burglary</th>
             </tr>
         </thead>
         <tbody>
