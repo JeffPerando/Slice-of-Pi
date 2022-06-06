@@ -47,6 +47,6 @@ jobs:
       # Test the selected project
       - name: Run unit tests on the main project
         working-directory: ${{ env.PROJECT_PATH }}
-        run: dotnet test --no-restore --no-build ${{ env.PROJECT_NAME }} --logger:"liquid.md;LogFileName=${{github.workspace}}/${{env.TEST_FILENAME}};"
+        run: dotnet test --no-restore --no-build ${{ env.PROJECT_NAME }} --logger:"trx;LogFileName=${{github.workspace}}/${{env.TEST_FILENAME}};"
       
 
