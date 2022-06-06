@@ -62,27 +62,4 @@ jobs:
         working-directory: ${{ env.PROJECT_PATH }}
         run: dotnet test --no-restore --no-build ${{ env.PROJECT_NAME }} --logger:"liquid.md;LogFileName=${{github.workspace}}/${{env.TEST_FILENAME}};"
       
-      # upload test report as build artifact (unfortunately it doesn't display it nicely)
-      - name: Upload test report as build artifact
-        uses: actions/upload-artifact@v3
-        # Use always() to always run this step to publish test results even when there are test failures
-        if: ${{always()}}
-        with:
-          name: 'NUnit test run'
-          path: ${{github.workspace}}/${{env.TEST_FILENAME}}
-      
-      - name: Azure CLI login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Setup python packages so we can run deploytool
-        working-directory: scripts
-        run: pip install -r requirements.txt
-
-
-      # Deploy databases to Azure
-      - name: Run deploytool to create databases on Azure
-        working-directory: scripts
-        run: python deploytool.py --dry-run $HOME/secrets/config.json $DEPLOYMENT_RESOURCE_GROUP_NAME create-db
-      
