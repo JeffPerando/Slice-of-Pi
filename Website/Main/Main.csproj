@@ -28,10 +28,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.3" />
     <PackageReference Include="MongoDB.Driver" Version="2.15.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="100.0.4896.6000" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.9.69" />
-    <PackageReference Include="SpecFlow.Plus.LivingdocPlugin" Version="3.9.57" />
     <PackageReference Include="Tablesorter" Version="2.25.4" />
   </ItemGroup>
 
