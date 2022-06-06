@@ -36,14 +36,6 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }} 
-
-      # confirm we can access secrets within an environment
-      - name: decrypt deployment config file
-        env:
-          CONFIG_SECRET: ${{ secrets.CONFIG_SECRET }}
-        run: |
-          mkdir $HOME/secrets
-          gpg --quiet --batch --yes --decrypt --passphrase="$CONFIG_SECRET" --output $HOME/secrets/config.json config/config.json.gpg
         
       # Build the selected project
       - name: Build project
