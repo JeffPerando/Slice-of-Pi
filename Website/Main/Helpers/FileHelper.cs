@@ -28,6 +28,11 @@ namespace Main.Helpers
             return JsonConvert.DeserializeObject<T>(ReadStr(path));
         }
 
+        public static string ReadForm(string name)
+        {
+            return ReadStr($@"\forms\{name.ToLower()}.html");
+        }
+
     }
 
 }

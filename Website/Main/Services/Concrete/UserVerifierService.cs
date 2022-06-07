@@ -78,7 +78,7 @@ namespace Main.Services.Concrete
 
             if (string.IsNullOrEmpty(emailTemplate))
             {
-                emailTemplate = FileHelper.ReadStr(@"\forms\emailconfirm.html");
+                emailTemplate = FileHelper.ReadForm("emailconfirm");
             }
 
             emailContent = emailTemplate;
