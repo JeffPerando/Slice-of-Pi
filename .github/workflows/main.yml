@@ -1,0 +1,52 @@
+name: Build and run unit tests
+
+on:
+  push:
+    branches: dev
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '6.0.x'           # set this to the dot net version to use
+  PROJECT_PATH: './Website'
+  PROJECT_NAME: 'Test'
+  TEST_FILENAME: 'TestResults.md'
+  DEPLOYMENT_RESOURCE_GROUP_NAME: 'AutoTest'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains one job.  You can easily have multiple jobs but they run in separate virtual
+  # machines and don't share an environment, so it's harder to split up things into say, build and test jobs
+  build_and_test:
+    name: Build all .NET projects then run tests
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # environments are where we store secrets, all secrets in this environment can be accessed by this action
+    environment: production
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    # They are executed in order
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Setup .NET Core SDK
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }} 
+        
+      # Build the selected project
+      - name: Build project
+        working-directory: ${{ env.PROJECT_PATH }}
+        run: |
+          dotnet restore
+          dotnet build
+
+      # Test the selected project
+      - name: Run unit tests on the main project
+        working-directory: ${{ env.PROJECT_PATH }}
+        run: dotnet test --no-restore --no-build ${{ env.PROJECT_NAME }} --logger:"trx;LogFileName=${{github.workspace}}/${{env.TEST_FILENAME}};"
+      
+
