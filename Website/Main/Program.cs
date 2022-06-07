@@ -167,11 +167,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "API Site Forms",
-    pattern: "/api/forms/{id?}",
-    defaults: new { controller = "Form", action = "GetForm"});
-
-app.MapControllerRoute(
     name: "API User State Search History",
     pattern: "/api/SearchHistory/StateCrime",
     defaults: new { controller = "API", action = "StateCrimeSearchResults" });
