@@ -105,6 +105,10 @@ namespace Main.DAL.Concrete
         //i'm sorry for the LINQ abuse
         public async Task<List<string?>> MultifetchStrsAsync(IEnumerable<string> endpoints, Dictionary<string, string?>? query = null, bool cacheQuery = true)
         {
+            //First, do a blanket wipe of all invalid cache items
+            var expiry = Builders<T>.Filter.Where(e => e.Expiry > DateTime.UtcNow);//we want the expiration date in the FUTURE, therefore greater than, the current date
+            await _db.DeleteManyAsync(!expiry);
+
             //so we take the endpoints and ensure they start with / for better concatenation
             var endpointList = endpoints.Select(e => e.StartsWith('/') ? e : $"/{e}").ToList();
 
@@ -118,7 +122,6 @@ namespace Main.DAL.Concrete
 
             //Filter and fetch the cached results using the database endpoints and expiry
             var matchEndpoint = Builders<T>.Filter.In<string>(e => e.Endpoint, allEndpoints.Select(e => e.DB));
-            var expiry = Builders<T>.Filter.Where(e => e.Expiry > DateTime.UtcNow);//we want the expiration date in the FUTURE, therefore greater than, the current date
 
             //Yes, this is valid. See:
             //https://stackoverflow.com/questions/32227284/mongo-c-sharp-driver-building-filter-dynamically-with-nesting

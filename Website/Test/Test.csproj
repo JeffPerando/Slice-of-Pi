@@ -7,19 +7,9 @@
     <UserSecretsId>3a965ba6-2444-4671-9308-7de4abf72abf</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="3.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.17.2" />
-    <PackageReference Include="Nancy" Version="2.0.0" />
-    <PackageReference Include="Node.js" Version="5.3.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-    <PackageReference Include="coverlet.collector" Version="3.1.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Tablesorter" Version="2.25.4" />
   </ItemGroup>
 
   <ItemGroup>

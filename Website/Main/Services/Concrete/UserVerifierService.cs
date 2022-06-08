@@ -1,6 +1,7 @@
 ﻿
 using Main.Controllers;
 using Main.DAL.Abstract;
+using Main.Helpers;
 using Main.Services.Abstract;
 //using System;
 
@@ -67,7 +68,7 @@ namespace Main.Services.Concrete
     public class UserVerifierService : IUserVerifierService
     {
         private Dictionary<string, UserCodes?> codes = new();
-        private IEmailService _emails;
+        private readonly IEmailService _emails;
         private readonly string emailContent;
         private readonly TimeSpan _expiry;
 
@@ -77,7 +78,7 @@ namespace Main.Services.Concrete
 
             if (string.IsNullOrEmpty(emailTemplate))
             {
-                emailTemplate = new FormController().ReadForm("emailconfirm");
+                emailTemplate = FileHelper.ReadForm("emailconfirm");
             }
 
             emailContent = emailTemplate;

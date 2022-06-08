@@ -9,6 +9,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Main.Controllers;
 using Main.DAL.Abstract;
+using Main.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -87,7 +88,7 @@ namespace Main.Areas.Identity.Pages.Account
                 await _emailService.SendTextEmail(
                     Input.Email, "",
                     "Password Reset Request",
-                    new FormController().ReadForm("pwreset").Replace("{LINK}", resetLink));
+                    FileHelper.ReadForm("pwreset").Replace("{LINK}", resetLink));
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

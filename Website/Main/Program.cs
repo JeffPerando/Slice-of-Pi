@@ -128,7 +128,6 @@ services.AddScoped<IWebService, WebService>(); //No, this is not redundant.
 services.AddScoped<ISiteUserService, SiteUserService>();
 services.AddScoped<IAPICacheService<FBICache>, APICacheService<FBICache>>();
 services.AddScoped<IAPICacheService<ATTOMCache>, APICacheService<ATTOMCache>>();
-services.AddScoped<ICrimeAPIService, CrimeAPIService>();
 services.AddScoped<ICrimeAPIv2, FBIService>();
 services.AddSingleton<IEmailService, EmailService>();
 services.AddSingleton<IUserVerifierService, UserVerifierService>();
@@ -168,34 +167,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "API Site Forms",
-    pattern: "/api/forms/{id?}",
-    defaults: new { controller = "Form", action = "GetForm"});
-
-app.MapControllerRoute(
     name: "API User State Search History",
     pattern: "/api/SearchHistory/StateCrime",
     defaults: new { controller = "API", action = "StateCrimeSearchResults" });
-
-//app.MapControllerRoute(
-//    name: "City Stats",
-//    pattern: "{controller=Crime}/{action=CrimeStats}/{cityName?}/{stateAbbrev?}");
-
-app.MapControllerRoute(
-    name: "API List States",
-    pattern: "/api/FBI/Listings",
-    defaults: new { controller = "ATTOM", action = "Listings" });
-
-
-app.MapControllerRoute(
-    name: "API Street View",
-    pattern: "/api/ATTOM/StreetView",
-    defaults: new { controller = "ATTOM", action = "StreetView" });
-
-app.MapControllerRoute(
-    name: "API Street Lookup",
-    pattern: "/api/ATTOM/StreetViewLookUp",
-    defaults: new { controller = "ATTOM", action = "StreetViewLookUp" });
 
 app.MapControllerRoute(
     name: "default",

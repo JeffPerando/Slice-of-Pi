@@ -1,7 +1,7 @@
 ﻿
 table.tablesorter thead tr .header {
     background-repeat: no-repeat;
-    background-position: center right;
+    background-position: 90% 25%;
     cursor: pointer;
 }
 

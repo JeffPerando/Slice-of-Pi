@@ -26,7 +26,7 @@ namespace Test
             moq.Setup(es => es.LogOut());
             moq.Setup(es => es.LogIn());
             moq.Setup(es => es.SendTextEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(() => { return ""; });
+                .Returns(async () => { return ""; });
 
             return moq.Object;
         }
